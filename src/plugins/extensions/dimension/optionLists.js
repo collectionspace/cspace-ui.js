@@ -10,8 +10,10 @@ export default {
       'depth',
       'diameter',
       'height',
+      'intended duration',
       'length',
       'running-time',
+      'screen resolution',
       'target',
       'volume',
       'weight',
@@ -46,6 +48,10 @@ export default {
         id: 'option.dimensions.height',
         defaultMessage: 'height',
       },
+      'intended duration': {
+        id: 'option.dimensions.intended duration',
+        defaultMessage: 'intended duration',
+      },
       length: {
         id: 'option.dimensions.length',
         defaultMessage: 'length',
@@ -53,6 +59,10 @@ export default {
       'running-time': {
         id: 'option.dimensions.running-time',
         defaultMessage: 'running time',
+      },
+      'screen resolution': {
+        id: 'option.dimensions.screen resolution',
+        defaultMessage: 'screen resolution',
       },
       target: {
         id: 'option.dimensions.target',
@@ -77,16 +87,21 @@ export default {
       'carats',
       'centimeters',
       'cubic-centimeters',
+      'dpi',
       'feet',
+      'hours',
       'inches',
       'kilograms',
       'liters',
       'millimeters',
+      'milliseconds',
       'meters',
       'minutes',
       'ounces',
       'pixels',
       'pounds',
+      'ppi',
+      'seconds',
       'square-feet',
       'stories',
       'tons',
@@ -104,9 +119,17 @@ export default {
         id: 'option.measurementUnits.cubic-centimeters',
         defaultMessage: 'cubic centimeters',
       },
+      dpi: {
+        id: 'option.measurementUnits.dpi',
+        defaultMessage: 'dots per inch',
+      },
       feet: {
         id: 'option.measurementUnits.feet',
         defaultMessage: 'feet',
+      },
+      hours: {
+        id: 'option.measurementUnits.hours',
+        defaultMessage: 'hours',
       },
       inches: {
         id: 'option.measurementUnits.inches',
@@ -123,6 +146,10 @@ export default {
       millimeters: {
         id: 'option.measurementUnits.millimeters',
         defaultMessage: 'millimeters',
+      },
+      milliseconds: {
+        id: 'option.measurementUnits.milliseconds',
+        defaultMessage: 'milliseconds',
       },
       meters: {
         id: 'option.measurementUnits.meters',
@@ -143,6 +170,14 @@ export default {
       pounds: {
         id: 'option.measurementUnits.pounds',
         defaultMessage: 'pounds',
+      },
+      ppi: {
+        id: 'option.measurementUnits.ppi',
+        defaultMessage: 'pixels per inch',
+      },
+      seconds: {
+        id: 'option.measurementUnits.seconds',
+        defaultMessage: 'seconds',
       },
       'square-feet': {
         id: 'option.measurementUnits.square-feet',

@@ -11,6 +11,7 @@ export default (configContext) => {
     StructuredDateInput,
     TextInput,
     TermPickerInput,
+    URLInput,
   } = configContext.inputComponents;
 
   const {
@@ -4202,10 +4203,7 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'location/local,location/offsite',
-                  },
+                  type: TextInput,
                 },
               },
             },
@@ -4331,16 +4329,16 @@ export default (configContext) => {
                 },
               },
             },
-            ledgerContactAddress: {
+            ledgerContractAddress: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.ledgerContactAddress.fullName',
-                    defaultMessage: 'Ledger contact address',
+                    id: 'field.collectionobjects_common.ledgerContractAddress.fullName',
+                    defaultMessage: 'Ledger contract address',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.ledgerContactAddress.name',
-                    defaultMessage: 'Contact address',
+                    id: 'field.collectionobjects_common.ledgerContractAddress.name',
+                    defaultMessage: 'Contract address',
                   },
                 }),
                 view: {
@@ -4938,16 +4936,24 @@ export default (configContext) => {
             },
           },
         },
-        apiUrl: {
+        apiUrls: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.apiUrl.name',
-                defaultMessage: 'API URL',
-              },
-            }),
             view: {
-              type: TextInput,
+              type: CompoundInput,
+            },
+          },
+          apiUrl: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.apiUrl.name',
+                  defaultMessage: 'API URL',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: URLInput,
+              },
             },
           },
         },
@@ -5015,13 +5021,74 @@ export default (configContext) => {
             },
           },
         },
-        numberOfChannels: {
+        avChannelGroupList: {
           [config]: {
-            dataType: DATA_TYPE_INT,
+            view: {
+              type: CompoundInput,
+            },
+          },
+          avChannelGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.avChannelGroup.name',
+                  defaultMessage: 'AV channel',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            numberOfChannels: {
+              [config]: {
+                dataType: DATA_TYPE_INT,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.numberOfChannels.fullName',
+                    defaultMessage: 'AV channel number of associated channels',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.numberOfChannels.name',
+                    defaultMessage: 'Number of associated channels',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            channelType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.channelType.fullName',
+                    defaultMessage: 'AV channel type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.channelType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'formattypenames', // probably use a different source
+                  },
+                },
+              },
+            },
+          },
+        },
+        channelLayout: {
+          [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.collectionobjects_common.numberOfChannels.name',
-                defaultMessage: 'Number of associated channels',
+                id: 'field.collectionobjects_common.channelLayout.name',
+                defaultMessage: 'Channel layout',
               },
             }),
             view: {
@@ -5285,6 +5352,222 @@ export default (configContext) => {
               type: TextInput,
               props: {
                 multiline: true,
+              },
+            },
+          },
+        },
+        softwareTechnicalAttributeGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          softwareTechnicalAttributeGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.softwareTechnicalAttributeGroup.name',
+                  defaultMessage: 'Software technical attribute',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            softwareTechnicalAttribute: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttribute.fullName',
+                    defaultMessage: 'Software technical attribute',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttribute.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'softwareattributes',
+                  },
+                },
+              },
+            },
+            softwareTechnicalAttributeLowValue: {
+              [config]: {
+                dataType: DATA_TYPE_INT,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttributeLowValue.fullName',
+                    defaultMessage: 'Software technical attribute low/single value',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttributeLowValue.name',
+                    defaultMessage: 'Low/single value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            softwareTechnicalAttributeHighValue: {
+              [config]: {
+                dataType: DATA_TYPE_INT,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttributeHighValue.fullName',
+                    defaultMessage: 'Software technical attribute high value',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttributeHighValue.name',
+                    defaultMessage: 'High value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            softwareTechnicalAttributeUnit: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttributeUnit.fullName',
+                    defaultMessage: 'Software technical attribute unit',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.softwareTechnicalAttributeUnit.name',
+                    defaultMessage: 'Unit',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'softwareattributeunits',
+                  },
+                },
+              },
+            },
+          },
+        },
+        chromaSubsampling: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.chromaSubsampling.name',
+                defaultMessage: 'Chroma subsampling',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'chromasubsampling',
+              },
+            },
+          },
+        },
+        avTechnicalAttributeGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          avTechnicalAttributeGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.avTechnicalAttributeGroup.name',
+                  defaultMessage: 'AV technical attribute',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            avTechnicalAttribute: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.avTechnicalAttribute.fullName',
+                    defaultMessage: 'AV technical attribute',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.avTechnicalAttribute.name',
+                    defaultMessage: 'Name',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'avattributes',
+                  },
+                },
+              },
+            },
+            avTechnicalAttributeLowValue: {
+              [config]: {
+                dataType: DATA_TYPE_INT,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.avTechnicalAttributeLowValue.fullName',
+                    defaultMessage: 'AV technical attribute low/single value',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.avTechnicalAttributeLowValue.name',
+                    defaultMessage: 'Low/single value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            avTechnicalAttributeHighValue: {
+              [config]: {
+                dataType: DATA_TYPE_INT,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.avTechnicalAttributeHighValue.fullName',
+                    defaultMessage: 'AV technical attribute high value',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.avTechnicalAttributeHighValue.name',
+                    defaultMessage: 'High value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            avTechnicalAttributeUnit: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.avTechnicalAttributeUnit.fullName',
+                    defaultMessage: 'AV technical attribute unit',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.avTechnicalAttrUnit.name',
+                    defaultMessage: 'Unit',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'avattributeunits',
+                  },
+                },
               },
             },
           },

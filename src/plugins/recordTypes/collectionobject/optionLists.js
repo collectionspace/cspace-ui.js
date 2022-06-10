@@ -379,6 +379,7 @@ export default {
   },
   numberTypes: {
     values: [
+      'associated uuid',
       'barcode',
       'lender',
       'obsolete',
@@ -387,6 +388,10 @@ export default {
       'unknown',
     ],
     messages: defineMessages({
+      'associated uuid': {
+        id: 'option.numberTypes.associated uuid',
+        defaultMessage: 'associated uuid',
+      },
       barcode: {
         id: 'option.numberTypes.barcode',
         defaultMessage: 'barcode',

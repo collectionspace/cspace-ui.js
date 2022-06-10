@@ -154,7 +154,7 @@ const template = (configContext) => {
         <Field name="ledgerGroupList">
           <Field name="ledgerGroup">
             <Field name="ledger" />
-            <Field name="ledgerContactAddress" />
+            <Field name="ledgerContractAddress" />
             <Field name="ledgerTokenID" />
           </Field>
         </Field>
@@ -421,7 +421,17 @@ const template = (configContext) => {
             </Field>
           </Field>
 
-          <Field name="numberOfChannels" />
+          <Col />
+        </Row>
+
+        <Row>
+          <Field name="avChannelGroupList">
+            <Field name="avChannelGroup">
+              <Field name="numberOfChannels" />
+              <Field name="channelType" />
+            </Field>
+          </Field>
+          <Field name="channelLayout" />
         </Row>
 
         <Field name="fileCodecGroupList">
@@ -432,9 +442,13 @@ const template = (configContext) => {
           </Field>
         </Field>
 
+        <Row>
+          <Field name="audioType" />
+          <Field name="audioPreferences" />
+          <Field name="chromaSubsampling" />
+        </Row>
         <Cols>
           <Col>
-            <Field name="audioType" />
             <Field name="aspectRatioGroupList">
               <Field name="aspectRatioGroup">
                 <Field name="aspectRatio" />
@@ -443,7 +457,6 @@ const template = (configContext) => {
             </Field>
           </Col>
           <Col>
-            <Field name="audioPreferences" />
             <Field name="colorSpaceGroupList">
               <Field name="colorSpaceGroup">
                 <Field name="colorSpace" />
@@ -452,6 +465,16 @@ const template = (configContext) => {
             </Field>
           </Col>
         </Cols>
+
+        <Field name="avTechnicalAttributeGroupList">
+          <Field name="avTechnicalAttributeGroup">
+            <Field name="avTechnicalAttribute" />
+            <Field name="avTechnicalAttributeLowValue" />
+            <Field name="avTechnicalAttributeHighValue" />
+            <Field name="avTechnicalAttributeUnit" />
+          </Field>
+        </Field>
+
         <Field name="avSpecificationNote" />
       </Panel>
 
@@ -490,16 +513,16 @@ const template = (configContext) => {
                 </Field>
               </Col>
             </Row>
-            <Field name="intendedBrowserGroupList">
-              <Field name="intendedBrowserGroup">
-                <Field name="intendedBrowser" />
-                <Field name="intendedBrowserVersion" />
-              </Field>
-            </Field>
             <Field name="networkConnectionGroupList">
               <Field name="networkConnectionGroup">
                 <Field name="networkConnectionRequired" />
                 <Field name="networkConnectionType" />
+              </Field>
+            </Field>
+            <Field name="intendedBrowserGroupList">
+              <Field name="intendedBrowserGroup">
+                <Field name="intendedBrowser" />
+                <Field name="intendedBrowserVersion" />
               </Field>
             </Field>
           </Col>
@@ -520,7 +543,17 @@ const template = (configContext) => {
             <Field name="applicationRequiredFor" />
           </Field>
         </Field>
-        <Field name="apiUrl" />
+        <Field name="softwareTechnicalAttributeGroupList">
+          <Field name="softwareTechnicalAttributeGroup">
+            <Field name="softwareTechnicalAttribute" />
+            <Field name="softwareTechnicalAttributeLowValue" />
+            <Field name="softwareTechnicalAttributeHighValue" />
+            <Field name="softwareTechnicalAttributeUnit" />
+          </Field>
+        </Field>
+        <Field name="apiUrls">
+          <Field name="apiUrl" />
+        </Field>
       </Panel>
 
       <Panel name="hist" collapsible collapsed>
