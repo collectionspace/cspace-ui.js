@@ -45,7 +45,7 @@ export default (configContext) => {
             cloneable: false,
             messages: defineMessages({
               inUse: {
-                id: 'field.iterationreports_common.iterationIdentificationNumber.isUse',
+                id: 'field.iterationreports_common.iterationIdentificationNumber.inUse',
                 defaultMessage: 'The identification number {value} is in use by another record.',
               },
               name: {
