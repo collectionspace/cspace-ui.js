@@ -419,7 +419,7 @@ export default (configContext) => {
                     defaultMessage: 'Checksum value',
                   },
                   name: {
-                    id: 'field.procedure.checksumValue.name',
+                    id: 'field.media_common.checksumValue.name',
                     defaultMessage: 'Value',
                   },
                 }),
