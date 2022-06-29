@@ -70,19 +70,19 @@ const template = (configContext) => {
         </Panel>
       </Panel>
 
-      <Panel>
-        <Panel name="space" collapsible collapsed>
-          <Field name="spaceGroupList">
-            <Field name="spaceGroup">
+      <Panel name="space" collapsible collapsed>
+        <Field name="spaceGroupList">
+          <Field name="spaceGroup">
+            <Panel>
               <Row>
                 <Field name="descriptionType" />
                 <Field name="approvalEntity" />
                 <Field name="approvalDate" />
               </Row>
               <Field name="spaceDescription" />
-            </Field>
+            </Panel>
           </Field>
-        </Panel>
+        </Field>
       </Panel>
 
       <Panel name="details" collapsible collapsed>
@@ -102,42 +102,42 @@ const template = (configContext) => {
           </Field>
         </Field>
 
-        <Panel>
-          <Field name="technicalSetupGroupList">
-            <Field name="technicalSetupGroup">
+        <Field name="technicalSetupGroupList">
+          <Field name="technicalSetupGroup">
+            <Panel>
               <Row>
                 <Field name="technicalSetupType" />
                 <Field name="technicalSetupApprovalEntity" />
                 <Field name="technicalSetupApprovalDate" />
               </Row>
               <Field name="technicalSetupDescription" />
-            </Field>
+            </Panel>
           </Field>
-        </Panel>
+        </Field>
 
-        <Panel>
-          <Field name="iterationSpecificGroupList">
-            <Field name="iterationSpecificGroup">
+        <Field name="iterationSpecificGroupList">
+          <Field name="iterationSpecificGroup">
+            <Panel>
               <Row>
                 <Field name="modificationApprovalEntity" />
                 <Field name="modificationApprovalDate" />
               </Row>
               <Field name="modificationDescription" />
-            </Field>
+            </Panel>
           </Field>
-        </Panel>
+        </Field>
 
-        <Panel>
-          <Field name="installationGroupList">
-            <Field name="installationGroup">
+        <Field name="installationGroupList">
+          <Field name="installationGroup">
+            <Panel>
               <Row>
                 <Field name="installationApprovalEntity" />
                 <Field name="installationApprovalDate" />
               </Row>
               <Field name="installationDescription" />
-            </Field>
+            </Panel>
           </Field>
-        </Panel>
+        </Field>
 
         <Field name="maintenanceGroupList">
           <Field name="maintenanceGroup">
