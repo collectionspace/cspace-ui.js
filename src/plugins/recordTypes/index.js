@@ -19,6 +19,7 @@ import group from './group';
 import idgenerator from './idgenerator';
 import insurance from './insurance';
 import intake from './intake';
+import iterationreport from './iterationreport';
 import loanin from './loanin';
 import loanout from './loanout';
 import location from './location';
@@ -62,6 +63,7 @@ export default [
   idgenerator,
   insurance,
   intake,
+  iterationreport,
   loanin,
   loanout,
   location,
