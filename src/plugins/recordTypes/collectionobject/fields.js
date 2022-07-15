@@ -5558,7 +5558,7 @@ export default (configContext) => {
                     defaultMessage: 'AV technical attribute unit',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.avTechnicalAttrUnit.name',
+                    id: 'field.collectionobjects_common.avTechnicalAttributeUnit.name',
                     defaultMessage: 'Unit',
                   },
                 }),
