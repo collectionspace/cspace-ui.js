@@ -72,7 +72,7 @@ export default {
     },
     avTechSpecs: {
       id: 'panel.collectionobject.avTechSpecs',
-      defaultMessage: 'Technical Specifications: Audio/Video',
+      defaultMessage: 'Technical Specifications: Audio/Video/Still',
     },
   }),
   inputTable: defineMessages({
