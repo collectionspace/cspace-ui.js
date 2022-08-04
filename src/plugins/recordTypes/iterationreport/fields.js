@@ -70,6 +70,84 @@ export default (configContext) => {
             },
           },
         },
+        iterationActionGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          iterationActionGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.iterationreports_common.iterationActionGroup.name',
+                  defaultMessage: 'Iteration action',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            action: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.iterationreports_common.action.fullName',
+                    defaultMessage: 'Iteration action type',
+                  },
+                  name: {
+                    id: 'field.iterationreports_common.action.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: OptionPickerInput,
+                  props: {
+                    source: 'installationType',
+                  },
+                },
+              },
+            },
+            actionStartDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.iterationreports_common.actionStartDate.fullName',
+                    defaultMessage: 'Iteration action earliest/start date',
+                  },
+                  name: {
+                    id: 'field.iterationreports_common.actionStartDate.name',
+                    defaultMessage: 'Earliest/start date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            actionEndDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.iterationreports_common.actionEndDate.fullName',
+                    defaultMessage: 'Iteration action end date',
+                  },
+                  name: {
+                    id: 'field.iterationreports_common.actionEndDate.name',
+                    defaultMessage: 'End date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+          },
+        },
         iterationCreatorGroupList: {
           [config]: {
             view: {
@@ -201,11 +279,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.installerExtent.fullName',
-                    defaultMessage: 'Installer extent',
+                    defaultMessage: 'Installer time spent',
                   },
                   name: {
                     id: 'field.iterationreports_common.installerExtent.name',
-                    defaultMessage: 'Extent',
+                    defaultMessage: 'Time spent',
                   },
                 }),
                 view: {
@@ -253,6 +331,22 @@ export default (configContext) => {
                   type: OptionPickerInput,
                   props: {
                     source: 'installationType',
+                  },
+                },
+              },
+            },
+            artistOrRepresentative: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.iterationreports_common.artistOrRepresentative.name',
+                    defaultMessage: 'Artist or representative',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared',
                   },
                 },
               },

@@ -33,6 +33,14 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
+        <Field name="iterationActionGroupList">
+          <Field name="iterationActionGroup">
+            <Field name="action" />
+            <Field name="actionStartDate" />
+            <Field name="actionEndDate" />
+          </Field>
+        </Field>
+
         <Field name="installerGroupList">
           <Field name="installerGroup">
             <Field name="installer" />
@@ -45,6 +53,7 @@ const template = (configContext) => {
           <Field name="presenceGroup">
             <Field name="installDeinstall" />
             <Field name="artistPresent" />
+            <Field name="artistOrRepresentative" />
             <Field name="presentExtent" />
           </Field>
         </Field>

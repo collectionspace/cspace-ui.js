@@ -5,6 +5,7 @@ export default {
     values: [
       'installation',
       'deinstallation',
+      'exhibition',
       'exhibition update',
     ],
     messages: defineMessages({
@@ -15,6 +16,10 @@ export default {
       deinstallation: {
         id: 'option.installationType.deinstallation',
         defaultMessage: 'deinstallation',
+      },
+      exhibition: {
+        id: 'option.installationType.exhibition',
+        defaultMessage: 'exhibition',
       },
       'exhibition update': {
         id: 'option.installationType.exhibition update',
