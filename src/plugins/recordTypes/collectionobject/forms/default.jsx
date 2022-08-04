@@ -581,6 +581,70 @@ const template = (configContext) => {
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="rel:relations-common-list" />
       </Panel>
+
+      <Panel name="rights" collapsible collapsed>
+        <Field name="rightsGroupList">
+          <Field name="rightsGroup">
+            <Panel>
+              <Field name="rightType" />
+              <Field name="rightHolderGroupList">
+                <Field name="rightHolderGroup">
+                  <Field name="rightHolder" />
+                  <Field name="rightHolderContact" />
+                </Field>
+              </Field>
+              <Cols>
+                <Col>
+                  <Field name="rightBeginDate" />
+                  <Field name="rightJurisdiction" />
+                </Col>
+                <Col>
+                  <Field name="rightEndDate" />
+                  <Field name="standardizedRightStatement" />
+                </Col>
+              </Cols>
+              <Field name="rightStatement" />
+              <Field name="rightNote" />
+            </Panel>
+          </Field>
+        </Field>
+      </Panel>
+
+      <Panel name="rightsin" collapsible collapsed>
+        <Field name="rightsInGroupList">
+          <Field name="rightsInGroup">
+            <Panel>
+              <Field name="rightInTypes">
+                <Field name="rightInType" />
+              </Field>
+              <Cols>
+                <Col>
+                  <Field name="rightBeginDate" />
+                </Col>
+                <Col>
+                  <Field name="rightEndDate" />
+                </Col>
+              </Cols>
+              <Row>
+                <Field name="agreementSent" />
+                <Field name="agreementReceived" />
+                <Field name="agreementSigned" />
+              </Row>
+              <Cols>
+                <Col>
+                  <Field name="rightInRestrictions">
+                    <Field name="rightInRestriction" />
+                  </Field>
+                </Col>
+                <Col>
+                  <Field name="rightReproductionStatement" />
+                </Col>
+              </Cols>
+              <Field name="rightInNote" />
+            </Panel>
+          </Field>
+        </Field>
+      </Panel>
     </Field>
   );
 };

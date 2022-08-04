@@ -5650,6 +5650,357 @@ export default (configContext) => {
             },
           },
         },
+        rightsGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          rightsGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.rightsGroup.name',
+                  defaultMessage: 'Right',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            rightType: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightType.name',
+                    defaultMessage: 'Right type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'rightstype',
+                  },
+                },
+              },
+            },
+            rightHolderGroupList: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              rightHolderGroup: {
+                [config]: {
+                  messages: defineMessages({
+                    name: {
+                      id: 'field.collectionobjects_common.rightHolderGroup.name',
+                      defaultMessage: 'Right holder',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: CompoundInput,
+                    props: {
+                      tabular: true,
+                    },
+                  },
+                },
+                rightHolder: {
+                  [config]: {
+                    messages: defineMessages({
+                      fullName: {
+                        id: 'field.collectionobjects_common.rightHolder.fullName',
+                        defaultMessage: 'Right holder name',
+                      },
+                      name: {
+                        id: 'field.collectionobjects_common.rightHolder.name',
+                        defaultMessage: 'Name',
+                      },
+                    }),
+                    view: {
+                      type: AutocompleteInput,
+                      props: {
+                        source: 'organization/local,organization/shared,person/local,person/shared',
+                      },
+                    },
+                  },
+                },
+                rightHolderContact: {
+                  [config]: {
+                    messages: defineMessages({
+                      fullName: {
+                        id: 'field.collectionobjects_common.rightHolderContact.fullName',
+                        defaultMessage: 'Right holder contact',
+                      },
+                      name: {
+                        id: 'field.collectionobjects_common.rightHolderContact.name',
+                        defaultMessage: 'Contact',
+                      },
+                    }),
+                    view: {
+                      type: AutocompleteInput,
+                      props: {
+                        source: 'organization/local,organization/shared,person/local,person/shared',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            rightBeginDate: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightBeginDate.name',
+                    defaultMessage: 'Right begin date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            rightEndDate: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightEndDate.name',
+                    defaultMessage: 'Right end date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            rightJurisdiction: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightJurisdiction.name',
+                    defaultMessage: 'Right jurisdiction',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: '',
+                  },
+                },
+              },
+            },
+            standardizedRightStatement: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.standardizedRightStatement.name',
+                    defaultMessage: 'Standardized right statement',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'standardizedrightstatement',
+                  },
+                },
+              },
+            },
+            rightStatement: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightStatement.name',
+                    defaultMessage: 'Right statement',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            rightNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightNote.name',
+                    defaultMessage: 'Right note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        rightsInGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          rightsInGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.rightsInGroup.name',
+                  defaultMessage: 'message',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            rightInTypes: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              rightInType: {
+                [config]: {
+                  repeating: true,
+                  messages: defineMessages({
+                    name: {
+                      id: 'field.collectionobjects_common.rightInType.name',
+                      defaultMessage: 'Rights in type',
+                    },
+                  }),
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'rightsin',
+                    },
+                  },
+                },
+              },
+            },
+            rightInBeginDate: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightInBeginDate.name',
+                    defaultMessage: 'Rights in begin date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            rightInEndDate: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightInEndDate.name',
+                    defaultMessage: 'Rights in end date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            agreementSent: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.agreementSent.name',
+                    defaultMessage: 'Agreement sent',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            agreementReceived: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.agreementReceived.name',
+                    defaultMessage: 'Agreement received',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            agreementSigned: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.agreementSigned.name',
+                    defaultMessage: 'Agreement signed',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            rightInRestrictions: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              rightInRestriction: {
+                [config]: {
+                  repeating: true,
+                  messages: defineMessages({
+                    name: {
+                      id: 'field.collectionobjects_common.rightInRestriction.name',
+                      defaultMessage: 'Restriction',
+                    },
+                  }),
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'rightsinrestrictions',
+                    },
+                  },
+                },
+              },
+            },
+            rightReproductionStatement: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightReproductionStatement.name',
+                    defaultMessage: 'Right statement for reproduction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            rightInNote: {
+              [config]: {
+                messages: defineMessages({
+                  name: {
+                    id: 'field.collectionobjects_common.rightInNote.name',
+                    defaultMessage: 'Right in note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
