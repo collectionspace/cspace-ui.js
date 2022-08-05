@@ -490,13 +490,19 @@ export const isAutocompleteField = (fieldDescriptor) => {
   return (JSON.stringify(viewType) === '"AutocompleteInput"');
 };
 
-export const isFieldCloneable = (fieldDescriptor) => {
+export const isFieldCloneable = (fieldDescriptor, computeContext) => {
   const config = fieldDescriptor[configKey];
 
   if (config && 'cloneable' in config) {
-    return config.cloneable;
-  }
 
+    // eslint-disable-next-line prefer-destructuring
+    let cloneable = config.cloneable;
+
+    if (typeof (cloneable) === 'function') {
+      cloneable = cloneable(computeContext);
+    }
+    return !!cloneable;
+  }
   return true;
 };
 

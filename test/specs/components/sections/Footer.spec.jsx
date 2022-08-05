@@ -56,7 +56,7 @@ describe('Footer', () => {
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');
 
-    items[0].textContent.should.equal('Release 5.1');
+    items[0].textContent.should.equal('Release 5.1-1');
   });
 
   it('should render no version number if it is not present in system info', function test() {
@@ -120,6 +120,6 @@ describe('Footer', () => {
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');
 
-    items[2].textContent.should.equal('formatted somePlugin.name version 1.2.3');
+    items[2].textContent.should.equal('UC Berkeley formatted somePlugin.name version 1.2.3');
   });
 });
