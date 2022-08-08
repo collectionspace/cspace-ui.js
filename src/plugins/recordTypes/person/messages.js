@@ -22,6 +22,10 @@ export default {
       id: 'panel.person.hierarchy',
       defaultMessage: 'Hierarchy',
     },
+    supplied: {
+      id: 'panel.person.supplied',
+      defaultMessage: 'Maker-Supplied Identity Information',
+    },
   }),
   inputTable: defineMessages({
     nameDetail: {

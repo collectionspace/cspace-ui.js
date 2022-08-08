@@ -19,7 +19,7 @@ const template = (configContext) => {
 
   return (
     <Field name="document">
-      <Panel name="info" collapsible>
+      <Panel name="info" collapsible collapsed>
         <Field name="personTermGroupList">
           <Field name="personTermGroup">
             <Panel>
@@ -100,6 +100,109 @@ const template = (configContext) => {
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="rel:relations-common-list" />
       </Panel>
+
+      <Panel name="supplied" collapsible collapsed>
+        <Field name="pronounGroupList">
+          <Field name="pronounGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerPronoun" />
+                <Field name="suppliedPronouns">
+                  <Field name="suppliedPronoun" />
+                </Field>
+                <Field name="useRestrictionPronoun" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="genderGroupList">
+          <Field name="genderGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerGender" />
+                <Field name="suppliedGenders">
+                  <Field name="suppliedGender" />
+                </Field>
+                <Field name="useRestrictionGender" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="raceGroupList">
+          <Field name="raceGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerRace" />
+                <Field name="suppliedRaces">
+                  <Field name="suppliedRace" />
+                </Field>
+                <Field name="useRestrictionRace" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="ethnicityGroupList">
+          <Field name="ethnicityGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerEthnicity" />
+                <Field name="suppliedEthnicities">
+                  <Field name="suppliedEthnicity" />
+                </Field>
+                <Field name="useRestrictionEthnicity" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="sexualityGroupList">
+          <Field name="sexualityGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerSexuality" />
+                <Field name="suppliedSexualities">
+                  <Field name="suppliedSexuality" />
+                </Field>
+                <Field name="useRestrictionSexuality" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="birthPlaceGroupList">
+          <Field name="birthPlaceGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerBirthPlace" />
+                <Field name="suppliedBirthPlace" />
+                <Field name="useRestrictionBirthPlace" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="birthDateGroupList">
+          <Field name="birthDateGroup">
+            <Panel>
+              <Row>
+                <Field name="declinedToAnswerBirthDate" />
+                <Field name="suppliedBirthDate" />
+                <Field name="useRestrictionBirthDate" />
+              </Row>
+            </Panel>
+          </Field>
+        </Field>
+        <Field name="otherGroupList">
+          <Field name="otherGroup">
+            <Panel>
+              <Row>
+                <Field name="informationAuthor" />
+                <Field name="informationDate" />
+                <Field name="informationUseRestriction" />
+              </Row>
+              <Field name="otherInformation" />
+            </Panel>
+          </Field>
+        </Field>
+      </Panel>
+
     </Field>
   );
 };

@@ -5,6 +5,7 @@ export default (configContext) => {
     AutocompleteInput,
     CheckboxInput,
     CompoundInput,
+    DateInput,
     HierarchyInput,
     OptionPickerInput,
     StructuredDateInput,
@@ -534,9 +535,9 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: OptionPickerInput,
+              type: TermPickerInput,
               props: {
-                source: 'genders',
+                source: 'suppliedgender',
               },
             },
           },
@@ -709,6 +710,666 @@ export default (configContext) => {
               type: TextInput,
               props: {
                 multiline: true,
+              },
+            },
+          },
+        },
+        pronounGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          pronounGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.pronounGroup.name',
+                  defaultMessage: 'Pronoun',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerPronoun: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerPronoun.fullName',
+                    defaultMessage: 'Pronoun declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerPronoun.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedPronouns: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              suppliedPronoun: {
+                [config]: {
+                  messages: defineMessages({
+                    fullName: {
+                      id: 'field.persons_common.suppliedPronouns.fullName',
+                      defaultMessage: 'Pronoun supplied',
+                    },
+                    name: {
+                      id: 'field.persons_common.suppliedPronouns.name',
+                      defaultMessage: 'Supplied',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'suppliedpronoun',
+                    },
+                  },
+                },
+              },
+            },
+            useRestrictionPronoun: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionPronoun.fullName',
+                    defaultMessage: 'Pronoun use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionPronoun.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        genderGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          genderGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.genderGroup.name',
+                  defaultMessage: 'Gender',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerGender: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerGender.fullName',
+                    defaultMessage: 'Gender declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerGender.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedGenders: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              suppliedGender: {
+                [config]: {
+                  messages: defineMessages({
+                    fullName: {
+                      id: 'field.persons_common.suppliedGender.fullName',
+                      defaultMessage: 'Gender supplied',
+                    },
+                    name: {
+                      id: 'field.persons_common.suppliedGender.name',
+                      defaultMessage: 'Supplied',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'suppliedgender',
+                    },
+                  },
+                },
+              },
+            },
+            useRestrictionGender: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionGender.fullName',
+                    defaultMessage: 'Gender use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionGender.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        raceGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          raceGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.raceGroup.name',
+                  defaultMessage: 'Race',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerRace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerRace.fullName',
+                    defaultMessage: 'Race declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerRace.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedRaces: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              suppliedRace: {
+                [config]: {
+                  messages: defineMessages({
+                    fullName: {
+                      id: 'field.persons_common.suppliedRace.fullName',
+                      defaultMessage: 'Race supplied',
+                    },
+                    name: {
+                      id: 'field.persons_common.suppliedRace.name',
+                      defaultMessage: 'Supplied',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'suppliedrace',
+                    },
+                  },
+                },
+              },
+            },
+            useRestrictionRace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionRace.fullName',
+                    defaultMessage: 'Race use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionRace.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        ethnicityGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          ethnicityGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.ethnicityGroup.name',
+                  defaultMessage: 'Ethnicity',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerEthnicity: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerEthnicity.fullName',
+                    defaultMessage: 'Ethnicity declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerEthnicity.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedEthnicities: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              suppliedEthnicity: {
+                [config]: {
+                  messages: defineMessages({
+                    fullName: {
+                      id: 'field.persons_common.suppliedEthnicity.fullName',
+                      defaultMessage: 'Ethnicity supplied',
+                    },
+                    name: {
+                      id: 'field.persons_common.suppliedEthnicity.name',
+                      defaultMessage: 'Supplied',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'suppliedethnicity',
+                    },
+                  },
+                },
+              },
+            },
+            useRestrictionEthnicity: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionEthnicity.fullName',
+                    defaultMessage: 'Ethnicity use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionEthnicity.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        sexualityGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          sexualityGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.sexualityGroup.name',
+                  defaultMessage: 'Sexuality',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerSexuality: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerSexuality.fullName',
+                    defaultMessage: 'Sexuality declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerSexuality.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedSexualities: {
+              [config]: {
+                view: {
+                  type: CompoundInput,
+                },
+              },
+              suppliedSexuality: {
+                [config]: {
+                  messages: defineMessages({
+                    fullName: {
+                      id: 'field.persons_common.suppliedSexuality.fullName',
+                      defaultMessage: 'Sexuality supplied',
+                    },
+                    name: {
+                      id: 'field.persons_common.suppliedSexuality.name',
+                      defaultMessage: 'Supplied',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: TermPickerInput,
+                    props: {
+                      source: 'suppliedsexuality',
+                    },
+                  },
+                },
+              },
+            },
+            useRestrictionSexuality: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionSexuality.fullName',
+                    defaultMessage: 'Sexuality use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionSexuality.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        birthPlaceGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          birthPlaceGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.birthPlaceGroup.name',
+                  defaultMessage: 'Birth place',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerBirthPlace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerBirthPlace.fullName',
+                    defaultMessage: 'Birth place declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerBirthPlace.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedBirthPlace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.suppliedBirthPlace.fullName',
+                    defaultMessage: 'Birth place supplied',
+                  },
+                  name: {
+                    id: 'field.persons_common.suppliedBirthPlace.name',
+                    defaultMessage: 'Supplied',
+                  },
+                }),
+                repeating: true,
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'place/local,place/shared',
+                  },
+                },
+              },
+            },
+            useRestrictionBirthPlace: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionBirthPlace.fullName',
+                    defaultMessage: 'Birth place use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionBirthPlace.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        birthDateGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          birthDateGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.birthDateGroup.name',
+                  defaultMessage: 'Birth date',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            declinedToAnswerBirthDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.declinedToAnswerBirthDate.fullName',
+                    defaultMessage: 'Birth date declined to answer',
+                  },
+                  name: {
+                    id: 'field.persons_common.declinedToAnswerBirthDate.name',
+                    defaultMessage: 'Declined to answer',
+                  },
+                }),
+                view: {
+                  type: CheckboxInput,
+                },
+              },
+            },
+            suppliedBirthDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.suppliedBirthDate.fullName',
+                    defaultMessage: 'Birth date supplied',
+                  },
+                  name: {
+                    id: 'field.persons_common.suppliedBirthDate.name',
+                    defaultMessage: 'Supplied',
+                  },
+                }),
+                repeating: true,
+                view: {
+                  type: StructuredDateInput,
+                },
+                ...extensions.structuredDate.fields,
+              },
+            },
+            useRestrictionBirthDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.useRestrictionBirthDate.fullName',
+                    defaultMessage: 'Birth date use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.useRestrictionBirthDate.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
+        otherGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          otherGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.persons_common.otherGroup.name',
+                  defaultMessage: 'Other information',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            informationAuthor: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.informationAuthor.fullName',
+                    defaultMessage: 'Other information author',
+                  },
+                  name: {
+                    id: 'field.persons_common.informationAuthor.name',
+                    defaultMessage: 'Author',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared',
+                  },
+                },
+              },
+            },
+            informationDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.informationDate.fullName',
+                    defaultMessage: 'Other information date',
+                  },
+                  name: {
+                    id: 'field.persons_common.informationDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            informationUseRestriction: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.informationUseRestriction.fullName',
+                    defaultMessage: 'Other information use restriction',
+                  },
+                  name: {
+                    id: 'field.persons_common.informationUseRestriction.name',
+                    defaultMessage: 'Use restriction',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            otherInformation: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.persons_common.otherInformation.fullName',
+                    defaultMessage: 'Other information note',
+                  },
+                  name: {
+                    id: 'field.persons_common.otherInformation.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
+                },
               },
             },
           },
