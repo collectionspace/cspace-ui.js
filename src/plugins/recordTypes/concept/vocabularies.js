@@ -23,6 +23,7 @@ export default {
       servicePath: '_ALL_',
     },
     type: 'all',
+    disableAltTerms: true,
   },
   associated: {
     messages: defineMessages({
@@ -45,6 +46,7 @@ export default {
     serviceConfig: {
       servicePath: 'urn:cspace:name(concept)',
     },
+    disableAltTerms: true,
   },
   activity: {
     messages: defineMessages({
@@ -67,6 +69,7 @@ export default {
     serviceConfig: {
       servicePath: 'urn:cspace:name(activity)',
     },
+    disableAltTerms: true,
   },
   material: {
     messages: defineMessages({
@@ -89,6 +92,7 @@ export default {
     serviceConfig: {
       servicePath: 'urn:cspace:name(material_ca)',
     },
+    disableAltTerms: true,
   },
   nomenclature: {
     messages: defineMessages({
@@ -111,6 +115,7 @@ export default {
     serviceConfig: {
       servicePath: 'urn:cspace:name(nomenclature)',
     },
+    disableAltTerms: true,
   },
   occasion: {
     messages: defineMessages({
@@ -133,5 +138,6 @@ export default {
     serviceConfig: {
       servicePath: 'urn:cspace:name(occasion)',
     },
+    disableAltTerms: true,
   },
 };

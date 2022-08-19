@@ -23,6 +23,7 @@ export default {
       servicePath: '_ALL_',
     },
     type: 'all',
+    disableAltTerms: true,
   },
   local: {
     messages: defineMessages({
@@ -46,6 +47,7 @@ export default {
       servicePath: 'urn:cspace:name(location)',
     },
     sortOrder: 0,
+    disableAltTerms: true,
   },
   offsite: {
     messages: defineMessages({
@@ -68,5 +70,6 @@ export default {
     serviceConfig: {
       servicePath: 'urn:cspace:name(offsite_sla)',
     },
+    disableAltTerms: true,
   },
 };
