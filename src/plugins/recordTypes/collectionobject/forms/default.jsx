@@ -159,6 +159,13 @@ const template = (configContext) => {
           </Field>
         </Field>
 
+        <Field name="checksumGroupList">
+          <Field name="checksumGroup">
+            <Field name="checksumValue" />
+            <Field name="checksumType" />
+            <Field name="checksumDate" />
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="desc" collapsible collapsed>
