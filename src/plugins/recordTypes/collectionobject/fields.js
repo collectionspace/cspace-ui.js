@@ -5572,6 +5572,84 @@ export default (configContext) => {
             },
           },
         },
+        checksumGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          checksumGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.checksumGroup.name',
+                  defaultMessage: 'Checksum',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            checksumValue: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.checksumValue.fullName',
+                    defaultMessage: 'Checksum value',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.checksumValue.name',
+                    defaultMessage: 'Value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            checksumType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.checksumType.fullName',
+                    defaultMessage: 'Checksum type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.checksumType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'checksumtypes',
+                  },
+                },
+              },
+            },
+            checksumDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.checksumDate.fullName',
+                    defaultMessage: 'Checksum date',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.checksumDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+          },
+        },
       },
     },
   };

@@ -10,6 +10,7 @@ export default (configContext) => {
     StructuredDateInput,
     TermPickerInput,
     URLInput,
+    DateInput,
   } = configContext.inputComponents;
 
   const {
@@ -384,6 +385,84 @@ export default (configContext) => {
               type: TextInput,
               props: {
                 multiline: true,
+              },
+            },
+          },
+        },
+        checksumGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          checksumGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.media_common.checksumGroup.name',
+                  defaultMessage: 'Checksum',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            checksumValue: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.media_common.checksumValue.fullName',
+                    defaultMessage: 'Checksum value',
+                  },
+                  name: {
+                    id: 'field.media_common.checksumValue.name',
+                    defaultMessage: 'Value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            checksumType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.media_common.checksumType.fullName',
+                    defaultMessage: 'Checksum type',
+                  },
+                  name: {
+                    id: 'field.media_common.checksumType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'checksumtypes',
+                  },
+                },
+              },
+            },
+            checksumDate: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.media_common.checksumDate.fullName',
+                    defaultMessage: 'Checksum date',
+                  },
+                  name: {
+                    id: 'field.media_common.checksumDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
               },
             },
           },
