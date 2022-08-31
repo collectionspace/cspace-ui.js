@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { components as inputComponents } from 'cspace-input';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, defineMessages } from 'react-intl';
+import get from 'lodash/get';
+import { NS_PREFIX } from '../../constants/xmlNames';
+import { configKey } from '../../helpers/configHelpers';
 import { formatRecordTypeSourceField } from '../../helpers/formatHelpers';
 import withConfig from '../../enhancers/withConfig';
 import withCsid from '../../enhancers/withCsid';
@@ -16,18 +19,67 @@ const propTypes = {
   value: PropTypes.string,
 };
 
+const messages = defineMessages({
+  listItem: {
+    id: 'fieldTextInput.listItem',
+    description: 'Item in a group list',
+    defaultMessage: '{groupList} #{index} — {listItem}',
+  },
+});
+
+export const getFirstChild = (recordType, partName, fieldName, { config }) => {
+  const recordTypeConfig = config.recordTypes[recordType];
+  const partDescriptor = get(recordTypeConfig, ['fields', 'document', `${NS_PREFIX}:${partName}`]);
+  if (!partDescriptor) {
+    return fieldName;
+  }
+
+  let updatedField = fieldName;
+  const fieldDescriptor = partDescriptor[fieldName];
+  if (fieldDescriptor) {
+    updatedField = Object.keys(fieldDescriptor).filter((key) => key !== configKey);
+  }
+
+  return updatedField;
+};
+
 export const formatHumanReadable = (type, value, context) => {
   let formatted;
 
   // the key is created with schema:fieldName:listIndex
   // we have 3 outcomes -- an array of index 1 (unqualified), 2 (qualified), or 3 (qualified list)
+  // for qualified lists, use the child key if available
   // see: AuditDocumentHandler.java
   const parts = value.split(':');
+  const [partName, fieldName] = parts;
   if (parts.length === 2) {
-    formatted = formatRecordTypeSourceField(type, value, context);
+    let searchField = fieldName;
+
+    // capture either the last field or the full name of the group list
+    const groupRegex = /(?<groupList>\w+GroupList)$/;
+    const fieldRegex = /(?<groupList>\w+)\/(?<index>\d+)\/(?<field>\w+\/?)+$/;
+
+    const match = fieldRegex.exec(fieldName);
+    if (match) {
+      const { intl } = context;
+      const groupChild = getFirstChild(type, partName, match.groups.groupList, context);
+      const formattedGroup = formatRecordTypeSourceField(type, `${partName}:${groupChild}`, context);
+      const formattedListItem = formatRecordTypeSourceField(type, `${partName}:${match.groups.field}`, context);
+      return intl.formatMessage(messages.listItem, {
+        groupList: formattedGroup,
+        index: match.groups.index,
+        listItem: formattedListItem,
+      });
+    }
+
+    if (groupRegex.exec(fieldName)) {
+      searchField = getFirstChild(type, partName, fieldName, context);
+    }
+
+    formatted = formatRecordTypeSourceField(type, `${partName}:${searchField}`, context);
   } else if (parts.length === 3) {
-    // todo: get child of the key
-    formatted = formatRecordTypeSourceField(type, `${parts[0]}:${parts[1]}`, context);
+    const childName = getFirstChild(type, partName, fieldName, context);
+    formatted = formatRecordTypeSourceField(type, `${partName}:${childName}`, context);
   } else {
     formatted = value;
   }
