@@ -7,6 +7,7 @@ const template = (configContext) => {
 
   const {
     Col,
+    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -119,6 +120,52 @@ const template = (configContext) => {
             <Field name="objectNameNote" />
           </Field>
         </Field>
+
+        <Field name="objectSignificanceGroupList">
+          <Field name="objectSignificanceGroup">
+            <Field name="assignedSignificance" />
+            <Field name="significanceAssignedBy" />
+            <Field name="significanceAssignedDate" />
+            <Field name="significanceAssignedContact" />
+          </Field>
+        </Field>
+
+        <Row>
+          <Field name="objectSuppliedBy" />
+          <Field name="objectComponentStatus" />
+        </Row>
+
+        <Field name="credentialGroupList">
+          <Field name="credentialGroup">
+            <Field name="credentialType" />
+            <Field name="credentialRequiredForUse" />
+            <Field name="credentialLocation" />
+          </Field>
+        </Field>
+
+        <Field name="distributedLedgerGroupList">
+          <Field name="distributedLedgerGroup">
+            <Field name="distributedStorageLedger" />
+            <Field name="distributedLedgerParentIdentifier" />
+            <Field name="distributedLedgerObjectIdentifier" />
+          </Field>
+        </Field>
+
+        <Field name="ledgerGroupList">
+          <Field name="ledgerGroup">
+            <Field name="ledger" />
+            <Field name="ledgerContractAddress" />
+            <Field name="ledgerTokenID" />
+          </Field>
+        </Field>
+
+        <Field name="checksumGroupList">
+          <Field name="checksumGroup">
+            <Field name="checksumValue" />
+            <Field name="checksumType" />
+            <Field name="checksumDate" />
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="desc" collapsible collapsed>
@@ -168,6 +215,7 @@ const template = (configContext) => {
         </Field>
 
         <Field name="physicalDescription" />
+        <Field name="intendedBehavior" />
 
         <Row>
           <Col>
@@ -371,6 +419,150 @@ const template = (configContext) => {
         </Row>
       </Panel>
 
+      <Panel name="avTechSpecs" collapsible collapsed>
+        <Row>
+          <Field name="avFormatGroupList">
+            <Field name="avFormatGroup">
+              <Field name="formatType" />
+              <Field name="format" />
+            </Field>
+          </Field>
+
+          <Col />
+        </Row>
+
+        <Row>
+          <Field name="avChannelGroupList">
+            <Field name="avChannelGroup">
+              <Field name="numberOfChannels" />
+              <Field name="channelType" />
+            </Field>
+          </Field>
+          <Field name="channelLayout" />
+        </Row>
+
+        <Field name="fileCodecGroupList">
+          <Field name="fileCodecGroup">
+            <Field name="fileCodec" />
+            <Field name="compressionStandard" />
+            <Field name="fileContainer" />
+          </Field>
+        </Field>
+
+        <Row>
+          <Field name="audioType" />
+          <Field name="audioPreferences" />
+          <Field name="chromaSubsampling" />
+        </Row>
+        <Cols>
+          <Col>
+            <Field name="aspectRatioGroupList">
+              <Field name="aspectRatioGroup">
+                <Field name="aspectRatio" />
+                <Field name="aspectRatioType" />
+              </Field>
+            </Field>
+          </Col>
+          <Col>
+            <Field name="colorSpaceGroupList">
+              <Field name="colorSpaceGroup">
+                <Field name="colorSpace" />
+                <Field name="colorType" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
+
+        <Field name="avTechnicalAttributeGroupList">
+          <Field name="avTechnicalAttributeGroup">
+            <Field name="avTechnicalAttribute" />
+            <Field name="avTechnicalAttributeLowValue" />
+            <Field name="avTechnicalAttributeHighValue" />
+            <Field name="avTechnicalAttributeUnit" />
+          </Field>
+        </Field>
+
+        <Field name="avSpecificationNote" />
+      </Panel>
+
+      <Panel name="software" collapsible collapsed>
+        <Cols>
+          <Col>
+            <Field name="programmingLanguageGroupList">
+              <Field name="programmingLanguageGroup">
+                <Field name="programmingLanguage" />
+                <Field name="programmingLanguageVersion" />
+              </Field>
+            </Field>
+            <Field name="utilizedSoftwareGroupList">
+              <Field name="utilizedSoftwareGroup">
+                <Field name="software" />
+                <Field name="softwareVersion" />
+              </Field>
+            </Field>
+            <Field name="intendedOperatingSystemGroupList">
+              <Field name="intendedOperatingSystemGroup">
+                <Field name="intendedOperatingSystem" />
+                <Field name="intendedOperatingSystemVersion" />
+              </Field>
+            </Field>
+          </Col>
+          <Col>
+            <Row>
+              <Col>
+                <Field name="libraries">
+                  <Field name="library" />
+                </Field>
+              </Col>
+              <Col>
+                <Field name="compilers">
+                  <Field name="compiler" />
+                </Field>
+              </Col>
+            </Row>
+            <Field name="networkConnectionGroupList">
+              <Field name="networkConnectionGroup">
+                <Field name="networkConnectionRequired" />
+                <Field name="networkConnectionType" />
+              </Field>
+            </Field>
+            <Field name="intendedBrowserGroupList">
+              <Field name="intendedBrowserGroup">
+                <Field name="intendedBrowser" />
+                <Field name="intendedBrowserVersion" />
+              </Field>
+            </Field>
+          </Col>
+        </Cols>
+        <Field name="domainGroupList">
+          <Field name="domainGroup">
+            <Field name="domainName" />
+            <Field name="domainHost" />
+            <Field name="domainType" />
+            <Field name="domainVersion" />
+            <Field name="domainOwner" />
+          </Field>
+        </Field>
+        <Field name="applicationInteractionGroupList">
+          <Field name="applicationInteractionGroup">
+            <Field name="applicationInteractionRequired" />
+            <Field name="applicationRequired" />
+            <Field name="applicationRequiredFor" />
+          </Field>
+        </Field>
+        <Field name="softwareTechnicalAttributeGroupList">
+          <Field name="softwareTechnicalAttributeGroup">
+            <Field name="softwareTechnicalAttribute" />
+            <Field name="softwareTechnicalAttributeLowValue" />
+            <Field name="softwareTechnicalAttributeHighValue" />
+            <Field name="softwareTechnicalAttributeUnit" />
+          </Field>
+        </Field>
+        <Field name="apiUrls">
+          <Field name="apiUrl" />
+        </Field>
+      </Panel>
+
       <Panel name="hist" collapsible collapsed>
         <Panel name="assoc" collapsible collapsed>
           <Row>
@@ -545,39 +737,6 @@ const template = (configContext) => {
         </Field>
       </Panel>
 
-      <Panel name="collect" collapsible collapsed>
-        <Row>
-          <Col>
-            <Field name="fieldCollectionDateGroup" />
-
-            <Field name="fieldCollectionMethods">
-              <Field name="fieldCollectionMethod" />
-            </Field>
-
-            <Field name="fieldCollectionPlace" />
-
-            <Field name="fieldCollectionSources">
-              <Field name="fieldCollectionSource" />
-            </Field>
-
-            <Field name="fieldCollectors">
-              <Field name="fieldCollector" />
-            </Field>
-          </Col>
-
-          <Col>
-            <Field name="fieldCollectionNumber" />
-
-            <Field name="fieldColEventNames">
-              <Field name="fieldColEventName" />
-            </Field>
-
-            <Field name="fieldCollectionFeature" />
-            <Field name="fieldCollectionNote" />
-          </Col>
-        </Row>
-      </Panel>
-
       <Panel name="hierarchy" collapsible collapsed>
         <Field name="relation-list-item" subpath="rel:relations-common-list" />
       </Panel>
@@ -588,10 +747,10 @@ const template = (configContext) => {
 export default (configContext) => ({
   messages: defineMessages({
     name: {
-      id: 'form.collectionobject.default.name',
-      defaultMessage: 'Standard Template',
+      id: 'form.collectionobject.timebased.name',
+      defaultMessage: 'Time-Based Media Template',
     },
   }),
-  sortOrder: 0,
+  sortOrder: 3,
   template: template(configContext),
 });
