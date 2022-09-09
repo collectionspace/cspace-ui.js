@@ -537,7 +537,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'suppliedgender',
+                source: 'genders',
               },
             },
           },
@@ -760,11 +760,11 @@ export default (configContext) => {
                 [config]: {
                   messages: defineMessages({
                     fullName: {
-                      id: 'field.persons_common.suppliedPronouns.fullName',
+                      id: 'field.persons_common.suppliedPronoun.fullName',
                       defaultMessage: 'Pronoun supplied',
                     },
                     name: {
-                      id: 'field.persons_common.suppliedPronouns.name',
+                      id: 'field.persons_common.suppliedPronoun.name',
                       defaultMessage: 'Supplied',
                     },
                   }),
@@ -791,7 +791,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -874,7 +877,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -957,7 +963,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -1040,7 +1049,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -1123,7 +1135,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -1199,7 +1214,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -1273,7 +1291,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
@@ -1348,7 +1369,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'userestriction',
+                  },
                 },
               },
             },
