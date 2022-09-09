@@ -97,10 +97,6 @@ const template = (configContext) => {
 
       <Subrecord name="contact" />
 
-      <Panel name="hierarchy" collapsible collapsed>
-        <Field name="relation-list-item" subpath="rel:relations-common-list" />
-      </Panel>
-
       <Panel name="supplied" collapsible collapsed>
         <Field name="pronounGroupList">
           <Field name="pronounGroup">
@@ -201,6 +197,10 @@ const template = (configContext) => {
             </Panel>
           </Field>
         </Field>
+      </Panel>
+
+      <Panel name="hierarchy" collapsible collapsed>
+        <Field name="relation-list-item" subpath="rel:relations-common-list" />
       </Panel>
 
     </Field>
