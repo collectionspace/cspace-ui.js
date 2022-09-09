@@ -19,7 +19,7 @@ const template = (configContext) => {
 
   return (
     <Field name="document">
-      <Panel name="info" collapsible collapsed>
+      <Panel name="info" collapsible>
         <Field name="personTermGroupList">
           <Field name="personTermGroup">
             <Panel>
