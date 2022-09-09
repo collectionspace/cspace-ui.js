@@ -535,7 +535,7 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: TermPickerInput,
+              type: OptionPickerInput,
               props: {
                 source: 'genders',
               },
