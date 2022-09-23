@@ -5784,9 +5784,9 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TermPickerInput,
+                  type: AutocompleteInput,
                   props: {
-                    source: '',
+                    source: 'place/local,place/shared',
                   },
                 },
               },
@@ -5849,7 +5849,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.rightsInGroup.name',
-                  defaultMessage: 'message',
+                  defaultMessage: 'Rights in',
                 },
               }),
               repeating: true,
