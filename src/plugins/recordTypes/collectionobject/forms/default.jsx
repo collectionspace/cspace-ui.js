@@ -7,6 +7,7 @@ const template = (configContext) => {
 
   const {
     Col,
+    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -578,10 +579,6 @@ const template = (configContext) => {
         </Row>
       </Panel>
 
-      <Panel name="hierarchy" collapsible collapsed>
-        <Field name="relation-list-item" subpath="rel:relations-common-list" />
-      </Panel>
-
       <Panel name="rights" collapsible collapsed>
         <Field name="rightsGroupList">
           <Field name="rightsGroup">
@@ -644,6 +641,10 @@ const template = (configContext) => {
             </Panel>
           </Field>
         </Field>
+      </Panel>
+
+      <Panel name="hierarchy" collapsible collapsed>
+        <Field name="relation-list-item" subpath="rel:relations-common-list" />
       </Panel>
     </Field>
   );
