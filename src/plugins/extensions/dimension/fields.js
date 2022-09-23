@@ -249,8 +249,8 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               fullName: {
-                id: 'ield.ext.dimension.measuredPartNote.fullName',
-                defaultMessage: 'Measurement dimension part note',
+                id: 'field.ext.dimension.measuredPartNote.fullName',
+                defaultMessage: 'Dimension note',
               },
               name: {
                 id: 'field.ext.dimension.measuredPartNote.name',
