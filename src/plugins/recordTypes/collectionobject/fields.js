@@ -5784,9 +5784,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: AutocompleteInput,
+                  type: OptionPickerInput,
                   props: {
-                    source: 'place/local,place/shared',
+                    autoComplete: 'cspace-country',
+                    source: 'addressCountries',
                   },
                 },
               },
