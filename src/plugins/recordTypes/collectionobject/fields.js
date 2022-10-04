@@ -5965,7 +5965,7 @@ export default (configContext) => {
                   view: {
                     type: TermPickerInput,
                     props: {
-                      source: 'rightsinrestrictions',
+                      source: 'rightsinrestriction',
                     },
                   },
                 },
