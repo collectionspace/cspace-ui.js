@@ -8,6 +8,7 @@ v7.0.0 adds support for CollectionSpace 7.1.
 
 - Object record:
   - Fields for time-based media have been added. These fields exist in CollectionSpace 7.1, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, the new fields should be hidden; otherwise, any values entered will not be saved.
+  - Fields for copyright information have been added. These fields exist in CollectionSpace 7.1, but not in prior versions of CollectionSpace. To use this version of cspace-ui with an older version of the CollectionSpace server, the new fields should be hidden; otherwise, any values entered will not be saved.
 
 ## v6.0.0
 
