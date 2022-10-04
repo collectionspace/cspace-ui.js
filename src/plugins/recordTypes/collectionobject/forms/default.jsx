@@ -593,10 +593,10 @@ const template = (configContext) => {
               <Cols>
                 <Col>
                   <Field name="rightBeginDate" />
-                  <Field name="rightJurisdiction" />
+                  <Field name="rightEndDate" />
                 </Col>
                 <Col>
-                  <Field name="rightEndDate" />
+                  <Field name="rightJurisdiction" />
                   <Field name="standardizedRightStatement" />
                 </Col>
               </Cols>
