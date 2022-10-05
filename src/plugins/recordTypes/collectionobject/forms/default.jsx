@@ -583,23 +583,27 @@ const template = (configContext) => {
         <Field name="rightsGroupList">
           <Field name="rightsGroup">
             <Panel>
-              <Field name="rightType" />
+              <Row>
+                <Field name="rightType" />
+
+                <Row>
+                  <Field name="rightBeginDate" />
+                  <Field name="rightEndDate" />
+                </Row>
+              </Row>
+
               <Field name="rightHolderGroupList">
                 <Field name="rightHolderGroup">
                   <Field name="rightHolder" />
                   <Field name="rightHolderContact" />
                 </Field>
               </Field>
-              <Cols>
-                <Col>
-                  <Field name="rightBeginDate" />
-                  <Field name="rightEndDate" />
-                </Col>
-                <Col>
-                  <Field name="rightJurisdiction" />
-                  <Field name="standardizedRightStatement" />
-                </Col>
-              </Cols>
+
+              <Row>
+                <Field name="rightJurisdiction" />
+                <Field name="standardizedRightStatement" />
+              </Row>
+
               <Field name="rightStatement" />
               <Field name="rightNote" />
             </Panel>
@@ -611,32 +615,35 @@ const template = (configContext) => {
         <Field name="rightsInGroupList">
           <Field name="rightsInGroup">
             <Panel>
-              <Field name="rightInTypes">
-                <Field name="rightInType" />
-              </Field>
-              <Cols>
-                <Col>
-                  <Field name="rightBeginDate" />
-                </Col>
-                <Col>
-                  <Field name="rightEndDate" />
-                </Col>
-              </Cols>
+              <Row>
+                <Field name="rightInTypes">
+                  <Field name="rightInType" />
+                </Field>
+
+                <Row>
+                  <Field name="rightInBeginDate" />
+                  <Field name="rightInEndDate" />
+                </Row>
+              </Row>
+
               <Row>
                 <Field name="agreementSent" />
                 <Field name="agreementReceived" />
                 <Field name="agreementSigned" />
               </Row>
+
               <Cols>
                 <Col>
                   <Field name="rightInRestrictions">
                     <Field name="rightInRestriction" />
                   </Field>
                 </Col>
+
                 <Col>
                   <Field name="rightReproductionStatement" />
                 </Col>
               </Cols>
+
               <Field name="rightInNote" />
             </Panel>
           </Field>

@@ -5658,12 +5658,6 @@ export default (configContext) => {
           },
           rightsGroup: {
             [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.collectionobjects_common.rightsGroup.name',
-                  defaultMessage: 'Right',
-                },
-              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -5847,12 +5841,6 @@ export default (configContext) => {
           },
           rightsInGroup: {
             [config]: {
-              messages: defineMessages({
-                name: {
-                  id: 'field.collectionobjects_common.rightsInGroup.name',
-                  defaultMessage: 'Rights in',
-                },
-              }),
               repeating: true,
               view: {
                 type: CompoundInput,
@@ -5870,7 +5858,7 @@ export default (configContext) => {
                   messages: defineMessages({
                     name: {
                       id: 'field.collectionobjects_common.rightInType.name',
-                      defaultMessage: 'Rights in type',
+                      defaultMessage: 'Right in type',
                     },
                   }),
                   view: {
@@ -5887,7 +5875,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightInBeginDate.name',
-                    defaultMessage: 'Rights in begin date',
+                    defaultMessage: 'Right in begin date',
                   },
                 }),
                 view: {
@@ -5900,7 +5888,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightInEndDate.name',
-                    defaultMessage: 'Rights in end date',
+                    defaultMessage: 'Right in end date',
                   },
                 }),
                 view: {
@@ -5911,6 +5899,10 @@ export default (configContext) => {
             agreementSent: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.agreementSent.fullName',
+                    defaultMessage: 'Right in agreement sent',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.agreementSent.name',
                     defaultMessage: 'Agreement sent',
@@ -5924,6 +5916,10 @@ export default (configContext) => {
             agreementReceived: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.agreementReceived.fullName',
+                    defaultMessage: 'Right in agreement received',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.agreementReceived.name',
                     defaultMessage: 'Agreement received',
@@ -5937,6 +5933,10 @@ export default (configContext) => {
             agreementSigned: {
               [config]: {
                 messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.agreementSigned.fullName',
+                    defaultMessage: 'Right in agreement signed',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.agreementSigned.name',
                     defaultMessage: 'Agreement signed',
@@ -5957,6 +5957,10 @@ export default (configContext) => {
                 [config]: {
                   repeating: true,
                   messages: defineMessages({
+                    fullName: {
+                      id: 'field.collectionobjects_common.rightInRestriction.fullName',
+                      defaultMessage: 'Right in restriction',
+                    },
                     name: {
                       id: 'field.collectionobjects_common.rightInRestriction.name',
                       defaultMessage: 'Restriction',
