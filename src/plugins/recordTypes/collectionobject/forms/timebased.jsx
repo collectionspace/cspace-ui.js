@@ -510,13 +510,13 @@ const template = (configContext) => {
           <Col>
             <Row>
               <Col>
-                <Field name="libraries">
-                  <Field name="library" />
+                <Field name="softwareLibraries">
+                  <Field name="softwareLibrary" />
                 </Field>
               </Col>
               <Col>
-                <Field name="compilers">
-                  <Field name="compiler" />
+                <Field name="codeCompilers">
+                  <Field name="codeCompiler" />
                 </Field>
               </Col>
             </Row>

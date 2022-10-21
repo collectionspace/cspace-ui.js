@@ -4503,17 +4503,17 @@ export default (configContext) => {
             },
           },
         },
-        libraries: {
+        softwareLibraries: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          library: {
+          softwareLibrary: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.collectionobjects_common.library.name',
+                  id: 'field.collectionobjects_common.softwareLibrary.name',
                   defaultMessage: 'Library',
                 },
               }),
@@ -4527,17 +4527,17 @@ export default (configContext) => {
             },
           },
         },
-        compilers: {
+        codeCompilers: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          compiler: {
+          codeCompiler: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.collectionobjects_common.compiler.name',
+                  id: 'field.collectionobjects_common.codeCompiler.name',
                   defaultMessage: 'Compiler',
                 },
               }),
