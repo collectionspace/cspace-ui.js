@@ -4403,15 +4403,15 @@ export default (configContext) => {
                 },
               },
             },
-            programmingLanguage: {
+            programmingLanguageName: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.programmingLanguage.fullName',
+                    id: 'field.collectionobjects_common.programmingLanguageName.fullName',
                     defaultMessage: 'Programming language name',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.programmingLanguage.name',
+                    id: 'field.collectionobjects_common.programmingLanguageName.name',
                     defaultMessage: 'Name',
                   },
                 }),
