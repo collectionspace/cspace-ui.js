@@ -4112,18 +4112,18 @@ export default (configContext) => {
             },
           },
         },
-        objectComponentStatus: {
+        variableMediaComponentStatus: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.collectionobjects_common.objectComponentStatus.name',
-                defaultMessage: 'Component status',
+                id: 'field.collectionobjects_common.variableMediaComponentStatus.name',
+                defaultMessage: 'Variable media component status',
               },
             }),
             view: {
               type: TermPickerInput,
               props: {
-                source: 'componentstatus',
+                source: 'vmcomponentstatus',
               },
             },
           },

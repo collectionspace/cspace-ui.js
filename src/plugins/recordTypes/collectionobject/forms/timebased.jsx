@@ -132,7 +132,7 @@ const template = (configContext) => {
 
         <Row>
           <Field name="objectSuppliedBy" />
-          <Field name="objectComponentStatus" />
+          <Field name="variableMediaComponentStatus" />
         </Row>
 
         <Field name="credentialGroupList">
