@@ -4059,6 +4059,7 @@ export default (configContext) => {
             },
             significanceAssignedDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.significanceAssignedDate.fullName',
@@ -5633,6 +5634,7 @@ export default (configContext) => {
             },
             checksumDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.checksumDate.fullName',
@@ -5745,6 +5747,7 @@ export default (configContext) => {
             },
             rightBeginDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightBeginDate.name',
@@ -5758,6 +5761,7 @@ export default (configContext) => {
             },
             rightEndDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightEndDate.name',
@@ -5872,6 +5876,7 @@ export default (configContext) => {
             },
             rightInBeginDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightInBeginDate.name',
@@ -5885,6 +5890,7 @@ export default (configContext) => {
             },
             rightInEndDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightInEndDate.name',
@@ -5898,6 +5904,7 @@ export default (configContext) => {
             },
             agreementSent: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.agreementSent.fullName',
@@ -5915,6 +5922,7 @@ export default (configContext) => {
             },
             agreementReceived: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.agreementReceived.fullName',
@@ -5932,6 +5940,7 @@ export default (configContext) => {
             },
             agreementSigned: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.agreementSigned.fullName',
