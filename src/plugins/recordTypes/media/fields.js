@@ -450,6 +450,7 @@ export default (configContext) => {
             },
             checksumDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.media_common.checksumDate.fullName',
