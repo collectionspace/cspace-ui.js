@@ -1199,7 +1199,6 @@ export default (configContext) => {
                     defaultMessage: 'Supplied',
                   },
                 }),
-                repeating: true,
                 view: {
                   type: AutocompleteInput,
                   props: {
@@ -1288,7 +1287,6 @@ export default (configContext) => {
                     defaultMessage: 'Supplied',
                   },
                 }),
-                repeating: true,
                 view: {
                   type: StructuredDateInput,
                 },
