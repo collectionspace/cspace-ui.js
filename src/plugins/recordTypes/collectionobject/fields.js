@@ -1876,6 +1876,10 @@ export default (configContext) => {
                     id: 'field.collectionobjects_common.inscriptionContentDateGroup.fullName',
                     defaultMessage: 'Textual inscription date',
                   },
+                  groupName: {
+                    id: 'field.collectionobjects_common.inscriptionContentDateGroup.groupName',
+                    defaultMessage: 'Date',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentDateGroup.name',
                     defaultMessage: 'Date',
@@ -2089,6 +2093,10 @@ export default (configContext) => {
                   fullName: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.fullName',
                     defaultMessage: 'Non-textual inscription date',
+                  },
+                  groupName: {
+                    id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.groupName',
+                    defaultMessage: 'Date',
                   },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.name',
