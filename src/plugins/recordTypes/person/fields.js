@@ -23,6 +23,7 @@ export default (configContext) => {
 
   const {
     DATA_TYPE_BOOL,
+    DATA_TYPE_DATE,
     DATA_TYPE_STRUCTURED_DATE,
   } = configContext.dataTypes;
 
@@ -735,6 +736,7 @@ export default (configContext) => {
             },
             declinedToAnswerPronoun: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerPronoun.fullName',
@@ -821,6 +823,7 @@ export default (configContext) => {
             },
             declinedToAnswerGender: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerGender.fullName',
@@ -907,6 +910,7 @@ export default (configContext) => {
             },
             declinedToAnswerRace: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerRace.fullName',
@@ -993,6 +997,7 @@ export default (configContext) => {
             },
             declinedToAnswerEthnicity: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerEthnicity.fullName',
@@ -1079,6 +1084,7 @@ export default (configContext) => {
             },
             declinedToAnswerSexuality: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerSexuality.fullName',
@@ -1165,6 +1171,7 @@ export default (configContext) => {
             },
             declinedToAnswerBirthPlace: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerBirthPlace.fullName',
@@ -1248,6 +1255,7 @@ export default (configContext) => {
             },
             declinedToAnswerBirthDate: {
               [config]: {
+                dataType: DATA_TYPE_BOOL,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerBirthDate.fullName',
@@ -1350,6 +1358,7 @@ export default (configContext) => {
             },
             informationDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.informationDate.fullName',
