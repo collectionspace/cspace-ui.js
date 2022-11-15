@@ -1223,17 +1223,21 @@ export default (configContext) => {
             },
           },
         },
-        birthDateGroupList: {
+        suppliedBirthDateGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          birthDateGroup: {
+          suppliedBirthDateGroup: {
             [config]: {
               messages: defineMessages({
+                fullName: {
+                  id: 'field.persons_common.suppliedBirthDateGroup.fullName',
+                  defaultMessage: 'Supplied birth date',
+                },
                 name: {
-                  id: 'field.persons_common.birthDateGroup.name',
+                  id: 'field.persons_common.suppliedBirthDateGroup.name',
                   defaultMessage: 'Birth date',
                 },
               }),
@@ -1247,7 +1251,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerBirthDate.fullName',
-                    defaultMessage: 'Birth date declined to answer',
+                    defaultMessage: 'Supplied birth date declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerBirthDate.name',
@@ -1259,15 +1263,20 @@ export default (configContext) => {
                 },
               },
             },
-            suppliedBirthDate: {
+            suppliedStructuredBirthDateGroup: {
               [config]: {
+                dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.persons_common.suppliedBirthDate.fullName',
-                    defaultMessage: 'Birth date supplied',
+                    id: 'field.persons_common.suppliedStructuredBirthDateGroup.fullName',
+                    defaultMessage: 'Supplied structured birth date',
+                  },
+                  groupName: {
+                    id: 'field.persons_common.suppliedStructuredBirthDateGroup.groupName',
+                    defaultMessage: 'Date',
                   },
                   name: {
-                    id: 'field.persons_common.suppliedBirthDate.name',
+                    id: 'field.persons_common.suppliedStructuredBirthDateGroup.name',
                     defaultMessage: 'Supplied',
                   },
                 }),
@@ -1275,15 +1284,15 @@ export default (configContext) => {
                 view: {
                   type: StructuredDateInput,
                 },
-                ...extensions.structuredDate.fields,
               },
+              ...extensions.structuredDate.fields,
             },
             useRestrictionBirthDate: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionBirthDate.fullName',
-                    defaultMessage: 'Birth date use restriction',
+                    defaultMessage: 'Supplied birth date use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionBirthDate.name',

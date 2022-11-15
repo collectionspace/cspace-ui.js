@@ -174,12 +174,12 @@ const template = (configContext) => {
             </Panel>
           </Field>
         </Field>
-        <Field name="birthDateGroupList">
-          <Field name="birthDateGroup">
+        <Field name="suppliedBirthDateGroupList">
+          <Field name="suppliedBirthDateGroup">
             <Panel>
               <Row>
                 <Field name="declinedToAnswerBirthDate" />
-                <Field name="suppliedBirthDate" />
+                <Field name="suppliedStructuredBirthDateGroup" />
                 <Field name="useRestrictionBirthDate" />
               </Row>
             </Panel>
