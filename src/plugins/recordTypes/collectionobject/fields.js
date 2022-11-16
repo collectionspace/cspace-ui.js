@@ -1876,6 +1876,10 @@ export default (configContext) => {
                     id: 'field.collectionobjects_common.inscriptionContentDateGroup.fullName',
                     defaultMessage: 'Textual inscription date',
                   },
+                  groupName: {
+                    id: 'field.collectionobjects_common.inscriptionContentDateGroup.groupName',
+                    defaultMessage: 'Date',
+                  },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionContentDateGroup.name',
                     defaultMessage: 'Date',
@@ -2089,6 +2093,10 @@ export default (configContext) => {
                   fullName: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.fullName',
                     defaultMessage: 'Non-textual inscription date',
+                  },
+                  groupName: {
+                    id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.groupName',
+                    defaultMessage: 'Date',
                   },
                   name: {
                     id: 'field.collectionobjects_common.inscriptionDescriptionDateGroup.name',
@@ -4059,6 +4067,7 @@ export default (configContext) => {
             },
             significanceAssignedDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.significanceAssignedDate.fullName',
@@ -5633,6 +5642,7 @@ export default (configContext) => {
             },
             checksumDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.checksumDate.fullName',
@@ -5745,6 +5755,7 @@ export default (configContext) => {
             },
             rightBeginDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightBeginDate.name',
@@ -5758,6 +5769,7 @@ export default (configContext) => {
             },
             rightEndDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightEndDate.name',
@@ -5872,6 +5884,7 @@ export default (configContext) => {
             },
             rightInBeginDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightInBeginDate.name',
@@ -5885,6 +5898,7 @@ export default (configContext) => {
             },
             rightInEndDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   name: {
                     id: 'field.collectionobjects_common.rightInEndDate.name',
@@ -5898,6 +5912,7 @@ export default (configContext) => {
             },
             agreementSent: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.agreementSent.fullName',
@@ -5915,6 +5930,7 @@ export default (configContext) => {
             },
             agreementReceived: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.agreementReceived.fullName',
@@ -5932,6 +5948,7 @@ export default (configContext) => {
             },
             agreementSigned: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.collectionobjects_common.agreementSigned.fullName',

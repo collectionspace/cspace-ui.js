@@ -114,6 +114,7 @@ export default (configContext) => {
             },
             actionStartDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.actionStartDate.fullName',
@@ -131,6 +132,7 @@ export default (configContext) => {
             },
             actionEndDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.actionEndDate.fullName',
@@ -571,6 +573,7 @@ export default (configContext) => {
             },
             approvalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.approvalDate.fullName',
@@ -669,6 +672,7 @@ export default (configContext) => {
             },
             exhibitionApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.exhibitionApprovalDate.fullName',
@@ -747,6 +751,7 @@ export default (configContext) => {
             },
             installedEquipmentApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.installedEquipmentApprovalDate.fullName',
@@ -825,6 +830,7 @@ export default (configContext) => {
             },
             technicalSetupApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.technicalSetupApprovalDate.fullName',
@@ -903,6 +909,7 @@ export default (configContext) => {
             },
             modificationApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.modificationApprovalDate.fullName',
@@ -981,6 +988,7 @@ export default (configContext) => {
             },
             installationApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.installationApprovalDate.fullName',
@@ -1082,6 +1090,7 @@ export default (configContext) => {
             },
             maintenanceDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.maintenanceDate.fullName',
@@ -1180,6 +1189,7 @@ export default (configContext) => {
             },
             securityApprovalDate: {
               [config]: {
+                dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
                     id: 'field.iterationreports_common.securityApprovalDate.fullName',
