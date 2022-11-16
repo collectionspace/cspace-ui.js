@@ -740,7 +740,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerPronoun.fullName',
-                    defaultMessage: 'Pronoun declined to answer',
+                    defaultMessage: 'Pronoun supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerPronoun.name',
@@ -785,7 +785,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionPronoun.fullName',
-                    defaultMessage: 'Pronoun use restriction',
+                    defaultMessage: 'Pronoun supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionPronoun.name',
@@ -827,7 +827,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerGender.fullName',
-                    defaultMessage: 'Gender declined to answer',
+                    defaultMessage: 'Gender supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerGender.name',
@@ -872,7 +872,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionGender.fullName',
-                    defaultMessage: 'Gender use restriction',
+                    defaultMessage: 'Gender supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionGender.name',
@@ -914,7 +914,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerRace.fullName',
-                    defaultMessage: 'Race declined to answer',
+                    defaultMessage: 'Race supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerRace.name',
@@ -959,7 +959,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionRace.fullName',
-                    defaultMessage: 'Race use restriction',
+                    defaultMessage: 'Race supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionRace.name',
@@ -1001,7 +1001,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerEthnicity.fullName',
-                    defaultMessage: 'Ethnicity declined to answer',
+                    defaultMessage: 'Ethnicity supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerEthnicity.name',
@@ -1046,7 +1046,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionEthnicity.fullName',
-                    defaultMessage: 'Ethnicity use restriction',
+                    defaultMessage: 'Ethnicity supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionEthnicity.name',
@@ -1088,7 +1088,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerSexuality.fullName',
-                    defaultMessage: 'Sexuality declined to answer',
+                    defaultMessage: 'Sexuality supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerSexuality.name',
@@ -1133,7 +1133,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionSexuality.fullName',
-                    defaultMessage: 'Sexuality use restriction',
+                    defaultMessage: 'Sexuality supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionSexuality.name',
@@ -1175,7 +1175,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerBirthPlace.fullName',
-                    defaultMessage: 'Birth place declined to answer',
+                    defaultMessage: 'Birth place supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerBirthPlace.name',
@@ -1212,7 +1212,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionBirthPlace.fullName',
-                    defaultMessage: 'Birth place use restriction',
+                    defaultMessage: 'Birth place supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionBirthPlace.name',
@@ -1258,7 +1258,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.declinedToAnswerBirthDate.fullName',
-                    defaultMessage: 'Supplied birth date declined to answer',
+                    defaultMessage: 'Birth date supplied declined to answer',
                   },
                   name: {
                     id: 'field.persons_common.declinedToAnswerBirthDate.name',
@@ -1276,7 +1276,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.suppliedStructuredBirthDateGroup.fullName',
-                    defaultMessage: 'Supplied structured birth date',
+                    defaultMessage: 'Birth date supplied',
                   },
                   groupName: {
                     id: 'field.persons_common.suppliedStructuredBirthDateGroup.groupName',
@@ -1298,7 +1298,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.persons_common.useRestrictionBirthDate.fullName',
-                    defaultMessage: 'Supplied birth date use restriction',
+                    defaultMessage: 'Birth date supplied use restriction',
                   },
                   name: {
                     id: 'field.persons_common.useRestrictionBirthDate.name',
