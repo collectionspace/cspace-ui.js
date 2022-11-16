@@ -22,6 +22,7 @@ export default (configContext) => {
   } = configContext.config;
 
   const {
+    DATA_TYPE_DATE,
     DATA_TYPE_STRUCTURED_DATE,
   } = configContext.dataTypes;
 

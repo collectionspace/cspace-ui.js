@@ -20,6 +20,10 @@ export default (configContext) => {
   } = configContext.config;
 
   const {
+    DATA_TYPE_DATE,
+  } = configContext.dataTypes;
+
+  const {
     validateNotInUse,
   } = configContext.validationHelpers;
 
