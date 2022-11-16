@@ -1280,7 +1280,7 @@ export default (configContext) => {
                   },
                   groupName: {
                     id: 'field.persons_common.suppliedStructuredBirthDateGroup.groupName',
-                    defaultMessage: 'Date',
+                    defaultMessage: 'Supplied',
                   },
                   name: {
                     id: 'field.persons_common.suppliedStructuredBirthDateGroup.name',
