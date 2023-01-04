@@ -419,6 +419,19 @@ export default (configContext) => {
             },
           },
         },
+        creditLine: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansout_common.creditLine.name',
+                defaultMessage: 'Credit line',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
       },
     },
   };
