@@ -443,6 +443,19 @@ export default (configContext) => {
             },
           },
         },
+        creditLine: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.loansin_common.creditLine.name',
+                defaultMessage: 'Credit line',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
       },
     },
   };
