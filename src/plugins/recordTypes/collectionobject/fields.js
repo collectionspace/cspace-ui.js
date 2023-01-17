@@ -1134,6 +1134,26 @@ export default (configContext) => {
                 },
               },
             },
+            materialControlled: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.materialControlled.fullName',
+                    defaultMessage: 'Material controlled',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.materialControlled.name',
+                    defaultMessage: 'Controlled',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'concept/material',
+                  },
+                },
+              },
+            },
           },
         },
         physicalDescription: {
