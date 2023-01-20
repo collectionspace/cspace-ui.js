@@ -405,6 +405,14 @@ const handleRecordSaveFulfilled = (state, action) => {
     });
   }
 
+  // avoid clearing any subrecords for the current page
+  const recordPageSubrecord = nextState.getIn([recordPagePrimaryCsid, 'subrecord']);
+  if (recordPageSubrecord) {
+    recordPageSubrecord.valueSeq().forEach((subrecordCsid) => {
+      persistCsids.push(subrecordCsid);
+    });
+  }
+
   persistCsids = new Set(persistCsids.filter(
     (value) => (value !== null && typeof value !== 'undefined'),
   ));
