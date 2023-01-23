@@ -2230,6 +2230,7 @@ describe('record reducer', () => {
     it('should clear state for any subrecords', () => {
       const csid = '1234';
       const subrecordCsid = 'abcd';
+      const clearSubrecords = true;
 
       const state = reducer(Immutable.fromJS({
         [csid]: {
@@ -2249,6 +2250,7 @@ describe('record reducer', () => {
         type: CLEAR_RECORD,
         meta: {
           csid,
+          clearSubrecords,
         },
       });
 

@@ -1305,9 +1305,10 @@ export const detachSubrecord = (config, csid, csidField, subrecordName, subrecor
   },
 });
 
-export const clearRecord = (csid) => ({
+export const clearRecord = (csid, clearSubrecords) => ({
   type: CLEAR_RECORD,
   meta: {
     csid,
+    clearSubrecords,
   },
 });

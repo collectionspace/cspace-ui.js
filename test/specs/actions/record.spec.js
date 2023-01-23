@@ -401,12 +401,14 @@ describe('record action creator', () => {
   describe('clearRecord', () => {
     it('should return a CLEAR_RECORD action', () => {
       const csid = '1234';
+      const clearSubrecords = true;
 
-      clearRecord(csid).should
+      clearRecord(csid, true).should
         .deep.equal({
           type: CLEAR_RECORD,
           meta: {
             csid,
+            clearSubrecords,
           },
         });
     });
