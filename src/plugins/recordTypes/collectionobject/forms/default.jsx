@@ -161,6 +161,7 @@ const template = (configContext) => {
         <Field name="materialGroupList">
           <Field name="materialGroup">
             <Field name="material" />
+            <Field name="materialControlled" />
             <Field name="materialComponent" />
             <Field name="materialComponentNote" />
             <Field name="materialName" />
