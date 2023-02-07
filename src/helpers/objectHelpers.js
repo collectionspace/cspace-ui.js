@@ -25,7 +25,9 @@ export const flatten = (object, maxDepth, parentPath, currentDepth = 1) => {
     const path = parentPath ? `${parentPath}.${key}` : key;
     const value = object[key];
 
-    if (typeof value === 'object' && (typeof maxDepth === 'undefined' || currentDepth < maxDepth)) {
+    if (value !== null
+      && typeof value === 'object'
+      && (typeof maxDepth === 'undefined' || currentDepth < maxDepth)) {
       Object.assign(flattened, flatten(value, maxDepth, path, currentDepth + 1));
     } else {
       flattened[path] = value;
