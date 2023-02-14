@@ -639,6 +639,22 @@ export default (configContext) => {
             },
           },
         },
+        nameNote: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.organizations_common.nameNote.name',
+                defaultMessage: 'Name note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
       // TODO: Use the embedded contacts_common (available as of 5.1) to render contact info,
       // instead of the configured subrecord. For now just make it not cloneable, so that a
