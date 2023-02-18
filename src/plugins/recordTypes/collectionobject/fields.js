@@ -706,6 +706,26 @@ export default (configContext) => {
                 },
               },
             },
+            objectNameControlled: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectNameControlled.fullName',
+                    defaultMessage: 'Object name controlled',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectNameControlled.name',
+                    defaultMessage: 'Controlled',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'concept/nomenclature',
+                  },
+                },
+              },
+            },
             objectNameCurrency: {
               [config]: {
                 messages: defineMessages({
