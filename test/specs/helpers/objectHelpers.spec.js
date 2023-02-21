@@ -192,5 +192,30 @@ describe('objectHelpers', () => {
         'key4.key6': true,
       });
     });
+
+    it('should handle null values', () => {
+      const obj1 = {
+        key1: 'foo',
+        key2: null,
+        key3: {
+          key4: 'bar',
+          key5: null,
+        },
+      };
+
+      const obj2 = {
+        key1: 'foo',
+        key2: null,
+        key3: {
+          key4: 'baz',
+          key5: 'boz',
+        },
+      };
+
+      diff(obj1, obj2).should.deep.equal({
+        'key3.key4': true,
+        'key3.key5': true,
+      });
+    });
   });
 });
