@@ -141,7 +141,7 @@ export default class RecordPage extends Component {
       // relations will be included.
 
       if (clearRecord) {
-        clearRecord(dataCsid);
+        clearRecord(dataCsid, true);
       }
 
       history.replace({

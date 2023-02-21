@@ -65,7 +65,7 @@ const setCurrentData = (state, csid, data) => state.setIn([csid, 'data', 'curren
 const getBaselineData = (state, csid) => state.getIn([csid, 'data', 'baseline']);
 const setBaselineData = (state, csid, data) => state.setIn([csid, 'data', 'baseline'], data);
 
-const clear = (state, csid) => {
+const clear = (state, csid, clearSubrecords = false) => {
   const recordState = state.get(csid);
 
   if (!recordState) {
@@ -76,9 +76,13 @@ const clear = (state, csid) => {
 
   const subrecord = recordState.get('subrecord');
 
-  if (subrecord) {
+  if (clearSubrecords && subrecord) {
     nextState = subrecord.reduce(
-      (reducedState, subrecordCsid) => clear(reducedState, subrecordCsid), nextState,
+      (reducedState, subrecordCsid) => clear(
+        reducedState,
+        subrecordCsid,
+        clearSubrecords,
+      ), nextState,
     );
   }
 
@@ -401,6 +405,14 @@ const handleRecordSaveFulfilled = (state, action) => {
 
   if (subrecord) {
     subrecord.valueSeq().forEach((subrecordCsid) => {
+      persistCsids.push(subrecordCsid);
+    });
+  }
+
+  // avoid clearing any subrecords for the current page
+  const recordPageSubrecord = nextState.getIn([recordPagePrimaryCsid, 'subrecord']);
+  if (recordPageSubrecord) {
+    recordPageSubrecord.valueSeq().forEach((subrecordCsid) => {
       persistCsids.push(subrecordCsid);
     });
   }
@@ -820,7 +832,7 @@ export default (state = Immutable.Map(), action) => {
     case DETACH_SUBRECORD:
       return detachSubrecord(state, action);
     case CLEAR_RECORD:
-      return clear(state, action.meta.csid);
+      return clear(state, action.meta.csid, action.meta.clearSubrecords);
     case LOGIN_FULFILLED:
       return handleLoginFulfilled(state, action);
     case LOGOUT_FULFILLED:
