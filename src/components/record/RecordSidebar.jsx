@@ -77,6 +77,7 @@ export default function RecordSidebar(props) {
   let audit = null;
   let usedBy = null;
   let reports = null;
+  let groupReports = null;
   let batchJobs = null;
 
   if (!isAuthority && !isUtility && !isAudit) {
@@ -166,8 +167,21 @@ export default function RecordSidebar(props) {
         csid={csid}
         config={config}
         recordType={recordType}
+        mode="single"
       />
     );
+
+    if (recordType === 'group') {
+      groupReports = (
+        <RecordReportPanelContainer
+          color={panelColor}
+          csid={csid}
+          config={config}
+          recordType={recordType}
+          mode="group"
+        />
+      );
+    }
 
     batchJobs = (
       <RecordBatchPanelContainer
@@ -206,6 +220,7 @@ export default function RecordSidebar(props) {
       {relatedRecords}
       {usedBy}
       {reports}
+      {groupReports}
       {batchJobs}
       {audit}
     </div>

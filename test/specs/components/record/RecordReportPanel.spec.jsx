@@ -91,6 +91,7 @@ describe('RecordReportPanel', () => {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
+        mode="group"
       />,
     );
 
@@ -107,7 +108,7 @@ describe('RecordReportPanel', () => {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
-        mode: ['single', 'group'],
+        mode: 'group',
         p: 0,
         size: 5,
       },
@@ -139,6 +140,7 @@ describe('RecordReportPanel', () => {
         recordData={unsavedRecordData}
         recordType={recordType}
         perms={perms}
+        mode="group"
       />,
     );
 
@@ -159,6 +161,7 @@ describe('RecordReportPanel', () => {
         csid={csid}
         recordData={recordData}
         recordType={recordType}
+        mode="group"
       />,
     );
 
@@ -180,6 +183,7 @@ describe('RecordReportPanel', () => {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
+        mode="single"
       />,
     );
 
@@ -193,7 +197,7 @@ describe('RecordReportPanel', () => {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
-        mode: ['single', 'group'],
+        mode: 'single',
         p: 0,
         size: 5,
       },
@@ -208,6 +212,7 @@ describe('RecordReportPanel', () => {
         recordData={recordData}
         recordType={newRecordType}
         perms={perms}
+        mode="single"
       />,
     );
 
@@ -238,6 +243,7 @@ describe('RecordReportPanel', () => {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
+        mode="group"
       />,
     );
 
@@ -279,6 +285,7 @@ describe('RecordReportPanel', () => {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
+        mode="single"
       />,
     );
 
@@ -333,6 +340,7 @@ describe('RecordReportPanel', () => {
         recordType={recordType}
         perms={perms}
         openReport={openReport}
+        mode="single"
       />,
     );
 
@@ -386,6 +394,7 @@ describe('RecordReportPanel', () => {
         recordData={recordData}
         recordType={recordType}
         perms={perms}
+        mode="single"
       />,
     );
 
@@ -401,7 +410,7 @@ describe('RecordReportPanel', () => {
       recordType: 'report',
       searchQuery: {
         doctype: 'Group',
-        mode: ['single', 'group'],
+        mode: 'single',
         p: 0,
         size: 5,
       },

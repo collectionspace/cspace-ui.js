@@ -14,9 +14,13 @@ const messages = defineMessages({
     id: 'recordReportPanel.title',
     defaultMessage: 'Reports',
   },
+  group: {
+    id: 'recordReportPanel.group',
+    defaultMessage: 'Group Reports',
+  },
 });
 
-const getSearchDescriptor = (config, recordType) => {
+const getSearchDescriptor = (config, mode, recordType) => {
   const objectName = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
 
   return Immutable.fromJS({
@@ -25,7 +29,7 @@ const getSearchDescriptor = (config, recordType) => {
       p: 0,
       size: config.defaultSearchPanelSize || 5,
       doctype: objectName,
-      mode: (recordType === 'group' ? ['single', 'group'] : 'single'),
+      mode,
     },
   });
 };
@@ -36,6 +40,7 @@ const propTypes = {
     listTypes: PropTypes.object,
   }),
   csid: PropTypes.string,
+  mode: PropTypes.string,
   isRecordModified: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
@@ -56,12 +61,13 @@ export default class RecordReportPanel extends Component {
     this.handleSearchDescriptorChange = this.handleSearchDescriptorChange.bind(this);
 
     const {
+      mode,
       config,
       recordType,
     } = this.props;
 
     this.state = {
-      searchDescriptor: getSearchDescriptor(config, recordType),
+      searchDescriptor: getSearchDescriptor(config, mode, recordType),
     };
   }
 
@@ -72,13 +78,14 @@ export default class RecordReportPanel extends Component {
     } = this.props;
 
     const {
+      mode,
       config,
       recordType: nextRecordType,
     } = nextProps;
 
     if (nextRecordType !== recordType) {
       this.setState({
-        searchDescriptor: getSearchDescriptor(config, nextRecordType),
+        searchDescriptor: getSearchDescriptor(config, mode, nextRecordType),
       });
     }
   }
@@ -130,6 +137,7 @@ export default class RecordReportPanel extends Component {
       color,
       config,
       csid,
+      mode,
       isRecordModified,
       perms,
       recordData,
@@ -161,22 +169,22 @@ export default class RecordReportPanel extends Component {
           color={color}
           config={config}
           linkItems={false}
-          name={RECORD_REPORT_PANEL_SEARCH_NAME}
+          name={`${RECORD_REPORT_PANEL_SEARCH_NAME}-${mode}`}
           searchDescriptor={searchDescriptor}
           recordType={recordType}
           showSearchButton={false}
-          title={<FormattedMessage {...messages.title} />}
+          title={mode === 'group' ? <FormattedMessage {...messages.group} /> : <FormattedMessage {...messages.title} />}
           onItemClick={canRun ? this.handleItemClick : undefined}
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <InvocationModalContainer
-          allowedModes={recordType === 'group' ? ['group', 'single'] : undefined}
+          allowedModes={[mode]}
           config={config}
           csid={selectedItem && selectedItem.get('csid')}
           initialInvocationDescriptor={Immutable.Map({
             csid,
             recordType,
-            mode: (recordType === 'group' ? 'group' : 'single'),
+            mode,
           })}
           modeReadOnly={recordType !== 'group'}
           invocationTargetReadOnly
