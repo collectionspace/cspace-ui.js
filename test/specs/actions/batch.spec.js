@@ -137,7 +137,7 @@ describe('batch action creator', () => {
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'single',
+              mode,
               singleCSID: recordCsid,
             },
           });
@@ -190,7 +190,7 @@ describe('batch action creator', () => {
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'list',
+              mode,
               listCSIDs: {
                 csid: [
                   '1234',
@@ -245,7 +245,7 @@ describe('batch action creator', () => {
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'nocontext',
+              mode,
             },
           });
         });
@@ -298,7 +298,7 @@ describe('batch action creator', () => {
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'single',
+              mode,
               singleCSID: recordCsid,
               params: {
                 param: [

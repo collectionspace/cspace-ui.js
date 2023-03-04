@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 
 import {
   SHOW_NOTIFICATION,
@@ -51,57 +51,65 @@ const config = {
 const mockStore = configureMockStore([thunk]);
 
 describe('export action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('invoke', () => {
     const store = mockStore({
       user: Immutable.Map(),
     });
 
+    const invokeExportUrl = '/cspace-services/exports';
+
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should invoke a export in single mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const recordCsid = '1234';
       const recordType = 'group';
+      const mode = 'single';
+      const outputMIME = 'text/csv';
+      const includeFields = [ 'ns2:collectionspace_core/updatedAt' ];
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeExportUrl, async (req, res, ctx) => {
+          requestPayload = await req.json();
+
+          return res(ctx.json({}));
+        }),
+      );
 
       const invocationDescriptor = Immutable.fromJS({
         recordType,
         csid: recordCsid,
-        mode: 'single',
-        outputMIME: 'text/csv',
-        includeFields: [
-          'ns2:collectionspace_core/updatedAt',
-        ],
+        mode,
+        outputMIME,
+        includeFields,
       });
 
       return store.dispatch(invoke(config, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal('/cspace-services/exports');
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'single',
+              mode,
               singleCSID: recordCsid,
-              outputMIME: 'text/csv',
+              outputMIME,
               includeFields: {
                 field: [
                   'collectionspace_core:updatedAt',
@@ -113,41 +121,40 @@ describe('export action creator', () => {
     });
 
     it('should invoke a export in list mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const recordCsid = '1234';
       const recordType = 'group';
+      const mode = 'list';
+      const includeFields = [ 'ns2:groups_common/some/field/path' ];
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeExportUrl, async (req, res, ctx) => {
+          requestPayload = await req.json();
+
+          return res(ctx.json({}));
+        }),
+      );
 
       const invocationDescriptor = Immutable.fromJS({
         recordType,
         csid: [
           recordCsid,
         ],
-        mode: 'list',
-        includeFields: [
-          'ns2:groups_common/some/field/path',
-        ],
+        mode,
+        includeFields,
       });
 
       return store.dispatch(invoke(config, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal('/cspace-services/exports');
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'list',
+              mode,
               listCSIDs: {
                 csid: [
-                  '1234',
+                  recordCsid,
                 ],
               },
               includeFields: {
@@ -161,49 +168,47 @@ describe('export action creator', () => {
     });
 
     it('should invoke a export in nocontext mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const recordType = 'group';
+      const mode = 'nocontext';
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeExportUrl, async (req, res, ctx) => {
+          requestPayload = await req.json();
+
+          return res(ctx.json({}));
+        }),
+      );
 
       const invocationDescriptor = Immutable.Map({
         recordType,
-        mode: 'nocontext',
+        mode,
       });
 
       return store.dispatch(invoke(config, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal('/cspace-services/exports');
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'nocontext',
+              mode,
             },
           });
         });
     });
 
     it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', () => {
-      moxios.wait(() => {
-        moxios.requests.mostRecent().respondWith({
-          status: 400,
-          response: {},
-        });
-      });
-
       const recordType = 'group';
+      const mode = 'nocontext';
+
+      worker.use(
+        rest.post(invokeExportUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       const invocationDescriptor = Immutable.Map({
         recordType,
-        mode: 'nocontext',
+        mode,
       });
 
       return store.dispatch(invoke(config, invocationDescriptor))
@@ -224,12 +229,13 @@ describe('export action creator', () => {
       const recordType = 'group';
       const outputMIME = 'someMimeType';
       const includeField = 'someFieldPath';
+      const mode = 'list';
 
       const invocationDescriptor = Immutable.fromJS({
         outputMIME,
         recordType,
         csid: [recordCsid],
-        mode: 'list',
+        mode,
         includeFields: [includeField],
       });
 
@@ -254,12 +260,13 @@ describe('export action creator', () => {
       const recordType = 'group';
       const outputMIME = 'someMimeType';
       const includeField = 'someFieldPath';
+      const mode = 'list';
 
       const invocationDescriptor = Immutable.fromJS({
         outputMIME,
         recordType,
         csid: [recordCsid],
-        mode: 'list',
+        mode,
         includeFields: [includeField],
       });
 

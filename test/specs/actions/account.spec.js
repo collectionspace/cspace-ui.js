@@ -183,9 +183,7 @@ describe('account action creator', () => {
 
     it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', () => {
       worker.use(
-        rest.get(accountPermsUrl, (req, res, ctx) => {
-          return res(ctx.json(accountPermsPayload));
-        }),
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.json(accountPermsPayload))),
       );
 
       return store.dispatch(readAccountPerms(config))
@@ -248,9 +246,7 @@ describe('account action creator', () => {
 
     it('should dispatch ACCOUNT_ROLES_READ_FULFILLED on success', () => {
       worker.use(
-        rest.get(accountRolesUrl, (req, res, ctx) => {
-          return res(ctx.json(accountRolesPayload));
-        }),
+        rest.get(accountRolesUrl, (req, res, ctx) => res(ctx.json(accountRolesPayload))),
       );
 
       return store.dispatch(readAccountRoles())
