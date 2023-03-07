@@ -3,7 +3,7 @@
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import getSession from '../../../src/helpers/session';
 
 import {
@@ -42,6 +42,16 @@ import {
 chai.should();
 
 describe('login action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('resetLogin', () => {
     const username = 'user@collectionspace.org';
 
@@ -87,33 +97,20 @@ describe('login action creator', () => {
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
 
       // Delete stored username/token from the test.
       localStorage.removeItem('cspace-client');
     });
 
     it('should update the active session', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 200,
-        response: tokenGrantPayload,
-      });
-
-      moxios.stubRequest(accountPermsUrl, {
-        status: 200,
-        response: {},
-      });
-
-      moxios.stubRequest(accountRolesUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res, ctx) => res(ctx.json(tokenGrantPayload))),
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.json({}))),
+        rest.get(accountRolesUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
@@ -123,20 +120,11 @@ describe('login action creator', () => {
     });
 
     it('should dispatch LOGIN_FULFILLED on success', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 200,
-        response: tokenGrantPayload,
-      });
-
-      moxios.stubRequest(accountPermsUrl, {
-        status: 200,
-        response: {},
-      });
-
-      moxios.stubRequest(accountRolesUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res, ctx) => res(ctx.json(tokenGrantPayload))),
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.json({}))),
+        rest.get(accountRolesUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
@@ -153,29 +141,18 @@ describe('login action creator', () => {
 
           actions[1].should.have.property('type', CSPACE_CONFIGURED);
 
-          actions[2].should.deep.equal({
-            type: AUTH_RENEW_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              config,
-              username,
-            },
+          actions[2].type.should.equal(AUTH_RENEW_FULFILLED);
+          actions[2].payload.status.should.equal(200);
+          actions[2].payload.data.should.deep.equal({});
+
+          actions[2].meta.should.deep.equal({
+            config,
+            username,
           });
 
-          actions[3].should.deep.equal({
-            type: ACCOUNT_ROLES_READ_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-          });
+          actions[3].type.should.equal(ACCOUNT_ROLES_READ_FULFILLED);
+          actions[3].payload.status.should.equal(200);
+          actions[3].payload.data.should.deep.equal({});
 
           actions[4].should.have.property('type', PREFS_LOADED);
 
@@ -190,9 +167,9 @@ describe('login action creator', () => {
     });
 
     it('should dispatch LOGIN_REJECTED on error', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 400,
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
@@ -215,12 +192,15 @@ describe('login action creator', () => {
     });
 
     it('should dispatch AUTH_RENEW_REJECTED with error code ERR_INVALID_CREDENTIALS when an invalid credentials error response is received', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 400,
-        response: {
-          error_description: 'Bad credentials',
-        },
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res, ctx) => res(
+          ctx.status(400, ' '),
+          ctx.json({
+            error: 'invalid_grant',
+            error_description: 'Bad credentials',
+          }),
+        )),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
@@ -244,12 +224,9 @@ describe('login action creator', () => {
     });
 
     it('should dispatch AUTH_RENEW_REJECTED with error code ERR_NETWORK when a network error occurs', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 400,
-        response: {
-          error_description: 'Network Error',
-        },
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res) => res.networkError()),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
@@ -273,21 +250,17 @@ describe('login action creator', () => {
     });
 
     it('should dispatch AUTH_RENEW_REJECTED with error code ERR_WRONG_TENANT when the account tenant id is not the tenant id configured for the ui', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 200,
-        response: tokenGrantPayload,
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res, ctx) => res(ctx.json(tokenGrantPayload))),
 
-      moxios.stubRequest(accountPermsUrl, {
-        status: 200,
-        response: {
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.json({
           'ns2:account_permission': {
             account: {
               tenantId: '5000',
             },
           },
-        },
-      });
+        }))),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
@@ -328,20 +301,15 @@ describe('login action creator', () => {
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch ACCOUNT_PERMS_READ_FULFILLED on success', () => {
-      moxios.stubRequest(accountPermsUrl, {
-        status: 200,
-        response: accountPermsPayload,
-      });
+      worker.use(
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.json(accountPermsPayload))),
+      );
 
       return store.dispatch(readAccountPerms(config, username))
         .then(() => {
@@ -349,26 +317,20 @@ describe('login action creator', () => {
 
           actions.should.have.lengthOf(1);
 
-          actions[0].should.deep.equal({
-            type: ACCOUNT_PERMS_READ_FULFILLED,
-            payload: {
-              data: accountPermsPayload,
-              headers: undefined,
-              status: 200,
-              statusText: undefined,
-            },
-            meta: {
-              config,
-            },
+          actions[0].type.should.equal(ACCOUNT_PERMS_READ_FULFILLED);
+          actions[0].payload.status.should.equal(200);
+          actions[0].payload.data.should.deep.equal(accountPermsPayload);
+
+          actions[0].meta.should.deep.equal({
+            config,
           });
         });
     });
 
     it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', () => {
-      moxios.stubRequest(accountPermsUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(readAccountPerms(config, username))
         .catch(() => {

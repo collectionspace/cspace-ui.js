@@ -2,7 +2,7 @@
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import Immutable from 'immutable';
 
 import {
@@ -26,6 +26,16 @@ import {
 chai.should();
 
 describe('logout action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('logout', () => {
     const mockStore = configureMockStore([thunk]);
     const accountId = '1234';
@@ -55,33 +65,20 @@ describe('logout action creator', () => {
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
 
       // Delete stored username/token from the test.
       localStorage.removeItem('cspace-client');
     });
 
     it('should dispatch LOGOUT_FULFILLED on success', () => {
-      moxios.stubRequest(tokenUrl, {
-        status: 200,
-        response: tokenGrantPayload,
-      });
-
-      moxios.stubRequest(accountPermsUrl, {
-        status: 200,
-        response: {},
-      });
-
-      moxios.stubRequest(accountRolesUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.post(tokenUrl, (req, res, ctx) => res(ctx.json(tokenGrantPayload))),
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.json({}))),
+        rest.get(accountRolesUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       return store.dispatch(login(config, username, password))
         .then(() => {
