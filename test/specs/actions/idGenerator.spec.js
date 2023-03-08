@@ -80,7 +80,7 @@ describe('ID generator action creator', () => {
       user: Immutable.Map(),
     });
 
-    const readIDGeneratorUrl = new RegExp(`/cspace-services/idgenerators/${idGeneratorCsid}.*`);
+    const readIDGeneratorUrl = `/cspace-services/idgenerators/${idGeneratorCsid}`;
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));

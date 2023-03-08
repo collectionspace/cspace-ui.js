@@ -85,7 +85,7 @@ describe('account action creator', () => {
 
   describe('requestPasswordReset', () => {
     const store = mockStore();
-    const requestPasswordResetUrl = /\/cspace-services\/accounts\/requestpasswordreset.*/;
+    const requestPasswordResetUrl = '/cspace-services/accounts/requestpasswordreset';
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
@@ -125,7 +125,7 @@ describe('account action creator', () => {
 
   describe('resetPassword', () => {
     const store = mockStore();
-    const requestPasswordResetUrl = /\/cspace-services\/accounts\/processpasswordreset.*/;
+    const requestPasswordResetUrl = '/cspace-services/accounts/processpasswordreset';
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
