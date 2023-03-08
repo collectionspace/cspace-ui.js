@@ -1,8 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { setupWorker, rest } from 'msw';
 
 import {
   configureCSpace,
@@ -16,46 +16,63 @@ chai.use(chaiImmutable);
 chai.should();
 
 describe('structured date action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('parseDisplayDate', () => {
     const mockStore = configureMockStore([thunk]);
     const store = mockStore();
 
-    const parseStructuredDateUrl = /^\/cspace-services\/structureddates\?dateToParse=.*/;
+    const parseStructuredDateUrl = '/cspace-services/structureddates';
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should resolve to an object containing a parsed structured date value', () => {
-      moxios.stubRequest(parseStructuredDateUrl, {
-        status: 200,
-        response: {
-          'ns2:structureddate_common': {
-            displayDate: '2000',
-            earliestSingleDate: {
-              year: '2000',
-              month: '1',
-              day: '1',
-              era: 'urn:cspace:core.collectionspace.org:vocabularies:name(dateera):item:name(ce)\'CE\'',
-            },
-            latestDate: {
-              year: '2000',
-              month: '12',
-              day: '31',
-              era: 'urn:cspace:core.collectionspace.org:vocabularies:name(dateera):item:name(ce)\'CE\'',
-            },
-            scalarValuesComputed: 'false',
-          },
-        },
-      });
+      const dateToParse = '2000';
+
+      worker.use(
+        rest.get(parseStructuredDateUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
+
+          if (
+            searchParams.get('dateToParse') === dateToParse
+          ) {
+            return res(ctx.json({
+              'ns2:structureddate_common': {
+                displayDate: '2000',
+                earliestSingleDate: {
+                  year: '2000',
+                  month: '1',
+                  day: '1',
+                  era: 'urn:cspace:core.collectionspace.org:vocabularies:name(dateera):item:name(ce)\'CE\'',
+                },
+                latestDate: {
+                  year: '2000',
+                  month: '12',
+                  day: '31',
+                  era: 'urn:cspace:core.collectionspace.org:vocabularies:name(dateera):item:name(ce)\'CE\'',
+                },
+                scalarValuesComputed: 'false',
+              },
+            }));
+          }
+
+          return res(cts.status(400));
+        }),
+      );
 
       return store.dispatch(parseDisplayDate('2000'))
         .then((result) => {
@@ -83,10 +100,9 @@ describe('structured date action creator', () => {
     });
 
     it('should resolve to an object with isError set to true when the display date is not parseable', () => {
-      moxios.stubRequest(parseStructuredDateUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.get(parseStructuredDateUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(parseDisplayDate('dsailjdfi'))
         .then((result) => {
