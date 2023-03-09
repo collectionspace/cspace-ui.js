@@ -3,8 +3,9 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import chaiAsPromised from 'chai-as-promised';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import thunk from 'redux-thunk';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
@@ -36,11 +37,14 @@ import {
   NOTIFICATION_ID_VALIDATION,
 } from '../../../../src/actions/notification';
 
+chai.use(chaiAsPromised);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
 describe('RecordEditorContainer', () => {
+  const worker = setupWorker();
+
   const csid = '1234';
   const cloneCsid = '9999';
   const recordType = 'collectionobject';
@@ -126,16 +130,20 @@ describe('RecordEditorContainer', () => {
     store,
   };
 
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  before(() => {
+    worker.start({ quiet: true });
 
-  beforeEach(() => {
-    moxios.install();
+    return store.dispatch(configureCSpace())
+      .then(() => store.clearActions());
   });
 
   afterEach(() => {
     store.clearActions();
-    moxios.uninstall();
+    worker.resetHandlers();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on RecordEditor', () => {
@@ -517,6 +525,23 @@ describe('RecordEditorContainer', () => {
   });
 
   it('should connect checkForRelations to checkForRelations action creator', () => {
+    const predicate = 'affects';
+
+    worker.use(
+      rest.get('/cspace-services/relations', async (req, res, ctx) => {
+        const { searchParams } = req.url;
+
+        if (
+          searchParams.get('prd') === predicate
+          && searchParams.get('sbj') === csid
+        ) {
+          return res(ctx.status(200));
+        }
+
+        return res(ctx.status(400));
+      }),
+    );
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -529,19 +554,24 @@ describe('RecordEditorContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.checkForRelations('affects');
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        moxios.requests.mostRecent().should.have.property('url').that
-          .matches(/^\/cspace-services\/relations\?prd=affects&sbj=1234.*/);
-
-        resolve();
-      }, 0);
-    });
+    return result.props.checkForRelations(predicate).should.eventually.be.fulfilled;
   });
 
   it('should connect checkForUses to checkForUses action creator', () => {
+    const refObjsUrl = `/cspace-services/personauthorities/:vocabulary/items/${csid}/refObjs`;
+
+    worker.use(
+      rest.get(refObjsUrl, async (req, res, ctx) => {
+        const { params } = req;
+
+        if (params.vocabulary === `urn:cspace:name(${vocabulary})`) {
+          return res(ctx.status(200));
+        }
+
+        return res(ctx.status(400));
+      }),
+    );
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -555,19 +585,16 @@ describe('RecordEditorContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.checkForUses();
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        moxios.requests.mostRecent().should.have.property('url').that
-          .contains(`/cspace-services/personauthorities/urn:cspace:name(ulan)/items/${csid}/refObjs`);
-
-        resolve();
-      }, 0);
-    });
+    return result.props.checkForUses().should.eventually.be.fulfilled;
   });
 
   it('should connect checkForRoleUses to checkForRoleUses action creator', () => {
+    const accountRolesUrl = `/cspace-services/authorization/roles/${csid}/accountroles`;
+
+    worker.use(
+      rest.get(accountRolesUrl, async (req, res, ctx) => res(ctx.status(200))),
+    );
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -580,15 +607,6 @@ describe('RecordEditorContainer', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.checkForRoleUses();
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        moxios.requests.mostRecent().should.have.property('url').that
-          .contains(`/cspace-services/authorization/roles/${csid}/accountroles`);
-
-        resolve();
-      }, 0);
-    });
+    return result.props.checkForRoleUses().should.eventually.be.fulfilled;
   });
 });

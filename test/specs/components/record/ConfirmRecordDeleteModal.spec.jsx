@@ -76,25 +76,29 @@ describe('ConfirmRecordDeleteModal', () => {
     Modal.setAppElement(this.container);
   });
 
-  it('should render a modal', async function test() {
+  it('should render a modal', function test() {
     const data = Immutable.Map();
 
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <ConfirmRecordDeleteModal
-            config={config}
-            data={data}
-            isOpen
-            recordType="group"
-          />
-        </IntlProvider>, this.container,
-      );
+    render(
+      <IntlProvider locale="en">
+        <ConfirmRecordDeleteModal
+          config={config}
+          data={data}
+          isOpen
+          recordType="group"
+        />
+      </IntlProvider>, this.container,
+    );
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
+
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 20);
     });
-
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should render nothing if isOpen is false', function test() {
@@ -134,26 +138,30 @@ describe('ConfirmRecordDeleteModal', () => {
     unmountComponentAtNode(this.container);
   });
 
-  it('should render a prompt message containing the record title', async function test() {
+  it('should render a prompt message containing the record title', function test() {
     const data = Immutable.Map();
 
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <ConfirmRecordDeleteModal
-            config={config}
-            data={data}
-            isOpen
-            recordType="group"
-          />
-        </IntlProvider>, this.container,
-      );
+    render(
+      <IntlProvider locale="en">
+        <ConfirmRecordDeleteModal
+          config={config}
+          data={data}
+          isOpen
+          recordType="group"
+        />
+      </IntlProvider>, this.container,
+    );
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
+        .equal('Delete Group Record Title?');
+
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 20);
     });
-
-    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-      .equal('Delete Group Record Title?');
-
-    unmountComponentAtNode(this.container);
   });
 
   context('when the record type is a procedure or object', () => {
@@ -201,7 +209,7 @@ describe('ConfirmRecordDeleteModal', () => {
           unmountComponentAtNode(this.container);
 
           resolve();
-        }, 0);
+        }, 20);
       });
     });
   });
@@ -255,7 +263,7 @@ describe('ConfirmRecordDeleteModal', () => {
           unmountComponentAtNode(this.container);
 
           resolve();
-        }, 0);
+        }, 20);
       });
     });
   });
@@ -307,12 +315,12 @@ describe('ConfirmRecordDeleteModal', () => {
           unmountComponentAtNode(this.container);
 
           resolve();
-        }, 0);
+        }, 20);
       });
     });
   });
 
-  it('should render a warning message and no prompt when the record data contains hierarchy relations', async function test() {
+  it('should render a warning message and no prompt when the record data contains hierarchy relations', function test() {
     const data = Immutable.fromJS({
       document: {
         'rel:relations-common-list': {
@@ -324,26 +332,30 @@ describe('ConfirmRecordDeleteModal', () => {
       },
     });
 
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <ConfirmRecordDeleteModal
-            config={config}
-            data={data}
-            isOpen
-            recordType="group"
-          />
-        </IntlProvider>, this.container,
-      );
+    render(
+      <IntlProvider locale="en">
+        <ConfirmRecordDeleteModal
+          config={config}
+          data={data}
+          isOpen
+          recordType="group"
+        />
+      </IntlProvider>, this.container,
+    );
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
+          .not.contain('Delete Group Record Title?');
+
+        document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
+          .contain('Group Record Title cannot be deleted because it belongs to a hierarchy');
+
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 20);
     });
-
-    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-      .not.contain('Delete Group Record Title?');
-
-    document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-      .contain('Group Record Title cannot be deleted because it belongs to a hierarchy');
-
-    unmountComponentAtNode(this.container);
   });
 
   it('should not render a delete button when the record data contains hierarchy relations', function test() {
@@ -369,9 +381,15 @@ describe('ConfirmRecordDeleteModal', () => {
       </IntlProvider>, this.container,
     );
 
-    expect(document.querySelector('.ReactModal__Content--after-open button[name="delete"]')).to
-      .equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(document.querySelector('.ReactModal__Content--after-open button[name="delete"]')).to
+          .equal(null);
 
-    unmountComponentAtNode(this.container);
+        unmountComponentAtNode(this.container);
+
+        resolve();
+      }, 20);
+    });
   });
 });

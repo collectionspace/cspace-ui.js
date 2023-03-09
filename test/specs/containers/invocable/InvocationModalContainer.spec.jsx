@@ -2,7 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import thunk from 'redux-thunk';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
@@ -48,17 +48,22 @@ const config = {
 };
 
 describe('InvocationModalContainer', () => {
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  const worker = setupWorker();
 
-  beforeEach(() => {
-    moxios.install();
+  before(() => {
+    worker.start({ quiet: true });
+
+    return store.dispatch(configureCSpace())
+      .then(() => store.clearActions());
   });
 
   afterEach(() => {
-    moxios.uninstall();
-
+    worker.resetHandlers();
     store.clearActions();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on InvocationModal', () => {
@@ -102,12 +107,11 @@ describe('InvocationModalContainer', () => {
   });
 
   it('should connect searchCsid to searchCsid action creator', () => {
-    moxios.stubRequest('/cspace-services/groups?as=%28ecm%3Aname%20%3D%20%225678%22%29&pgSz=1&wf_deleted=false', {
-      status: 200,
-      response: {
+    worker.use(
+      rest.get('/cspace-services/groups', (req, res, ctx) => res(ctx.json({
         foo: 'bar',
-      },
-    });
+      }))),
+    );
 
     const shallowRenderer = createRenderer();
 
