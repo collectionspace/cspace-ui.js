@@ -131,50 +131,6 @@ export default class RelationEditor extends Component {
     }
   }
 
-  close() {
-    const {
-      onClose,
-    } = this.props;
-
-    if (onClose) {
-      onClose();
-    }
-  }
-
-  initRelation() {
-    const {
-      config,
-      subject,
-      object,
-      predicate,
-      findRelation,
-    } = this.props;
-
-    if (findRelation && object.csid) {
-      findRelation(config, subject, object, predicate);
-    }
-  }
-
-  unrelate() {
-    const {
-      config,
-      subject,
-      object,
-      predicate,
-      unrelate,
-      onUnrelated,
-    } = this.props;
-
-    if (unrelate) {
-      unrelate(config, subject, object, predicate)
-        .then(() => {
-          if (onUnrelated) {
-            onUnrelated(subject, object, predicate);
-          }
-        });
-    }
-  }
-
   handleCancelButtonClick() {
     this.close();
   }
@@ -256,6 +212,50 @@ export default class RelationEditor extends Component {
     // if it's cancelled, we shouldn't unrelate.
 
     this.unrelateWhenUnmounted = false;
+  }
+
+  close() {
+    const {
+      onClose,
+    } = this.props;
+
+    if (onClose) {
+      onClose();
+    }
+  }
+
+  initRelation() {
+    const {
+      config,
+      subject,
+      object,
+      predicate,
+      findRelation,
+    } = this.props;
+
+    if (findRelation && object.csid) {
+      findRelation(config, subject, object, predicate);
+    }
+  }
+
+  unrelate() {
+    const {
+      config,
+      subject,
+      object,
+      predicate,
+      unrelate,
+      onUnrelated,
+    } = this.props;
+
+    if (unrelate) {
+      unrelate(config, subject, object, predicate)
+        .then(() => {
+          if (onUnrelated) {
+            onUnrelated(subject, object, predicate);
+          }
+        });
+    }
   }
 
   renderHeader() {

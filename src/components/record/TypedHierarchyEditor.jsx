@@ -54,14 +54,6 @@ export class BaseTypedHierarchyEditor extends Component {
     this.handleParentTypeCommit = this.handleParentTypeCommit.bind(this);
   }
 
-  filterMatch(item) {
-    const {
-      csid,
-    } = this.props;
-
-    return (item.csid !== csid);
-  }
-
   handleAddChild() {
     const {
       onAddChild,
@@ -129,6 +121,14 @@ export class BaseTypedHierarchyEditor extends Component {
     if (onCommit) {
       onCommit(['parent', 'type'], value);
     }
+  }
+
+  filterMatch(item) {
+    const {
+      csid,
+    } = this.props;
+
+    return (item.csid !== csid);
   }
 
   renderParent() {

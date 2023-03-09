@@ -75,50 +75,6 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
     }
   }
 
-  cancelClose() {
-    if (this.closeTimer) {
-      window.clearTimeout(this.closeTimer);
-
-      this.openTimer = null;
-    }
-  }
-
-  cancelOpen() {
-    if (this.openTimer) {
-      window.clearTimeout(this.openTimer);
-
-      this.openTimer = null;
-    }
-  }
-
-  close() {
-    this.cancelOpen();
-    this.cancelClose();
-
-    const {
-      isOpen,
-    } = this.state;
-
-    if (this.domNode && isOpen) {
-      this.setState({
-        isOpen: false,
-        value: null,
-        element: null,
-      });
-    }
-  }
-
-  open(value, element) {
-    this.cancelOpen();
-    this.cancelClose();
-
-    this.setState({
-      isOpen: true,
-      value,
-      element,
-    });
-  }
-
   handleDropdownClose() {
     this.close();
 
@@ -192,6 +148,50 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
 
   handleRef(ref) {
     this.domNode = ref;
+  }
+
+  cancelClose() {
+    if (this.closeTimer) {
+      window.clearTimeout(this.closeTimer);
+
+      this.openTimer = null;
+    }
+  }
+
+  cancelOpen() {
+    if (this.openTimer) {
+      window.clearTimeout(this.openTimer);
+
+      this.openTimer = null;
+    }
+  }
+
+  close() {
+    this.cancelOpen();
+    this.cancelClose();
+
+    const {
+      isOpen,
+    } = this.state;
+
+    if (this.domNode && isOpen) {
+      this.setState({
+        isOpen: false,
+        value: null,
+        element: null,
+      });
+    }
+  }
+
+  open(value, element) {
+    this.cancelOpen();
+    this.cancelClose();
+
+    this.setState({
+      isOpen: true,
+      value,
+      element,
+    });
   }
 
   renderMiniViewPopup() {

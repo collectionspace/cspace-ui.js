@@ -76,50 +76,6 @@ export default class AuthRolePage extends Component {
     }
   }
 
-  cloneRecord() {
-    const {
-      history,
-      match,
-    } = this.props;
-
-    const {
-      csid,
-    } = match.params;
-
-    const query = {
-      clone: csid,
-    };
-
-    const queryString = qs.stringify(query);
-
-    history.replace({
-      pathname: `/admin/${recordType}/new`,
-      search: `?${queryString}`,
-    });
-  }
-
-  filter(value) {
-    const {
-      searchDescriptor,
-    } = this.state;
-
-    const searchQuery = searchDescriptor.get('searchQuery');
-
-    let updatedSearchQuery;
-
-    if (value) {
-      updatedSearchQuery = searchQuery.set('dn', value);
-    } else {
-      updatedSearchQuery = searchQuery.delete('dn');
-    }
-
-    updatedSearchQuery = updatedSearchQuery.set('p', 0);
-
-    this.setState({
-      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
-    });
-  }
-
   handleCreateButtonClick() {
     const {
       history,
@@ -205,6 +161,50 @@ export default class AuthRolePage extends Component {
   handleSearchDescriptorChange(searchDescriptor) {
     this.setState({
       searchDescriptor,
+    });
+  }
+
+  cloneRecord() {
+    const {
+      history,
+      match,
+    } = this.props;
+
+    const {
+      csid,
+    } = match.params;
+
+    const query = {
+      clone: csid,
+    };
+
+    const queryString = qs.stringify(query);
+
+    history.replace({
+      pathname: `/admin/${recordType}/new`,
+      search: `?${queryString}`,
+    });
+  }
+
+  filter(value) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('dn', value);
+    } else {
+      updatedSearchQuery = searchQuery.delete('dn');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
+
+    this.setState({
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
     });
   }
 

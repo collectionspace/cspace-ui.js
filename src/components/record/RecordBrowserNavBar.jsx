@@ -87,30 +87,6 @@ class RecordBrowserNavBar extends Component {
     this.initItems();
   }
 
-  initItems() {
-    const {
-      recordType,
-      relatedRecordType,
-      items,
-      setItems,
-    } = this.props;
-
-    if (setItems && relatedRecordType && !items.includes(relatedRecordType)) {
-      // We entered a related record page via URL, but there isn't currently a tab open for that
-      // record type. Open the tab.
-
-      setItems(recordType, items.push(relatedRecordType));
-    }
-  }
-
-  formatRecordTypeLabel(name, config) {
-    const {
-      intl,
-    } = this.props;
-
-    return (intl.formatMessage(config.messages.record.collectionName) || name);
-  }
-
   handleItemButtonClick(event) {
     const {
       onSelect,
@@ -175,6 +151,30 @@ class RecordBrowserNavBar extends Component {
     if (onSelect) {
       onSelect(value);
     }
+  }
+
+  initItems() {
+    const {
+      recordType,
+      relatedRecordType,
+      items,
+      setItems,
+    } = this.props;
+
+    if (setItems && relatedRecordType && !items.includes(relatedRecordType)) {
+      // We entered a related record page via URL, but there isn't currently a tab open for that
+      // record type. Open the tab.
+
+      setItems(recordType, items.push(relatedRecordType));
+    }
+  }
+
+  formatRecordTypeLabel(name, config) {
+    const {
+      intl,
+    } = this.props;
+
+    return (intl.formatMessage(config.messages.record.collectionName) || name);
   }
 
   render() {

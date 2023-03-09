@@ -134,50 +134,6 @@ export default class FieldConditionInput extends Component {
     }
   }
 
-  getOperators(path) {
-    const {
-      config,
-      recordType,
-    } = this.props;
-
-    const fieldDescriptor = get(
-      config, ['recordTypes', recordType, 'fields', 'document', ...path.split('/')],
-    );
-
-    const dataType = getFieldDataType(fieldDescriptor);
-    const isControlled = isFieldControlled(fieldDescriptor);
-
-    return getOperatorsForDataType(dataType, isControlled);
-  }
-
-  setOperator(operator) {
-    const {
-      condition,
-      name,
-      onCommit,
-    } = this.props;
-
-    if (onCommit) {
-      let nextCondition = condition.set('op', operator);
-
-      if (!operatorExpectsValue(operator)) {
-        // If the new operator doesn't expect a value, remove any values that exist.
-
-        nextCondition = nextCondition.delete('value');
-      } else if (!operatorSupportsMultipleValues(operator)) {
-        // If the new operator doesn't support multiple values, prune all values except the first.
-
-        const value = condition.get('value');
-
-        if (Immutable.List.isList(value)) {
-          nextCondition = nextCondition.set('value', value.first());
-        }
-      }
-
-      onCommit(name, nextCondition);
-    }
-  }
-
   handleFieldCommit(path, fieldPath) {
     const {
       condition,
@@ -220,6 +176,50 @@ export default class FieldConditionInput extends Component {
 
     if (onCommit) {
       onCommit(name, condition.set('value', value));
+    }
+  }
+
+  getOperators(path) {
+    const {
+      config,
+      recordType,
+    } = this.props;
+
+    const fieldDescriptor = get(
+      config, ['recordTypes', recordType, 'fields', 'document', ...path.split('/')],
+    );
+
+    const dataType = getFieldDataType(fieldDescriptor);
+    const isControlled = isFieldControlled(fieldDescriptor);
+
+    return getOperatorsForDataType(dataType, isControlled);
+  }
+
+  setOperator(operator) {
+    const {
+      condition,
+      name,
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      let nextCondition = condition.set('op', operator);
+
+      if (!operatorExpectsValue(operator)) {
+        // If the new operator doesn't expect a value, remove any values that exist.
+
+        nextCondition = nextCondition.delete('value');
+      } else if (!operatorSupportsMultipleValues(operator)) {
+        // If the new operator doesn't support multiple values, prune all values except the first.
+
+        const value = condition.get('value');
+
+        if (Immutable.List.isList(value)) {
+          nextCondition = nextCondition.set('value', value.first());
+        }
+      }
+
+      onCommit(name, nextCondition);
     }
   }
 

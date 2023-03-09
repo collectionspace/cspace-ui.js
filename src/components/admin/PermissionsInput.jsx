@@ -111,6 +111,53 @@ export default class PermissionsInput extends Component {
     }
   }
 
+  handleHeaderButtonClick(event) {
+    const {
+      servicetype: serviceType,
+      actiongroup: actionGroup,
+    } = event.currentTarget.dataset;
+
+    const {
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      const stagedUpdates = {};
+
+      this.getRecordTypeConfigs()
+        .filter((recordTypeConfig) => recordTypeConfig.serviceConfig.serviceType === serviceType)
+        .forEach((recordTypeConfig) => {
+          this.stageUpdate(recordTypeConfig.name, actionGroup, stagedUpdates);
+        });
+
+      const updatedPerms = this.updatePerms(stagedUpdates);
+
+      onCommit(getPath(this.props), updatedPerms);
+    }
+  }
+
+  handleRadioChange(event) {
+    const {
+      value: actionGroup,
+      checked: selected,
+    } = event.target;
+
+    const {
+      name: recordType,
+    } = event.target.dataset;
+
+    const {
+      onCommit,
+    } = this.props;
+
+    if (selected && onCommit) {
+      const stagedUpdates = this.stageUpdate(recordType, actionGroup);
+      const updatedPerms = this.updatePerms(stagedUpdates);
+
+      onCommit(getPath(this.props), updatedPerms);
+    }
+  }
+
   getPermsMap() {
     const {
       value,
@@ -154,21 +201,6 @@ export default class PermissionsInput extends Component {
       resourceNames
         .map((resourceName) => getRecordTypeConfigByServicePath(config, resourceName))
         .filter((recordTypeConfig) => (recordTypeConfig && !recordTypeConfig.disabled))
-    );
-  }
-
-  updatePerms(updates) {
-    const perms = this.getPermsMap() || {};
-
-    Object.assign(perms, updates);
-
-    return Immutable.List(
-      Object.keys(perms)
-        .filter((resourceName) => !!perms[resourceName])
-        .map((resourceName) => Immutable.Map({
-          resourceName,
-          actionGroup: perms[resourceName],
-        })),
     );
   }
 
@@ -254,51 +286,19 @@ export default class PermissionsInput extends Component {
     /* eslint-enable no-param-reassign */
   }
 
-  handleHeaderButtonClick(event) {
-    const {
-      servicetype: serviceType,
-      actiongroup: actionGroup,
-    } = event.currentTarget.dataset;
+  updatePerms(updates) {
+    const perms = this.getPermsMap() || {};
 
-    const {
-      onCommit,
-    } = this.props;
+    Object.assign(perms, updates);
 
-    if (onCommit) {
-      const stagedUpdates = {};
-
-      this.getRecordTypeConfigs()
-        .filter((recordTypeConfig) => recordTypeConfig.serviceConfig.serviceType === serviceType)
-        .forEach((recordTypeConfig) => {
-          this.stageUpdate(recordTypeConfig.name, actionGroup, stagedUpdates);
-        });
-
-      const updatedPerms = this.updatePerms(stagedUpdates);
-
-      onCommit(getPath(this.props), updatedPerms);
-    }
-  }
-
-  handleRadioChange(event) {
-    const {
-      value: actionGroup,
-      checked: selected,
-    } = event.target;
-
-    const {
-      name: recordType,
-    } = event.target.dataset;
-
-    const {
-      onCommit,
-    } = this.props;
-
-    if (selected && onCommit) {
-      const stagedUpdates = this.stageUpdate(recordType, actionGroup);
-      const updatedPerms = this.updatePerms(stagedUpdates);
-
-      onCommit(getPath(this.props), updatedPerms);
-    }
+    return Immutable.List(
+      Object.keys(perms)
+        .filter((resourceName) => !!perms[resourceName])
+        .map((resourceName) => Immutable.Map({
+          resourceName,
+          actionGroup: perms[resourceName],
+        })),
+    );
   }
 
   renderHeaderButton(serviceType, actionGroup) {

@@ -20,22 +20,6 @@ export default class ObjectNameInput extends Component {
     this.handleCommit = this.handleCommit.bind(this);
   }
 
-  getRecordTypes() {
-    const {
-      config,
-    } = this.context;
-
-    return pickBy(config.recordTypes, (recordTypeConfig) => {
-      const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
-
-      return (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || serviceType === 'authority'
-      );
-    });
-  }
-
   handleCommit(path, recordType) {
     const {
       onCommit,
@@ -50,6 +34,22 @@ export default class ObjectNameInput extends Component {
 
       onCommit(path, objectName || recordType);
     }
+  }
+
+  getRecordTypes() {
+    const {
+      config,
+    } = this.context;
+
+    return pickBy(config.recordTypes, (recordTypeConfig) => {
+      const serviceType = get(recordTypeConfig, ['serviceConfig', 'serviceType']);
+
+      return (
+        serviceType === 'procedure'
+        || serviceType === 'object'
+        || serviceType === 'authority'
+      );
+    });
   }
 
   render() {

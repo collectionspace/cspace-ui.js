@@ -142,6 +142,57 @@ export default class SearchPage extends Component {
     }
   }
 
+  handleRecordTypeCommit(value) {
+    const {
+      history,
+      onRecordTypeCommit,
+    } = this.props;
+
+    if (onRecordTypeCommit) {
+      onRecordTypeCommit(value);
+    }
+
+    history.replace({
+      pathname: `/search/${value}`,
+    });
+  }
+
+  handleSearch() {
+    const {
+      config,
+      history,
+      initiateSearch,
+    } = this.props;
+
+    if (initiateSearch) {
+      initiateSearch(config, history.push);
+    }
+  }
+
+  handleTitleBarDocked(height) {
+    this.setState({
+      headerDockPosition: height,
+    });
+  }
+
+  handleVocabularyCommit(value) {
+    const {
+      history,
+      onVocabularyCommit,
+    } = this.props;
+
+    if (onVocabularyCommit) {
+      onVocabularyCommit(value);
+    }
+
+    const searchDescriptor = this.getSearchDescriptor();
+    const recordType = searchDescriptor.get('recordType');
+
+    history.replace({
+      pathname: `/search/${recordType}/${value}`,
+    });
+  }
+
   getSearchDescriptor() {
     const {
       match,
@@ -206,57 +257,6 @@ export default class SearchPage extends Component {
     }
 
     return false;
-  }
-
-  handleRecordTypeCommit(value) {
-    const {
-      history,
-      onRecordTypeCommit,
-    } = this.props;
-
-    if (onRecordTypeCommit) {
-      onRecordTypeCommit(value);
-    }
-
-    history.replace({
-      pathname: `/search/${value}`,
-    });
-  }
-
-  handleSearch() {
-    const {
-      config,
-      history,
-      initiateSearch,
-    } = this.props;
-
-    if (initiateSearch) {
-      initiateSearch(config, history.push);
-    }
-  }
-
-  handleTitleBarDocked(height) {
-    this.setState({
-      headerDockPosition: height,
-    });
-  }
-
-  handleVocabularyCommit(value) {
-    const {
-      history,
-      onVocabularyCommit,
-    } = this.props;
-
-    if (onVocabularyCommit) {
-      onVocabularyCommit(value);
-    }
-
-    const searchDescriptor = this.getSearchDescriptor();
-    const recordType = searchDescriptor.get('recordType');
-
-    history.replace({
-      pathname: `/search/${recordType}/${value}`,
-    });
   }
 
   render() {

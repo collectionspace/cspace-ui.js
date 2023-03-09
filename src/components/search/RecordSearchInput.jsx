@@ -37,6 +37,16 @@ export default class RecordSearchInput extends Component {
     this.handleChooseButtonClick = this.handleChooseButtonClick.bind(this);
   }
 
+  handleChooseButtonClick() {
+    const {
+      openSearchModal,
+    } = this.props;
+
+    if (openSearchModal) {
+      openSearchModal();
+    }
+  }
+
   formatValue(value) {
     const {
       config,
@@ -63,16 +73,6 @@ export default class RecordSearchInput extends Component {
     }
 
     return value;
-  }
-
-  handleChooseButtonClick() {
-    const {
-      openSearchModal,
-    } = this.props;
-
-    if (openSearchModal) {
-      openSearchModal();
-    }
   }
 
   render() {

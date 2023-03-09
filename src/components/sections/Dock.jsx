@@ -34,10 +34,6 @@ export default class Dock extends Component {
     window.removeEventListener('scroll', this.handleScroll, false);
   }
 
-  setDomNode(ref) {
-    this.domNode = ref;
-  }
-
   handleScroll() {
     const node = this.domNode;
 
@@ -62,6 +58,10 @@ export default class Dock extends Component {
         docked: true,
       });
     }
+  }
+
+  setDomNode(ref) {
+    this.domNode = ref;
   }
 
   render() {

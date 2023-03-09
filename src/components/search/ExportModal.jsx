@@ -82,28 +82,6 @@ export default class ExportModal extends Component {
     }
   }
 
-  initInvocationDescriptor(props) {
-    const {
-      invocationDescriptor,
-    } = this.state;
-
-    const {
-      recordType,
-      vocabulary,
-      selectedItems,
-    } = props;
-
-    const nextInvocationDescriptor = invocationDescriptor
-      .set('recordType', recordType)
-      .set('vocabulary', vocabulary)
-      .set('includeFields', Immutable.List())
-      .set('csid', Immutable.List(selectedItems.keySeq()));
-
-    this.setState({
-      invocationDescriptor: nextInvocationDescriptor,
-    });
-  }
-
   handleIncludeFieldsAddInstance(position) {
     const {
       invocationDescriptor,
@@ -181,6 +159,28 @@ export default class ExportModal extends Component {
         })
         .catch(() => {});
     }
+  }
+
+  initInvocationDescriptor(props) {
+    const {
+      invocationDescriptor,
+    } = this.state;
+
+    const {
+      recordType,
+      vocabulary,
+      selectedItems,
+    } = props;
+
+    const nextInvocationDescriptor = invocationDescriptor
+      .set('recordType', recordType)
+      .set('vocabulary', vocabulary)
+      .set('includeFields', Immutable.List())
+      .set('csid', Immutable.List(selectedItems.keySeq()));
+
+    this.setState({
+      invocationDescriptor: nextInvocationDescriptor,
+    });
   }
 
   renderButtonBar() {

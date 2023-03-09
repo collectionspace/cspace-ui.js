@@ -75,49 +75,6 @@ export default class VocabularyPage extends Component {
     }
   }
 
-  filter(value) {
-    const {
-      searchDescriptor,
-    } = this.state;
-
-    const searchQuery = searchDescriptor.get('searchQuery');
-
-    let updatedSearchQuery;
-
-    if (value) {
-      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
-        value,
-        op: OP_CONTAIN,
-        path: 'ns2:vocabularies_common/displayName',
-      }));
-    } else {
-      updatedSearchQuery = searchQuery.delete('as');
-    }
-
-    updatedSearchQuery = updatedSearchQuery.set('p', 0);
-
-    this.setState({
-      filterValue: value,
-      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
-    });
-  }
-
-  readItemRefs() {
-    const {
-      data,
-      readVocabularyItemRefs,
-    } = this.props;
-
-    if (readVocabularyItemRefs && data) {
-      const csid = data.getIn(['document', 'ns2:vocabularies_common', 'csid']);
-      const vocabularyName = data.getIn(['document', 'ns2:vocabularies_common', 'shortIdentifier']);
-
-      if (csid && vocabularyName) {
-        readVocabularyItemRefs(csid, vocabularyName);
-      }
-    }
-  }
-
   handleItemClick(item) {
     const {
       history,
@@ -176,6 +133,49 @@ export default class VocabularyPage extends Component {
     this.setState({
       searchDescriptor,
     });
+  }
+
+  filter(value) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('as', Immutable.Map({
+        value,
+        op: OP_CONTAIN,
+        path: 'ns2:vocabularies_common/displayName',
+      }));
+    } else {
+      updatedSearchQuery = searchQuery.delete('as');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
+
+    this.setState({
+      filterValue: value,
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
+    });
+  }
+
+  readItemRefs() {
+    const {
+      data,
+      readVocabularyItemRefs,
+    } = this.props;
+
+    if (readVocabularyItemRefs && data) {
+      const csid = data.getIn(['document', 'ns2:vocabularies_common', 'csid']);
+      const vocabularyName = data.getIn(['document', 'ns2:vocabularies_common', 'shortIdentifier']);
+
+      if (csid && vocabularyName) {
+        readVocabularyItemRefs(csid, vocabularyName);
+      }
+    }
   }
 
   renderSearchBar() {

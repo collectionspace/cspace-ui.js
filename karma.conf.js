@@ -22,7 +22,7 @@ module.exports = function karma(config) {
     browsers,
     files: [
       { pattern: 'mockServiceWorker.js', included: false, served: true },
-      ...getTestFiles(config)
+      ...getTestFiles(config),
     ],
 
     frameworks: [
@@ -154,6 +154,6 @@ module.exports = function karma(config) {
 
     proxies: {
       '/mockServiceWorker.js': '/base/mockServiceWorker.js',
-    }
+    },
   });
 };

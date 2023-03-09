@@ -164,6 +164,35 @@ export default class SearchResultTable extends Component {
     this.sort = this.sort.bind(this);
   }
 
+  handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      const index = get(event, ['target', 'dataset', 'index']);
+
+      if (typeof index !== 'undefined') {
+        this.handleRowClick(event.target.dataset.index);
+      }
+    }
+  }
+
+  handleRowClick(index) {
+    const {
+      config,
+      listType,
+      searchResult,
+      onItemClick,
+    } = this.props;
+
+    if (onItemClick) {
+      const listTypeConfig = config.listTypes[listType];
+      const { listNodeName, itemNodeName } = listTypeConfig;
+
+      const items = searchResult.getIn([listNodeName, itemNodeName]);
+      const item = Immutable.List.isList(items) ? items.get(index) : items;
+
+      onItemClick(item, index);
+    }
+  }
+
   getItemLocation(item) {
     const {
       config,
@@ -202,35 +231,6 @@ export default class SearchResultTable extends Component {
       state,
       pathname: itemLocationPath,
     };
-  }
-
-  handleKeyDown(event) {
-    if (event.key === 'Enter') {
-      const index = get(event, ['target', 'dataset', 'index']);
-
-      if (typeof index !== 'undefined') {
-        this.handleRowClick(event.target.dataset.index);
-      }
-    }
-  }
-
-  handleRowClick(index) {
-    const {
-      config,
-      listType,
-      searchResult,
-      onItemClick,
-    } = this.props;
-
-    if (onItemClick) {
-      const listTypeConfig = config.listTypes[listType];
-      const { listNodeName, itemNodeName } = listTypeConfig;
-
-      const items = searchResult.getIn([listNodeName, itemNodeName]);
-      const item = Immutable.List.isList(items) ? items.get(index) : items;
-
-      onItemClick(item, index);
-    }
   }
 
   sort({ sortBy, sortDirection }) {
