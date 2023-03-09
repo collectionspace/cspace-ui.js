@@ -13,7 +13,11 @@ const template = (configContext) => (data, config) => {
     Field,
   } = configContext.recordComponents;
 
-  const workflowStateField = config.showTermListStateIcon
+  const {
+    showTermListStateIcon,
+  } = config;
+
+  const workflowStateField = showTermListStateIcon
     ? <Field name="workflowState" flex="0 0 32px" />
     : null;
 
