@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import get from 'lodash/get';
 import ReportViewerPage from '../../../../src/components/pages/ReportViewerPage';
 import { ConnectedReportViewerPage } from '../../../../src/containers/pages/ReportViewerPageContainer';
@@ -21,16 +21,22 @@ const store = mockStore({
 });
 
 describe('ReportViewerPageContainer', () => {
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  const worker = setupWorker();
 
-  beforeEach(() => {
-    moxios.install();
+  before(() => {
+    worker.start({ quiet: true });
+
+    return store.dispatch(configureCSpace())
+      .then(() => store.clearActions());
   });
 
   afterEach(() => {
     store.clearActions();
-    moxios.uninstall();
+    worker.resetHandlers();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on ReportViewerPage', () => {
@@ -47,10 +53,19 @@ describe('ReportViewerPageContainer', () => {
   });
 
   it('should connect readContent to an action that invokes the report', () => {
-    moxios.stubRequest(/./, {
-      status: 200,
-      response: {},
-    });
+    const reportCsid = 'abcd';
+    const recordCsid = '1234';
+    const recordType = 'collectionobject';
+
+    let requestPayload = null;
+
+    worker.use(
+      rest.post(`/cspace-services/reports/${reportCsid}/invoke`, async (req, res, ctx) => {
+        requestPayload = await req.json();
+
+        return res(ctx.json({}));
+      }),
+    );
 
     const context = { store };
 
@@ -59,9 +74,6 @@ describe('ReportViewerPageContainer', () => {
     shallowRenderer.render(<ConnectedReportViewerPage />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const reportCsid = 'abcd';
-    const recordCsid = '1234';
-    const recordType = 'collectionobject';
 
     const reportParams = {
       foo: 'abc',
@@ -81,15 +93,10 @@ describe('ReportViewerPageContainer', () => {
     };
 
     return result.props.readContent(location, match)
-      .then(() => {
-        const request = moxios.requests.mostRecent();
+      .then((readContentResult) => {
+        readContentResult.data.constructor.name.should.equal('Blob');
 
-        request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
-        request.responseType.should.equal('blob');
-
-        const jsonData = request.config.data;
-        const data = JSON.parse(jsonData);
-        const params = get(data, ['ns2:invocationContext', 'params', 'param']);
+        const params = get(requestPayload, ['ns2:invocationContext', 'params', 'param']);
 
         params.should.deep.equal([
           {

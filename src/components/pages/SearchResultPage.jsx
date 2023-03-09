@@ -177,246 +177,6 @@ export default class SearchResultPage extends Component {
     }
   }
 
-  getListType(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    return getListType(config, searchDescriptor);
-  }
-
-  getSearchDescriptor() {
-    // FIXME: Refactor this into a wrapper component that calculates the search descriptor from
-    // location and params, and passes it into a child. This will eliminate the multiple calls to
-    // this method from the various render methods in this class.
-
-    const {
-      location,
-      match,
-    } = this.props;
-
-    const {
-      params,
-    } = match;
-
-    const {
-      search,
-    } = location;
-
-    const query = qs.parse(search.substring(1));
-
-    const searchQuery = {
-      ...query,
-      p: parseInt(query.p, 10) - 1,
-      size: parseInt(query.size, 10),
-    };
-
-    const advancedSearchCondition = query.as;
-
-    if (advancedSearchCondition) {
-      searchQuery.as = JSON.parse(advancedSearchCondition);
-    }
-
-    const searchDescriptor = {
-      searchQuery,
-    };
-
-    ['recordType', 'vocabulary', 'csid', 'subresource'].forEach((param) => {
-      const value = params[param];
-
-      if (typeof value !== 'undefined') {
-        searchDescriptor[param] = value;
-      }
-    });
-
-    return Immutable.fromJS(searchDescriptor);
-  }
-
-  getSearchToRelateSubjects() {
-    const {
-      selectedItems,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (!selectedItems) {
-      return null;
-    }
-
-    const searchDescriptor = this.getSearchDescriptor();
-
-    const recordType = searchDescriptor.get('recordType');
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-    const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
-
-    const titleColumnName = getFirstColumnName(config, recordType);
-
-    return selectedItems.valueSeq().map((item) => ({
-      csid: item.get('csid'),
-      recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
-      title: item.get(titleColumnName),
-    })).toJS();
-  }
-
-  isResultExportable(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    const recordType = searchDescriptor.get('recordType');
-    const subresource = searchDescriptor.get('subresource');
-
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-    return (
-      subresource !== 'terms'
-      && subresource !== 'refs'
-      && (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || serviceType === 'authority'
-      )
-    );
-  }
-
-  isResultRelatable(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    const recordType = searchDescriptor.get('recordType');
-    const subresource = searchDescriptor.get('subresource');
-
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-    return (
-      subresource !== 'terms'
-      && (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || recordType === 'procedure'
-        || recordType === 'object'
-      )
-    );
-  }
-
-  closeModal() {
-    this.setState({
-      isExportModalOpen: false,
-      isSearchToRelateModalOpen: false,
-      selectionValidationError: undefined,
-    });
-  }
-
-  normalizeQuery() {
-    const {
-      config,
-    } = this.context;
-
-    const {
-      history,
-      location,
-      preferredPageSize,
-    } = this.props;
-
-    const {
-      search,
-    } = location;
-
-    const query = qs.parse(search.substring(1));
-
-    if (history) {
-      const normalizedQueryParams = {};
-
-      const pageSize = parseInt(query.size, 10);
-
-      if (Number.isNaN(pageSize) || pageSize < 1) {
-        const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
-
-        normalizedQueryParams.size = normalizedPageSize.toString();
-      } else if (pageSize > 2500) {
-        // Services layer max is 2500
-        normalizedQueryParams.size = '2500';
-      } else if (pageSize.toString() !== query.size) {
-        normalizedQueryParams.size = pageSize.toString();
-      }
-
-      const pageNum = parseInt(query.p, 10);
-
-      if (Number.isNaN(pageNum) || pageNum < 1) {
-        normalizedQueryParams.p = '1';
-      } else if (pageNum.toString() !== query.p) {
-        normalizedQueryParams.p = pageNum.toString();
-      }
-
-      if (Object.keys(normalizedQueryParams).length > 0) {
-        const newQuery = { ...query, ...normalizedQueryParams };
-        const queryString = qs.stringify(newQuery);
-
-        history.replace({
-          pathname: location.pathname,
-          search: `?${queryString}`,
-          state: location.state,
-        });
-
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  validateSelectedItemsRelatable() {
-    const {
-      perms,
-      selectedItems,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (selectedItems) {
-      let err;
-
-      selectedItems.valueSeq().find((item) => {
-        if (item.get('workflowState') === 'locked') {
-          err = {
-            code: 'locked',
-          };
-
-          return true;
-        }
-
-        const recordType = getRecordTypeNameByUri(config, item.get('uri'));
-
-        if (!canRelate(recordType, perms, config)) {
-          const recordMessages = get(config, ['recordTypes', recordType, 'messages', 'record']);
-
-          err = {
-            code: 'notPermitted',
-            values: {
-              name: <FormattedMessage {...recordMessages.name} />,
-              collectionName: <FormattedMessage {...recordMessages.collectionName} />,
-            },
-          };
-
-          return true;
-        }
-
-        return false;
-      });
-
-      if (err) {
-        return err;
-      }
-    }
-
-    return undefined;
-  }
-
   handleCheckboxClick(event) {
     // DRYD-252: Elaborate workaround for Firefox. When a checkbox is a child of an a, clicking on
     // the checkbox navigates to the link. So we have to handle the checkbox click, and prevent the
@@ -608,6 +368,197 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  getListType(searchDescriptor) {
+    const {
+      config,
+    } = this.context;
+
+    return getListType(config, searchDescriptor);
+  }
+
+  getSearchDescriptor() {
+    // FIXME: Refactor this into a wrapper component that calculates the search descriptor from
+    // location and params, and passes it into a child. This will eliminate the multiple calls to
+    // this method from the various render methods in this class.
+
+    const {
+      location,
+      match,
+    } = this.props;
+
+    const {
+      params,
+    } = match;
+
+    const {
+      search,
+    } = location;
+
+    const query = qs.parse(search.substring(1));
+
+    const searchQuery = {
+      ...query,
+      p: parseInt(query.p, 10) - 1,
+      size: parseInt(query.size, 10),
+    };
+
+    const advancedSearchCondition = query.as;
+
+    if (advancedSearchCondition) {
+      searchQuery.as = JSON.parse(advancedSearchCondition);
+    }
+
+    const searchDescriptor = {
+      searchQuery,
+    };
+
+    ['recordType', 'vocabulary', 'csid', 'subresource'].forEach((param) => {
+      const value = params[param];
+
+      if (typeof value !== 'undefined') {
+        searchDescriptor[param] = value;
+      }
+    });
+
+    return Immutable.fromJS(searchDescriptor);
+  }
+
+  getSearchToRelateSubjects() {
+    const {
+      selectedItems,
+    } = this.props;
+
+    const {
+      config,
+    } = this.context;
+
+    if (!selectedItems) {
+      return null;
+    }
+
+    const searchDescriptor = this.getSearchDescriptor();
+
+    const recordType = searchDescriptor.get('recordType');
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+    const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
+
+    const titleColumnName = getFirstColumnName(config, recordType);
+
+    return selectedItems.valueSeq().map((item) => ({
+      csid: item.get('csid'),
+      recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
+      title: item.get(titleColumnName),
+    })).toJS();
+  }
+
+  isResultExportable(searchDescriptor) {
+    const {
+      config,
+    } = this.context;
+
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
+
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
+    return (
+      subresource !== 'terms'
+      && subresource !== 'refs'
+      && (
+        serviceType === 'procedure'
+        || serviceType === 'object'
+        || serviceType === 'authority'
+      )
+    );
+  }
+
+  isResultRelatable(searchDescriptor) {
+    const {
+      config,
+    } = this.context;
+
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
+
+    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
+    return (
+      subresource !== 'terms'
+      && (
+        serviceType === 'procedure'
+        || serviceType === 'object'
+        || recordType === 'procedure'
+        || recordType === 'object'
+      )
+    );
+  }
+
+  closeModal() {
+    this.setState({
+      isExportModalOpen: false,
+      isSearchToRelateModalOpen: false,
+      selectionValidationError: undefined,
+    });
+  }
+
+  normalizeQuery() {
+    const {
+      config,
+    } = this.context;
+
+    const {
+      history,
+      location,
+      preferredPageSize,
+    } = this.props;
+
+    const {
+      search,
+    } = location;
+
+    const query = qs.parse(search.substring(1));
+
+    if (history) {
+      const normalizedQueryParams = {};
+
+      const pageSize = parseInt(query.size, 10);
+
+      if (Number.isNaN(pageSize) || pageSize < 1) {
+        const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
+
+        normalizedQueryParams.size = normalizedPageSize.toString();
+      } else if (pageSize > 2500) {
+        // Services layer max is 2500
+        normalizedQueryParams.size = '2500';
+      } else if (pageSize.toString() !== query.size) {
+        normalizedQueryParams.size = pageSize.toString();
+      }
+
+      const pageNum = parseInt(query.p, 10);
+
+      if (Number.isNaN(pageNum) || pageNum < 1) {
+        normalizedQueryParams.p = '1';
+      } else if (pageNum.toString() !== query.p) {
+        normalizedQueryParams.p = pageNum.toString();
+      }
+
+      if (Object.keys(normalizedQueryParams).length > 0) {
+        const newQuery = { ...query, ...normalizedQueryParams };
+        const queryString = qs.stringify(newQuery);
+
+        history.replace({
+          pathname: location.pathname,
+          search: `?${queryString}`,
+          state: location.state,
+        });
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   search() {
     const {
       search,
@@ -631,6 +582,55 @@ export default class SearchResultPage extends Component {
     }
   }
 
+  validateSelectedItemsRelatable() {
+    const {
+      perms,
+      selectedItems,
+    } = this.props;
+
+    const {
+      config,
+    } = this.context;
+
+    if (selectedItems) {
+      let err;
+
+      selectedItems.valueSeq().find((item) => {
+        if (item.get('workflowState') === 'locked') {
+          err = {
+            code: 'locked',
+          };
+
+          return true;
+        }
+
+        const recordType = getRecordTypeNameByUri(config, item.get('uri'));
+
+        if (!canRelate(recordType, perms, config)) {
+          const recordMessages = get(config, ['recordTypes', recordType, 'messages', 'record']);
+
+          err = {
+            code: 'notPermitted',
+            values: {
+              name: <FormattedMessage {...recordMessages.name} />,
+              collectionName: <FormattedMessage {...recordMessages.collectionName} />,
+            },
+          };
+
+          return true;
+        }
+
+        return false;
+      });
+
+      if (err) {
+        return err;
+      }
+    }
+
+    return undefined;
+  }
+
   renderCheckbox({ rowData, rowIndex }) {
     const {
       selectedItems,
@@ -644,7 +644,6 @@ export default class SearchResultPage extends Component {
         embedded
         name={`${rowIndex}`}
         value={selected}
-
         // DRYD-252: Elaborate workaround for Firefox, part II. Use this onClick instead of the
         // onCommit and onClick below.
         onClick={this.handleCheckboxClick}

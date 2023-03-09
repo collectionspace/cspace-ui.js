@@ -56,6 +56,18 @@ export default class Notification extends Component {
     }
   }
 
+  handleCloseButtonClick() {
+    this.close();
+  }
+
+  handleCloseButtonFocus() {
+    this.cancelAutoCloseTimer();
+  }
+
+  handleMouseDown() {
+    this.cancelAutoCloseTimer();
+  }
+
   cancelAutoCloseTimer() {
     if (this.autoCloseTimer) {
       window.clearTimeout(this.autoCloseTimer);
@@ -85,18 +97,6 @@ export default class Notification extends Component {
     this.autoCloseTimer = window.setTimeout(() => {
       this.close();
     }, autoCloseTime);
-  }
-
-  handleCloseButtonClick() {
-    this.close();
-  }
-
-  handleCloseButtonFocus() {
-    this.cancelAutoCloseTimer();
-  }
-
-  handleMouseDown() {
-    this.cancelAutoCloseTimer();
   }
 
   render() {

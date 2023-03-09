@@ -1,7 +1,8 @@
+import chaiAsPromised from 'chai-as-promised';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 
 import {
   SHOW_NOTIFICATION,
@@ -39,6 +40,7 @@ import {
 
 const { expect } = chai;
 
+chai.use(chaiAsPromised);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
@@ -59,6 +61,16 @@ const config = {
 };
 
 describe('relation action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   const subject = {
     csid: '1234',
     recordType: 'collectionobject',
@@ -74,7 +86,7 @@ describe('relation action creator', () => {
   const sbjType = config.recordTypes[subject.recordType].serviceConfig.objectName;
   const objType = config.recordTypes[object.recordType].serviceConfig.objectName;
 
-  const findUrl = `/cspace-services/relations?prd=${predicate}&wf_deleted=false&pgSz=0&sbj=${subject.csid}&sbjType=${sbjType}&obj=${object.csid}&objType=${objType}`;
+  const findUrl = '/cspace-services/relations';
   const createUrl = '/cspace-services/relations';
 
   describe('clearState', () => {
@@ -94,12 +106,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_FIND_FULFILLED on success', () => {
@@ -107,10 +115,27 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(findUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.get(findUrl, (req, res, ctx) => {
+          const {
+            searchParams,
+          } = req.url;
+
+          if (
+            searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '0'
+            && searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('sbjType') === sbjType
+            && searchParams.get('obj') === object.csid
+            && searchParams.get('objType') === objType
+          ) {
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       return store.dispatch(find(config, subject, object, predicate))
         .then(() => {
@@ -127,19 +152,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_FIND_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              subject,
-              object,
-              predicate,
-            },
+          actions[1].type.should.equal(RELATION_FIND_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+          actions[1].payload.data.should.deep.equal({});
+
+          actions[1].meta.should.deep.equal({
+            subject,
+            object,
+            predicate,
           });
         });
     });
@@ -149,10 +169,9 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(findUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.get(findUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(find(config, subject, object, predicate))
         .then(() => {
@@ -216,12 +235,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_SAVE_FULFILLED on success', () => {
@@ -229,12 +244,12 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(createUrl, {
-        status: 201,
-        headers: {
-          location: 'some/new/url',
-        },
-      });
+      worker.use(
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
 
       return store.dispatch(create(subject, object, predicate))
         .then(() => {
@@ -251,21 +266,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object,
-              predicate,
-            },
+          actions[1].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[1].payload.status.should.equal(201);
+          actions[1].payload.headers.location.should.equal('some/new/url');
+
+          actions[1].meta.should.deep.equal({
+            subject,
+            object,
+            predicate,
           });
 
           actions[2].should.contain({
@@ -283,10 +291,9 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(createUrl, {
-        status: 400,
-        data: {},
-      });
+      worker.use(
+        rest.post(createUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(create(subject, object, predicate))
         .then(() => {
@@ -323,12 +330,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_SAVE_FULFILLED twice, once in each direction', () => {
@@ -336,12 +339,12 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(createUrl, {
-        status: 201,
-        headers: {
-          location: 'some/new/url',
-        },
-      });
+      worker.use(
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
 
       return store.dispatch(createBidirectional(subject, object, predicate))
         .then(() => {
@@ -358,21 +361,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object,
-              predicate,
-            },
+          actions[1].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[1].payload.status.should.equal(201);
+          actions[1].payload.headers.location.should.equal('some/new/url');
+
+          actions[1].meta.should.deep.equal({
+            subject,
+            object,
+            predicate,
           });
 
           actions[2].should.deep.equal({
@@ -384,21 +380,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[3].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject: object,
-              object: subject,
-              predicate,
-            },
+          actions[3].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[3].payload.status.should.equal(201);
+          actions[3].payload.headers.location.should.equal('some/new/url');
+
+          actions[3].meta.should.deep.equal({
+            subject: object,
+            object: subject,
+            predicate,
           });
 
           actions[4].should.contain({
@@ -413,7 +402,7 @@ describe('relation action creator', () => {
   });
 
   describe('batchCreate', () => {
-    const checkUrl = new RegExp(`\\/cspace-services\\/relations\\?prd=${predicate}&sbj=${subject.csid}&andReciprocal=true&wf_deleted=false&pgSz=1&obj=.*`);
+    const checkUrl = '/cspace-services/relations';
 
     before(() => {
       const store = mockStore({
@@ -423,12 +412,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_SAVE_FULFILLED once for each object', () => {
@@ -436,21 +421,33 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '0',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
 
-      moxios.stubRequest(createUrl, {
-        status: 201,
-        headers: {
-          location: 'some/new/url',
-        },
-      });
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+            && searchParams.get('obj')
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '0',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
 
       const objects = [
         {
@@ -482,21 +479,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object: objects[0],
-              predicate,
-            },
+          actions[1].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[1].payload.status.should.equal(201);
+          actions[1].payload.headers.location.should.equal('some/new/url');
+
+          actions[1].meta.should.deep.equal({
+            subject,
+            object: objects[0],
+            predicate,
           });
 
           actions[2].should.deep.equal({
@@ -508,21 +498,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[3].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object: objects[1],
-              predicate,
-            },
+          actions[3].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[3].payload.status.should.equal(201);
+          actions[3].payload.headers.location.should.equal('some/new/url');
+
+          actions[3].meta.should.deep.equal({
+            subject,
+            object: objects[1],
+            predicate,
           });
 
           actions[4].should.deep.equal({
@@ -534,21 +517,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[5].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object: objects[2],
-              predicate,
-            },
+          actions[5].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[5].payload.status.should.equal(201);
+          actions[5].payload.headers.location.should.equal('some/new/url');
+
+          actions[5].meta.should.deep.equal({
+            subject,
+            object: objects[2],
+            predicate,
           });
 
           actions[6].should.contain({
@@ -566,18 +542,30 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '0',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
 
-      moxios.stubRequest(createUrl, {
-        status: 403,
-      });
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+            && searchParams.get('obj')
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '0',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+
+        rest.post(createUrl, (req, res, ctx) => res(ctx.status(403))),
+      );
 
       const objects = [
         {
@@ -624,14 +612,28 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '1',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
+
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+            && searchParams.get('obj')
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '1',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const objects = [
         {
@@ -666,7 +668,7 @@ describe('relation action creator', () => {
   });
 
   describe('batchCreateBidirectional', () => {
-    const checkUrl = new RegExp(`\\/cspace-services\\/relations\\?prd=${predicate}&sbj=${subject.csid}&andReciprocal=true&wf_deleted=false&pgSz=1&obj=.*`);
+    const checkUrl = '/cspace-services/relations';
 
     before(() => {
       const store = mockStore({
@@ -676,12 +678,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_SAVE_FULFILLED twice for each object', () => {
@@ -689,21 +687,33 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '0',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
 
-      moxios.stubRequest(createUrl, {
-        status: 201,
-        headers: {
-          location: 'some/new/url',
-        },
-      });
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+            && searchParams.get('obj')
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '0',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
 
       const objects = [
         {
@@ -731,21 +741,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object: objects[0],
-              predicate,
-            },
+          actions[1].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[1].payload.status.should.equal(201);
+          actions[1].payload.headers.location.should.equal('some/new/url');
+
+          actions[1].meta.should.deep.equal({
+            subject,
+            object: objects[0],
+            predicate,
           });
 
           actions[2].should.deep.equal({
@@ -757,21 +760,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[3].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject: objects[0],
-              object: subject,
-              predicate,
-            },
+          actions[3].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[3].payload.status.should.equal(201);
+          actions[3].payload.headers.location.should.equal('some/new/url');
+
+          actions[3].meta.should.deep.equal({
+            subject: objects[0],
+            object: subject,
+            predicate,
           });
 
           actions[4].should.deep.equal({
@@ -783,21 +779,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[5].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject,
-              object: objects[1],
-              predicate,
-            },
+          actions[5].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[5].payload.status.should.equal(201);
+          actions[5].payload.headers.location.should.equal('some/new/url');
+
+          actions[5].meta.should.deep.equal({
+            subject,
+            object: objects[1],
+            predicate,
           });
 
           actions[6].should.deep.equal({
@@ -809,21 +798,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[7].should.deep.equal({
-            type: RELATION_SAVE_FULFILLED,
-            payload: {
-              status: 201,
-              headers: {
-                location: 'some/new/url',
-              },
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              subject: objects[1],
-              object: subject,
-              predicate,
-            },
+          actions[7].type.should.equal(RELATION_SAVE_FULFILLED);
+          actions[7].payload.status.should.equal(201);
+          actions[7].payload.headers.location.should.equal('some/new/url');
+
+          actions[7].meta.should.deep.equal({
+            subject: objects[1],
+            object: subject,
+            predicate,
           });
 
           actions[8].should.contain({
@@ -845,18 +827,30 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '0',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
 
-      moxios.stubRequest(createUrl, {
-        status: 403,
-      });
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+            && searchParams.get('obj')
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '0',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+
+        rest.post(createUrl, (req, res, ctx) => res(ctx.status(403))),
+      );
 
       const objects = [
         {
@@ -899,14 +893,28 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '1',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
+
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+            && searchParams.get('obj')
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '1',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const objects = [
         {
@@ -952,20 +960,16 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_DELETE_FULFILLED on success', () => {
       const store = mockStore();
 
-      moxios.stubRequest(deleteUrl, {
-        status: 200,
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => res(ctx.status(200))),
+      );
 
       return store.dispatch(deleteRelation(relationCsid))
         .then(() => {
@@ -980,17 +984,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: relationCsid,
-            },
+          actions[1].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+
+          actions[1].meta.should.deep.equal({
+            csid: relationCsid,
           });
         });
     });
@@ -998,11 +996,11 @@ describe('relation action creator', () => {
     it('should dispatch RELATION_DELETE_REJECTED on error', () => {
       const store = mockStore();
 
-      moxios.stubRequest(deleteUrl, {
-        status: 400,
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
-      return store.dispatch(deleteRelation(relationCsid))
+      return store.dispatch(deleteRelation(relationCsid)).should.eventually.be.rejected
         .then(() => {
           const actions = store.getActions();
 
@@ -1020,8 +1018,7 @@ describe('relation action creator', () => {
             .that.deep.equals({
               csid: relationCsid,
             });
-        })
-        .catch(() => {});
+        });
     });
 
     it('should throw if no csid is supplied', () => {
@@ -1044,12 +1041,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_DELETE_FULFILLED on success', () => {
@@ -1073,9 +1066,9 @@ describe('relation action creator', () => {
         }),
       });
 
-      moxios.stubRequest(deleteUrl, {
-        status: 200,
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => res(ctx.status(200))),
+      );
 
       return store.dispatch(unrelate(config, subject, object, predicate))
         .then(() => {
@@ -1090,17 +1083,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: relationCsid,
-            },
+          actions[1].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+
+          actions[1].meta.should.deep.equal({
+            csid: relationCsid,
           });
 
           actions[2].should.contain({
@@ -1134,9 +1121,9 @@ describe('relation action creator', () => {
         }),
       });
 
-      moxios.stubRequest(deleteUrl, {
-        status: 400,
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(unrelate(config, subject, object, predicate))
         .then(() => {
@@ -1164,10 +1151,27 @@ describe('relation action creator', () => {
         relation: Immutable.Map(),
       });
 
-      moxios.stubRequest(findUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.get(findUrl, (req, res, ctx) => {
+          const {
+            searchParams,
+          } = req.url;
+
+          if (
+            searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '0'
+            && searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === subject.csid
+            && searchParams.get('sbjType') === sbjType
+            && searchParams.get('obj') === object.csid
+            && searchParams.get('objType') === objType
+          ) {
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       return store.dispatch(unrelate(config, subject, object, predicate))
         .then(() => {
@@ -1184,19 +1188,14 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_FIND_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              subject,
-              object,
-              predicate,
-            },
+          actions[1].type.should.equal(RELATION_FIND_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+          actions[1].payload.data.should.deep.equal({});
+
+          actions[1].meta.should.deep.equal({
+            subject,
+            object,
+            predicate,
           });
         });
     });
@@ -1226,12 +1225,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_DELETE_FULFILLED twice, once for each direction', () => {
@@ -1268,13 +1263,10 @@ describe('relation action creator', () => {
         }),
       });
 
-      moxios.stubRequest(forwardDeleteUrl, {
-        status: 200,
-      });
-
-      moxios.stubRequest(backwardDeleteUrl, {
-        status: 200,
-      });
+      worker.use(
+        rest.delete(forwardDeleteUrl, (req, res, ctx) => res(ctx.status(200))),
+        rest.delete(backwardDeleteUrl, (req, res, ctx) => res(ctx.status(200))),
+      );
 
       return store.dispatch(unrelateBidirectional(config, subject, object, predicate))
         .then(() => {
@@ -1289,17 +1281,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: forwardRelationCsid,
-            },
+          actions[1].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+
+          actions[1].meta.should.deep.equal({
+            csid: forwardRelationCsid,
           });
 
           actions[2].should.contain({
@@ -1317,17 +1303,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[4].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: backwardRelationCsid,
-            },
+          actions[4].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[4].payload.status.should.equal(200);
+
+          actions[4].meta.should.deep.equal({
+            csid: backwardRelationCsid,
           });
 
           actions[5].should.contain({
@@ -1358,7 +1338,7 @@ describe('relation action creator', () => {
       'bbbb',
     ];
 
-    const deleteUrls = relationCsids.map((csid) => `/cspace-services/relations/${csid}`);
+    const deleteUrl = '/cspace-services/relations/:csid';
 
     before(() => {
       const store = mockStore({
@@ -1368,12 +1348,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_DELETE_FULFILLED once for each object', () => {
@@ -1389,11 +1365,17 @@ describe('relation action creator', () => {
         relation: relationState,
       });
 
-      deleteUrls.forEach((url) => {
-        moxios.stubRequest(url, {
-          status: 200,
-        });
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => {
+          const { params } = req;
+
+          if (relationCsids.includes(params.csid)) {
+            return res(ctx.status(200));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       return store.dispatch(batchUnrelate(config, subject, objects, predicate))
         .then(() => {
@@ -1408,17 +1390,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: relationCsids[0],
-            },
+          actions[1].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+
+          actions[1].meta.should.deep.equal({
+            csid: relationCsids[0],
           });
 
           actions[2].should.deep.equal({
@@ -1428,17 +1404,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[3].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: relationCsids[1],
-            },
+          actions[3].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[3].payload.status.should.equal(200);
+
+          actions[3].meta.should.deep.equal({
+            csid: relationCsids[1],
           });
 
           actions[4].should.contain({
@@ -1464,11 +1434,9 @@ describe('relation action creator', () => {
         relation: relationState,
       });
 
-      deleteUrls.forEach((url) => {
-        moxios.stubRequest(url, {
-          status: 403,
-        });
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => res(ctx.status(403))),
+      );
 
       return store.dispatch(batchUnrelate(config, subject, objects, predicate))
         .then(() => {
@@ -1516,9 +1484,7 @@ describe('relation action creator', () => {
       'bbbb1',
     ];
 
-    const forwardDeleteUrls = forwardRelationCsids.map((csid) => `/cspace-services/relations/${csid}`);
-
-    const backwardDeleteUrls = backwardRelationCsids.map((csid) => `/cspace-services/relations/${csid}`);
+    const deleteUrl = '/cspace-services/relations/:csid';
 
     before(() => {
       const store = mockStore({
@@ -1528,12 +1494,8 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch RELATION_DELETE_FULFILLED once for each object', () => {
@@ -1557,17 +1519,20 @@ describe('relation action creator', () => {
         relation: relationState,
       });
 
-      forwardDeleteUrls.forEach((url) => {
-        moxios.stubRequest(url, {
-          status: 200,
-        });
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => {
+          const { params } = req;
 
-      backwardDeleteUrls.forEach((url) => {
-        moxios.stubRequest(url, {
-          status: 200,
-        });
-      });
+          if (
+            forwardRelationCsids.includes(params.csid)
+            || backwardRelationCsids.includes(params.csid)
+          ) {
+            return res(ctx.status(200));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       return store.dispatch(batchUnrelateBidirectional(config, subject, objects, predicate))
         .then(() => {
@@ -1582,17 +1547,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: forwardRelationCsids[0],
-            },
+          actions[1].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+
+          actions[1].meta.should.deep.equal({
+            csid: forwardRelationCsids[0],
           });
 
           actions[2].should.deep.equal({
@@ -1602,17 +1561,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[3].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: backwardRelationCsids[0],
-            },
+          actions[3].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[3].payload.status.should.equal(200);
+
+          actions[3].meta.should.deep.equal({
+            csid: backwardRelationCsids[0],
           });
 
           actions[4].should.contain({
@@ -1630,17 +1583,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[6].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: forwardRelationCsids[1],
-            },
+          actions[6].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[6].payload.status.should.equal(200);
+
+          actions[6].meta.should.deep.equal({
+            csid: forwardRelationCsids[1],
           });
 
           actions[7].should.deep.equal({
@@ -1650,17 +1597,11 @@ describe('relation action creator', () => {
             },
           });
 
-          actions[8].should.deep.equal({
-            type: RELATION_DELETE_FULFILLED,
-            payload: {
-              status: 200,
-              headers: undefined,
-              statusText: undefined,
-              data: undefined,
-            },
-            meta: {
-              csid: backwardRelationCsids[1],
-            },
+          actions[8].type.should.equal(RELATION_DELETE_FULFILLED);
+          actions[8].payload.status.should.equal(200);
+
+          actions[8].meta.should.deep.equal({
+            csid: backwardRelationCsids[1],
           });
 
           actions[9].should.contain({
@@ -1702,17 +1643,9 @@ describe('relation action creator', () => {
         relation: relationState,
       });
 
-      forwardDeleteUrls.forEach((url) => {
-        moxios.stubRequest(url, {
-          status: 403,
-        });
-      });
-
-      backwardDeleteUrls.forEach((url) => {
-        moxios.stubRequest(url, {
-          status: 403,
-        });
-      });
+      worker.use(
+        rest.delete(deleteUrl, (req, res, ctx) => res(ctx.status(403))),
+      );
 
       return store.dispatch(batchUnrelateBidirectional(config, subject, objects, predicate))
         .then(() => {
@@ -1740,7 +1673,7 @@ describe('relation action creator', () => {
 
   describe('checkForRelations', () => {
     const csid = '1234';
-    const checkUrl = `/cspace-services/relations?prd=${predicate}&sbj=${csid}&andReciprocal=true&wf_deleted=false&pgSz=1`;
+    const checkUrl = '/cspace-services/relations';
 
     before(() => {
       const store = mockStore();
@@ -1748,25 +1681,34 @@ describe('relation action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should resolve to true if relations are found for the given csid and predicate', () => {
       const store = mockStore();
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '4',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
+
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '4',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       return store.dispatch(checkForRelations(csid, predicate)).then((result) => {
         result.should.equal(true);
@@ -1776,14 +1718,27 @@ describe('relation action creator', () => {
     it('should resolve to false if no relations are found for the given csid and predicate', () => {
       const store = mockStore();
 
-      moxios.stubRequest(checkUrl, {
-        status: 200,
-        response: {
-          'rel:relations-common-list': {
-            totalItems: '0',
-          },
-        },
-      });
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => {
+          const { searchParams } = req.url;
+
+          if (
+            searchParams.get('prd') === predicate
+            && searchParams.get('sbj') === csid
+            && searchParams.get('andReciprocal') === 'true'
+            && searchParams.get('wf_deleted') === 'false'
+            && searchParams.get('pgSz') === '1'
+          ) {
+            return res(ctx.json({
+              'rel:relations-common-list': {
+                totalItems: '0',
+              },
+            }));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       return store.dispatch(checkForRelations(csid, predicate)).then((result) => {
         result.should.equal(false);

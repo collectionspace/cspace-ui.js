@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import ContentViewerPage from '../../../../src/components/pages/ContentViewerPage';
 import ContentViewerPageContainer from '../../../../src/containers/pages/ContentViewerPageContainer';
 
@@ -20,16 +20,22 @@ const store = mockStore({
 });
 
 describe('ContentViewerPageContainer', () => {
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  const worker = setupWorker();
 
-  beforeEach(() => {
-    moxios.install();
+  before(() => {
+    worker.start({ quiet: true });
+
+    return store.dispatch(configureCSpace())
+      .then(() => store.clearActions());
   });
 
   afterEach(() => {
     store.clearActions();
-    moxios.uninstall();
+    worker.resetHandlers();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on ContentViewerPage', () => {
@@ -46,10 +52,11 @@ describe('ContentViewerPageContainer', () => {
   });
 
   it('should connect readContent to an action that fetches the content as a blob', () => {
-    moxios.stubRequest(/./, {
-      status: 200,
-      response: {},
-    });
+    const contentPath = 'blobs/1fd5e035-b5dc-4a3b-aafb/content';
+
+    worker.use(
+      rest.get(`/cspace-services/${contentPath}`, (req, res, ctx) => res(ctx.json({}))),
+    );
 
     const context = { store };
 
@@ -58,7 +65,6 @@ describe('ContentViewerPageContainer', () => {
     shallowRenderer.render(<ContentViewerPageContainer />, context);
 
     const result = shallowRenderer.getRenderOutput();
-    const contentPath = 'blobs/1fd5e035-b5dc-4a3b-aafb/content';
 
     const match = {
       params: {
@@ -67,11 +73,8 @@ describe('ContentViewerPageContainer', () => {
     };
 
     return result.props.readContent(undefined, match)
-      .then(() => {
-        const request = moxios.requests.mostRecent();
-
-        request.url.should.equal(`/cspace-services/${contentPath}`);
-        request.responseType.should.equal('blob');
+      .then((readContentResult) => {
+        readContentResult.data.constructor.name.should.equal('Blob');
       });
   });
 });

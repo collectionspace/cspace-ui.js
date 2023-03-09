@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import Immutable from 'immutable';
+import { setupWorker, rest } from 'msw';
 
 import {
   ADD_ID_GENERATORS,
@@ -34,6 +34,16 @@ const { expect } = chai;
 chai.should();
 
 describe('ID generator action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('addIDGenerators', () => {
     it('should create an ADD_ID_GENERATORS action', () => {
       const idGenerators = {
@@ -70,25 +80,20 @@ describe('ID generator action creator', () => {
       user: Immutable.Map(),
     });
 
-    const readIDGeneratorUrl = new RegExp(`/cspace-services/idgenerators/${idGeneratorCsid}.*`);
+    const readIDGeneratorUrl = `/cspace-services/idgenerators/${idGeneratorCsid}`;
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch READ_ID_GENERATOR_FULFILLED on success', () => {
-      moxios.stubRequest(readIDGeneratorUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.get(readIDGeneratorUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       return store.dispatch(readIDGenerator(idGeneratorName))
         .then(() => {
@@ -103,26 +108,17 @@ describe('ID generator action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: READ_ID_GENERATOR_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              idGeneratorName,
-            },
-          });
+          actions[1].type.should.equal(READ_ID_GENERATOR_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+          actions[1].payload.data.should.deep.equal({});
+          actions[1].meta.idGeneratorName.should.equal(idGeneratorName);
         });
     });
 
     it('should dispatch READ_ID_GENERATOR_REJECTED on error', () => {
-      moxios.stubRequest(readIDGeneratorUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.get(readIDGeneratorUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(readIDGenerator(idGeneratorName))
         .then(() => {
@@ -175,20 +171,15 @@ describe('ID generator action creator', () => {
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch CREATE_ID_FULFILLED on success', () => {
-      moxios.stubRequest(createIDUrl, {
-        status: 200,
-        response: '2016.1.1',
-      });
+      worker.use(
+        rest.post(createIDUrl, (req, res, ctx) => res(ctx.text('2016.1.1'))),
+      );
 
       return store.dispatch(createID(recordTypeConfig, idGeneratorName, csid, path, transform))
         .then(() => {
@@ -206,21 +197,16 @@ describe('ID generator action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: CREATE_ID_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: '2016.1.1',
-            },
-            meta: {
-              recordTypeConfig,
-              idGeneratorName,
-              csid,
-              path,
-              transform,
-            },
+          actions[1].type.should.equal(CREATE_ID_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+          actions[1].payload.data.should.equal('2016.1.1');
+
+          actions[1].meta.should.deep.equal({
+            recordTypeConfig,
+            idGeneratorName,
+            csid,
+            path,
+            transform,
           });
 
           actions[2].should.deep.equal({
@@ -241,10 +227,9 @@ describe('ID generator action creator', () => {
     });
 
     it('should dispatch CREATE_ID_REJECTED on error', () => {
-      moxios.stubRequest(createIDUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.post(createIDUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       return store.dispatch(createID(recordTypeConfig, idGeneratorName, csid, path))
         .then(() => {

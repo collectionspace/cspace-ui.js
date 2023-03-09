@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 
 import {
   BATCH_INVOKE_STARTED,
@@ -27,7 +27,6 @@ import {
 
 const {
   assert,
-  expect,
 } = chai;
 
 chai.use(chaiImmutable);
@@ -54,6 +53,16 @@ const config = {
 const mockStore = configureMockStore([thunk]);
 
 describe('batch action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('invoke', () => {
     const store = mockStore({
       prefs: Immutable.Map(),
@@ -72,25 +81,39 @@ describe('batch action creator', () => {
       user: Immutable.Map(),
     });
 
+    const invokeBatchUrl = '/cspace-services/batch/:batchCsid/invoke';
+
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should invoke a batch job in single mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'single';
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeBatchUrl, async (req, res, ctx) => {
+          const { params } = req;
+
+          if (
+            params.batchCsid === batchCsid
+          ) {
+            requestPayload = await req.json();
+
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -100,28 +123,21 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
         csid: recordCsid,
-        mode: 'single',
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
-        .then(() => {
-          const request = moxios.requests.mostRecent();
+        .then((result) => {
+          result.status.should.equal(200);
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'single',
+              mode,
               singleCSID: recordCsid,
             },
           });
@@ -129,12 +145,28 @@ describe('batch action creator', () => {
     });
 
     it('should invoke a batch job in list mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'list';
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeBatchUrl, async (req, res, ctx) => {
+          const { params } = req;
+
+          if (
+            params.batchCsid === batchCsid
+          ) {
+            requestPayload = await req.json();
+
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -144,30 +176,21 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
-        csid: [
-          recordCsid,
-        ],
-        mode: 'list',
+        csid: [recordCsid],
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
-        .then(() => {
-          const request = moxios.requests.mostRecent();
+        .then((response) => {
+          response.status.should.equal(200);
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'list',
+              mode,
               listCSIDs: {
                 csid: [
                   '1234',
@@ -179,12 +202,27 @@ describe('batch action creator', () => {
     });
 
     it('should invoke a batch job in nocontext mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const batchCsid = 'abcd';
+      const recordType = 'group';
+      const mode = 'nocontext';
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeBatchUrl, async (req, res, ctx) => {
+          const { params } = req;
+
+          if (
+            params.batchCsid === batchCsid
+          ) {
+            requestPayload = await req.json();
+
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -194,38 +232,48 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
-        mode: 'nocontext',
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
-        .then(() => {
-          const request = moxios.requests.mostRecent();
+        .then((response) => {
+          response.status.should.equal(200);
 
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'nocontext',
+              mode,
             },
           });
         });
     });
 
     it('should send parameters', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'single';
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeBatchUrl, async (req, res, ctx) => {
+          const { params } = req;
+
+          if (
+            params.batchCsid === batchCsid
+          ) {
+            requestPayload = await req.json();
+
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -238,28 +286,19 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
         csid: recordCsid,
-        mode: 'single',
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal(`/cspace-services/batch/${batchCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
-              mode: 'single',
+              mode,
               singleCSID: recordCsid,
               params: {
                 param: [
@@ -273,12 +312,14 @@ describe('batch action creator', () => {
     });
 
     it('should call the onValidationSuccess callback if parameter validation succeeds', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'single';
+
+      worker.use(
+        rest.post(invokeBatchUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -291,13 +332,10 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
         csid: recordCsid,
-        mode: 'single',
       });
 
       let onValidationSuccessCalled = false;
@@ -315,6 +353,11 @@ describe('batch action creator', () => {
     });
 
     it('should not dispatch any actions when parameter validation fails', () => {
+      const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'single';
+
       const invalidDataStore = mockStore({
         notification: Immutable.Map(),
         prefs: Immutable.Map(),
@@ -342,12 +385,9 @@ describe('batch action creator', () => {
         user: Immutable.Map(),
       });
 
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
-      const batchCsid = 'abcd';
+      worker.use(
+        rest.post(invokeBatchUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -360,13 +400,10 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
         csid: recordCsid,
-        mode: 'single',
       });
 
       return invalidDataStore.dispatch(invoke(config, batchMetadata, invocationDescriptor))
@@ -374,19 +411,20 @@ describe('batch action creator', () => {
           assert.fail('action should be rejected');
         })
         .catch(() => {
-          const request = moxios.requests.mostRecent();
-
-          expect(request).to.equal(undefined);
+          const actions = store.getActions();
+          actions.should.have.lengthOf(0);
         });
     });
 
     it('should dispatch BATCH_INVOKE_FULFILLED when an invocation completes successfully', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'single';
+
+      worker.use(
+        rest.post(invokeBatchUrl, (req, res, ctx) => res(ctx.json({}))),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -396,13 +434,10 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
         csid: recordCsid,
-        mode: 'single',
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
@@ -430,11 +465,14 @@ describe('batch action creator', () => {
     });
 
     it('should dispatch BATCH_INVOKE_REJECTED when an invocation fails', () => {
-      moxios.stubRequest(/./, {
-        status: 400,
-      });
-
       const batchCsid = 'abcd';
+      const recordCsid = '1234';
+      const recordType = 'group';
+      const mode = 'single';
+
+      worker.use(
+        rest.post(invokeBatchUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       const batchMetadata = Immutable.fromJS({
         document: {
@@ -444,13 +482,10 @@ describe('batch action creator', () => {
         },
       });
 
-      const recordCsid = '1234';
-      const recordType = 'group';
-
       const invocationDescriptor = Immutable.Map({
+        mode,
         recordType,
         csid: recordCsid,
-        mode: 'single',
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))

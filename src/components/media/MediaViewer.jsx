@@ -83,19 +83,6 @@ export default class MediaViewer extends Component {
     this.handleImageGalleryClick = this.handleImageGalleryClick.bind(this);
   }
 
-  getPopupImagePath(blobCsid) {
-    const {
-      config,
-      readRecord,
-    } = this.props;
-
-    const recordTypeConfig = get(config, ['recordTypes', 'blob']);
-    const popupSubresource = get(recordTypeConfig, ['content', 'popup', 'subresource']);
-
-    return readRecord(config, recordTypeConfig, undefined, blobCsid)
-      .then((blobData) => getContentPath(config, 'blob', undefined, blobCsid, popupSubresource, blobData));
-  }
-
   handleImageGalleryClick(event) {
     const {
       target,
@@ -111,6 +98,19 @@ export default class MediaViewer extends Component {
           window.open(getImageViewerPath(config, popupImagePath), VIEWER_WINDOW_NAME);
         });
     }
+  }
+
+  getPopupImagePath(blobCsid) {
+    const {
+      config,
+      readRecord,
+    } = this.props;
+
+    const recordTypeConfig = get(config, ['recordTypes', 'blob']);
+    const popupSubresource = get(recordTypeConfig, ['content', 'popup', 'subresource']);
+
+    return readRecord(config, recordTypeConfig, undefined, blobCsid)
+      .then((blobData) => getContentPath(config, 'blob', undefined, blobCsid, popupSubresource, blobData));
   }
 
   createGalleryImage(blobCsid) {

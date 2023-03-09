@@ -1,10 +1,11 @@
 /* global window */
 
 import Immutable from 'immutable';
+import chaiAsPromised from 'chai-as-promised';
 import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import qs from 'qs';
 
 import {
@@ -29,6 +30,7 @@ const {
   expect,
 } = chai;
 
+chai.use(chaiAsPromised);
 chai.use(chaiImmutable);
 chai.should();
 
@@ -53,6 +55,16 @@ const config = {
 const mockStore = configureMockStore([thunk]);
 
 describe('report action creator', () => {
+  const worker = setupWorker();
+
+  before(() => {
+    worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('invoke', () => {
     const store = mockStore({
       user: Immutable.Map(),
@@ -61,24 +73,27 @@ describe('report action creator', () => {
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
       store.clearActions();
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should invoke a report in single mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
+
+      const invokeUrl = `/cspace-services/reports/${reportCsid}/invoke`;
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeUrl, async (req, res, ctx) => {
+          requestPayload = await req.json();
+
+          return res(ctx.json({}));
+        }),
+      );
 
       const invocationDescriptor = Immutable.Map({
         recordType,
@@ -89,13 +104,7 @@ describe('report action creator', () => {
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
@@ -108,14 +117,21 @@ describe('report action creator', () => {
     });
 
     it('should invoke a report in list mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const reportCsid = 'abcd';
       const recordCsid = '1234';
       const recordType = 'group';
+
+      const invokeUrl = `/cspace-services/reports/${reportCsid}/invoke`;
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeUrl, async (req, res, ctx) => {
+          requestPayload = await req.json();
+
+          return res(ctx.json({}));
+        }),
+      );
 
       const invocationDescriptor = Immutable.Map({
         recordType,
@@ -127,13 +143,7 @@ describe('report action creator', () => {
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
@@ -149,13 +159,20 @@ describe('report action creator', () => {
     });
 
     it('should invoke a report in nocontext mode', () => {
-      moxios.stubRequest(/./, {
-        status: 200,
-        response: {},
-      });
-
       const reportCsid = 'abcd';
       const recordType = 'group';
+
+      const invokeUrl = `/cspace-services/reports/${reportCsid}/invoke`;
+
+      let requestPayload = null;
+
+      worker.use(
+        rest.post(invokeUrl, async (req, res, ctx) => {
+          requestPayload = await req.json();
+
+          return res(ctx.json({}));
+        }),
+      );
 
       const invocationDescriptor = Immutable.Map({
         recordType,
@@ -164,13 +181,7 @@ describe('report action creator', () => {
 
       return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
         .then(() => {
-          const request = moxios.requests.mostRecent();
-
-          request.url.should.equal(`/cspace-services/reports/${reportCsid}/invoke`);
-
-          const data = JSON.parse(request.config.data);
-
-          data.should.deep.equal({
+          requestPayload.should.deep.equal({
             'ns2:invocationContext': {
               '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
               docType: 'Group',
@@ -181,23 +192,22 @@ describe('report action creator', () => {
     });
 
     it('should dispatch SHOW_NOTIFICATION with STATUS_ERROR when an invocation fails', () => {
-      moxios.wait(() => {
-        moxios.requests.mostRecent().respondWith({
-          status: 400,
-          response: {},
-        });
-      });
-
       const reportCsid = 'abcd';
       const recordType = 'group';
+
+      const invokeUrl = `/cspace-services/reports/${reportCsid}/invoke`;
+
+      worker.use(
+        rest.post(invokeUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       const invocationDescriptor = Immutable.Map({
         recordType,
         mode: 'nocontext',
       });
 
-      return store.dispatch(invoke(config, reportCsid, invocationDescriptor))
-        .catch(() => {
+      return store.dispatch(invoke(config, reportCsid, invocationDescriptor)).should.eventually
+        .be.rejected.then(() => {
           const actions = store.getActions();
 
           actions[0].type.should.equal(SHOW_NOTIFICATION);
@@ -228,9 +238,6 @@ describe('report action creator', () => {
 
     before(() => store.dispatch(configureCSpace())
       .then(() => store.clearActions()));
-
-    beforeEach(() => {
-    });
 
     afterEach(() => {
       store.clearActions();

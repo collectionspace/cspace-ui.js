@@ -60,40 +60,6 @@ export default class RecordBrowser extends Component {
     this.clearPreferredRelatedCsid();
   }
 
-  clearPreferredRelatedCsid() {
-    const {
-      clearPreferredRelatedCsid,
-    } = this.props;
-
-    if (clearPreferredRelatedCsid) {
-      clearPreferredRelatedCsid();
-    }
-  }
-
-  cloneRecord() {
-    const {
-      csid,
-      recordType,
-      vocabulary,
-      history,
-    } = this.props;
-
-    const path = [recordType, vocabulary]
-      .filter((part) => !!part)
-      .join('/');
-
-    const query = {
-      clone: csid,
-    };
-
-    const queryString = qs.stringify(query);
-
-    history.push({
-      pathname: `/record/${path}`,
-      search: `?${queryString}`,
-    });
-  }
-
   handleRecordCreated(newRecordCsid, isNavigating) {
     if (!isNavigating) {
       const {
@@ -135,6 +101,40 @@ export default class RecordBrowser extends Component {
 
       history.replace(newLocation);
     }
+  }
+
+  clearPreferredRelatedCsid() {
+    const {
+      clearPreferredRelatedCsid,
+    } = this.props;
+
+    if (clearPreferredRelatedCsid) {
+      clearPreferredRelatedCsid();
+    }
+  }
+
+  cloneRecord() {
+    const {
+      csid,
+      recordType,
+      vocabulary,
+      history,
+    } = this.props;
+
+    const path = [recordType, vocabulary]
+      .filter((part) => !!part)
+      .join('/');
+
+    const query = {
+      clone: csid,
+    };
+
+    const queryString = qs.stringify(query);
+
+    history.push({
+      pathname: `/record/${path}`,
+      search: `?${queryString}`,
+    });
   }
 
   render() {

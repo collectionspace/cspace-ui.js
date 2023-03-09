@@ -37,19 +37,16 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
-              localIdentName: '[folder]-[name]--[local]',
+              modules: {
+                localIdentName: '[folder]-[name]--[local]',
+              },
             },
           },
         ],
       },
       {
         test: /\.(png|jpg|svg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-          },
-        ],
+        type: 'asset/inline',
       },
     ],
   },
@@ -63,9 +60,10 @@ const config = {
     extensions: ['.js', '.jsx'],
   },
   devServer: {
-    contentBase: __dirname,
     historyApiFallback: true,
-    inline: true,
+    static: {
+      directory: __dirname,
+    },
   },
 };
 

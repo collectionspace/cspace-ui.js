@@ -87,33 +87,6 @@ export default class BatchPage extends Component {
     }
   }
 
-  filter(value) {
-    const {
-      searchDescriptor,
-    } = this.state;
-
-    const searchQuery = searchDescriptor.get('searchQuery');
-
-    let updatedSearchQuery;
-
-    if (value) {
-      updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
-        value,
-        op: OP_CONTAIN,
-        path: 'ns2:batch_common/name',
-      }));
-    } else {
-      updatedSearchQuery = searchQuery.delete('as');
-    }
-
-    updatedSearchQuery = updatedSearchQuery.set('p', 0);
-
-    this.setState({
-      filterValue: value,
-      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
-    });
-  }
-
   handleItemClick(item) {
     const {
       history,
@@ -230,6 +203,33 @@ export default class BatchPage extends Component {
   handleSearchDescriptorChange(searchDescriptor) {
     this.setState({
       searchDescriptor,
+    });
+  }
+
+  filter(value) {
+    const {
+      searchDescriptor,
+    } = this.state;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    let updatedSearchQuery;
+
+    if (value) {
+      updatedSearchQuery = searchQuery.set('as', Immutable.fromJS({
+        value,
+        op: OP_CONTAIN,
+        path: 'ns2:batch_common/name',
+      }));
+    } else {
+      updatedSearchQuery = searchQuery.delete('as');
+    }
+
+    updatedSearchQuery = updatedSearchQuery.set('p', 0);
+
+    this.setState({
+      filterValue: value,
+      searchDescriptor: searchDescriptor.set('searchQuery', updatedSearchQuery),
     });
   }
 

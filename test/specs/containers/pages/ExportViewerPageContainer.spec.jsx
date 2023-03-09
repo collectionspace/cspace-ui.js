@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import ExportViewerPage from '../../../../src/components/pages/ExportViewerPage';
 import { ConnectedExportViewerPage } from '../../../../src/containers/pages/ExportViewerPageContainer';
 
@@ -27,16 +27,22 @@ const store = mockStore({
 });
 
 describe('ExportViewerPageContainer', () => {
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  const worker = setupWorker();
 
-  beforeEach(() => {
-    moxios.install();
+  before(() => {
+    worker.start({ quiet: true });
+
+    return store.dispatch(configureCSpace())
+      .then(() => store.clearActions());
   });
 
   afterEach(() => {
     store.clearActions();
-    moxios.uninstall();
+    worker.resetHandlers();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on ExportViewerPage', () => {
@@ -53,10 +59,15 @@ describe('ExportViewerPageContainer', () => {
   });
 
   it('should connect readContent to an action that loads the invocation descriptor and invokes the export', () => {
-    moxios.stubRequest(/./, {
-      status: 200,
-      response: {},
-    });
+    let requestPayload = null;
+
+    worker.use(
+      rest.post('/cspace-services/exports', async (req, res, ctx) => {
+        requestPayload = await req.json();
+
+        return res(ctx.json({}));
+      }),
+    );
 
     const context = { store };
 
@@ -82,16 +93,10 @@ describe('ExportViewerPageContainer', () => {
     storeInvocationDescriptor(invocationDescriptor);
 
     return result.props.readContent()
-      .then(() => {
-        const request = moxios.requests.mostRecent();
+      .then((readContentResult) => {
+        readContentResult.data.constructor.name.should.equal('Blob');
 
-        request.url.should.equal('/cspace-services/exports');
-        request.responseType.should.equal('blob');
-
-        const jsonData = request.config.data;
-        const data = JSON.parse(jsonData);
-
-        data.should.deep.equal({
+        requestPayload.should.deep.equal({
           'ns2:invocationContext': {
             '@xmlns:ns2': 'http://collectionspace.org/services/common/invocable',
             includeFields: {

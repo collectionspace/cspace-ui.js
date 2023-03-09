@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createRenderer } from 'react-test-renderer/shallow';
 
 import withBooleanValue from '../../../src/enhancers/withBooleanValue';
@@ -8,13 +7,6 @@ chai.should();
 
 describe('withBooleanValue', () => {
   const StubComponent = () => null;
-
-  StubComponent.propTypes = {
-    value: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-    ]),
-  };
 
   it('should convert a \'true\' value to boolean true', () => {
     const EnhancedComponent = withBooleanValue(StubComponent);

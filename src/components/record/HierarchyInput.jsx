@@ -154,43 +154,6 @@ export default class HierarchyInput extends Component {
     return null;
   }
 
-  getRelationItems(hierarchy) {
-    const {
-      csid,
-    } = this.props;
-
-    const children = hierarchy.get('children');
-
-    const childRelationItems = children.map((child) => Immutable.fromJS({
-      csid: child.get('relCsid'),
-      predicate: 'hasBroader',
-      relationshipMetaType: child.get('type'),
-      subject: {
-        refName: child.get('refName'),
-      },
-      object: {
-        csid: csid || placeholderCsid,
-      },
-    }));
-
-    const parent = hierarchy.get('parent');
-
-    const parentRelationItem = Immutable.fromJS({
-      csid: parent.get('relCsid'),
-      predicate: 'hasBroader',
-      relationshipMetaType: parent.get('type'),
-      subject: {
-        csid: csid || placeholderCsid,
-      },
-      object: {
-        csid: parent.get('csid'),
-        refName: parent.get('refName'),
-      },
-    });
-
-    return childRelationItems.push(parentRelationItem);
-  }
-
   handleAddChild() {
     const {
       onCommit,
@@ -247,6 +210,43 @@ export default class HierarchyInput extends Component {
 
       onCommit(getPath(this.props), this.getRelationItems(updatedHierarchy));
     }
+  }
+
+  getRelationItems(hierarchy) {
+    const {
+      csid,
+    } = this.props;
+
+    const children = hierarchy.get('children');
+
+    const childRelationItems = children.map((child) => Immutable.fromJS({
+      csid: child.get('relCsid'),
+      predicate: 'hasBroader',
+      relationshipMetaType: child.get('type'),
+      subject: {
+        refName: child.get('refName'),
+      },
+      object: {
+        csid: csid || placeholderCsid,
+      },
+    }));
+
+    const parent = hierarchy.get('parent');
+
+    const parentRelationItem = Immutable.fromJS({
+      csid: parent.get('relCsid'),
+      predicate: 'hasBroader',
+      relationshipMetaType: parent.get('type'),
+      subject: {
+        csid: csid || placeholderCsid,
+      },
+      object: {
+        csid: parent.get('csid'),
+        refName: parent.get('refName'),
+      },
+    });
+
+    return childRelationItems.push(parentRelationItem);
   }
 
   renderHierarchy() {

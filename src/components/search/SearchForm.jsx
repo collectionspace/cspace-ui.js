@@ -135,22 +135,6 @@ export default class SearchForm extends Component {
     }
   }
 
-  formatRecordTypeLabel(name, config) {
-    const {
-      intl,
-    } = this.props;
-
-    return (intl.formatMessage(config.messages.record.collectionName) || name);
-  }
-
-  formatVocabularyLabel(name, config) {
-    const {
-      intl,
-    } = this.props;
-
-    return (intl.formatMessage(config.messages.name) || name);
-  }
-
   handleFormSubmit(event) {
     event.preventDefault();
 
@@ -191,6 +175,22 @@ export default class SearchForm extends Component {
     if (onVocabularyCommit) {
       onVocabularyCommit(value);
     }
+  }
+
+  formatRecordTypeLabel(name, config) {
+    const {
+      intl,
+    } = this.props;
+
+    return (intl.formatMessage(config.messages.record.collectionName) || name);
+  }
+
+  formatVocabularyLabel(name, config) {
+    const {
+      intl,
+    } = this.props;
+
+    return (intl.formatMessage(config.messages.name) || name);
   }
 
   renderVocabularyInput(recordTypes) {
