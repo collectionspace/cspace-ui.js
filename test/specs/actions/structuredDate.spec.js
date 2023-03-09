@@ -70,7 +70,7 @@ describe('structured date action creator', () => {
             }));
           }
 
-          return res(cts.status(400));
+          return res(ctx.status(400));
         }),
       );
 

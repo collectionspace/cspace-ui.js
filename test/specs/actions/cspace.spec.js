@@ -125,7 +125,7 @@ describe('cspace action creator', () => {
           resolve();
         }, 500);
       });
-    })
+    });
 
     it('should resolve if the readAccountPerms query returns a 401 error', () => {
       worker.use(

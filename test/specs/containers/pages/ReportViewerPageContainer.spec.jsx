@@ -93,8 +93,8 @@ describe('ReportViewerPageContainer', () => {
     };
 
     return result.props.readContent(location, match)
-      .then((result) => {
-        result.data.constructor.name.should.equal('Blob');
+      .then((readContentResult) => {
+        readContentResult.data.constructor.name.should.equal('Blob');
 
         const params = get(requestPayload, ['ns2:invocationContext', 'params', 'param']);
 

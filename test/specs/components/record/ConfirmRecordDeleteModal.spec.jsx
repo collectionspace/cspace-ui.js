@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
@@ -155,7 +154,7 @@ describe('ConfirmRecordDeleteModal', () => {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         document.querySelector('.ReactModal__Content--after-open > div > div').textContent.should
-        .equal('Delete Group Record Title?');
+          .equal('Delete Group Record Title?');
 
         unmountComponentAtNode(this.container);
 

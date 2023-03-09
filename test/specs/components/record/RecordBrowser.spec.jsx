@@ -169,7 +169,7 @@ describe('RecordBrowser', () => {
       )),
       rest.get(
         `/cspace-services/collectionobjects/${createdCsid}`,
-        (req, res, ctx) => res(ctx.json({}))
+        (req, res, ctx) => res(ctx.json({})),
       ),
     );
 

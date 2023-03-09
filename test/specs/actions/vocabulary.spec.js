@@ -37,7 +37,7 @@ describe('vocabulary action creator', () => {
   describe('readVocabularyItems', () => {
     const mockStore = configureMockStore([thunk]);
     const vocabulary = 'languages';
-    const readVocabularyItemsUrl = `/cspace-services/vocabularies/:vocabulary/items`;
+    const readVocabularyItemsUrl = '/cspace-services/vocabularies/:vocabulary/items';
 
     before(() => {
       const store = mockStore({

@@ -73,8 +73,8 @@ describe('ContentViewerPageContainer', () => {
     };
 
     return result.props.readContent(undefined, match)
-      .then((result) => {
-        result.data.constructor.name.should.equal('Blob');
+      .then((readContentResult) => {
+        readContentResult.data.constructor.name.should.equal('Blob');
       });
   });
 });

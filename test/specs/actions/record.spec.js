@@ -559,7 +559,7 @@ describe('record action creator', () => {
         return store.dispatch(readRecord(config, recordTypeConfig, vocabularyConfig, csid))
           .then((result) => {
             if (result) {
-              expect(result).not.to.have.property('type', RECORD_READ_REJECTED);
+              result.should.not.have.property('type', RECORD_READ_REJECTED);
             }
           });
       });

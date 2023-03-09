@@ -413,7 +413,7 @@ describe('search action creator', () => {
             return res(ctx.json({}));
           }
 
-          return res(cts.status(400));
+          return res(ctx.status(400));
         }),
       );
 
@@ -466,7 +466,7 @@ describe('search action creator', () => {
             return res(ctx.json({}));
           }
 
-          return res(cts.status(400));
+          return res(ctx.status(400));
         }),
       );
 

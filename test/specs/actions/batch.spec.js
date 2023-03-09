@@ -179,7 +179,7 @@ describe('batch action creator', () => {
       const invocationDescriptor = Immutable.Map({
         mode,
         recordType,
-        csid: [ recordCsid ],
+        csid: [recordCsid],
       });
 
       return store.dispatch(invoke(config, batchMetadata, invocationDescriptor))
@@ -413,7 +413,7 @@ describe('batch action creator', () => {
         .catch(() => {
           const actions = store.getActions();
           actions.should.have.lengthOf(0);
-        })
+        });
     });
 
     it('should dispatch BATCH_INVOKE_FULFILLED when an invocation completes successfully', () => {

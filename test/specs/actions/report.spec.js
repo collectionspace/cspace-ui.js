@@ -206,8 +206,8 @@ describe('report action creator', () => {
         mode: 'nocontext',
       });
 
-      return store.dispatch(invoke(config, reportCsid, invocationDescriptor)).should.eventually.be.rejected
-        .then(() => {
+      return store.dispatch(invoke(config, reportCsid, invocationDescriptor)).should.eventually
+        .be.rejected.then(() => {
           const actions = store.getActions();
 
           actions[0].type.should.equal(SHOW_NOTIFICATION);

@@ -377,7 +377,7 @@ describe('RelatedRecordBrowser', () => {
       )),
       rest.get(
         `/cspace-services/groups/${newCsid}`,
-        (req, res, ctx) => res(ctx.json({}))
+        (req, res, ctx) => res(ctx.json({})),
       ),
       rest.post('/cspace-services/relations', (req, res, ctx) => res(
         ctx.status(201),

@@ -145,7 +145,7 @@ describe('account action creator', () => {
         rest.post(requestPasswordResetUrl, async (req, res, ctx) => {
           requestPayload = await req.json();
 
-          return(res(ctx.status(200)));
+          return res(ctx.status(200));
         }),
       );
 
@@ -201,9 +201,7 @@ describe('account action creator', () => {
 
     it('should dispatch ACCOUNT_PERMS_READ_REJECTED on error', () => {
       worker.use(
-        rest.get(accountPermsUrl, (req, res, ctx) => {
-          return res(ctx.status(400));
-        }),
+        rest.get(accountPermsUrl, (req, res, ctx) => res(ctx.status(400))),
       );
 
       return store.dispatch(readAccountPerms())
@@ -263,9 +261,7 @@ describe('account action creator', () => {
 
     it('should dispatch ACCOUNT_ROLES_READ_REJECTED on error', () => {
       worker.use(
-        rest.get(accountRolesUrl, (req, res, ctx) => {
-          return res(ctx.status(400));
-        }),
+        rest.get(accountRolesUrl, (req, res, ctx) => res(ctx.status(400))),
       );
 
       return store.dispatch(readAccountRoles())

@@ -22,7 +22,6 @@ import {
   findMatchingTerms,
   clearMatchedTerms,
 } from '../../../src/actions/partialTermSearch';
-import search from '../../../src/reducers/search';
 
 chai.should();
 

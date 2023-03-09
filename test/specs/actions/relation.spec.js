@@ -1018,7 +1018,7 @@ describe('relation action creator', () => {
             .that.deep.equals({
               csid: relationCsid,
             });
-        })
+        });
     });
 
     it('should throw if no csid is supplied', () => {
@@ -1168,6 +1168,8 @@ describe('relation action creator', () => {
           ) {
             return res(ctx.json({}));
           }
+
+          return res(ctx.status(400));
         }),
       );
 

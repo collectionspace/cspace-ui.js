@@ -81,7 +81,7 @@ describe('export action creator', () => {
       const recordType = 'group';
       const mode = 'single';
       const outputMIME = 'text/csv';
-      const includeFields = [ 'ns2:collectionspace_core/updatedAt' ];
+      const includeFields = ['ns2:collectionspace_core/updatedAt'];
 
       let requestPayload = null;
 
@@ -124,7 +124,7 @@ describe('export action creator', () => {
       const recordCsid = '1234';
       const recordType = 'group';
       const mode = 'list';
-      const includeFields = [ 'ns2:groups_common/some/field/path' ];
+      const includeFields = ['ns2:groups_common/some/field/path'];
 
       let requestPayload = null;
 

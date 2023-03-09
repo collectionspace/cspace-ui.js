@@ -145,7 +145,7 @@ describe('authority action creator', () => {
     const vocabulary = 'local';
     const vocabularyServicePath = 'urn:cspace:name(person)';
     const csid = '1234';
-    const checkUrl = `/cspace-services/:recordTypeServicePath/:vocabularyServicePath/items/:csid/refObjs`;
+    const checkUrl = '/cspace-services/:recordTypeServicePath/:vocabularyServicePath/items/:csid/refObjs';
 
     const config = {
       recordTypes: {
