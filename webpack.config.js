@@ -60,9 +60,10 @@ const config = {
     extensions: ['.js', '.jsx'],
   },
   devServer: {
-    contentBase: __dirname,
     historyApiFallback: true,
-    inline: true,
+    static: {
+      directory: __dirname,
+    },
   },
 };
 

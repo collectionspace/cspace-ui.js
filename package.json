@@ -34,7 +34,7 @@
     "check": "npm run lint && npm run test && npm run coverage",
     "clean": "rimraf build lib dist coverage errorShots",
     "coverage": "istanbul report --root coverage text && istanbul report --root coverage lcov",
-    "devserver": "webpack-dev-server",
+    "devserver": "webpack serve",
     "doc": "node generateDocs.js",
     "lint": "eslint --ext .jsx,.js *.js src test examples",
     "prepare": "npm run clean && npm run build",
