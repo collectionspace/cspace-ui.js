@@ -8,6 +8,7 @@ import batch from './batch';
 import batchinvocation from './batchinvocation';
 import blob from './blob';
 import citation from './citation';
+import chronology from './chronology';
 import collectionobject from './collectionobject';
 import concept from './concept';
 import conditioncheck from './conditioncheck';
@@ -52,6 +53,7 @@ export default [
   batchinvocation,
   blob,
   citation,
+  chronology,
   collectionobject,
   concept,
   conditioncheck,
