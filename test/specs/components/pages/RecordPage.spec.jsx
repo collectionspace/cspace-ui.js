@@ -12,6 +12,7 @@ import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';
+import RecordTitleBarContainer from '../../../../src/containers/record/RecordTitleBarContainer';
 import RecordPage from '../../../../src/components/pages/RecordPage';
 
 const { expect } = chai;
@@ -654,7 +655,7 @@ describe('RecordPage', () => {
     });
 
     it('should render a RecordTitleBarContainer with correct csid and recordType', function test() {
-      render(
+      const resultTree = render(
         <IntlProvider locale="en">
           <StoreProvider store={store}>
             <ConfigProvider config={config}>
@@ -670,11 +671,11 @@ describe('RecordPage', () => {
         </IntlProvider>, this.container,
       );
 
-      // Querying on the RecordTitleBarContainer no longer works with some of the upgrades,
-      // so search for the title bar in the dom and check that the text content is correct
-      // not quite 1:1 with the previous test, but close
-      const domElement = this.container.querySelector('.cspace-ui-TitleBar--object');
-      domElement.textContent.should.equal(objectRecordType);
+      const component = findRenderedComponentWithType(resultTree, RecordTitleBarContainer);
+      component.props.should.include({
+        csid,
+        recordType: objectRecordType,
+      });
     });
 
     it('should render a RecordBrowser with correct csid and recordType', function test() {
