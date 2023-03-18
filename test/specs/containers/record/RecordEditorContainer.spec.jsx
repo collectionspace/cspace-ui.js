@@ -130,12 +130,10 @@ describe('RecordEditorContainer', () => {
     store,
   };
 
-  before(() => {
-    worker.start({ quiet: true });
-
-    return store.dispatch(configureCSpace())
-      .then(() => store.clearActions());
-  });
+  before(() => Promise.all([
+    worker.start({ quiet: true }),
+    store.dispatch(configureCSpace()).then(() => store.clearActions()),
+  ]));
 
   afterEach(() => {
     store.clearActions();

@@ -50,12 +50,10 @@ const config = {
 describe('InvocationModalContainer', () => {
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
-
-    return store.dispatch(configureCSpace())
-      .then(() => store.clearActions());
-  });
+  before(() => Promise.all([
+    worker.start({ quiet: true }),
+    store.dispatch(configureCSpace()).then(() => store.clearActions()),
+  ]));
 
   afterEach(() => {
     worker.resetHandlers();
