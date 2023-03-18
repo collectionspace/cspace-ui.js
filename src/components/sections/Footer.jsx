@@ -53,7 +53,13 @@ const propTypes = {
   systemInfo: PropTypes.instanceOf(Immutable.Map),
 };
 
-const formatReleaseVersion = (systemInfo) => {
+const isSnapshot = (systemInfo) => {
+  const patch = systemInfo && systemInfo.getIn(['ns2:system_info_common', 'version', 'patch']);
+
+  return patch && patch.includes('-SNAPSHOT');
+};
+
+const renderServicesReleaseVersion = (systemInfo) => {
   const version = systemInfo && systemInfo.getIn(['ns2:system_info_common', 'version']);
 
   if (!version) {
@@ -62,11 +68,101 @@ const formatReleaseVersion = (systemInfo) => {
 
   const major = version.get('major');
   const minor = version.get('minor');
+  const patch = version.get('patch');
 
-  return `${major}.${minor}`;
+  let buildLink = null;
+
+  if (!cspaceUI.isProduction || isSnapshot(systemInfo)) {
+    const commitHash = version.get('build');
+
+    buildLink = (
+      <>
+        {' '}
+        (
+        <a href={`https://github.com/collectionspace/services/commits/${commitHash}`}>
+          {commitHash}
+        </a>
+        )
+      </>
+    );
+  }
+
+  return (
+    <>
+      {major}
+      .
+      {minor}
+      .
+      {patch}
+      {buildLink}
+    </>
+  );
 };
 
-const renderPluginInfo = (config, intl) => {
+const renderUIVersion = (systemInfo) => {
+  let buildLink = null;
+
+  if (!cspaceUI.isProduction || isSnapshot(systemInfo)) {
+    const commitHash = cspaceUI.buildNum;
+    const repoUrl = cspaceUI.repositoryUrl.replace(/\.git$/, '');
+
+    buildLink = (
+      <>
+        {' '}
+        (
+        <a href={`${repoUrl}/commits/${commitHash}`}>
+          {commitHash}
+        </a>
+        )
+      </>
+    );
+  }
+
+  return (
+    <>
+      {cspaceUI.packageVersion}
+      {buildLink}
+    </>
+  );
+};
+
+const renderPluginVersion = (systemInfo, pluginInfo) => {
+  const {
+    packageVersion,
+    buildNum,
+    repositoryUrl,
+    version,
+  } = pluginInfo;
+
+  let buildLink = null;
+
+  if (buildNum && (!cspaceUI.isProduction || isSnapshot(systemInfo))) {
+    const commitHash = buildNum;
+    const repoUrl = repositoryUrl ? repositoryUrl.replace(/\.git$/, '') : '';
+
+    const commitLink = repoUrl
+      ? <a href={`${repoUrl}/commits/${commitHash}`}>{commitHash}</a>
+      : commitHash;
+
+    buildLink = (
+      <>
+        {' '}
+        (
+        {commitLink}
+        )
+      </>
+    );
+  }
+
+  return (
+    <>
+      {packageVersion || version}
+      {buildLink}
+    </>
+  );
+};
+
+const renderPluginInfo = (systemInfo, config, intl) => {
   const {
     pluginInfo,
   } = config;
@@ -76,17 +172,18 @@ const renderPluginInfo = (config, intl) => {
   }
 
   return Object.keys(pluginInfo).map((name) => {
+    const info = pluginInfo[name];
+
     const {
       messages: pluginMessages,
-      version,
-    } = pluginInfo[name];
+    } = info;
 
     return (
       <li key={name}>
         <FormattedMessage
           {...messages.version}
           values={{
-            version,
+            version: renderPluginVersion(systemInfo, info),
             name: intl.formatMessage(pluginMessages.name),
           }}
         />
@@ -112,14 +209,11 @@ export default function Footer(props) {
         <FormattedMessage {...messages.notConnected} values={{ serverUrl: config.serverUrl }} />
       );
     } else {
-      const releaseVersion = formatReleaseVersion(systemInfo);
+      const releaseVersion = renderServicesReleaseVersion(systemInfo);
 
       if (releaseVersion) {
         statusItem = (
-          // TODO: Make release pages in the new wiki.
-          // <a href={`https://wiki.collectionspace.org/display/collectionspace/Release+${releaseVersion}`}>
           <FormattedMessage {...messages.release} values={{ version: releaseVersion }} />
-          // </a>
         );
       }
     }
@@ -161,12 +255,12 @@ export default function Footer(props) {
             {...messages.version}
             values={{
               name: intl.formatMessage(messages.appName),
-              version: (typeof cspaceUI === 'undefined') ? '' : cspaceUI.packageVersion,
+              version: renderUIVersion(systemInfo),
             }}
           />
         </li>
 
-        {renderPluginInfo(config, intl)}
+        {renderPluginInfo(systemInfo, config, intl)}
       </ul>
     </footer>
   );

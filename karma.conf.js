@@ -1,6 +1,7 @@
 /* eslint no-console: "off" */
 
 const path = require('path');
+const webpack = require('webpack');
 
 const getTestFiles = (config) => {
   if (config.file) {
@@ -99,6 +100,15 @@ module.exports = function karma(config) {
           },
         ],
       },
+      plugins: [
+        new webpack.DefinePlugin({
+          'cspaceUI.isProduction': false,
+          'cspaceUI.packageName': '"cspace-ui"',
+          'cspaceUI.packageVersion': '"0.0.1-test.1"',
+          'cspaceUI.buildNum': '"1234567"',
+          'cspaceUI.repositoryUrl': '"https://github.com/collectionspace/cspace-ui.js.git"',
+        }),
+      ],
       resolve: {
         extensions: ['.js', '.jsx'],
       },

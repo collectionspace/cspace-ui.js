@@ -42,7 +42,7 @@ describe('Footer', () => {
           major: '5',
           minor: '1',
           patch: '0',
-          build: '1',
+          build: '5678',
         },
       },
     });
@@ -56,7 +56,7 @@ describe('Footer', () => {
     const lists = this.container.querySelectorAll('ul');
     const items = lists[1].querySelectorAll('li');
 
-    items[0].textContent.should.equal('Release 5.1');
+    items[0].textContent.should.equal('Release 5.1.0 (5678)');
   });
 
   it('should render no version number if it is not present in system info', function test() {
