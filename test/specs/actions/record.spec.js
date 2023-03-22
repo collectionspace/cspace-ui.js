@@ -98,9 +98,7 @@ chai.should();
 describe('record action creator', () => {
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
-  });
+  before(() => worker.start({ quiet: true }));
 
   after(() => {
     worker.stop();
