@@ -102,6 +102,7 @@ module.exports = function karma(config) {
       },
       plugins: [
         new webpack.DefinePlugin({
+          // Set dummy values for tests.
           'cspaceUI.isProduction': false,
           'cspaceUI.packageName': '"cspace-ui"',
           'cspaceUI.packageVersion': '"0.0.1-test.1"',

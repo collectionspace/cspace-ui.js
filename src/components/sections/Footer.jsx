@@ -1,5 +1,5 @@
 /* global cspaceUI */
-/* The cspaceUI global variable is set by webpack (in non-test builds). See webpack.config.js. */
+/* The cspaceUI global variable is set by webpack. See webpack.config.js and karma.conf.js. */
 
 import React from 'react';
 import PropTypes from 'prop-types';
