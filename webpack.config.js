@@ -1,4 +1,5 @@
 /* eslint import/no-extraneous-dependencies: "off" */
+/* eslint-disable no-console */
 
 const { execSync } = require('child_process');
 const path = require('path');
@@ -7,8 +8,21 @@ const webpack = require('webpack');
 const library = 'cspaceUI';
 const isProduction = process.env.NODE_ENV === 'production';
 const filename = `${library}${isProduction ? '.min' : ''}.js`;
-const buildNum = execSync('git rev-parse --short=7 HEAD').toString().trim();
-const repositoryUrl = JSON.parse(execSync('npm pkg get repository.url').toString().trim());
+
+let buildNum = '';
+let repositoryUrl = '';
+
+try {
+  buildNum = execSync('git rev-parse --short=7 HEAD').toString().trim();
+} catch (err) {
+  console.log('Failed to get build number from git: %s', err.stderr.toString());
+}
+
+try {
+  repositoryUrl = JSON.parse(execSync('npm pkg get repository.url').toString().trim());
+} catch (err) {
+  console.log('Failed to get repository url from npm: %s', err.stderr.toString());
+}
 
 const config = {
   mode: isProduction ? 'production' : 'development',
