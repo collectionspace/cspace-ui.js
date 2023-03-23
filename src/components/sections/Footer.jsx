@@ -79,7 +79,11 @@ const renderServicesReleaseVersion = (systemInfo) => {
       <>
         {' '}
         (
-        <a href={`https://github.com/collectionspace/services/commits/${commitHash}`}>
+        <a
+          href={`https://github.com/collectionspace/services/commits/${commitHash}`}
+          target="_blank"
+          rel="noreferrer"
+        >
           {commitHash}
         </a>
         )
@@ -110,7 +114,11 @@ const renderUIVersion = (systemInfo) => {
       <>
         {' '}
         (
-        <a href={`${repoUrl}/commits/${commitHash}`}>
+        <a
+          href={`${repoUrl}/commits/${commitHash}`}
+          target="_blank"
+          rel="noreferrer"
+        >
           {commitHash}
         </a>
         )
@@ -141,7 +149,7 @@ const renderPluginVersion = (systemInfo, pluginInfo) => {
     const repoUrl = repositoryUrl ? repositoryUrl.replace(/\.git$/, '') : '';
 
     const commitLink = repoUrl
-      ? <a href={`${repoUrl}/commits/${commitHash}`}>{commitHash}</a>
+      ? <a href={`${repoUrl}/commits/${commitHash}`} target="_blank" rel="noreferrer">{commitHash}</a>
       : commitHash;
 
     buildLink = (
