@@ -45,10 +45,10 @@ export default {
       treasure: {
         id: 'option.acquisitionMethods.treasure',
         defaultMessage: 'treasure',
+      },
       unknown: {
         id: 'option.acquisitionMethods.unknown',
         defaultMessage: 'unknown',
-      },
       },
     }),
   },
