@@ -39,3 +39,7 @@ jobs:
 
       - name: Generate coverage report
         run: npm run coverage
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3
+
