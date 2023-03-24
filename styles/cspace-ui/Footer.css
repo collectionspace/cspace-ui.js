@@ -13,7 +13,7 @@
   padding: 0 10px;
 }
 
-.common, .common > ul > li > a {
+.common, .common a {
   color: rgb(160, 160, 160);
 }
 

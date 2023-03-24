@@ -133,12 +133,10 @@ const config = {
 describe('RelatedRecordBrowser', () => {
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
-
-    return store.dispatch(configureCSpace())
-      .then(() => store.clearActions());
-  });
+  before(() => Promise.all([
+    worker.start({ quiet: true }),
+    store.dispatch(configureCSpace()).then(() => store.clearActions()),
+  ]));
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -415,7 +413,7 @@ describe('RelatedRecordBrowser', () => {
         });
 
         resolve();
-      }, 100);
+      }, 200);
     });
   });
 

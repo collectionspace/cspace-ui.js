@@ -1,6 +1,7 @@
 /* eslint no-console: "off" */
 
 const path = require('path');
+const webpack = require('webpack');
 
 const getTestFiles = (config) => {
   if (config.file) {
@@ -11,12 +12,24 @@ const getTestFiles = (config) => {
 };
 
 module.exports = function karma(config) {
-  // This is a local run.
   const localBrowsers = ['Chrome'];
+  const githubBrowsers = ['Chrome'];
 
-  console.log('Running locally.');
+  let browsers;
 
-  const browsers = localBrowsers;
+  if (process.env.GITHUB_ACTIONS) {
+    // This is a CI run on GitHub.
+
+    console.log('Running on GitHub.');
+
+    browsers = githubBrowsers;
+  } else {
+    // This is a local run.
+
+    console.log('Running locally.');
+
+    browsers = localBrowsers;
+  }
 
   config.set({
     browsers,
@@ -87,12 +100,22 @@ module.exports = function karma(config) {
           },
         ],
       },
+      plugins: [
+        new webpack.DefinePlugin({
+          // Set dummy values for tests.
+          'cspaceUI.isProduction': false,
+          'cspaceUI.packageName': '"cspace-ui"',
+          'cspaceUI.packageVersion': '"0.0.1-test.1"',
+          'cspaceUI.buildNum': '"1234567"',
+          'cspaceUI.repositoryUrl': '"https://github.com/collectionspace/cspace-ui.js.git"',
+        }),
+      ],
       resolve: {
         extensions: ['.js', '.jsx'],
       },
     },
 
-    // Make webpack output less verbose, so Travis can display the entire log.
+    // Make webpack output less verbose.
 
     webpackMiddleware: {
       stats: {

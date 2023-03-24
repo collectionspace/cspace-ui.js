@@ -30,9 +30,7 @@ describe('account action creator', () => {
   const mockStore = configureMockStore([thunk]);
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
-  });
+  before(() => worker.start({ quiet: true }));
 
   after(() => {
     worker.stop();

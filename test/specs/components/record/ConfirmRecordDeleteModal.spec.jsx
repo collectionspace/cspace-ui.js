@@ -96,7 +96,7 @@ describe('ConfirmRecordDeleteModal', () => {
         unmountComponentAtNode(this.container);
 
         resolve();
-      }, 20);
+      }, 100);
     });
   });
 
@@ -159,7 +159,7 @@ describe('ConfirmRecordDeleteModal', () => {
         unmountComponentAtNode(this.container);
 
         resolve();
-      }, 20);
+      }, 100);
     });
   });
 
@@ -208,7 +208,7 @@ describe('ConfirmRecordDeleteModal', () => {
           unmountComponentAtNode(this.container);
 
           resolve();
-        }, 20);
+        }, 100);
       });
     });
   });
@@ -262,7 +262,7 @@ describe('ConfirmRecordDeleteModal', () => {
           unmountComponentAtNode(this.container);
 
           resolve();
-        }, 20);
+        }, 100);
       });
     });
   });
@@ -314,7 +314,7 @@ describe('ConfirmRecordDeleteModal', () => {
           unmountComponentAtNode(this.container);
 
           resolve();
-        }, 20);
+        }, 100);
       });
     });
   });
@@ -353,7 +353,7 @@ describe('ConfirmRecordDeleteModal', () => {
         unmountComponentAtNode(this.container);
 
         resolve();
-      }, 20);
+      }, 100);
     });
   });
 
@@ -388,7 +388,7 @@ describe('ConfirmRecordDeleteModal', () => {
         unmountComponentAtNode(this.container);
 
         resolve();
-      }, 20);
+      }, 100);
     });
   });
 });
