@@ -28,7 +28,9 @@ module.exports = function karma(config) {
 
     console.log('Running locally.');
 
-    browsers = localBrowsers;
+    const localBrowsersEnv = process.env.KARMA_BROWSERS;
+
+    browsers = localBrowsersEnv ? localBrowsersEnv.split(',') : localBrowsers;
   }
 
   config.set({
