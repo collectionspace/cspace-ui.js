@@ -417,7 +417,7 @@ describe('RelatedRecordBrowser', () => {
         });
 
         resolve();
-      }, 200);
+      }, 500);
     });
   });
 

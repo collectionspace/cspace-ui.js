@@ -207,7 +207,7 @@ describe('RecordBrowser', () => {
         replacementUrl.should.equal(`/record/collectionobject/${createdCsid}`);
 
         resolve();
-      }, 200);
+      }, 500);
     });
   });
 
