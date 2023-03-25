@@ -53,6 +53,12 @@ module.exports = function karma(config) {
       'coverage',
     ],
 
+    client: {
+      mocha: {
+        timeout: 4000,
+      },
+    },
+
     browserConsoleLogOptions: {
       level: 'log',
       format: '%b %T: %m',
