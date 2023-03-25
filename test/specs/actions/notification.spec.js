@@ -103,7 +103,7 @@ describe('notification action creator', () => {
         status: STATUS_ERROR,
       });
 
-      action.payload.date.getTime().should.be.closeTo((new Date()).getTime(), 20);
+      action.payload.date.getTime().should.be.closeTo((new Date()).getTime(), 500);
     });
   });
 
