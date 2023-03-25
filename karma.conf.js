@@ -13,7 +13,7 @@ const getTestFiles = (config) => {
 
 module.exports = function karma(config) {
   const localBrowsers = ['Chrome'];
-  const githubBrowsers = ['Chrome'];
+  const githubBrowsers = ['Chrome', 'Firefox'];
 
   let browsers;
 
@@ -35,6 +35,8 @@ module.exports = function karma(config) {
 
   config.set({
     browsers,
+    concurrency: 1,
+
     files: [
       { pattern: 'mockServiceWorker.js', included: false, served: true },
       ...getTestFiles(config),

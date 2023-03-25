@@ -9,7 +9,7 @@ on:
 jobs:
   check:
     name: Check build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
@@ -17,6 +17,9 @@ jobs:
 
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v1
+
+      - name: Install Firefox
+        uses: browser-actions/setup-firefox@v1
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -34,8 +37,7 @@ jobs:
         run: npm run lint
 
       - name: Test
-        # Use xvfb-run to allow the browser to run headlessly.
-        run: xvfb-run -a npm test
+        run: npm test
 
       - name: Generate coverage report
         run: npm run coverage
