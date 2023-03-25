@@ -395,8 +395,8 @@ describe('SearchToSelectModal', () => {
       );
     });
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
-
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
     modal.querySelector('.cspace-ui-SearchForm--common').should.not.equal(null);
   });
 
