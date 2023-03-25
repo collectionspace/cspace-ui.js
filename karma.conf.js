@@ -35,6 +35,8 @@ module.exports = function karma(config) {
 
   config.set({
     browsers,
+    concurrency: 1,
+
     files: [
       { pattern: 'mockServiceWorker.js', included: false, served: true },
       ...getTestFiles(config),
