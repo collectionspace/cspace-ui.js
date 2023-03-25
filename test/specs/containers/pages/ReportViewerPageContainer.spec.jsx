@@ -23,10 +23,14 @@ const store = mockStore({
 describe('ReportViewerPageContainer', () => {
   const worker = setupWorker();
 
-  before(() => Promise.all([
-    worker.start({ quiet: true }),
-    store.dispatch(configureCSpace()).then(() => store.clearActions()),
-  ]));
+  before(async function setup() {
+    this.timeout(3000);
+
+    await Promise.all([
+      worker.start({ quiet: true }),
+      store.dispatch(configureCSpace()).then(() => store.clearActions()),
+    ]);
+  });
 
   afterEach(() => {
     store.clearActions();
