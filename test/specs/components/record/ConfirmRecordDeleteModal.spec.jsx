@@ -3,11 +3,13 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
+import { act } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
 
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 import createTestContainer from '../../../helpers/createTestContainer';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 
 const { expect } = chai;
 
@@ -75,29 +77,26 @@ describe('ConfirmRecordDeleteModal', () => {
     Modal.setAppElement(this.container);
   });
 
-  it('should render a modal', function test() {
+  it('should render a modal', async function test() {
     const data = Immutable.Map();
 
-    render(
-      <IntlProvider locale="en">
-        <ConfirmRecordDeleteModal
-          config={config}
-          data={data}
-          isOpen
-          recordType="group"
-        />
-      </IntlProvider>, this.container,
-    );
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
-
-        unmountComponentAtNode(this.container);
-
-        resolve();
-      }, 100);
+    await act(async () => {
+      render(
+        <IntlProvider locale="en">
+          <ConfirmRecordDeleteModal
+            config={config}
+            data={data}
+            isOpen
+            recordType="group"
+          />
+        </IntlProvider>, this.container,
+      );
     });
+
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
+
+    unmountComponentAtNode(this.container);
   });
 
   it('should render nothing if isOpen is false', function test() {

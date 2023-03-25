@@ -9,6 +9,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import LoginModal from '../../../../src/components/login/LoginModal';
 import createTestContainer from '../../../helpers/createTestContainer';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 
 const { expect } = chai;
 
@@ -36,7 +37,8 @@ describe('LoginModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
 
     unmountComponentAtNode(this.container);
   });
