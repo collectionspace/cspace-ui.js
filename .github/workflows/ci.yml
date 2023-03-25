@@ -9,7 +9,7 @@ on:
 jobs:
   check:
     name: Check build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
@@ -37,8 +37,7 @@ jobs:
         run: npm run lint
 
       - name: Test
-        # Use xvfb-run to allow the browser to run headlessly.
-        run: xvfb-run -a npm test
+        run: npm test
 
       - name: Generate coverage report
         run: npm run coverage
