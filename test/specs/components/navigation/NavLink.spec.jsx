@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import NavLink from '../../../../src/components/navigation/NavLink';
 
 chai.should();

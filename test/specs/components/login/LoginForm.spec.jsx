@@ -3,11 +3,11 @@
 import React from 'react';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { ERR_INVALID_CREDENTIALS } from '../../../../src/constants/errorCodes';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import LoginForm, { BaseLoginForm } from '../../../../src/components/login/LoginForm';
 
 const { expect } = chai;

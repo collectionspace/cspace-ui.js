@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
@@ -10,6 +9,7 @@ import { DATA_TYPE_STRUCTURED_DATE } from '../../../../../src/constants/dataType
 import { OptionPickerInput } from '../../../../../src/helpers/configContextInputs';
 import { configKey, getRecordFieldOptionListName } from '../../../../../src/helpers/configHelpers';
 import createTestContainer from '../../../../helpers/createTestContainer';
+import { render } from '../../../../helpers/renderHelpers';
 
 chai.should();
 

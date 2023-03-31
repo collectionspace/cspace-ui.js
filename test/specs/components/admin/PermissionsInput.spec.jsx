@@ -1,10 +1,10 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import PermissionsInput from '../../../../src/components/admin/PermissionsInput';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 

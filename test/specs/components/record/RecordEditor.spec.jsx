@@ -1,7 +1,7 @@
 /* global window */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
@@ -13,6 +13,7 @@ import Immutable from 'immutable';
 import merge from 'lodash/merge';
 import { components as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import { ERROR_KEY } from '../../../../src/helpers/recordDataHelpers';
 import Panel from '../../../../src/containers/layout/PanelContainer';
 import RecordEditor from '../../../../src/components/record/RecordEditor';

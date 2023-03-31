@@ -1,7 +1,7 @@
 /* global window, document */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
@@ -13,6 +13,7 @@ import { setupWorker, rest } from 'msw';
 import { Modal } from 'cspace-layout';
 import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RelationEditor from '../../../../src/components/record/RelationEditor';

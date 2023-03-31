@@ -1,11 +1,11 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import PasswordResetForm from '../../../../src/components/user/PasswordResetForm';
 
 const { expect } = chai;

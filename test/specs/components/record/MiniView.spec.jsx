@@ -1,11 +1,11 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import RecordForm from '../../../../src/components/record/RecordForm';
 import MiniView from '../../../../src/components/record/MiniView';
 

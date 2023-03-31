@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SearchToSelectTitleBar from '../../../../src/components/search/SearchToSelectTitleBar';
 import { configKey } from '../../../../src/helpers/configHelpers';

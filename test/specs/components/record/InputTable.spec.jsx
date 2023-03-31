@@ -1,11 +1,11 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { IntlProvider } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { configKey } from '../../../../src/helpers/configHelpers';
 import InputTable from '../../../../src/components/record/InputTable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 const {
   InputTable: BaseInputTable,

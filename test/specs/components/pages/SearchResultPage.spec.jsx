@@ -1,7 +1,6 @@
 /* global window, document */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
@@ -14,6 +13,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import qs from 'qs';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SelectBar from '../../../../src/components/search/SelectBar';

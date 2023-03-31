@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter as Router } from 'react-router';
@@ -7,6 +6,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import { ERR_API } from '../../../../src/constants/errorCodes';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchResultSummary from '../../../../src/components/search/SearchResultSummary';
 
 chai.should();

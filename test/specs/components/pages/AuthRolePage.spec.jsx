@@ -1,7 +1,6 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { MemoryRouter as Router } from 'react-router';
@@ -12,6 +11,7 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';

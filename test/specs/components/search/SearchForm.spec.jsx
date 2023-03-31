@@ -1,11 +1,11 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchForm from '../../../../src/components/search/SearchForm';
 
 const { expect } = chai;

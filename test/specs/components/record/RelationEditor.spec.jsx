@@ -1,11 +1,11 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 import RelationEditor, { confirmUnrelateModalName } from '../../../../src/components/record/RelationEditor';
 import RelationButtonBar from '../../../../src/components/record/RelationButtonBar';

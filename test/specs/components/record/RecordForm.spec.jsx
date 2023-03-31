@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
@@ -8,6 +7,7 @@ import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 import Field from '../../../../src/components/record/Field';
 import Panel from '../../../../src/containers/layout/PanelContainer';

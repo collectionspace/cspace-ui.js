@@ -1,9 +1,9 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import merge from 'lodash/merge';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import RecordFormSelector from '../../../../src/components/record/RecordFormSelector';
 
 const { expect } = chai;

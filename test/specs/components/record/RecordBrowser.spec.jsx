@@ -1,7 +1,7 @@
 /* global window */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
@@ -13,6 +13,7 @@ import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { setupWorker, rest } from 'msw';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';

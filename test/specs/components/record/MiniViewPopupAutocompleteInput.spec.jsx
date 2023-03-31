@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
@@ -10,6 +9,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import { BaseMiniViewPopupAutocompleteInput } from '../../../../src/components/record/MiniViewPopupAutocompleteInput';
 

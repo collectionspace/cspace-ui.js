@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
 
 const { expect } = chai;

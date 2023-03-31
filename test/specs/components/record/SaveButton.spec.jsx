@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SaveButton from '../../../../src/components/record/SaveButton';
 import { ERROR_KEY } from '../../../../src/helpers/recordDataHelpers';
 
