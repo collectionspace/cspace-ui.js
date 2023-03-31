@@ -1,8 +1,8 @@
 import React from 'react';
 import { IntlProvider } from 'react-intl';
-import { render } from 'react-dom';
 
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 import LogoutIndicator from '../../../../src/components/login/LogoutIndicator';
 

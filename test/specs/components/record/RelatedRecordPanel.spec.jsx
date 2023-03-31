@@ -1,13 +1,13 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType, findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchPanelContainer from '../../../../src/containers/search/SearchPanelContainer';
 import RelatedRecordPanel, { confirmUnrelateModalName } from '../../../../src/components/record/RelatedRecordPanel';
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';

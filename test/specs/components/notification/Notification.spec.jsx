@@ -1,10 +1,10 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import Notification from '../../../../src/components/notification/Notification';
 
 const { expect } = chai;

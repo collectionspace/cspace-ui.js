@@ -1,15 +1,14 @@
 /* global document, window */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
-import { act } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
-
 import ConfirmRecordDeleteModal from '../../../../src/components/record/ConfirmRecordDeleteModal';
 import createTestContainer from '../../../helpers/createTestContainer';
 import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
+import { asyncRender, render } from '../../../helpers/renderHelpers';
 
 const { expect } = chai;
 
@@ -80,18 +79,16 @@ describe('ConfirmRecordDeleteModal', () => {
   it('should render a modal', async function test() {
     const data = Immutable.Map();
 
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <ConfirmRecordDeleteModal
-            config={config}
-            data={data}
-            isOpen
-            recordType="group"
-          />
-        </IntlProvider>, this.container,
-      );
-    });
+    await asyncRender(
+      <IntlProvider locale="en">
+        <ConfirmRecordDeleteModal
+          config={config}
+          data={data}
+          isOpen
+          recordType="group"
+        />
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
     modal.should.not.equal(null);

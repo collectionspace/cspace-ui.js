@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
@@ -7,6 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import LoginForm from '../../../../src/components/login/LoginForm';
 import LoginPage from '../../../../src/components/pages/LoginPage';

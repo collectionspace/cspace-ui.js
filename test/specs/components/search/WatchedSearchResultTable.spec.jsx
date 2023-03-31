@@ -1,11 +1,11 @@
 import React from 'react';
-import { render } from 'react-dom';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import { createRenderer } from 'react-test-renderer/shallow';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import WatchedSearchResultTable from '../../../../src/components/search/WatchedSearchResultTable';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { IntlProvider } from 'react-intl';
@@ -11,6 +10,7 @@ import { components as inputComponents } from 'cspace-input';
 import ExportFieldEditor from '../../../../src/components/search/ExportFieldEditor';
 import FieldInput from '../../../../src/components/search/input/FieldInput';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 
 import {

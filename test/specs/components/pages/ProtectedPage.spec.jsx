@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-expressions */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { MemoryRouter as Router } from 'react-router';
@@ -11,6 +10,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import LoginModal from '../../../../src/components/login/LoginModal';
 import ProtectedPage from '../../../../src/components/pages/ProtectedPage';

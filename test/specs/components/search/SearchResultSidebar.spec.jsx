@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchResultSidebar from '../../../../src/components/search/SearchResultSidebar';
 
 const { expect } = chai;

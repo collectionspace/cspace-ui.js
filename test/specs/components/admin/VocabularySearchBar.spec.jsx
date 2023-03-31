@@ -1,8 +1,8 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import VocabularySearchBar from '../../../../src/components/admin/VocabularySearchBar';
 
 chai.should();

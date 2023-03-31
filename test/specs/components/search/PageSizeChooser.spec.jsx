@@ -1,11 +1,11 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import { Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import PageSizeChooser from '../../../../src/components/search/PageSizeChooser';
 
 const { expect } = chai;

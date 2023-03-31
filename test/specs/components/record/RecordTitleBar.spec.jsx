@@ -1,11 +1,12 @@
 /* global window, document */
 
 import React from 'react';
-import ReactDOM, { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import { createRenderer } from 'react-test-renderer/shallow';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import SearchResultTraverserContainer from '../../../../src/containers/search/SearchResultTraverserContainer';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordTitleBar from '../../../../src/components/record/RecordTitleBar';

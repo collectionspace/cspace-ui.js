@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
@@ -10,6 +9,7 @@ import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import { searchKey } from '../../../../src/reducers/search';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import SearchPanel from '../../../../src/components/search/SearchPanel';

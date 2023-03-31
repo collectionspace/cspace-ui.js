@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
@@ -9,6 +9,7 @@ import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import mockHistory from '../../../helpers/mockHistory';
+import { render } from '../../../helpers/renderHelpers';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import RecordBrowser from '../../../../src/components/record/RecordBrowser';

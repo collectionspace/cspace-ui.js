@@ -2,7 +2,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
@@ -14,6 +13,7 @@ import FieldConditionInput from '../../../../../src/components/search/input/Fiel
 import ConfigProvider from '../../../../../src/components/config/ConfigProvider';
 import RecordTypeProvider from '../../../../helpers/RecordTypeProvider';
 import createTestContainer from '../../../../helpers/createTestContainer';
+import { render } from '../../../../helpers/renderHelpers';
 import { DATA_TYPE_STRING, DATA_TYPE_INT } from '../../../../../src/constants/dataTypes';
 
 import {

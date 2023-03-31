@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
@@ -12,6 +11,7 @@ import { configKey } from '../../../../src/helpers/configHelpers';
 import AdvancedSearchBuilder from '../../../../src/components/search/AdvancedSearchBuilder';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 import {
   OP_AND,

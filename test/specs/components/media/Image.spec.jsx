@@ -1,9 +1,10 @@
 /* global window, Blob */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import Image from '../../../../src/components/media/Image';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 const { expect } = chai;
 

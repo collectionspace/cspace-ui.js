@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { Link } from 'react-router-dom';
 import Immutable from 'immutable';
 import { findAllWithType } from 'react-shallow-testutils';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import HierarchySiblingList from '../../../../src/components/record/HierarchySiblingList';
 
 chai.should();

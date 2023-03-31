@@ -3,7 +3,6 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
-import { render } from 'react-dom';
 import { IntlProvider, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
@@ -11,6 +10,7 @@ import { Modal } from 'cspace-layout';
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
 import SearchToSelectModalContainer from '../../../../src/containers/search/SearchToSelectModalContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 chai.use(chaiImmutable);
 chai.should();
