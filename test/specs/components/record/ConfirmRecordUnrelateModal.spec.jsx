@@ -8,6 +8,7 @@ import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 import createTestContainer from '../../../helpers/createTestContainer';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 
 const { expect } = chai;
 
@@ -89,7 +90,7 @@ describe('ConfirmRecordUnrelateModal', () => {
       );
     });
 
-    const modal = await query('.ReactModal__Content--after-open');
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
     modal.should.not.equal(null);
   });
 

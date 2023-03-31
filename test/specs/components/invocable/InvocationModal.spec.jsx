@@ -141,7 +141,8 @@ describe('InvocationModal', () => {
       );
     });
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
 
     unmountComponentAtNode(this.container);
     this.container.remove();

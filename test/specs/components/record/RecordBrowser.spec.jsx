@@ -91,11 +91,13 @@ const config = {
 describe('RecordBrowser', () => {
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
+  before(async function setup() {
+    this.timeout(3000);
 
-    return store.dispatch(configureCSpace())
-      .then(() => store.clearActions());
+    await Promise.all([
+      worker.start({ quiet: true }),
+      store.dispatch(configureCSpace()).then(() => store.clearActions()),
+    ]);
   });
 
   beforeEach(function before() {
@@ -205,7 +207,7 @@ describe('RecordBrowser', () => {
         replacementUrl.should.equal(`/record/collectionobject/${createdCsid}`);
 
         resolve();
-      }, 100);
+      }, 500);
     });
   });
 

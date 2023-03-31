@@ -18,8 +18,10 @@ chai.should();
 describe('structured date action creator', () => {
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
+  before(async function setup() {
+    this.timeout(3000);
+
+    await worker.start({ quiet: true });
   });
 
   after(() => {

@@ -29,11 +29,13 @@ const store = mockStore({
 describe('ExportViewerPageContainer', () => {
   const worker = setupWorker();
 
-  before(() => {
-    worker.start({ quiet: true });
+  before(async function setup() {
+    this.timeout(3000);
 
-    return store.dispatch(configureCSpace())
-      .then(() => store.clearActions());
+    await Promise.all([
+      worker.start({ quiet: true }),
+      store.dispatch(configureCSpace()).then(() => store.clearActions()),
+    ]);
   });
 
   afterEach(() => {
