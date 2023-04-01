@@ -580,8 +580,9 @@ describe('RecordEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
 
-    return result.props.checkForRelations(predicate).should.eventually.be.fulfilled;
+    return recordEditor.props.checkForRelations(predicate).should.eventually.be.fulfilled;
   });
 
   it('should connect checkForUses to checkForUses action creator', () => {
@@ -612,8 +613,9 @@ describe('RecordEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
 
-    return result.props.checkForUses().should.eventually.be.fulfilled;
+    return recordEditor.props.checkForUses().should.eventually.be.fulfilled;
   });
 
   it('should connect checkForRoleUses to checkForRoleUses action creator', () => {
@@ -635,7 +637,8 @@ describe('RecordEditorContainer', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
 
-    return result.props.checkForRoleUses().should.eventually.be.fulfilled;
+    return recordEditor.props.checkForRoleUses().should.eventually.be.fulfilled;
   });
 });
