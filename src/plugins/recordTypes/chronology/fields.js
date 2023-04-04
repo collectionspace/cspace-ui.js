@@ -289,7 +289,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'chronology/era,chronology/event,chronology/fieldcollection',
+                    source: 'citation/local,citation/shared,citation/worldcat',
                   },
                 },
               },
