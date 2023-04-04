@@ -66,7 +66,7 @@ describe('TermPickerInputContainer', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedTermPickerInput store={store} sourcestore={vocabularyName} />,
+      <ConnectedTermPickerInput store={store} source={vocabularyName} />,
     );
 
     const result = shallowRenderer.getRenderOutput();
