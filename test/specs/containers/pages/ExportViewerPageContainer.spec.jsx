@@ -48,11 +48,9 @@ describe('ExportViewerPageContainer', () => {
   });
 
   it('should set props on ExportViewerPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedExportViewerPage />, context);
+    shallowRenderer.render(<ConnectedExportViewerPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -71,11 +69,9 @@ describe('ExportViewerPageContainer', () => {
       }),
     );
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedExportViewerPage />, context);
+    shallowRenderer.render(<ConnectedExportViewerPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
     const recordCsid = '1234';

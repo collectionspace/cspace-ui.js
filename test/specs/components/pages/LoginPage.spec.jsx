@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
-import LoginFormContainer from '../../../../src/containers/login/LoginFormContainer';
+import LoginForm from '../../../../src/components/login/LoginForm';
 import LoginPage from '../../../../src/components/pages/LoginPage';
 
 chai.should();
@@ -111,7 +111,7 @@ describe('LoginPage', () => {
       </IntlProvider>, this.container,
     );
 
-    const loginFormContainer = findRenderedComponentWithType(resultTree, LoginFormContainer);
+    const loginFormContainer = findRenderedComponentWithType(resultTree, LoginForm);
 
     return loginFormContainer.props.onSuccess()
       .then(() => {

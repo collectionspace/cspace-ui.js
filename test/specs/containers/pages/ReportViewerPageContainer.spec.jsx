@@ -42,11 +42,9 @@ describe('ReportViewerPageContainer', () => {
   });
 
   it('should set props on ReportViewerPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedReportViewerPage />, context);
+    shallowRenderer.render(<ConnectedReportViewerPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -69,11 +67,9 @@ describe('ReportViewerPageContainer', () => {
       }),
     );
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ConnectedReportViewerPage />, context);
+    shallowRenderer.render(<ConnectedReportViewerPage store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
 

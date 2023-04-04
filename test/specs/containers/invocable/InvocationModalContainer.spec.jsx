@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { setupWorker, rest } from 'msw';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 
@@ -31,10 +32,6 @@ const store = mockStore({
     },
   }),
 });
-
-const context = {
-  store,
-};
 
 const config = {
   recordTypes: {
@@ -73,17 +70,18 @@ describe('InvocationModalContainer', () => {
 
     shallowRenderer.render(
       <InvocationModalContainer
+        store={store}
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModal);
 
-    result.type.should.equal(InvocationModal);
-    result.props.should.have.property('data', data);
-    result.props.should.have.property('readRecord').that.is.a('function');
+    modal.props.should.have.property('data', data);
+    modal.props.should.have.property('readRecord').that.is.a('function');
   });
 
   it('should connect readRecord to readRecord action creator', () => {
@@ -91,15 +89,17 @@ describe('InvocationModalContainer', () => {
 
     shallowRenderer.render(
       <InvocationModalContainer
+        store={store}
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModal);
 
-    return result.props.readRecord()
+    return modal.props.readRecord()
       .then((recordData) => {
         recordData.should.equal(data);
       })
@@ -119,15 +119,17 @@ describe('InvocationModalContainer', () => {
 
     shallowRenderer.render(
       <InvocationModalContainer
+        store={store}
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModal);
 
-    return result.props.searchCsid(config, 'group', '5678')
+    return modal.props.searchCsid(config, 'group', '5678')
       .then((response) => {
         response.data.should.deep.equal({
           foo: 'bar',

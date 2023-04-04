@@ -4,6 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import thunk from 'redux-thunk';
 import { components as inputComponents } from 'cspace-input';
+import { findWithType } from 'react-shallow-testutils';
 import { ConnectedAutocompleteInput } from '../../../../src/containers/input/AutocompleteInputContainer';
 
 import {
@@ -33,10 +34,6 @@ describe('AutocompleteInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const config = {
       recordTypes: {
         person: {
@@ -60,25 +57,26 @@ describe('AutocompleteInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedAutocompleteInput
+        store={store}
         source="person/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, AutocompleteInput);
 
-    result.type.should.equal(AutocompleteInput);
-    result.props.should.have.property('matches', matches);
-    result.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
-    result.props.should.have.property('formatAddPrompt').that.is.a('function');
-    result.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
-    result.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
-    result.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
-    result.props.should.have.property('formatSearchResultMessage').that.is.a('function');
-    result.props.should.have.property('formatSourceName').that.is.a('function');
-    result.props.should.have.property('addTerm').that.is.a('function');
-    result.props.should.have.property('findMatchingTerms').that.is.a('function');
-    result.props.should.have.property('onClose').that.is.a('function');
+    input.props.should.have.property('matches', matches);
+    input.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
+    input.props.should.have.property('formatAddPrompt').that.is.a('function');
+    input.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
+    input.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
+    input.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
+    input.props.should.have.property('formatSearchResultMessage').that.is.a('function');
+    input.props.should.have.property('formatSourceName').that.is.a('function');
+    input.props.should.have.property('addTerm').that.is.a('function');
+    input.props.should.have.property('findMatchingTerms').that.is.a('function');
+    input.props.should.have.property('onClose').that.is.a('function');
   });
 
   it('should render if no source is provided', () => {
@@ -96,10 +94,6 @@ describe('AutocompleteInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const config = {
       recordTypes: {
         person: {
@@ -123,13 +117,25 @@ describe('AutocompleteInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedAutocompleteInput
+        store={store}
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, AutocompleteInput);
 
-    result.type.should.equal(AutocompleteInput);
+    input.props.should.have.property('matches', matches);
+    input.props.should.have.property('recordTypes').that.deep.equals(config.recordTypes);
+    input.props.should.have.property('formatAddPrompt').that.is.a('function');
+    input.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
+    input.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
+    input.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
+    input.props.should.have.property('formatSearchResultMessage').that.is.a('function');
+    input.props.should.have.property('formatSourceName').that.is.a('function');
+    input.props.should.have.property('addTerm').that.is.a('function');
+    input.props.should.have.property('findMatchingTerms').that.is.a('function');
+    input.props.should.have.property('onClose').that.is.a('function');
   });
 
   it('should remove from source any record types for which there are not list permissions', () => {
@@ -149,10 +155,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -191,14 +193,16 @@ describe('AutocompleteInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedAutocompleteInput
+        store={store}
         source="person/local,organization/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, AutocompleteInput);
 
-    result.props.should.have.property('source').that.equals('person/local');
+    input.props.should.have.property('source').that.equals('person/local');
   });
 
   it('should set quickAddTo to contain source record types for which there are create permissions, and are not locked', () => {
@@ -224,10 +228,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -271,14 +271,16 @@ describe('AutocompleteInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedAutocompleteInput
+        store={store}
         source="person/local,person/shared,organization/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, AutocompleteInput);
 
-    result.props.should.have.property('quickAddTo').that.equals('person/local');
+    input.props.should.have.property('quickAddTo').that.equals('person/local');
   });
 
   it('should connect addTerm, findMatchingTerms, and onClose to action creators', () => {
@@ -295,10 +297,6 @@ describe('AutocompleteInputContainer', () => {
         },
       }),
     });
-
-    const context = {
-      store,
-    };
 
     const config = {
       recordTypes: {
@@ -324,19 +322,21 @@ describe('AutocompleteInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedAutocompleteInput
+        store={store}
         source="person/local"
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, AutocompleteInput);
 
     // The call to addTerm will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the addTerm action creator gets called, and
     // dispatches ADD_TERM_STARTED.
 
     try {
-      result.props.addTerm('person', 'local', 'abcd');
+      input.props.addTerm('person', 'local', 'abcd');
     } catch (error) {
       const action = store.getActions()[0];
 
@@ -351,7 +351,7 @@ describe('AutocompleteInputContainer', () => {
     // dispatches PARTIAL_TERM_SEARCH_STARTED.
 
     try {
-      result.props.findMatchingTerms('person/local', 'abcd');
+      input.props.findMatchingTerms('person/local', 'abcd');
     } catch (error) {
       const action = store.getActions()[1];
 
@@ -361,7 +361,7 @@ describe('AutocompleteInputContainer', () => {
       action.should.have.deep.property('meta.partialTerm', 'abcd');
     }
 
-    result.props.onClose();
+    input.props.onClose();
 
     store.getActions()[2].should.have.property('type', CLEAR_PARTIAL_TERM_SEARCH_RESULTS);
   });
@@ -396,10 +396,6 @@ describe('AutocompleteInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const config = {
       recordTypes: {
         person: {
@@ -423,35 +419,37 @@ describe('AutocompleteInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedAutocompleteInput
+        store={store}
         source="person/local"
         intl={intl}
         config={config}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, AutocompleteInput);
 
-    result.props.formatAddPrompt();
+    input.props.formatAddPrompt();
 
     formatMessageCalledCount.should.equal(1);
 
-    result.props.formatCloneOptionLabel();
+    input.props.formatCloneOptionLabel();
 
     formatMessageCalledCount.should.equal(2);
 
-    result.props.formatCreateNewOptionLabel();
+    input.props.formatCreateNewOptionLabel();
 
     formatMessageCalledCount.should.equal(3);
 
-    result.props.formatMoreCharsRequiredMessage();
+    input.props.formatMoreCharsRequiredMessage();
 
     formatMessageCalledCount.should.equal(4);
 
-    result.props.formatSearchResultMessage(1);
+    input.props.formatSearchResultMessage(1);
 
     formatMessageCalledCount.should.equal(5);
 
-    result.props.formatSourceName({ messages: {} });
+    input.props.formatSourceName({ messages: {} });
 
     formatMessageCalledCount.should.equal(6);
   });

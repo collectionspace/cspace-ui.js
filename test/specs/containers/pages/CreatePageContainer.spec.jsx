@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import CreatePage from '../../../../src/components/pages/CreatePage';
 import CreatePageContainer from '../../../../src/containers/pages/CreatePageContainer';
 
@@ -33,28 +34,25 @@ const store = mockStore({
 
 describe('CreatePageContainer', () => {
   it('should set props on CreatePage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<CreatePageContainer />, context);
+    shallowRenderer.render(<CreatePageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, CreatePage);
 
-    result.type.should.equal(CreatePage);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('getAuthorityVocabWorkflowState').that.is.a('function');
+    page.props.should.have.property('perms', perms);
+    page.props.should.have.property('getAuthorityVocabWorkflowState').that.is.a('function');
   });
 
   it('should return the workflow state from the store when getAuthorityVocabWorkflowState is called', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<CreatePageContainer />, context);
+    shallowRenderer.render(<CreatePageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, CreatePage);
 
-    result.props.getAuthorityVocabWorkflowState('person', 'local').should.equal('project');
+    page.props.getAuthorityVocabWorkflowState('person', 'local').should.equal('project');
   });
 });

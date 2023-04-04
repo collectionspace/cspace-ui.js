@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
+import { findWithType } from 'react-shallow-testutils';
 import VocabularyPage from '../../../../src/components/pages/VocabularyPage';
 import VocabularyPageContainer from '../../../../src/containers/pages/VocabularyPageContainer';
 
@@ -36,26 +37,25 @@ const store = mockStore({
 
 describe('VocabularyPageContainer', () => {
   it('should set props on VocabularyPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <VocabularyPageContainer
+        store={store}
         match={{
           params: {
             csid,
           },
         }}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, VocabularyPage);
 
-    result.type.should.equal(VocabularyPage);
-    result.props.should.have.property('data', data);
-    result.props.should.have.property('perms', perms);
-    result.props.should.have.property('readVocabularyItemRefs').that.is.a('function');
-    result.props.should.have.property('setToolTab').that.is.a('function');
+    page.props.should.have.property('data', data);
+    page.props.should.have.property('perms', perms);
+    page.props.should.have.property('readVocabularyItemRefs').that.is.a('function');
+    page.props.should.have.property('setToolTab').that.is.a('function');
   });
 });

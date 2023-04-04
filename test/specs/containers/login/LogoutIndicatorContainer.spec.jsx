@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import LogoutIndicator from '../../../../src/components/login/LogoutIndicator';
 import LogoutIndicatorContainer from '../../../../src/containers/login/LogoutIndicatorContainer';
 
@@ -17,15 +18,14 @@ describe('LogoutIndicatorContainer', () => {
       },
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<LogoutIndicatorContainer />, context);
+    shallowRenderer.render(<LogoutIndicatorContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const indicator = findWithType(result, LogoutIndicator);
 
-    result.type.should.equal(LogoutIndicator);
-    result.props.should.have.property('isPending', true);
-    result.props.should.have.property('response', null);
+    indicator.props.should.have.property('isPending', true);
+    indicator.props.should.have.property('response', null);
   });
 });

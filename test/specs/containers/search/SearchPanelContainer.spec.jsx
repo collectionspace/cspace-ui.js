@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import SearchPanel from '../../../../src/components/search/SearchPanel';
@@ -48,28 +49,24 @@ describe('SearchPanelContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <SearchPanelContainer
+        store={store}
         name={panelName}
         recordType={recordType}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const panel = findWithType(result, SearchPanel);
 
-    result.type.should.equal(SearchPanel);
-
-    result.props.searchResult.should.equal(Immutable.fromJS(searchResult));
-    result.props.searchDescriptor.should.be.an('object');
-    result.props.search.should.be.a('function');
-    result.props.setPreferredPageSize.should.be.a('function');
+    panel.props.searchResult.should.equal(Immutable.fromJS(searchResult));
+    panel.props.searchDescriptor.should.be.an('object');
+    panel.props.search.should.be.a('function');
+    panel.props.setPreferredPageSize.should.be.a('function');
   });
 
   it('should override the page size in the provided search descriptor with the preferred page size', () => {
@@ -96,23 +93,21 @@ describe('SearchPanelContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <SearchPanelContainer
+        store={store}
         name={panelName}
         recordType={recordType}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const panel = findWithType(result, SearchPanel);
 
-    result.props.searchDescriptor.should
+    panel.props.searchDescriptor.should
       .equal(searchDescriptor.setIn(['searchQuery', 'size'], preferredPageSize));
   });
 });

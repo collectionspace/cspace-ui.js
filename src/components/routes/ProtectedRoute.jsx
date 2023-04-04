@@ -5,7 +5,10 @@ import Immutable from 'immutable';
 import ProtectedPage from '../pages/ProtectedPage';
 
 const propTypes = {
-  component: PropTypes.func,
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.object,
+  ]),
   decorated: PropTypes.bool,
   openModalName: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),

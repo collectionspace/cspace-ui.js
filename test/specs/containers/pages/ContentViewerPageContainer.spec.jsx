@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { setupWorker, rest } from 'msw';
+import { findWithType } from 'react-shallow-testutils';
 import ContentViewerPage from '../../../../src/components/pages/ContentViewerPage';
 import ContentViewerPageContainer from '../../../../src/containers/pages/ContentViewerPageContainer';
 
@@ -41,16 +42,14 @@ describe('ContentViewerPageContainer', () => {
   });
 
   it('should set props on ContentViewerPage', () => {
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ContentViewerPageContainer />, context);
+    shallowRenderer.render(<ContentViewerPageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, ContentViewerPage);
 
-    result.type.should.equal(ContentViewerPage);
-    result.props.should.have.property('readContent').that.is.a('function');
+    page.props.should.have.property('readContent').that.is.a('function');
   });
 
   it('should connect readContent to an action that fetches the content as a blob', () => {
@@ -60,11 +59,9 @@ describe('ContentViewerPageContainer', () => {
       rest.get(`/cspace-services/${contentPath}`, (req, res, ctx) => res(ctx.json({}))),
     );
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<ContentViewerPageContainer />, context);
+    shallowRenderer.render(<ContentViewerPageContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import { unmountComponentAtNode } from 'react-dom';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import configureMockStore from 'redux-mock-store';
@@ -655,26 +657,17 @@ describe('RecordPage', () => {
       expect(setPrimaryCsid).to.equal(undefined);
     });
 
-    it('should render a RecordTitleBarContainer with correct csid and recordType', function test() {
-      const resultTree = render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <Router>
-                <RecordPage
-                  config={config}
-                  location={location}
-                  match={match}
-                />
-              </Router>
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
+    it('should render a RecordTitleBarContainer with correct csid and recordType', () => {
+      const shallowRenderer = createRenderer();
+
+      shallowRenderer.render(
+        <RecordPage config={config} location={location} match={match} />,
       );
 
-      const component = findRenderedComponentWithType(resultTree, RecordTitleBarContainer);
+      const result = shallowRenderer.getRenderOutput();
+      const recordTitleBar = findWithType(result, RecordTitleBarContainer);
 
-      component.props.should.include({
+      recordTitleBar.props.should.include({
         csid,
         recordType: objectRecordType,
       });

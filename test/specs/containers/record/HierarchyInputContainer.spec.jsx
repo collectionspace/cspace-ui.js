@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import { findWithType } from 'react-shallow-testutils';
 import HierarchyInput from '../../../../src/components/record/HierarchyInput';
 import HierarchyInputContainer from '../../../../src/containers/record/HierarchyInputContainer';
 
@@ -34,20 +35,18 @@ describe('HierarchyInputContainer', () => {
       }),
     });
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <HierarchyInputContainer
+        store={store}
         csid={csid}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, HierarchyInput);
 
-    result.type.should.equal(HierarchyInput);
-
-    result.props.should.have.property('isRecordModified', true);
+    input.props.should.have.property('isRecordModified', true);
   });
 });
