@@ -551,6 +551,10 @@ const template = (configContext) => {
       <Panel name="collect" collapsible collapsed>
         <Row>
           <Col>
+            <Field name="fieldCollectionSites">
+              <Field name="fieldCollectionSite" />
+            </Field>
+
             <Field name="fieldCollectionDateGroup" />
 
             <Field name="fieldCollectionMethods">
