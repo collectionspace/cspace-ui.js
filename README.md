@@ -2,7 +2,7 @@
 
 [![npm package](https://img.shields.io/npm/v/cspace-ui.svg)](https://www.npmjs.com/package/cspace-ui)
 [![continuous integration](https://github.com/collectionspace/cspace-ui.js/actions/workflows/ci-js.yml/badge.svg?branch=master&event=push)](https://github.com/collectionspace/cspace-ui.js/actions/workflows/ci-js.yml)
-[![codecov](https://codecov.io/gh/collectionspace/cspace-ui.js/branch/master/graph/badge.svg?token=rQ8jLRZlXs)](https://codecov.io/gh/collectionspace/cspace-ui.js)
+[![codecov](https://codecov.io/gh/collectionspace/cspace-ui.js/branch/master/graph/badge.svg?token=rQ8jLRZlXs)](https://app.codecov.io/gh/collectionspace/cspace-ui.js)
 
 The CollectionSpace user interface for web browsers.
 
