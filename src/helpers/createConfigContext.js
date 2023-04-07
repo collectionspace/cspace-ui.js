@@ -57,6 +57,7 @@ export default () => ({
       },
       dimension: {},
       structuredDate: {},
+      associatedAuthority: {},
     },
   },
   lib: {
