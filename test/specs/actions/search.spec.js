@@ -51,8 +51,6 @@ describe('search action creator', () => {
   const worker = setupWorker();
 
   before(async function setup() {
-    this.timeout(3000);
-
     await worker.start({ quiet: true });
   });
 
