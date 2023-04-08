@@ -63,7 +63,7 @@ const config = {
 describe('relation action creator', () => {
   const worker = setupWorker();
 
-  before(async function setup() {
+  before(async () => {
     await worker.start({ quiet: true });
   });
 

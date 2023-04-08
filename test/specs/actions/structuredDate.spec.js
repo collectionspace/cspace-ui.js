@@ -18,7 +18,7 @@ chai.should();
 describe('structured date action creator', () => {
   const worker = setupWorker();
 
-  before(async function setup() {
+  before(async () => {
     await worker.start({ quiet: true });
   });
 

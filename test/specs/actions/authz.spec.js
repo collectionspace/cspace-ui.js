@@ -24,7 +24,7 @@ import {
 describe('authz action creator', () => {
   const worker = setupWorker();
 
-  before(async function setup() {
+  before(async () => {
     await worker.start({ quiet: true });
   });
 
