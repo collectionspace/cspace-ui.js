@@ -29,9 +29,7 @@ const store = mockStore({
 describe('ExportViewerPageContainer', () => {
   const worker = setupWorker();
 
-  before(async function setup() {
-    this.timeout(3000);
-
+  before(async () => {
     await Promise.all([
       worker.start({ quiet: true }),
       store.dispatch(configureCSpace()).then(() => store.clearActions()),

@@ -50,9 +50,7 @@ const mockStore = configureMockStore([thunk]);
 describe('search action creator', () => {
   const worker = setupWorker();
 
-  before(async function setup() {
-    this.timeout(3000);
-
+  before(async () => {
     await worker.start({ quiet: true });
   });
 

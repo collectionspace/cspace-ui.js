@@ -36,9 +36,7 @@ chai.should();
 describe('ID generator action creator', () => {
   const worker = setupWorker();
 
-  before(async function setup() {
-    this.timeout(3000);
-
+  before(async () => {
     await worker.start({ quiet: true });
   });
 
