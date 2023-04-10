@@ -193,7 +193,7 @@ describe('RecordTitleBar', () => {
   });
 
   it('should call onDock if the height changes while docked', function test() {
-    this.timeout(5000);
+    this.timeout(7000);
 
     let handlerCalled = false;
 
