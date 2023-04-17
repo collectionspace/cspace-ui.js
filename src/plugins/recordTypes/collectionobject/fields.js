@@ -2257,6 +2257,30 @@ export default (configContext) => {
             ...extensions.structuredDate.fields,
           },
         },
+        objectProductionEras: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectProductionEra: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionEra.name',
+                  defaultMessage: 'Production era',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'chronology/era',
+                },
+              },
+            },
+          },
+        },
         techniqueGroupList: {
           [config]: {
             view: {
@@ -3228,6 +3252,43 @@ export default (configContext) => {
               },
               name: {
                 id: 'field.collectionobjects_common.assocEventNameType.name',
+                defaultMessage: 'Type',
+              },
+            }),
+            view: {
+              type: TextInput,
+            },
+          },
+        },
+        assocControlledEventName: {
+          [config]: {
+            messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.assocControlledEventName.fullName',
+                defaultMessage: 'Associated controlled event',
+              },
+              name: {
+                id: 'field.collectionobjects_common.assocControlledEventName.name',
+                defaultMessage: 'Event',
+              },
+            }),
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'chronology/event',
+              },
+            },
+          },
+        },
+        assocControlledEventNameType: {
+          [config]: {
+            messages: defineMessages({
+              fullName: {
+                id: 'field.collectionobjects_common.assocControlledEventNameType.fullName',
+                defaultMessage: 'Associated controlled event type',
+              },
+              name: {
+                id: 'field.collectionobjects_common.assocControlledEventNameType.name',
                 defaultMessage: 'Type',
               },
             }),
