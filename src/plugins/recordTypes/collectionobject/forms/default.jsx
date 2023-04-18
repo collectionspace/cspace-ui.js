@@ -454,8 +454,8 @@ const template = (configContext) => {
               </InputTable>
 
               <InputTable name="assocControlledEvent">
-                <Field name="assocControlledEventName" />
-                <Field name="assocControlledEventNameType" />
+                <Field name="assocEvent" />
+                <Field name="assocEventType" />
               </InputTable>
 
               <Field name="assocEventOrganizations">

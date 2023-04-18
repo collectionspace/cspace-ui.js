@@ -3260,15 +3260,15 @@ export default (configContext) => {
             },
           },
         },
-        assocControlledEventName: {
+        assocEvent: {
           [config]: {
             messages: defineMessages({
               fullName: {
-                id: 'field.collectionobjects_common.assocControlledEventName.fullName',
+                id: 'field.collectionobjects_common.assocEvent.fullName',
                 defaultMessage: 'Associated controlled event',
               },
               name: {
-                id: 'field.collectionobjects_common.assocControlledEventName.name',
+                id: 'field.collectionobjects_common.assocEvent.name',
                 defaultMessage: 'Event',
               },
             }),
@@ -3280,15 +3280,15 @@ export default (configContext) => {
             },
           },
         },
-        assocControlledEventNameType: {
+        assocEventType: {
           [config]: {
             messages: defineMessages({
               fullName: {
-                id: 'field.collectionobjects_common.assocControlledEventNameType.fullName',
+                id: 'field.collectionobjects_common.assocEventType.fullName',
                 defaultMessage: 'Associated controlled event type',
               },
               name: {
-                id: 'field.collectionobjects_common.assocControlledEventNameType.name',
+                id: 'field.collectionobjects_common.assocEventType.name',
                 defaultMessage: 'Type',
               },
             }),
