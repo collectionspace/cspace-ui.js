@@ -27,7 +27,7 @@ If a configurer function is returned, it will be executed with a configuration c
 Using an ES2015 [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) and the ES2015 [export statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export), a simple plugin that returns a configuration object might look like this:
 
 ```JavaScript
-export default pluginConfig => ({
+export default (pluginConfig) => ({
   // Define configuration properties here. The supplied pluginConfig may be used to compute these
   // properties.
 });
@@ -36,7 +36,7 @@ export default pluginConfig => ({
 A simple plugin that returns a configurer function might look like this:
 
 ```JavaScript
-export default pluginConfig => configContext => ({
+export default (pluginConfig) => (configContext) => ({
   // Define configuration properties here. The supplied pluginConfig and configContext arguments
   // may be used to compute these properties.
 });
@@ -48,16 +48,20 @@ A plugin may configure anything that is configurable in the UI, so plugins are n
 
 Types of plugins include:
 
-- Language
+- Language:
   A language plugin translates the UI to a particular language.
-- Theme
+
+- Theme:
   A theme plugin customizes the styling (for example, fonts and colors) used by the UI.
-- Record Type
-  A record type plugin adds support for a new record type to the CollectionSpace UI.
-- Extension Set
-  An extension set plugin configures fields that may be added to one or more record types.
-- Profile
-  A profile plugin implements configuration for a community of practice or a class of collection.
+
+- Record Type:
+  A record type plugin adds support for a new record type to the CollectionSpace UI. Examples include: [Material Record Plugin](https://github.com/collectionspace/cspace-ui-plugin-record-material.js), [Taxon Record Plugin](https://github.com/collectionspace/cspace-ui-plugin-record-taxon.js), [Osteology Record Plugin](https://github.com/collectionspace/cspace-ui-plugin-record-osteology.js).
+
+- Extension Set:
+  An extension set plugin configures fields that may be reused in multiple record types, or in multiple profiles. This reduces duplication when multiple record types have similar fields, or multiple profiles have similar customizations. Examples include: [Locality Extension Plugin](https://github.com/collectionspace/cspace-ui-plugin-ext-locality.js), [Locality Extension Plugin](https://github.com/collectionspace/cspace-ui-plugin-ext-locality.js), [Cultural Care Extension Plugin](https://github.com/collectionspace/cspace-ui-plugin-ext-culturalcare.js), [Annotation Extension Plugin](https://github.com/collectionspace/cspace-ui-plugin-ext-annotation.js).
+
+- Profile:
+  A profile plugin implements configuration for a community of practice, a class of collection, or a specific collection. Examples include: [Anthropology Profile Plugin](https://github.com/collectionspace/cspace-ui-plugin-profile-anthro.js), [Fine and Contemporary Art Profile Plugin](https://github.com/collectionspace/cspace-ui-plugin-profile-fcart.js), [Local History and Material Culture Profile Plugin](https://github.com/collectionspace/cspace-ui-plugin-profile-lhmc.js).
 
 ## Composing Plugins
 
