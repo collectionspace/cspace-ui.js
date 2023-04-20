@@ -63,6 +63,8 @@ Types of plugins include:
 - Profile:
   A profile plugin implements configuration for a community of practice, a class of collection, or a specific collection. Examples include: [Anthropology Profile Plugin](https://github.com/collectionspace/cspace-ui-plugin-profile-anthro.js), [Fine and Contemporary Art Profile Plugin](https://github.com/collectionspace/cspace-ui-plugin-profile-fcart.js), [Local History and Material Culture Profile Plugin](https://github.com/collectionspace/cspace-ui-plugin-profile-lhmc.js).
 
+Note that UI plugins only affect the application's front-end user interface (its appearance), not the back-end database schema. So adding a new field or record type in a UI plugin is not enough to actually make that new field or record save. Any new fields and record types must also exist in the CollectionSpace back-end services configuration.
+
 ## Composing Plugins
 
 Plugins may load other plugins by supplying the `plugins` configuration property.
