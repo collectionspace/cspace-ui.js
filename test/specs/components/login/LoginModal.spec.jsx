@@ -1,14 +1,15 @@
 /* global document */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act } from 'react-dom/test-utils';
+import { unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
 import LoginModal from '../../../../src/components/login/LoginModal';
 import createTestContainer from '../../../helpers/createTestContainer';
+import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
+import { asyncRender, render } from '../../../helpers/renderHelpers';
 
 const { expect } = chai;
 
@@ -26,17 +27,16 @@ describe('LoginModal', () => {
   });
 
   it('should render a modal', async function test() {
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <LoginModal isOpen />
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    await asyncRender(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <LoginModal isOpen />
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
 
     unmountComponentAtNode(this.container);
   });

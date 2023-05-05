@@ -1,9 +1,9 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import RecordSearchInput from '../../../../src/components/search/RecordSearchInput';
 
 chai.should();

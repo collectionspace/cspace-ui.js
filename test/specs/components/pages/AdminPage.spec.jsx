@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import AdminPage from '../../../../src/components/pages/AdminPage';
 
 const { expect } = chai;

@@ -161,6 +161,34 @@ export default class RecordPage extends Component {
     }
   }
 
+  handleShowRelated(relatedRecordType, relatedCsid) {
+    const {
+      recordType,
+      vocabulary,
+      csid,
+    } = getParams(this.props);
+
+    const {
+      history,
+      location,
+    } = this.props;
+
+    const path = [recordType, vocabulary, csid, relatedRecordType, relatedCsid]
+      .filter((part) => !!part)
+      .join('/');
+
+    history.replace({
+      pathname: `/record/${path}`,
+      state: location.state,
+    });
+  }
+
+  handleTitleBarDocked(height) {
+    this.setState({
+      headerDockPosition: height,
+    });
+  }
+
   initRecord() {
     const {
       config,
@@ -193,34 +221,6 @@ export default class RecordPage extends Component {
 
       readRecord(config, recordTypeConfig, vocabularyConfig, normalizedCsid);
     }
-  }
-
-  handleShowRelated(relatedRecordType, relatedCsid) {
-    const {
-      recordType,
-      vocabulary,
-      csid,
-    } = getParams(this.props);
-
-    const {
-      history,
-      location,
-    } = this.props;
-
-    const path = [recordType, vocabulary, csid, relatedRecordType, relatedCsid]
-      .filter((part) => !!part)
-      .join('/');
-
-    history.replace({
-      pathname: `/record/${path}`,
-      state: location.state,
-    });
-  }
-
-  handleTitleBarDocked(height) {
-    this.setState({
-      headerDockPosition: height,
-    });
   }
 
   render() {

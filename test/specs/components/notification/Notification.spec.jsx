@@ -1,10 +1,10 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import Notification from '../../../../src/components/notification/Notification';
 
 const { expect } = chai;
@@ -61,8 +61,6 @@ describe('Notification', () => {
   });
 
   it('should call close automatically after the autoCloseTime timeout when autoClose is true', function test() {
-    this.timeout(3000);
-
     let closedID = null;
 
     const close = (id) => {

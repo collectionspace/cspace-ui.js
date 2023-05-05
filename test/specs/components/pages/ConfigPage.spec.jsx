@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigPage from '../../../../src/components/pages/ConfigPage';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 

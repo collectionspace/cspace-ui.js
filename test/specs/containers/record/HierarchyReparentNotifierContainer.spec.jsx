@@ -4,6 +4,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 import HierarchyReparentNotifierContainer from '../../../../src/containers/record/HierarchyReparentNotifierContainer';
 
@@ -50,31 +51,29 @@ describe('HierarchyReparentNotifierContainer', () => {
       }),
     });
 
-    const context = { store };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <HierarchyReparentNotifierContainer
+        store={store}
         config={config}
         csid={csid}
         childRefNames={childRefNames}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const notifier = findWithType(result, HierarchyReparentNotifier);
 
-    result.type.should.equal(HierarchyReparentNotifier);
-
-    result.props.should.have.property('childData').that.equals(Immutable.Map({
+    notifier.props.should.have.property('childData').that.equals(Immutable.Map({
       'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(Alameda)\'Alameda\'': 'Alameda data',
       'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(Berkeley)\'Berkeley\'': 'Berkeley data',
       'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(Oakland)\'Oakland\'': 'Oakland data',
       'urn:cspace:core.collectionspace.org:placeauthorities:name(place):item:name(SF)\'San Francisco\'': 'SF data',
     }));
 
-    result.props.should.have.property('readRecord').that.is.a('function');
-    result.props.should.have.property('removeNotification').that.is.a('function');
-    result.props.should.have.property('showNotification').that.is.a('function');
+    notifier.props.should.have.property('readRecord').that.is.a('function');
+    notifier.props.should.have.property('removeNotification').that.is.a('function');
+    notifier.props.should.have.property('showNotification').that.is.a('function');
   });
 });

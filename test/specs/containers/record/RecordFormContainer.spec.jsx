@@ -41,10 +41,6 @@ describe('RecordFormContainer', () => {
     user: Immutable.Map(),
   });
 
-  const context = {
-    store,
-  };
-
   afterEach(() => {
     store.clearActions();
   });
@@ -54,11 +50,12 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -76,11 +73,12 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -100,11 +98,12 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -124,11 +123,12 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -148,11 +148,12 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -171,11 +172,12 @@ describe('RecordFormContainer', () => {
 
     shallowRenderer.render(
       <RecordFormContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
         recordTypeConfig={recordTypeConfig}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();

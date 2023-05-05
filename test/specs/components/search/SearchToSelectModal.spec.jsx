@@ -3,7 +3,7 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { act, Simulate } from 'react-dom/test-utils';
 import { Provider as StoreProvider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
@@ -22,6 +22,7 @@ import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultSummary from '../../../../src/components/search/SearchResultSummary';
 import SearchResultTableContainer from '../../../../src/containers/search/SearchResultTableContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { asyncRender, render } from '../../../helpers/renderHelpers';
 import { searchKey } from '../../../../src/reducers/search';
 
 const { expect } = chai;
@@ -146,20 +147,18 @@ describe('SearchToSelectModal', () => {
       recordType: 'collectionobject',
     };
 
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <SearchToSelectModal
-              config={config}
-              isOpen
-              recordTypeValue="collectionobject"
-              subjects={[subject]}
-            />
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    await asyncRender(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchToSelectModal
+            config={config}
+            isOpen
+            recordTypeValue="collectionobject"
+            subjects={[subject]}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
     modal.should.not.equal(null);
@@ -380,23 +379,21 @@ describe('SearchToSelectModal', () => {
       recordType: 'collectionobject',
     };
 
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <SearchToSelectModal
-              config={config}
-              isOpen
-              recordTypeValue="collectionobject"
-              subjects={[subject]}
-            />
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    await asyncRender(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchToSelectModal
+            config={config}
+            isOpen
+            recordTypeValue="collectionobject"
+            subjects={[subject]}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    const modal = document.querySelector('.ReactModal__Content--after-open');
-
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
     modal.querySelector('.cspace-ui-SearchForm--common').should.not.equal(null);
   });
 

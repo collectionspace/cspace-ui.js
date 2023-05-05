@@ -1,7 +1,6 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { MemoryRouter as Router } from 'react-router';
@@ -13,6 +12,7 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';

@@ -167,6 +167,7 @@ export default function Field(props, context) {
 
   Object.keys(props).forEach((propName) => {
     if (propName in basePropTypes) {
+      // eslint-disable-next-line react/destructuring-assignment
       providedProps[propName] = props[propName];
     }
   });

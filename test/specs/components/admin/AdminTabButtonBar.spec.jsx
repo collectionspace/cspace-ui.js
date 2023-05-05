@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import AdminTabButtonBar from '../../../../src/components/admin/AdminTabButtonBar';
 
 const { expect } = chai;

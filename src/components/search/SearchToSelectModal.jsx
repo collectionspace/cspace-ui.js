@@ -240,95 +240,6 @@ export class BaseSearchToSelectModal extends Component {
     }
   }
 
-  getSearchDescriptor() {
-    const {
-      config,
-      recordTypeValue: recordType,
-      vocabularyValue: vocabulary,
-      keywordValue: keyword,
-      advancedSearchCondition,
-      preferredPageSize,
-      customizeSearchDescriptor,
-    } = this.props;
-
-    const {
-      pageNum,
-      sort,
-    } = this.state;
-
-    const pageSize = preferredPageSize || defaultPageSize;
-
-    const searchQuery = {
-      p: pageNum,
-      size: pageSize,
-    };
-
-    if (sort) {
-      searchQuery.sort = sort;
-    }
-
-    const kw = keyword ? keyword.trim() : '';
-
-    if (kw) {
-      searchQuery.kw = kw;
-    }
-
-    const fields = get(config, ['recordTypes', recordType, 'fields']);
-    const condition = normalizeCondition(fields, advancedSearchCondition);
-
-    if (condition) {
-      searchQuery.as = condition;
-    }
-
-    const searchDescriptor = Immutable.fromJS({
-      recordType,
-      vocabulary,
-      searchQuery,
-    });
-
-    if (customizeSearchDescriptor) {
-      return customizeSearchDescriptor(searchDescriptor);
-    }
-
-    return searchDescriptor;
-  }
-
-  setItemSelected(index, selected) {
-    const {
-      config,
-      singleSelect,
-      setAllItemsSelected,
-      onItemSelectChange,
-    } = this.props;
-
-    if (onItemSelectChange) {
-      const searchDescriptor = this.getSearchDescriptor();
-
-      if (singleSelect && selected) {
-        setAllItemsSelected(config, searchName, searchDescriptor, listType, false);
-      }
-
-      onItemSelectChange(config, searchName, searchDescriptor, listType, index, selected);
-    }
-  }
-
-  search() {
-    const {
-      config,
-      search,
-    } = this.props;
-
-    if (search) {
-      const searchDescriptor = this.getSearchDescriptor();
-
-      search(config, searchName, searchDescriptor);
-
-      this.setState({
-        isSearchInitiated: true,
-      });
-    }
-  }
-
   handleAcceptButtonClick() {
     const {
       isSearchInitiated,
@@ -445,6 +356,95 @@ export class BaseSearchToSelectModal extends Component {
     this.setState({
       sort,
     });
+  }
+
+  getSearchDescriptor() {
+    const {
+      config,
+      recordTypeValue: recordType,
+      vocabularyValue: vocabulary,
+      keywordValue: keyword,
+      advancedSearchCondition,
+      preferredPageSize,
+      customizeSearchDescriptor,
+    } = this.props;
+
+    const {
+      pageNum,
+      sort,
+    } = this.state;
+
+    const pageSize = preferredPageSize || defaultPageSize;
+
+    const searchQuery = {
+      p: pageNum,
+      size: pageSize,
+    };
+
+    if (sort) {
+      searchQuery.sort = sort;
+    }
+
+    const kw = keyword ? keyword.trim() : '';
+
+    if (kw) {
+      searchQuery.kw = kw;
+    }
+
+    const fields = get(config, ['recordTypes', recordType, 'fields']);
+    const condition = normalizeCondition(fields, advancedSearchCondition);
+
+    if (condition) {
+      searchQuery.as = condition;
+    }
+
+    const searchDescriptor = Immutable.fromJS({
+      recordType,
+      vocabulary,
+      searchQuery,
+    });
+
+    if (customizeSearchDescriptor) {
+      return customizeSearchDescriptor(searchDescriptor);
+    }
+
+    return searchDescriptor;
+  }
+
+  setItemSelected(index, selected) {
+    const {
+      config,
+      singleSelect,
+      setAllItemsSelected,
+      onItemSelectChange,
+    } = this.props;
+
+    if (onItemSelectChange) {
+      const searchDescriptor = this.getSearchDescriptor();
+
+      if (singleSelect && selected) {
+        setAllItemsSelected(config, searchName, searchDescriptor, listType, false);
+      }
+
+      onItemSelectChange(config, searchName, searchDescriptor, listType, index, selected);
+    }
+  }
+
+  search() {
+    const {
+      config,
+      search,
+    } = this.props;
+
+    if (search) {
+      const searchDescriptor = this.getSearchDescriptor();
+
+      search(config, searchName, searchDescriptor);
+
+      this.setState({
+        isSearchInitiated: true,
+      });
+    }
   }
 
   renderCheckbox({ rowData, rowIndex }) {

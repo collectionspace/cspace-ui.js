@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
@@ -7,6 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import Header from '../../../../src/components/sections/Header';

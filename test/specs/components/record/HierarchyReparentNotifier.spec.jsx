@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import HierarchyReparentNotifier from '../../../../src/components/record/HierarchyReparentNotifier';
 
 const { expect } = chai;

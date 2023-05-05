@@ -1,6 +1,7 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import LoginPage from '../../../../src/components/pages/LoginPage';
 import LoginPageContainer from '../../../../src/containers/pages/LoginPageContainer';
 
@@ -11,7 +12,6 @@ const store = mockStore();
 
 describe('LoginPageContainer', () => {
   it('should set props on LoginPage', () => {
-    const context = { store };
     const history = {};
     const location = {};
 
@@ -19,15 +19,17 @@ describe('LoginPageContainer', () => {
 
     shallowRenderer.render(
       <LoginPageContainer
+        store={store}
         history={history}
         location={location}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const page = findWithType(result, LoginPage);
 
-    result.type.should.equal(LoginPage);
-    result.props.should.have.property('closeModal').that.is.a('function');
-    result.props.should.have.property('resetLogin').that.is.a('function');
+    page.type.should.equal(LoginPage);
+    page.props.should.have.property('closeModal').that.is.a('function');
+    page.props.should.have.property('resetLogin').that.is.a('function');
   });
 });

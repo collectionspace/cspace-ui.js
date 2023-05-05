@@ -132,28 +132,6 @@ export default class SearchPanel extends Component {
     }
   }
 
-  getSearchLocation() {
-    const {
-      searchDescriptor,
-    } = this.props;
-
-    const searchQuery = searchDescriptor.get('searchQuery');
-
-    // Always go to the first page, since the page size may differ on the search result page.
-    // Remove the size, so that the default/preferred setting for the search result page will
-    // take effect.
-
-    return searchDescriptorToLocation(
-      searchDescriptor.set('searchQuery', searchQuery.set('p', 0).delete('size')),
-    );
-  }
-
-  closeModal() {
-    this.setState({
-      isSearchToRelateModalOpen: false,
-    });
-  }
-
   handleAddButtonClick() {
     this.setState({
       isSearchToRelateModalOpen: true,
@@ -222,6 +200,28 @@ export default class SearchPanel extends Component {
         searchDescriptor.set('searchQuery', searchQuery.set('sort', sort)),
       );
     }
+  }
+
+  getSearchLocation() {
+    const {
+      searchDescriptor,
+    } = this.props;
+
+    const searchQuery = searchDescriptor.get('searchQuery');
+
+    // Always go to the first page, since the page size may differ on the search result page.
+    // Remove the size, so that the default/preferred setting for the search result page will
+    // take effect.
+
+    return searchDescriptorToLocation(
+      searchDescriptor.set('searchQuery', searchQuery.set('p', 0).delete('size')),
+    );
+  }
+
+  closeModal() {
+    this.setState({
+      isSearchToRelateModalOpen: false,
+    });
   }
 
   search() {

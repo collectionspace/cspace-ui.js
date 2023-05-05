@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import CheckboxInput from '../../../../src/components/record/CheckboxInput';
 
 chai.should();

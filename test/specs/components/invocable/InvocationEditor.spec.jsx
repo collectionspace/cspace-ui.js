@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
@@ -10,6 +9,7 @@ import InvocationEditor from '../../../../src/components/invocable/InvocationEdi
 import InvocationDescriptorEditor from '../../../../src/components/invocable/InvocationDescriptorEditor';
 import RecordFormContainer from '../../../../src/containers/record/RecordFormContainer';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 
 const { expect } = chai;

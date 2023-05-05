@@ -47,32 +47,6 @@ export default class RolesInput extends Component {
     }
   }
 
-  getRolesMap() {
-    const {
-      value,
-    } = this.props;
-
-    let rolesList = value;
-
-    if (!rolesList) {
-      return undefined;
-    }
-
-    if (!Immutable.List.isList(rolesList)) {
-      rolesList = Immutable.List.of(rolesList);
-    }
-
-    const roles = {};
-
-    rolesList.forEach((role) => {
-      const roleId = role.get('roleId');
-
-      roles[roleId] = true;
-    });
-
-    return roles;
-  }
-
   handleCheckboxChange(event) {
     const {
       onCommit,
@@ -98,6 +72,32 @@ export default class RolesInput extends Component {
 
       onCommit(getPath(this.props), newValue);
     }
+  }
+
+  getRolesMap() {
+    const {
+      value,
+    } = this.props;
+
+    let rolesList = value;
+
+    if (!rolesList) {
+      return undefined;
+    }
+
+    if (!Immutable.List.isList(rolesList)) {
+      rolesList = Immutable.List.of(rolesList);
+    }
+
+    const roles = {};
+
+    rolesList.forEach((role) => {
+      const roleId = role.get('roleId');
+
+      roles[roleId] = true;
+    });
+
+    return roles;
   }
 
   renderRoleRows() {

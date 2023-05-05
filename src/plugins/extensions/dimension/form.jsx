@@ -1,16 +1,22 @@
 export default (configContext) => {
   const {
+    layoutComponents,
+    lib,
+    recordComponents,
+  } = configContext;
+
+  const {
     React,
-  } = configContext.lib;
+  } = lib;
 
   const {
     Panel,
     Row,
-  } = configContext.layoutComponents;
+  } = layoutComponents;
 
   const {
     Field,
-  } = configContext.recordComponents;
+  } = recordComponents;
 
   return (
     <Field name="measuredPartGroupList">

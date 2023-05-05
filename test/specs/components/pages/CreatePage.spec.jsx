@@ -1,10 +1,10 @@
 import React from 'react';
 import { MemoryRouter as Router } from 'react-router';
 import { injectIntl, IntlProvider } from 'react-intl';
-import { render } from 'react-dom';
 import merge from 'lodash/merge';
 import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 import BaseCreatePage from '../../../../src/components/pages/CreatePage';
 

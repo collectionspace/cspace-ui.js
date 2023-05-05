@@ -1,8 +1,8 @@
 # cspace-ui
 
 [![npm package](https://img.shields.io/npm/v/cspace-ui.svg)](https://www.npmjs.com/package/cspace-ui)
-[![build status](https://travis-ci.org/collectionspace/cspace-ui.js.svg?branch=master)](https://travis-ci.org/collectionspace/cspace-ui.js)
-[![coverage status](https://coveralls.io/repos/github/collectionspace/cspace-ui.js/badge.svg?branch=master)](https://coveralls.io/github/collectionspace/cspace-ui.js?branch=master)
+[![continuous integration](https://github.com/collectionspace/cspace-ui.js/actions/workflows/ci-js.yml/badge.svg?branch=master&event=push)](https://github.com/collectionspace/cspace-ui.js/actions/workflows/ci-js.yml)
+[![codecov](https://codecov.io/gh/collectionspace/cspace-ui.js/branch/master/graph/badge.svg?token=rQ8jLRZlXs)](https://app.codecov.io/gh/collectionspace/cspace-ui.js)
 
 The CollectionSpace user interface for web browsers.
 
@@ -18,7 +18,7 @@ The CollectionSpace UI is a JavaScript application that runs in a web browser. S
 
 ### For CollectionSpace Developers
 
-[Node.js](https://nodejs.org/) 8 and npm 5 are required to build the application.
+[Node.js](https://nodejs.org/) 18 and npm 9 are recommended to build the application. A minimum of Node.js 14 and npm 7 are required.
 
 To download and install the source code of the application for development:
 

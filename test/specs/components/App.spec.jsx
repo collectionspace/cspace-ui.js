@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import { StaticRouter } from 'react-router';
@@ -9,6 +8,7 @@ import configureMockStore from 'redux-mock-store';
 import Immutable from 'immutable';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 import App from '../../../src/components/App';
 

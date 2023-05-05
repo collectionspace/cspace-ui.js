@@ -44,14 +44,6 @@ export class BaseUntypedHierarchyEditor extends Component {
     this.handleParentCommit = this.handleParentCommit.bind(this);
   }
 
-  filterMatch(item) {
-    const {
-      csid,
-    } = this.props;
-
-    return (item.csid !== csid);
-  }
-
   handleAddChild() {
     const {
       onAddChild,
@@ -97,6 +89,14 @@ export class BaseUntypedHierarchyEditor extends Component {
         refName: value,
       }));
     }
+  }
+
+  filterMatch(item) {
+    const {
+      csid,
+    } = this.props;
+
+    return (item.csid !== csid);
   }
 
   renderParent() {

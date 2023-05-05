@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import VocabularyUsedByPanel from '../../../../src/components/admin/VocabularyUsedByPanel';
 import { configKey } from '../../../../src/helpers/configHelpers';
 

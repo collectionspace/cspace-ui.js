@@ -3,9 +3,11 @@
 import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import chaiAsPromised from 'chai-as-promised';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import RecordEditor from '../../../../src/components/record/RecordEditor';
 import RecordEditorContainer from '../../../../src/containers/record/RecordEditorContainer';
 
@@ -36,11 +38,14 @@ import {
   NOTIFICATION_ID_VALIDATION,
 } from '../../../../src/actions/notification';
 
+chai.use(chaiAsPromised);
 chai.should();
 
 const mockStore = configureMockStore([thunk]);
 
 describe('RecordEditorContainer', () => {
+  const worker = setupWorker();
+
   const csid = '1234';
   const cloneCsid = '9999';
   const recordType = 'collectionobject';
@@ -122,20 +127,20 @@ describe('RecordEditorContainer', () => {
     user: Immutable.Map(),
   });
 
-  const context = {
-    store,
-  };
-
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
-
-  beforeEach(() => {
-    moxios.install();
+  before(async () => {
+    await Promise.all([
+      worker.start({ quiet: true }),
+      store.dispatch(configureCSpace()).then(() => store.clearActions()),
+    ]);
   });
 
   afterEach(() => {
     store.clearActions();
-    moxios.uninstall();
+    worker.resetHandlers();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on RecordEditor', () => {
@@ -143,24 +148,25 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.type.should.equal(RecordEditor);
-    result.props.should.have.property('data', data);
-    result.props.should.have.property('isModified', true);
-    result.props.should.have.property('createNewRecord').that.is.a('function');
-    result.props.should.have.property('deleteRecord').that.is.a('function');
-    result.props.should.have.property('readRecord').that.is.a('function');
-    result.props.should.have.property('removeNotification').that.is.a('function');
-    result.props.should.have.property('checkForRelations').that.is.a('function');
-    result.props.should.have.property('checkForUses').that.is.a('function');
-    result.props.should.have.property('checkForRoleUses').that.is.a('function');
+    editor.props.should.have.property('data', data);
+    editor.props.should.have.property('isModified', true);
+    editor.props.should.have.property('createNewRecord').that.is.a('function');
+    editor.props.should.have.property('deleteRecord').that.is.a('function');
+    editor.props.should.have.property('readRecord').that.is.a('function');
+    editor.props.should.have.property('removeNotification').that.is.a('function');
+    editor.props.should.have.property('checkForRelations').that.is.a('function');
+    editor.props.should.have.property('checkForUses').that.is.a('function');
+    editor.props.should.have.property('checkForRoleUses').that.is.a('function');
   });
 
   it('should connect createNewRecord to createNewRecord action creator', () => {
@@ -168,16 +174,18 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={authRecordType}
         vocabulary={vocabulary}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.createNewRecord(cloneCsid);
+    editor.props.createNewRecord(cloneCsid);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -197,20 +205,22 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid="abcd"
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
     // The call to deleteRecord will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the deleteRecord action creator gets called, and
     // dispatches RECORD_DELETE_STARTED.
 
     try {
-      result.props.deleteRecord();
+      editor.props.deleteRecord();
     } catch (error) {
       const actions = store.getActions();
 
@@ -227,20 +237,22 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid="abcd"
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
     // The call to readRecord will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the readRecord action creator gets called, and
     // dispatches RECORD_READ_STARTED.
 
     try {
-      result.props.readRecord();
+      editor.props.readRecord();
     } catch (error) {
       const action = store.getActions()[0];
 
@@ -255,15 +267,17 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.revert();
+    editor.props.revert();
 
     const action = store.getActions()[0];
 
@@ -276,20 +290,22 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
     // The call to save will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the saveRecord action creator gets called, and
     // dispatches RECORD_SAVE_STARTED.
 
     try {
-      result.props.save();
+      editor.props.save();
     } catch (error) {
       const actions = store.getActions();
 
@@ -311,13 +327,15 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
     // The call to saveWithTransition will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the saveRecordWithTransition action creator gets called,
@@ -327,7 +345,7 @@ describe('RecordEditorContainer', () => {
     // stubbing out the save.
 
     try {
-      result.props.saveWithTransition();
+      editor.props.saveWithTransition();
     } catch (error) {
       const actions = store.getActions();
 
@@ -349,15 +367,17 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.closeModal();
+    editor.props.closeModal();
 
     const action = store.getActions()[0];
 
@@ -369,16 +389,18 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
     const notificationID = 'foo';
 
-    result.props.removeNotification(notificationID);
+    editor.props.removeNotification(notificationID);
 
     const action = store.getActions()[0];
 
@@ -391,15 +413,17 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.removeValidationNotification();
+    editor.props.removeValidationNotification();
 
     const action = store.getActions()[0];
 
@@ -412,15 +436,17 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.validateRecordData();
+    editor.props.validateRecordData();
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -443,20 +469,22 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
     // The call to transitionRecord will fail because we haven't stubbed out everything it needs,
     // but there's enough to verify that the transitionRecord action creator gets called, and
     // dispatches RECORD_TRANSITION_STARTED.
 
     try {
-      result.props.transitionRecord(transitionName);
+      editor.props.transitionRecord(transitionName);
     } catch (error) {
       const action = store.getActions()[0];
 
@@ -474,15 +502,17 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.openModal(modalName);
+    editor.props.openModal(modalName);
 
     const action = store.getActions()[0];
 
@@ -498,15 +528,17 @@ describe('RecordEditorContainer', () => {
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const editor = findWithType(result, RecordEditor);
 
-    result.props.setForm(formName);
+    editor.props.setForm(formName);
 
     const action = store.getActions()[0];
 
@@ -517,78 +549,94 @@ describe('RecordEditorContainer', () => {
   });
 
   it('should connect checkForRelations to checkForRelations action creator', () => {
+    const predicate = 'affects';
+
+    worker.use(
+      rest.get('/cspace-services/relations', async (req, res, ctx) => {
+        const { searchParams } = req.url;
+
+        if (
+          searchParams.get('prd') === predicate
+          && searchParams.get('sbj') === csid
+        ) {
+          return res(ctx.status(200));
+        }
+
+        return res(ctx.status(400));
+      }),
+    );
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={recordType}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
 
-    result.props.checkForRelations('affects');
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        moxios.requests.mostRecent().should.have.property('url').that
-          .matches(/^\/cspace-services\/relations\?prd=affects&sbj=1234.*/);
-
-        resolve();
-      }, 0);
-    });
+    return recordEditor.props.checkForRelations(predicate).should.eventually.be.fulfilled;
   });
 
   it('should connect checkForUses to checkForUses action creator', () => {
+    const refObjsUrl = `/cspace-services/personauthorities/:vocabulary/items/${csid}/refObjs`;
+
+    worker.use(
+      rest.get(refObjsUrl, async (req, res, ctx) => {
+        const { params } = req;
+
+        if (params.vocabulary === `urn:cspace:name(${vocabulary})`) {
+          return res(ctx.status(200));
+        }
+
+        return res(ctx.status(400));
+      }),
+    );
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType={authRecordType}
         vocabulary={vocabulary}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
 
-    result.props.checkForUses();
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        moxios.requests.mostRecent().should.have.property('url').that
-          .contains(`/cspace-services/personauthorities/urn:cspace:name(ulan)/items/${csid}/refObjs`);
-
-        resolve();
-      }, 0);
-    });
+    return recordEditor.props.checkForUses().should.eventually.be.fulfilled;
   });
 
   it('should connect checkForRoleUses to checkForRoleUses action creator', () => {
+    const accountRolesUrl = `/cspace-services/authorization/roles/${csid}/accountroles`;
+
+    worker.use(
+      rest.get(accountRolesUrl, async (req, res, ctx) => res(ctx.status(200))),
+    );
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RecordEditorContainer
+        store={store}
         config={config}
         csid={csid}
         recordType="authrole"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const recordEditor = findWithType(result, RecordEditor);
 
-    result.props.checkForRoleUses();
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        moxios.requests.mostRecent().should.have.property('url').that
-          .contains(`/cspace-services/authorization/roles/${csid}/accountroles`);
-
-        resolve();
-      }, 0);
-    });
+    return recordEditor.props.checkForRoleUses().should.eventually.be.fulfilled;
   });
 });

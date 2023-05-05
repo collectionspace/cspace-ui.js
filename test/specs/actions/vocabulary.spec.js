@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
 import Immutable from 'immutable';
+import { setupWorker, rest } from 'msw';
 
 import {
   READ_VOCABULARY_ITEMS_STARTED,
@@ -24,10 +24,20 @@ import {
 chai.should();
 
 describe('vocabulary action creator', () => {
+  const worker = setupWorker();
+
+  before(async () => {
+    await worker.start({ quiet: true });
+  });
+
+  after(() => {
+    worker.stop();
+  });
+
   describe('readVocabularyItems', () => {
     const mockStore = configureMockStore([thunk]);
     const vocabulary = 'languages';
-    const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabulary}\\)/items.*`);
+    const readVocabularyItemsUrl = '/cspace-services/vocabularies/:vocabulary/items';
 
     before(() => {
       const store = mockStore({
@@ -37,19 +47,22 @@ describe('vocabulary action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch READ_VOCABULARY_ITEMS_FULFILLED on success', () => {
-      moxios.stubRequest(readVocabularyItemsUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.get(readVocabularyItemsUrl, (req, res, ctx) => {
+          const { params } = req;
+
+          if (params.vocabulary === `urn:cspace:name(${vocabulary})`) {
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const store = mockStore({
         vocabulary: {},
@@ -68,26 +81,20 @@ describe('vocabulary action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: READ_VOCABULARY_ITEMS_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              vocabulary,
-            },
+          actions[1].type.should.equal(READ_VOCABULARY_ITEMS_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+          actions[1].payload.data.should.deep.equal({});
+
+          actions[1].meta.should.deep.equal({
+            vocabulary,
           });
         });
     });
 
     it('should dispatch READ_VOCABULARY_ITEMS_REJECTED on error', () => {
-      moxios.stubRequest(readVocabularyItemsUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.get(readVocabularyItemsUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       const store = mockStore({
         vocabulary: {},
@@ -153,7 +160,7 @@ describe('vocabulary action creator', () => {
     const mockStore = configureMockStore([thunk]);
     const csid = '1234';
     const vocabulary = 'languages';
-    const readVocabularyItemsUrl = new RegExp(`^/cspace-services/vocabularies/urn:cspace:name\\(${vocabulary}\\)/items.*`);
+    const readVocabularyItemsUrl = '/cspace-services/vocabularies/:vocabulary/items';
 
     before(() => {
       const store = mockStore({
@@ -163,19 +170,22 @@ describe('vocabulary action creator', () => {
       return store.dispatch(configureCSpace());
     });
 
-    beforeEach(() => {
-      moxios.install();
-    });
-
     afterEach(() => {
-      moxios.uninstall();
+      worker.resetHandlers();
     });
 
     it('should dispatch READ_VOCABULARY_ITEM_REFS_FULFILLED on success', () => {
-      moxios.stubRequest(readVocabularyItemsUrl, {
-        status: 200,
-        response: {},
-      });
+      worker.use(
+        rest.get(readVocabularyItemsUrl, (req, res, ctx) => {
+          const { params } = req;
+
+          if (params.vocabulary === `urn:cspace:name(${vocabulary})`) {
+            return res(ctx.json({}));
+          }
+
+          return res(ctx.status(400));
+        }),
+      );
 
       const store = mockStore({
         record: Immutable.Map(),
@@ -196,27 +206,21 @@ describe('vocabulary action creator', () => {
             },
           });
 
-          actions[1].should.deep.equal({
-            type: READ_VOCABULARY_ITEM_REFS_FULFILLED,
-            payload: {
-              status: 200,
-              statusText: undefined,
-              headers: undefined,
-              data: {},
-            },
-            meta: {
-              csid,
-              vocabulary,
-            },
+          actions[1].type.should.equal(READ_VOCABULARY_ITEM_REFS_FULFILLED);
+          actions[1].payload.status.should.equal(200);
+          actions[1].payload.data.should.deep.equal({});
+
+          actions[1].meta.should.deep.equal({
+            csid,
+            vocabulary,
           });
         });
     });
 
     it('should dispatch READ_VOCABULARY_ITEM_REFS_REJECTED on error', () => {
-      moxios.stubRequest(readVocabularyItemsUrl, {
-        status: 400,
-        response: {},
-      });
+      worker.use(
+        rest.get(readVocabularyItemsUrl, (req, res, ctx) => res(ctx.status(400))),
+      );
 
       const store = mockStore({
         record: Immutable.Map(),

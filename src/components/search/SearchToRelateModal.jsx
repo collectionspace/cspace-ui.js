@@ -94,6 +94,10 @@ export default class SearchToRelateModal extends Component {
     this.shouldShowCheckbox = this.shouldShowCheckbox.bind(this);
   }
 
+  handleAccept(selectedItems, searchDescriptor) {
+    return this.relate(selectedItems, searchDescriptor);
+  }
+
   customizeSearchDescriptor(searchDescriptor) {
     const {
       subjects,
@@ -170,10 +174,6 @@ export default class SearchToRelateModal extends Component {
     }
 
     return canRelate(getRecordTypeNameByUri(config, item.get('uri')), perms, config);
-  }
-
-  handleAccept(selectedItems, searchDescriptor) {
-    return this.relate(selectedItems, searchDescriptor);
   }
 
   render() {

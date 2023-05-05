@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
@@ -9,6 +8,7 @@ import GroupInput from '../../../../../src/components/search/input/GroupInput';
 import { OptionPickerInput } from '../../../../../src/helpers/configContextInputs';
 import { configKey, getRecordGroupOptionListName } from '../../../../../src/helpers/configHelpers';
 import createTestContainer from '../../../../helpers/createTestContainer';
+import { render } from '../../../../helpers/renderHelpers';
 
 chai.should();
 

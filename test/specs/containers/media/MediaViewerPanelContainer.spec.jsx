@@ -2,6 +2,7 @@ import React from 'react';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import MediaViewerPanel from '../../../../src/components/media/MediaViewerPanel';
 import MediaViewerPanelContainer from '../../../../src/containers/media/MediaViewerPanelContainer';
 
@@ -33,20 +34,20 @@ describe('MediaViewerPanelContainer', () => {
       }),
     });
 
-    const context = { store };
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <MediaViewerPanelContainer
+        store={store}
         name={searchName}
         searchDescriptor={searchDescriptor}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const panel = findWithType(result, MediaViewerPanel);
 
-    result.type.should.equal(MediaViewerPanel);
-    result.props.should.have.property('searchResult', searchResult);
-    result.props.should.have.property('search').that.is.a('function');
+    panel.props.should.have.property('searchResult', searchResult);
+    panel.props.should.have.property('search').that.is.a('function');
   });
 });

@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import { Provider as StoreProvider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import LogoutIndicator from '../../../../src/components/login/LogoutIndicator';
 import LogoutPage from '../../../../src/components/pages/LogoutPage';

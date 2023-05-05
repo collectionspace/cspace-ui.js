@@ -91,6 +91,16 @@ export default class AdvancedSearchBuilder extends Component {
     this.normalizeCondition();
   }
 
+  handleConditionCommit(name, condition) {
+    const {
+      onConditionCommit,
+    } = this.props;
+
+    if (onConditionCommit) {
+      onConditionCommit(condition);
+    }
+  }
+
   normalizeCondition() {
     const {
       condition,
@@ -125,16 +135,6 @@ export default class AdvancedSearchBuilder extends Component {
       if (normalizedCondition !== condition) {
         onConditionCommit(normalizedCondition);
       }
-    }
-  }
-
-  handleConditionCommit(name, condition) {
-    const {
-      onConditionCommit,
-    } = this.props;
-
-    if (onConditionCommit) {
-      onConditionCommit(condition);
     }
   }
 

@@ -1,7 +1,7 @@
 /* global window, document */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { MemoryRouter as Router } from 'react-router';
 import { findRenderedComponentWithType, Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
@@ -9,17 +9,17 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import { Modal } from 'cspace-layout';
 import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import { configureCSpace } from '../../../../src/actions/cspace';
 import RelationEditor from '../../../../src/components/record/RelationEditor';
 import RelatedRecordPanel from '../../../../src/components/record/RelatedRecordPanel';
 import RelatedRecordBrowser from '../../../../src/components/record/RelatedRecordBrowser';
 import SearchToRelateModal from '../../../../src/components/search/SearchToRelateModal';
-import RelatedRecordPanelContainer from '../../../../src/containers/record/RelatedRecordPanelContainer';
 
 const { expect } = chai;
 
@@ -131,18 +131,26 @@ const config = {
 };
 
 describe('RelatedRecordBrowser', () => {
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  const worker = setupWorker();
+
+  before(async () => {
+    await Promise.all([
+      worker.start({ quiet: true }),
+      store.dispatch(configureCSpace()).then(() => store.clearActions()),
+    ]);
+  });
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
     Modal.setAppElement(this.container);
-
-    moxios.install();
   });
 
   afterEach(() => {
-    moxios.uninstall();
+    worker.resetHandlers();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should render as a div', function test() {
@@ -362,26 +370,20 @@ describe('RelatedRecordBrowser', () => {
 
     const newCsid = '9999';
 
-    moxios.stubRequest('/cspace-services/groups', {
-      status: 201,
-      headers: {
-        location: `groups/${newCsid}`,
-      },
-    });
-
-    moxios.stubRequest(`/cspace-services/groups/${newCsid}?wf_deleted=false`, {
-      status: 200,
-      headers: {
-        data: {},
-      },
-    });
-
-    moxios.stubRequest('/cspace-services/relations', {
-      status: 201,
-      headers: {
-        location: 'relations/somecsid',
-      },
-    });
+    worker.use(
+      rest.post('/cspace-services/groups', (req, res, ctx) => res(
+        ctx.status(201),
+        ctx.set('location', `groups/${newCsid}`),
+      )),
+      rest.get(
+        `/cspace-services/groups/${newCsid}`,
+        (req, res, ctx) => res(ctx.json({})),
+      ),
+      rest.post('/cspace-services/relations', (req, res, ctx) => res(
+        ctx.status(201),
+        ctx.set('location', 'relations/somecsid'),
+      )),
+    );
 
     render(
       <IntlProvider locale="en">
@@ -413,7 +415,7 @@ describe('RelatedRecordBrowser', () => {
         });
 
         resolve();
-      }, 10);
+      }, 500);
     });
   });
 
@@ -611,7 +613,7 @@ describe('RelatedRecordBrowser', () => {
       </IntlProvider>, this.container,
     );
 
-    const panel = findRenderedComponentWithType(resultTree, RelatedRecordPanelContainer);
+    const panel = findRenderedComponentWithType(resultTree, RelatedRecordPanel);
 
     panel.props.onUnrelated([
       { csid: '1111' },

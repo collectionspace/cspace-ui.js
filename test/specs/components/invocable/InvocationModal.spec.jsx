@@ -1,8 +1,8 @@
 /* global window, document */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
-import { act, Simulate } from 'react-dom/test-utils';
+import { unmountComponentAtNode } from 'react-dom';
+import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
@@ -12,6 +12,7 @@ import Modal from 'cspace-layout/lib/components/Modal';
 import asyncQuerySelector from '../../../helpers/asyncQuerySelector';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { asyncRender, render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
 
 const { expect } = chai;
@@ -122,26 +123,25 @@ describe('InvocationModal', () => {
   });
 
   it('should render a modal', async function test() {
-    await act(async () => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                csid={csid}
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    await asyncRender(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              csid={csid}
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    document.querySelector('.ReactModal__Content--after-open').should.not.equal(null);
+    const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
+    modal.should.not.equal(null);
 
     unmountComponentAtNode(this.container);
     this.container.remove();
@@ -191,25 +191,23 @@ describe('InvocationModal', () => {
   });
 
   it('should render a title using the data', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                isRecordModified
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              isRecordModified
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render title using data');
 
@@ -220,25 +218,23 @@ describe('InvocationModal', () => {
   });
 
   it('should render the record name as the title if no title is found in the data', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                isRecordModified
-                data={Immutable.Map()}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              isRecordModified
+              data={Immutable.Map()}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render the record name as title');
 
@@ -249,24 +245,22 @@ describe('InvocationModal', () => {
   });
 
   it('should render a no-break space as the title if data is undefined', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                isRecordModified
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              isRecordModified
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a no-break space');
 
@@ -277,25 +271,23 @@ describe('InvocationModal', () => {
   });
 
   it('should render an unsaved warning if isRecordModified is true', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                isRecordModified
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              isRecordModified
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a no-break space');
 
@@ -306,25 +298,23 @@ describe('InvocationModal', () => {
   });
 
   it('should render a running message if isRunning is true', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                isRunning
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              isRunning
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
 
@@ -335,24 +325,22 @@ describe('InvocationModal', () => {
   });
 
   it('should render a format picker if recordType is report', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
 
@@ -363,23 +351,21 @@ describe('InvocationModal', () => {
   });
 
   it('should not render a format picker if recordType is not report', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                recordType="batch"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              recordType="batch"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
 
@@ -396,25 +382,23 @@ describe('InvocationModal', () => {
       invokeButtonClicked = true;
     };
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-                onInvokeButtonClick={handleInvokeButtonClick}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              onInvokeButtonClick={handleInvokeButtonClick}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
     const button = modal.querySelector('button[name="invoke"]');
@@ -427,24 +411,22 @@ describe('InvocationModal', () => {
   });
 
   it('should update the invocation descriptor when a change is committed', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
     const dropdownMenuInput = modal.querySelector('.cspace-input-DropdownMenuInput--common');
@@ -474,25 +456,23 @@ describe('InvocationModal', () => {
       invokedDescriptor = invocationDescriptorArg;
     };
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-                onInvokeButtonClick={handleInvokeButtonClick}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              onInvokeButtonClick={handleInvokeButtonClick}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open', 'render a running message');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
@@ -528,45 +508,41 @@ describe('InvocationModal', () => {
       readRecordCalled = true;
     };
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={invocationDescriptor}
-                csid={csid}
-                isOpen={false}
-                data={reportData}
-                recordType="report"
-                readRecord={readRecord}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={invocationDescriptor}
+              csid={csid}
+              isOpen={false}
+              data={reportData}
+              recordType="report"
+              readRecord={readRecord}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={`${csid}999`}
-                initialInvocationDescriptor={invocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-                readRecord={readRecord}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={`${csid}999`}
+              initialInvocationDescriptor={invocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              readRecord={readRecord}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     readRecordCalled.should.equal(true);
 
@@ -603,44 +579,40 @@ describe('InvocationModal', () => {
       });
     };
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={singleCsidInvocationDescriptor}
-                csid={csid}
-                isOpen={false}
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              csid={csid}
+              isOpen={false}
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={singleCsidInvocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-                searchCsid={searchCsid}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              searchCsid={searchCsid}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     searchedConfig.should.equal(config);
     searchedRecordType.should.equal('collectionobject');
@@ -656,42 +628,38 @@ describe('InvocationModal', () => {
   });
 
   it('should update the mime type when data is received', async function test() {
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={invocationDescriptor}
-                csid={csid}
-                isOpen
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={invocationDescriptor}
+              csid={csid}
+              isOpen
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={invocationDescriptor}
-                csid={csid}
-                isOpen
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={invocationDescriptor}
+              csid={csid}
+              isOpen
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
     const dropdownMenuInput = modal.querySelector('footer .cspace-input-DropdownMenuInput--common');
@@ -715,44 +683,40 @@ describe('InvocationModal', () => {
       },
     });
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={singleCsidInvocationDescriptor}
-                csid={csid}
-                isOpen={false}
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              csid={csid}
+              isOpen={false}
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={singleCsidInvocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-                searchCsid={searchCsid}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              searchCsid={searchCsid}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
 
@@ -772,44 +736,40 @@ describe('InvocationModal', () => {
 
     const searchCsid = () => Promise.reject();
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                initialInvocationDescriptor={singleCsidInvocationDescriptor}
-                csid={csid}
-                isOpen={false}
-                data={reportData}
-                recordType="report"
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              csid={csid}
+              isOpen={false}
+              data={reportData}
+              recordType="report"
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
-    act(() => {
-      render(
-        <IntlProvider locale="en">
-          <StoreProvider store={store}>
-            <ConfigProvider config={config}>
-              <InvocationModal
-                config={config}
-                csid={csid}
-                initialInvocationDescriptor={singleCsidInvocationDescriptor}
-                isOpen
-                data={reportData}
-                recordType="report"
-                searchCsid={searchCsid}
-              />
-            </ConfigProvider>
-          </StoreProvider>
-        </IntlProvider>, this.container,
-      );
-    });
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <ConfigProvider config={config}>
+            <InvocationModal
+              config={config}
+              csid={csid}
+              initialInvocationDescriptor={singleCsidInvocationDescriptor}
+              isOpen
+              data={reportData}
+              recordType="report"
+              searchCsid={searchCsid}
+            />
+          </ConfigProvider>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
 
     const modal = await asyncQuerySelector(document, '.ReactModal__Content--after-open');
 

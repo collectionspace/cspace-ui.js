@@ -1,9 +1,10 @@
 /* global window, Blob */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import { findRenderedComponentWithType } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { render } from '../../../helpers/renderHelpers';
 import ImageViewer from '../../../../src/components/media/ImageViewer';
 import ContentViewerPage from '../../../../src/components/pages/ContentViewerPage';
 import createTestContainer from '../../../helpers/createTestContainer';

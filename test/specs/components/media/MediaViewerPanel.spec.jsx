@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
@@ -8,6 +7,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { FormattedMessage } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 import { ConnectedPanel as Panel } from '../../../../src/containers/layout/PanelContainer';
 import { searchKey } from '../../../../src/reducers/search';
 import MediaViewerPanel from '../../../../src/components/media/MediaViewerPanel';

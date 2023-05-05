@@ -3,6 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
+import { findWithType } from 'react-shallow-testutils';
 import { ConnectedComboBoxInput } from '../../../../src/containers/input/ComboBoxInputContainer';
 
 chai.should();
@@ -24,22 +25,20 @@ describe('ComboBoxInputContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ConnectedComboBoxInput source={optionListName} />, context,
+      <ConnectedComboBoxInput
+        store={store}
+        source={optionListName}
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, ComboBoxInput);
 
-    result.type.should.equal(ComboBoxInput);
-
-    result.props.options.should.deep.equal(options);
-    result.props.formatOptionLabel.should.be.a('function');
+    input.props.options.should.deep.equal(options);
+    input.props.formatOptionLabel.should.be.a('function');
   });
 
   it('should connect formatOptionLabel to intl.formatMessage', () => {
@@ -63,12 +62,9 @@ describe('ComboBoxInputContainer', () => {
 
     let formatMessageCalled = false;
 
-    const context = {
-      store,
-      intl: {
-        formatMessage: () => {
-          formatMessageCalled = true;
-        },
+    const intl = {
+      formatMessage: () => {
+        formatMessageCalled = true;
       },
     };
 
@@ -76,14 +72,16 @@ describe('ComboBoxInputContainer', () => {
 
     shallowRenderer.render(
       <ConnectedComboBoxInput
-        intl={context.intl}
+        store={store}
+        intl={intl}
         source={optionListName}
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const input = findWithType(result, ComboBoxInput);
 
-    result.props.formatOptionLabel(options[0]);
+    input.props.formatOptionLabel(options[0]);
 
     formatMessageCalled.should.equal(true);
   });

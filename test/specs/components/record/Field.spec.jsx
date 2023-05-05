@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
@@ -8,6 +7,7 @@ import { DateInput, StructuredDateInput } from '../../../../src/helpers/configCo
 import { configKey } from '../../../../src/helpers/configHelpers';
 import Field from '../../../../src/components/record/Field';
 import createTestContainer from '../../../helpers/createTestContainer';
+import { render } from '../../../helpers/renderHelpers';
 
 const { expect } = chai;
 

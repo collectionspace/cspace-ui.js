@@ -2,6 +2,7 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { createRenderer } from 'react-test-renderer/shallow';
+import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import mockHistory from '../../../helpers/mockHistory';
 import QuickSearchForm from '../../../../src/components/search/QuickSearchForm';
@@ -33,27 +34,22 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const form = findWithType(result, QuickSearchForm);
 
-    result.type.should.equal(QuickSearchForm);
+    form.props.keywordValue.should.equal('hello world');
+    form.props.recordTypeValue.should.equal('concept');
+    form.props.vocabularyValue.should.equal('material');
+    form.props.getAuthorityVocabCsid.should.be.a('function');
 
-    result.props.keywordValue.should.equal('hello world');
-    result.props.recordTypeValue.should.equal('concept');
-    result.props.vocabularyValue.should.equal('material');
-    result.props.getAuthorityVocabCsid.should.be.a('function');
-
-    result.props.onKeywordCommit.should.be.a('function');
-    result.props.onRecordTypeCommit.should.be.a('function');
-    result.props.onVocabularyCommit.should.be.a('function');
-    result.props.search.should.be.a('function');
+    form.props.onKeywordCommit.should.be.a('function');
+    form.props.onRecordTypeCommit.should.be.a('function');
+    form.props.onVocabularyCommit.should.be.a('function');
+    form.props.search.should.be.a('function');
   });
 
   it('should connect getAuthorityVocabCsid to getAuthorityVocabCsid selector', () => {
@@ -78,17 +74,14 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const form = findWithType(result, QuickSearchForm);
 
-    result.props.getAuthorityVocabCsid('person', 'local').should.equal('1234');
+    form.props.getAuthorityVocabCsid('person', 'local').should.equal('1234');
   });
 
   it('should connect onKeywordCommit to setQuickSearchKeyword action creator', () => {
@@ -106,17 +99,14 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const form = findWithType(result, QuickSearchForm);
 
-    result.props.onKeywordCommit('new keyword');
+    form.props.onKeywordCommit('new keyword');
 
     const action = store.getActions()[0];
 
@@ -139,17 +129,14 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const form = findWithType(result, QuickSearchForm);
 
-    result.props.onRecordTypeCommit('person');
+    form.props.onRecordTypeCommit('person');
 
     const action = store.getActions()[0];
 
@@ -172,17 +159,14 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer />, context);
+    shallowRenderer.render(<QuickSearchFormContainer store={store} />);
 
     const result = shallowRenderer.getRenderOutput();
+    const form = findWithType(result, QuickSearchForm);
 
-    result.props.onVocabularyCommit('ulan');
+    form.props.onVocabularyCommit('ulan');
 
     const action = store.getActions()[0];
 
@@ -205,10 +189,6 @@ describe('QuickSearchFormContainer', () => {
       }),
     });
 
-    const context = {
-      store,
-    };
-
     let pushedLocation = null;
 
     const history = mockHistory({
@@ -219,11 +199,17 @@ describe('QuickSearchFormContainer', () => {
 
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<QuickSearchFormContainer history={history} />, context);
+    shallowRenderer.render(
+      <QuickSearchFormContainer
+        store={store}
+        history={history}
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
+    const form = findWithType(result, QuickSearchForm);
 
-    result.props.search();
+    form.props.search();
 
     pushedLocation.should.deep.equal({
       pathname: '/list/concept/material',

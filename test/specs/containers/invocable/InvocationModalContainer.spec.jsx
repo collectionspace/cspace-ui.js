@@ -2,8 +2,9 @@ import React from 'react';
 import configureMockStore from 'redux-mock-store';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
-import moxios from 'moxios';
+import { setupWorker, rest } from 'msw';
 import thunk from 'redux-thunk';
+import { findWithType } from 'react-shallow-testutils';
 import InvocationModal from '../../../../src/components/invocable/InvocationModal';
 import InvocationModalContainer from '../../../../src/containers/invocable/InvocationModalContainer';
 
@@ -32,10 +33,6 @@ const store = mockStore({
   }),
 });
 
-const context = {
-  store,
-};
-
 const config = {
   recordTypes: {
     group: {
@@ -48,17 +45,22 @@ const config = {
 };
 
 describe('InvocationModalContainer', () => {
-  before(() => store.dispatch(configureCSpace())
-    .then(() => store.clearActions()));
+  const worker = setupWorker();
 
-  beforeEach(() => {
-    moxios.install();
+  before(async () => {
+    await Promise.all([
+      worker.start({ quiet: true }),
+      store.dispatch(configureCSpace()).then(() => store.clearActions()),
+    ]);
   });
 
   afterEach(() => {
-    moxios.uninstall();
-
+    worker.resetHandlers();
     store.clearActions();
+  });
+
+  after(() => {
+    worker.stop();
   });
 
   it('should set props on InvocationModal', () => {
@@ -66,17 +68,18 @@ describe('InvocationModalContainer', () => {
 
     shallowRenderer.render(
       <InvocationModalContainer
+        store={store}
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModal);
 
-    result.type.should.equal(InvocationModal);
-    result.props.should.have.property('data', data);
-    result.props.should.have.property('readRecord').that.is.a('function');
+    modal.props.should.have.property('data', data);
+    modal.props.should.have.property('readRecord').that.is.a('function');
   });
 
   it('should connect readRecord to readRecord action creator', () => {
@@ -84,15 +87,17 @@ describe('InvocationModalContainer', () => {
 
     shallowRenderer.render(
       <InvocationModalContainer
+        store={store}
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModal);
 
-    return result.props.readRecord()
+    return modal.props.readRecord()
       .then((recordData) => {
         recordData.should.equal(data);
       })
@@ -102,26 +107,27 @@ describe('InvocationModalContainer', () => {
   });
 
   it('should connect searchCsid to searchCsid action creator', () => {
-    moxios.stubRequest('/cspace-services/groups?as=%28ecm%3Aname%20%3D%20%225678%22%29&pgSz=1&wf_deleted=false', {
-      status: 200,
-      response: {
+    worker.use(
+      rest.get('/cspace-services/groups', (req, res, ctx) => res(ctx.json({
         foo: 'bar',
-      },
-    });
+      }))),
+    );
 
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <InvocationModalContainer
+        store={store}
         config={config}
         csid="1234"
         recordType="report"
-      />, context,
+      />,
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, InvocationModal);
 
-    return result.props.searchCsid(config, 'group', '5678')
+    return modal.props.searchCsid(config, 'group', '5678')
       .then((response) => {
         response.data.should.deep.equal({
           foo: 'bar',

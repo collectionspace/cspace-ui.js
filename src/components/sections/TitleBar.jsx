@@ -95,20 +95,6 @@ export default class TitleBar extends Component {
     window.removeEventListener('scroll', this.handleScroll, false);
   }
 
-  getDocumentTitle() {
-    const titleNode = this.domNode.querySelector('h1');
-    const titleText = titleNode ? titleNode.textContent : null;
-
-    const asideNode = this.domNode.querySelector('aside');
-    const asideText = asideNode ? asideNode.textContent : null;
-
-    return [titleText, asideText].filter((part) => !!part).join(' | ');
-  }
-
-  setDomNode(ref) {
-    this.domNode = ref;
-  }
-
   handleScroll() {
     const {
       onDocked,
@@ -139,6 +125,20 @@ export default class TitleBar extends Component {
         onDocked(this.dockedHeight);
       }
     }
+  }
+
+  getDocumentTitle() {
+    const titleNode = this.domNode.querySelector('h1');
+    const titleText = titleNode ? titleNode.textContent : null;
+
+    const asideNode = this.domNode.querySelector('aside');
+    const asideText = asideNode ? asideNode.textContent : null;
+
+    return [titleText, asideText].filter((part) => !!part).join(' | ');
+  }
+
+  setDomNode(ref) {
+    this.domNode = ref;
   }
 
   renderDocumentTitle() {

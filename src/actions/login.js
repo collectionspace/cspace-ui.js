@@ -67,14 +67,12 @@ const renewAuth = (config, username, password) => (dispatch) => {
     .catch((error) => {
       let { code } = error;
 
-      if (!code) {
-        const desc = get(error, ['response', 'data', 'error_description']) || get(error, 'message');
+      const desc = get(error, ['response', 'data', 'error_description']) || get(error, 'message');
 
-        if (desc === 'Bad credentials') {
-          code = ERR_INVALID_CREDENTIALS;
-        } else if (desc === 'Network Error') {
-          code = ERR_NETWORK;
-        }
+      if (desc === 'Bad credentials') {
+        code = ERR_INVALID_CREDENTIALS;
+      } else if (desc === 'Network Error') {
+        code = ERR_NETWORK;
       }
 
       dispatch({
