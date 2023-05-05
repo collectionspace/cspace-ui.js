@@ -144,6 +144,8 @@ export const initializeRecordTypes = (config) => {
  * argument configuration.
  *
  * - Delete any record type or vocabulary that is disabled
+ * - Set the disableAltTerms property of each vocabulary to the top-level disableAltTerms property
+ *   if it is undefined
  */
 export const finalizeRecordTypes = (config) => {
   const { recordTypes } = config;
@@ -163,6 +165,8 @@ export const finalizeRecordTypes = (config) => {
 
             if (vocabulary.disabled) {
               delete vocabularies[vocabularyName];
+            } else if (typeof vocabulary.disableAltTerms === 'undefined') {
+              vocabulary.disableAltTerms = config.disableAltTerms;
             }
           });
         }
