@@ -599,7 +599,9 @@ describe('configHelpers', () => {
           },
           person: {
             vocabularies: {
-              local: {},
+              local: {
+                disableAltTerms: false,
+              },
               ulan: {
                 disabled: true,
               },
@@ -612,7 +614,54 @@ describe('configHelpers', () => {
         recordTypes: {
           person: {
             vocabularies: {
-              local: {},
+              local: {
+                disableAltTerms: false,
+              },
+            },
+          },
+        },
+      });
+    });
+
+    it('should inherit disableAltTerms in vocabularies from the top-level disableAltTerms setting when it is undefined', () => {
+      const config = {
+        disableAltTerms: true,
+        recordTypes: {
+          person: {
+            vocabularies: {
+              local: {
+                disableAltTerms: false,
+              },
+              ulan: {
+              },
+              shared: {
+                disableAltTerms: undefined,
+              },
+              another: {
+                disableAltTerms: true,
+              },
+            },
+          },
+        },
+      };
+
+      finalizeRecordTypes(config).should.deep.equal({
+        disableAltTerms: true,
+        recordTypes: {
+          person: {
+            vocabularies: {
+              local: {
+                disableAltTerms: false,
+              },
+              ulan: {
+                disableAltTerms: true,
+              },
+              shared: {
+                disableAltTerms: true,
+              },
+              another: {
+                disableAltTerms: true,
+              },
             },
           },
         },

@@ -142,6 +142,12 @@ defaultSearchPanelSize: number = 5
 ```
 The default page size for search results presented in a panel, for example, in a sidebar.
 
+### disableAltTerms
+```
+disableAltTerms: boolean = false
+```
+If true, alternate terms (aka non-preferred terms) are disabled (but remain visible) in autocompletion inputs when they match the partial term that the user has entered. The user may only select the preferred term. This setting can be overridden on a per-vocabulary basis in the [vocabulary configuration](./VocabularyConfiguration.md#disableAltTerms).
+
 ### idGeneratorTransform
 ```
 idGeneratorTransform: (string) => string = undefined
