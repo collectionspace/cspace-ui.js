@@ -78,7 +78,7 @@ export default {
       },
       collectionName: {
         id: 'vocab.place.archaeological.collectionName',
-        description: 'The name of a collection of records the vocabulary',
+        description: 'The name of a collection of records from the vocabulary',
         defaultMessage: 'Archaeological Sites',
       },
       itemName: {

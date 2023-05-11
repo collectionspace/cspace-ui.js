@@ -3881,7 +3881,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.procedure.fieldCollectionSite.name',
+                  id: 'field.collectionobjects_common.fieldCollectionSite.name',
                   defaultMessage: 'Field collection site',
                 },
               }),
