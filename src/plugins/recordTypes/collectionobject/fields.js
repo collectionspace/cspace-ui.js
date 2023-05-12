@@ -3932,6 +3932,30 @@ export default (configContext) => {
             },
           },
         },
+        fieldCollectionSites: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          fieldCollectionSite: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.fieldCollectionSite.name',
+                  defaultMessage: 'Field collection site',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'place/archaeological',
+                },
+              },
+            },
+          },
+        },
         fieldCollectionDateGroup: {
           [config]: {
             dataType: DATA_TYPE_STRUCTURED_DATE,

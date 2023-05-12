@@ -69,4 +69,26 @@ export default {
       servicePath: 'urn:cspace:name(tgn_place)',
     },
   },
+  archaeological: {
+    messages: defineMessages({
+      name: {
+        id: 'vocab.place.archaeological.name',
+        description: 'The name of the vocabulary',
+        defaultMessage: 'Archaeological',
+      },
+      collectionName: {
+        id: 'vocab.place.archaeological.collectionName',
+        description: 'The name of a collection of records from the vocabulary',
+        defaultMessage: 'Archaeological Sites',
+      },
+      itemName: {
+        id: 'vocab.place.archaeological.itemName',
+        description: 'The name of a record from the vocabulary',
+        defaultMessage: 'Archaeological Site',
+      },
+    }),
+    serviceConfig: {
+      servicePath: 'urn:cspace:name(archaeological)',
+    },
+  },
 };
