@@ -6148,6 +6148,30 @@ export default (configContext) => {
             },
           },
         },
+        apparelSizes: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          apparelSize: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.apparelSize.name',
+                  defaultMessage: 'Apparel size',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'apparelsizes',
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
