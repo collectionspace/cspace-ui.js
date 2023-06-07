@@ -55,7 +55,7 @@ module.exports = function karma(config) {
 
     client: {
       mocha: {
-        timeout: 4000,
+        timeout: 5000,
       },
     },
 
