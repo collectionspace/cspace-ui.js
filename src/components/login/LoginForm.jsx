@@ -43,6 +43,11 @@ const messages = defineMessages({
     description: 'Generic login error message. Displayed when a more specific error message is not available.',
     defaultMessage: 'Sign in failed.',
   },
+  ERR_BAD_REQUEST: {
+    id: 'loginForm.ERR_BAD_REQUEST',
+    description: 'Error message displayed when a bad request response was received during login.',
+    defaultMessage: 'Sign in failed. The CollectionSpace server received a bad request.',
+  },
   ERR_INVALID_CREDENTIALS: {
     id: 'loginForm.ERR_INVALID_CREDENTIALS',
     description: 'Error message displayed when incorrect credentials were entered during login.',
@@ -331,7 +336,7 @@ class LoginForm extends Component {
       <Notification
         id="loginForm.error"
         items={[{
-          message: messages[messageKey],
+          message: messages[messageKey] || messages.error,
         }]}
         showCloseButton={false}
         status="error"
