@@ -15,7 +15,7 @@ const {
  * @returns A regular expression that detects if the library is used on an HTML page.
  */
 const scriptUrlPattern = (library) =>
-  new RegExp(`src=".*?/${library}(@.*?)\\.js"`, 'g');
+  new RegExp(`src=".*?/${library}(@.*?)?(\\.min)?\\.js"`, 'g');
 
 /**
  * Determines if an HTML page uses a given library.
