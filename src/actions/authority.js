@@ -25,12 +25,15 @@ export const readAuthVocabs = (config) => (dispatch) => {
   const readPromises = Object.values(config.recordTypes)
     .filter((recordTypeConfig) => recordTypeConfig.serviceConfig.serviceType === 'authority')
     .map((recordTypeConfig) => session.read(recordTypeConfig.serviceConfig.servicePath)
-      .catch((error) => (
-        // 403 Forbidden might happen if the user doesn't have any permissions on an authority.
-        // Just swallow this, but reject other errors.
+      .catch((error) => {
+        // 403 Forbidden might happen if the user doesn't have any permissions on an authority, and
+        // 404 Not Found might happen if an authority isn't configured/available in the services
+        // layer. Just swallow these, but reject other errors.
 
-        get(error, ['response', 'status']) === 403 ? undefined : Promise.reject(error)
-      )));
+        const status = get(error, ['response', 'status']);
+
+        return (status === 403 || status === 404 ? undefined : Promise.reject(error));
+      }));
 
   return Promise.all(readPromises)
     .then((responses) => dispatch({
