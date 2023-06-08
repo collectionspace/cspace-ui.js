@@ -1,3 +1,4 @@
+/* global fetch */
 /* eslint import/no-extraneous-dependencies: "off" */
 /* eslint-disable no-console */
 
@@ -14,8 +15,7 @@ const {
  * @param library The name of the library.
  * @returns A regular expression that detects if the library is used on an HTML page.
  */
-const scriptUrlPattern = (library) =>
-  new RegExp(`src=".*?/${library}(@.*?)?(\\.min)?\\.js"`, 'g');
+const scriptUrlPattern = (library) => new RegExp(`src=".*?/${library}(@.*?)?(\\.min)?\\.js"`, 'g');
 
 /**
  * Determines if an HTML page uses a given library.
@@ -24,8 +24,7 @@ const scriptUrlPattern = (library) =>
  * @param library The name of the library.
  * @returns true if the page uses the library; false otherwise.
  */
-const pageUsesLibrary = (page, library) =>
-  scriptUrlPattern(library).test(page);
+const pageUsesLibrary = (page, library) => scriptUrlPattern(library).test(page);
 
 /**
  * Determines if a given library is a CSpace UI plugin that can be injected into an HTML page.
@@ -54,7 +53,8 @@ const canInjectLibraryAsPlugin = (page, library) => (
  */
 const verifyTarget = async (proxyTarget, library) => {
   try {
-    new URL(proxyTarget);
+    // eslint-disable-next-line no-unused-vars
+    const verifiedUrl = new URL(proxyTarget);
   } catch (error) {
     console.error(`The back-end URL ${proxyTarget} is not a valid URL.`);
     process.exit(1);
@@ -76,8 +76,8 @@ const verifyTarget = async (proxyTarget, library) => {
   const page = await response.text();
 
   if (
-    !pageUsesLibrary(page, library) &&
-    !canInjectLibraryAsPlugin(page, library)
+    !pageUsesLibrary(page, library)
+    && !canInjectLibraryAsPlugin(page, library)
   ) {
     console.error(`The back-end URL ${proxyTarget} is not a CollectionSpace server, or is one that currently is not usable as a devserver back-end.`);
     process.exit(1);
@@ -91,30 +91,28 @@ const verifyTarget = async (proxyTarget, library) => {
  * @param status The status message.
  * @returns The HTML content of the page with the status message injected.
  */
-const injectStatusElement = (page, status) => {
-  return page.replace(
-    '</body>',
-    `
-    <script>
-      addEventListener('load', () => {
-        const statusElement = document.createElement('div');
+const injectStatusElement = (page, status) => page.replace(
+  '</body>',
+  `
+  <script>
+    addEventListener('load', () => {
+      const statusElement = document.createElement('div');
 
-        statusElement.style.backgroundColor = 'gold';
-        statusElement.style.fontFamily = 'monospace';
-        statusElement.style.textAlign = 'center';
-        statusElement.style.margin = '-10px -10px 10px -10px';
-        statusElement.style.padding = '10px';
-        statusElement.style.borderBottom = '1px solid #333';
+      statusElement.style.backgroundColor = 'gold';
+      statusElement.style.fontFamily = 'monospace';
+      statusElement.style.textAlign = 'center';
+      statusElement.style.margin = '-10px -10px 10px -10px';
+      statusElement.style.padding = '10px';
+      statusElement.style.borderBottom = '1px solid #333';
 
-        statusElement.innerHTML = ${JSON.stringify(status)};
+      statusElement.innerHTML = ${JSON.stringify(status)};
 
-        document.body.prepend(statusElement);
-      })
-    </script>
-    </body>
-    `,
-  )
-};
+      document.body.prepend(statusElement);
+    })
+  </script>
+  </body>
+  `,
+);
 
 /**
  * Generates a webpack dev server configuration object.
@@ -252,7 +250,7 @@ module.exports = async ({
    * @param req The request.
    * @returns The rewritten response body.
    */
-  const rewriteHTML = (responseBuffer, req, proxyTarget) => {
+  const rewriteHTML = (responseBuffer, req) => {
     const requestHost = req.headers.host;
 
     if (!requestHost) {
@@ -264,11 +262,11 @@ module.exports = async ({
 
     return injectStatusElement(
       pageWithDevScript,
-      `devserver: running local package <b>${library}</b> with back-end <b>${proxyTarget}</b>`
+      `devserver: running local package <b>${library}</b> with back-end <b>${proxyTarget}</b>`,
     );
   };
 
-  const replaceHTML = (localIndex, proxyTarget) => {
+  const replaceHTML = () => {
     const page = fs.readFileSync(localIndex).toString('utf8');
 
     return injectStatusElement(
@@ -290,10 +288,10 @@ module.exports = async ({
 
         if (contentType && contentType.startsWith('text/html')) {
           if (localIndex) {
-            return replaceHTML(localIndex, proxyTarget);
+            return replaceHTML();
           }
 
-          return rewriteHTML(responseBuffer, req, proxyTarget);
+          return rewriteHTML(responseBuffer, req);
         }
 
         return responseBuffer;
