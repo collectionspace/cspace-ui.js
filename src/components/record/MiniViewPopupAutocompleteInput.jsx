@@ -78,9 +78,9 @@ export class BaseMiniViewPopupAutocompleteInput extends Component {
   handleDropdownClose() {
     this.close();
 
-    this.state = {
+    this.setState({
       isFiltering: false,
-    };
+    });
   }
 
   handleDropdownOpen() {

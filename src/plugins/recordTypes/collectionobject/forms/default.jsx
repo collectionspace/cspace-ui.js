@@ -50,6 +50,7 @@ const template = (configContext) => {
               </Col>
             </Row>
 
+            <Field name="descriptionLevel" />
             <Field name="recordStatus" />
 
             <Field name="publishToList">
@@ -155,6 +156,10 @@ const template = (configContext) => {
 
             <Field name="colors">
               <Field name="color" />
+            </Field>
+
+            <Field name="apparelSizes">
+              <Field name="apparelSize" />
             </Field>
           </Col>
         </Row>
@@ -560,6 +565,10 @@ const template = (configContext) => {
       <Panel name="collect" collapsible collapsed>
         <Row>
           <Col>
+            <Field name="fieldCollectionSites">
+              <Field name="fieldCollectionSite" />
+            </Field>
+
             <Field name="fieldCollectionDateGroup" />
 
             <Field name="fieldCollectionMethods">

@@ -77,7 +77,7 @@ If true, the vocabulary is not shown in the UI.
 ```
 disableAltTerms: boolean
 ```
-If true, alternate terms (aka non-preferred terms) are disabled (but remain visible when they match the partial term that the user has entered). The user may only select the preferred term.
+If true, alternate terms (aka non-preferred terms) are disabled (but remain visible) in autocompletion inputs when they match the partial term that the user has entered. The user may only select the preferred term. This setting applies only to this vocabulary, and overrides the [top-level `disableAltTerms`](./README.md#disableAltTerms) setting. If it is not defined, the top-level setting takes effect.
 
 ### messages
 ```

@@ -3932,6 +3932,30 @@ export default (configContext) => {
             },
           },
         },
+        fieldCollectionSites: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          fieldCollectionSite: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.fieldCollectionSite.name',
+                  defaultMessage: 'Field collection site',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'place/archaeological',
+                },
+              },
+            },
+          },
+        },
         fieldCollectionDateGroup: {
           [config]: {
             dataType: DATA_TYPE_STRUCTURED_DATE,
@@ -6120,6 +6144,46 @@ export default (configContext) => {
                     multiline: true,
                   },
                 },
+              },
+            },
+          },
+        },
+        apparelSizes: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          apparelSize: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.apparelSize.name',
+                  defaultMessage: 'Apparel size',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TermPickerInput,
+                props: {
+                  source: 'apparelsizes',
+                },
+              },
+            },
+          },
+        },
+        descriptionLevel: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.descriptionLevel.name',
+                defaultMessage: 'Description level',
+              },
+            }),
+            view: {
+              type: TermPickerInput,
+              props: {
+                source: 'descriptionlevel',
               },
             },
           },

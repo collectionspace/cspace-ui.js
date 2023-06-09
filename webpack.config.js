@@ -4,6 +4,14 @@
 const { execSync } = require('child_process');
 const path = require('path');
 const webpack = require('webpack');
+const webpackDevServerConfig = require('./webpackDevServerConfig');
+
+/**
+ * The public path to local webpack assets. This is chosen to have low chance of collision with any
+ * path on a proxied back-end (e.g., "/cspace/core" or "/cspace-services"). This should start and
+ * end with slashes.
+ */
+const publicPath = '/webpack-dev-assets/';
 
 const library = 'cspaceUI';
 const isProduction = process.env.NODE_ENV === 'production';
@@ -24,7 +32,7 @@ try {
   console.log('Failed to get repository url from npm: %s', err.stderr.toString());
 }
 
-const config = {
+module.exports = async () => ({
   mode: isProduction ? 'production' : 'development',
   entry: './src/index.jsx',
   output: {
@@ -33,6 +41,7 @@ const config = {
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: path.resolve(__dirname, 'dist'),
+    publicPath,
   },
   module: {
     rules: [
@@ -79,12 +88,10 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  devServer: {
-    historyApiFallback: true,
-    static: {
-      directory: __dirname,
-    },
-  },
-};
-
-module.exports = config;
+  devServer: await webpackDevServerConfig({
+    library,
+    localIndex: process.env.npm_config_local_index,
+    proxyTarget: process.env.npm_config_back_end,
+    publicPath,
+  }),
+});
