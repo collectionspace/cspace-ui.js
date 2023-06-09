@@ -51,7 +51,7 @@ const canInjectLibraryAsPlugin = (page, library) => (
  * @param proxyTarget The URL to verify.
  * @param library The name of the library.
  */
-const verifyTarget = async (proxyTarget, library) => {
+const verifyTarget = async (proxyTarget) => {
   try {
     // eslint-disable-next-line no-unused-vars
     const verifiedUrl = new URL(proxyTarget);
@@ -70,16 +70,6 @@ const verifyTarget = async (proxyTarget, library) => {
 
   if (!(response && response.ok)) {
     console.error(`The back-end URL ${proxyTarget} is not reachable.`);
-    process.exit(1);
-  }
-
-  const page = await response.text();
-
-  if (
-    !pageUsesLibrary(page, library)
-    && !canInjectLibraryAsPlugin(page, library)
-  ) {
-    console.error(`The back-end URL ${proxyTarget} is not a CollectionSpace server, or is one that currently is not usable as a devserver back-end.`);
     process.exit(1);
   }
 };
@@ -140,7 +130,7 @@ module.exports = async ({
     };
   }
 
-  await verifyTarget(proxyTarget, library);
+  await verifyTarget(proxyTarget);
 
   console.info(`Proxying to a remote CollectionSpace server at ${proxyTarget}`);
 
@@ -198,7 +188,7 @@ module.exports = async ({
    * @param page The HTML content of the page.
    * @returns The HTML content of the page with the library injected.
    */
-  const injectDevScript = (page) => {
+  const injectDevScript = (page, req) => {
     // If this package is being used in the page, replace it with the local dev build.
 
     if (pageUsesLibrary(page, library)) {
@@ -221,12 +211,17 @@ module.exports = async ({
         `,
       );
 
-      if (pageWithScript.includes('plugins: [')) {
+      const pluginsPattern = /plugins:\s+\[\s+(.*?),?\s+\]/s;
+
+      if (pluginsPattern.test(pageWithScript)) {
         return pageWithScript.replace(
-          'plugins: [',
-          `plugins: [
-            ${library}(),
-          `,
+          pluginsPattern,
+          (match, existingPlugins) => (
+            `plugins: [
+              ${existingPlugins},
+              ${library}(),
+            ]`
+          ),
         );
       }
 
@@ -239,6 +234,8 @@ module.exports = async ({
         `,
       );
     }
+
+    console.warn(`Couldn't inject the library under development into the HTML page at ${req.originalUrl}`);
 
     return page;
   };
@@ -258,7 +255,7 @@ module.exports = async ({
     }
 
     const page = responseBuffer.toString('utf8');
-    const pageWithDevScript = injectDevScript(page);
+    const pageWithDevScript = injectDevScript(page, req);
 
     return injectStatusElement(
       pageWithDevScript,
@@ -284,14 +281,16 @@ module.exports = async ({
       async (responseBuffer, proxyRes, req, res) => {
         rewriteLocationHeader(res, req);
 
-        const contentType = res.getHeader('content-type');
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          const contentType = res.getHeader('content-type');
 
-        if (contentType && contentType.startsWith('text/html')) {
-          if (localIndex) {
-            return replaceHTML();
+          if (contentType && contentType.startsWith('text/html')) {
+            if (localIndex) {
+              return replaceHTML();
+            }
+
+            return rewriteHTML(responseBuffer, req);
           }
-
-          return rewriteHTML(responseBuffer, req);
         }
 
         return responseBuffer;
