@@ -19,13 +19,49 @@ const messages = defineMessages({
 const getSearchDescriptor = (config, recordType) => {
   const objectName = get(config, ['recordTypes', recordType, 'serviceConfig', 'objectName']);
 
+  let searchParams;
+
+  if (recordType === 'group') {
+    searchParams = {
+      as: {
+        op: 'or',
+        value: [
+          {
+            op: 'eq',
+            path: 'ns2:reports_common/supportsGroup',
+            value: true,
+          },
+          {
+            op: 'and',
+            value: [
+              {
+                op: 'eq',
+                path: 'ns2:reports_common/forDocTypes/forDocType',
+                value: objectName,
+              },
+              {
+                op: 'eq',
+                path: 'ns2:reports_common/supportsSingleDoc',
+                value: true,
+              },
+            ],
+          },
+        ],
+      },
+    };
+  } else {
+    searchParams = {
+      doctype: objectName,
+      mode: 'single',
+    };
+  }
+
   return Immutable.fromJS({
     recordType: 'report',
     searchQuery: {
       p: 0,
       size: config.defaultSearchPanelSize || 5,
-      doctype: objectName,
-      mode: (recordType === 'group' ? ['single', 'group'] : 'single'),
+      ...searchParams,
     },
   });
 };
@@ -154,6 +190,24 @@ export default class RecordReportPanel extends Component {
 
     const canRun = canCreate(invocationType, perms);
 
+    let getAllowedModes;
+
+    if (recordType === 'group') {
+      // If we're on a group record, limit the modes that can be used to run the report:
+      // - group mode is allowed
+      // - single mode is only allowed if the report is registered to run on group records
+
+      getAllowedModes = (supportedRecordTypes) => {
+        const allowedModes = ['group'];
+
+        if (supportedRecordTypes && supportedRecordTypes.includes(recordType)) {
+          allowedModes.push('single');
+        }
+
+        return allowedModes;
+      };
+    }
+
     return (
       <div>
         <SearchPanelContainer
@@ -170,7 +224,7 @@ export default class RecordReportPanel extends Component {
           onSearchDescriptorChange={this.handleSearchDescriptorChange}
         />
         <InvocationModalContainer
-          allowedModes={recordType === 'group' ? ['group', 'single'] : undefined}
+          allowedModes={getAllowedModes}
           config={config}
           csid={selectedItem && selectedItem.get('csid')}
           initialInvocationDescriptor={Immutable.Map({

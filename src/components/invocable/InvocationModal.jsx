@@ -39,7 +39,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
-  allowedModes: PropTypes.arrayOf(PropTypes.string),
+  allowedModes: PropTypes.func,
   config: PropTypes.shape({
     recordTypes: PropTypes.object,
   }).isRequired,

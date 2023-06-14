@@ -133,6 +133,8 @@ describe('InvocationEditor', () => {
   });
 
   it('should filter out supported modes that are not allowed, if allowedModes is supplied', () => {
+    const getAllowedModes = () => ['group', 'single'];
+
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -141,7 +143,7 @@ describe('InvocationEditor', () => {
         invocationDescriptor={invocationDescriptor}
         metadata={reportMetadata}
         recordType="report"
-        allowedModes={['group', 'single']}
+        allowedModes={getAllowedModes}
       />,
     );
 
