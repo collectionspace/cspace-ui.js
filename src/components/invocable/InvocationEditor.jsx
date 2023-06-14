@@ -30,7 +30,7 @@ const renderLoading = () => (
 );
 
 const propTypes = {
-  allowedModes: PropTypes.arrayOf(PropTypes.string),
+  allowedModes: PropTypes.func,
   config: PropTypes.shape({
     recordTypes: PropTypes.object,
   }),
@@ -89,7 +89,10 @@ export default class InvocationEditor extends Component {
     }
 
     if (allowedModes) {
-      modes = modes.filter((mode) => allowedModes.includes(mode));
+      const supportedRecordTypes = this.getSupportedRecordTypes();
+      const reportAllowedModes = allowedModes(supportedRecordTypes);
+
+      modes = modes.filter((mode) => reportAllowedModes.includes(mode));
     }
 
     return modes;

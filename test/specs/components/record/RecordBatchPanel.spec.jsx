@@ -107,8 +107,31 @@ describe('RecordBatchPanel', () => {
     searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'batch',
       searchQuery: {
-        doctype: 'Group',
-        mode: ['single', 'group'],
+        as: {
+          op: 'or',
+          value: [
+            {
+              op: 'eq',
+              path: 'ns2:batch_common/supportsGroup',
+              value: true,
+            },
+            {
+              op: 'and',
+              value: [
+                {
+                  op: 'eq',
+                  path: 'ns2:batch_common/forDocTypes/forDocType',
+                  value: 'Group',
+                },
+                {
+                  op: 'eq',
+                  path: 'ns2:batch_common/supportsSingleDoc',
+                  value: true,
+                },
+              ],
+            },
+          ],
+        },
         p: 0,
         size: 5,
       },
@@ -193,8 +216,31 @@ describe('RecordBatchPanel', () => {
     searchPanel.props.searchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'batch',
       searchQuery: {
-        doctype: 'Group',
-        mode: ['single', 'group'],
+        as: {
+          op: 'or',
+          value: [
+            {
+              op: 'eq',
+              path: 'ns2:batch_common/supportsGroup',
+              value: true,
+            },
+            {
+              op: 'and',
+              value: [
+                {
+                  op: 'eq',
+                  path: 'ns2:batch_common/forDocTypes/forDocType',
+                  value: 'Group',
+                },
+                {
+                  op: 'eq',
+                  path: 'ns2:batch_common/supportsSingleDoc',
+                  value: true,
+                },
+              ],
+            },
+          ],
+        },
         p: 0,
         size: 5,
       },
@@ -568,8 +614,31 @@ describe('RecordBatchPanel', () => {
     searchDescriptor.should.equal(Immutable.fromJS({
       recordType: 'batch',
       searchQuery: {
-        doctype: 'Group',
-        mode: ['single', 'group'],
+        as: {
+          op: 'or',
+          value: [
+            {
+              op: 'eq',
+              path: 'ns2:batch_common/supportsGroup',
+              value: true,
+            },
+            {
+              op: 'and',
+              value: [
+                {
+                  op: 'eq',
+                  path: 'ns2:batch_common/forDocTypes/forDocType',
+                  value: 'Group',
+                },
+                {
+                  op: 'eq',
+                  path: 'ns2:batch_common/supportsSingleDoc',
+                  value: true,
+                },
+              ],
+            },
+          ],
+        },
         p: 0,
         size: 5,
       },
@@ -583,5 +652,53 @@ describe('RecordBatchPanel', () => {
     searchPanel = findWithType(result, SearchPanelContainer);
 
     searchPanel.props.searchDescriptor.should.equal(newSearchDescriptor);
+  });
+
+  it('should allow group mode invocation when the record type is group', () => {
+    const csid = '1234';
+    const recordType = 'group';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordBatchPanel
+        config={config}
+        csid={csid}
+        recordData={recordData}
+        recordType={recordType}
+        perms={perms}
+      />,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const invocationModal = findWithType(result, InvocationModalContainer);
+    const getAllowedModes = invocationModal.props.allowedModes;
+    const modes = getAllowedModes();
+
+    modes.should.deep.equal(['group']);
+  });
+
+  it('should allow group and single mode invocation when the record type is group and the batch job is registered for doctype group', () => {
+    const csid = '1234';
+    const recordType = 'group';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <RecordBatchPanel
+        config={config}
+        csid={csid}
+        recordData={recordData}
+        recordType={recordType}
+        perms={perms}
+      />,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const invocationModal = findWithType(result, InvocationModalContainer);
+    const getAllowedModes = invocationModal.props.allowedModes;
+    const modes = getAllowedModes(['group']);
+
+    modes.should.deep.equal(['group', 'single']);
   });
 });
