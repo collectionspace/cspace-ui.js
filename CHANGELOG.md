@@ -1,5 +1,20 @@
 # Change Log
 
+## v8.0.0
+
+v8.0.0 adds support for CollectionSpace 7.2.
+
+### Breaking Changes
+
+The record editor form for Object records now includes the following new fields, added in CollectionSpace 7.2. To use this version of cspace-ui with an older CollectionSpace server, these fields should be hidden; otherwise, any values entered will not be saved.
+
+- Description Level (`descriptionLevel`)
+- Apparel Size (`apparelSizes/apparelSize`)
+- Production Era (`objectProductionEras/objectProductionEra`)
+- Associated Controlled Event (`assocEvent`)
+- Associated Controlled Event Type (`assocEventType`)
+- Field Collection Site (`fieldCollectionSites/fieldCollectionSite`)
+
 ## v7.0.0
 
 v7.0.0 adds support for CollectionSpace 7.1.
