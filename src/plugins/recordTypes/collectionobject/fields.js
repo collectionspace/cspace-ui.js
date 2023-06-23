@@ -1747,6 +1747,34 @@ export default (configContext) => {
             },
           },
         },
+        contentEvents: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          contentEvent: {
+            [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentEvent.fullName',
+                  defaultMessage: 'Content controlled event or period/era',
+                },
+                name: {
+                  id: 'field.collectionobjects_common.contentEvent.name',
+                  defaultMessage: 'Event or period/era',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'chronology/event,chronology/era',
+                },
+              },
+            },
+          },
+        },
         contentOtherGroupList: {
           [config]: {
             view: {

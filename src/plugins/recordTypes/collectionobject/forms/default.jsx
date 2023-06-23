@@ -259,6 +259,10 @@ const template = (configContext) => {
                 </Field>
               </Field>
 
+              <Field name="contentEvents">
+                <Field name="contentEvent" />
+              </Field>
+
               <Field name="contentOtherGroupList">
                 <Field name="contentOtherGroup">
                   <Field name="contentOther" />
