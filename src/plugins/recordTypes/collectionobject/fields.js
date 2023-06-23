@@ -3280,23 +3280,6 @@ export default (configContext) => {
             },
           },
         },
-        assocEventType: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.collectionobjects_common.assocEventType.fullName',
-                defaultMessage: 'Associated controlled event type',
-              },
-              name: {
-                id: 'field.collectionobjects_common.assocEventType.name',
-                defaultMessage: 'Type',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
         assocEventOrganizations: {
           [config]: {
             view: {
