@@ -3265,17 +3265,17 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.collectionobjects_common.assocEvent.fullName',
-                defaultMessage: 'Associated controlled event',
+                defaultMessage: 'Associated controlled event or period/era',
               },
               name: {
                 id: 'field.collectionobjects_common.assocEvent.name',
-                defaultMessage: 'Event',
+                defaultMessage: 'Event or period/era',
               },
             }),
             view: {
               type: AutocompleteInput,
               props: {
-                source: 'chronology/event',
+                source: 'chronology/event,chronology/era',
               },
             },
           },

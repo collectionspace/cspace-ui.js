@@ -94,7 +94,7 @@ export default {
     },
     assocControlledEvent: {
       id: 'inputTable.collectionobject.assocControlledEvent',
-      defaultMessage: 'Associated controlled event',
+      defaultMessage: 'Associated controlled event or period/era',
     },
     ownershipExchange: {
       id: 'inputTable.collectionobject.ownershipExchange',
