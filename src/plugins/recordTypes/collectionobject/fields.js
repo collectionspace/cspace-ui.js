@@ -1747,6 +1747,34 @@ export default (configContext) => {
             },
           },
         },
+        contentEvents: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          contentEvent: {
+            [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.contentEvent.fullName',
+                  defaultMessage: 'Content controlled event or period/era',
+                },
+                name: {
+                  id: 'field.collectionobjects_common.contentEvent.name',
+                  defaultMessage: 'Event or period/era',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'chronology/event,chronology/era',
+                },
+              },
+            },
+          },
+        },
         contentOtherGroupList: {
           [config]: {
             view: {
@@ -3260,40 +3288,31 @@ export default (configContext) => {
             },
           },
         },
-        assocEvent: {
+        assocEvents: {
           [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.collectionobjects_common.assocEvent.fullName',
-                defaultMessage: 'Associated controlled event',
-              },
-              name: {
-                id: 'field.collectionobjects_common.assocEvent.name',
-                defaultMessage: 'Event',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'chronology/event',
-              },
+              type: CompoundInput,
             },
           },
-        },
-        assocEventType: {
-          [config]: {
-            messages: defineMessages({
-              fullName: {
-                id: 'field.collectionobjects_common.assocEventType.fullName',
-                defaultMessage: 'Associated controlled event type',
+          assocEvent: {
+            [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.assocEvent.fullName',
+                  defaultMessage: 'Associated controlled event or period/era',
+                },
+                name: {
+                  id: 'field.collectionobjects_common.assocEvent.name',
+                  defaultMessage: 'Event or period/era',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'chronology/event,chronology/era',
+                },
               },
-              name: {
-                id: 'field.collectionobjects_common.assocEventType.name',
-                defaultMessage: 'Type',
-              },
-            }),
-            view: {
-              type: TextInput,
             },
           },
         },
