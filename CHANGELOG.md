@@ -11,8 +11,8 @@ The record editor form for Object records now includes the following new fields,
 - Description Level (`descriptionLevel`)
 - Apparel Size (`apparelSizes/apparelSize`)
 - Production Era (`objectProductionEras/objectProductionEra`)
-- Associated Controlled Event (`assocEvent`)
-- Associated Controlled Event Type (`assocEventType`)
+- Content controlled event or period/era (`contentEvents/contentEvent`)
+- Associated controlled event or period/era (`assocEvents/assocEvent`)
 - Field Collection Site (`fieldCollectionSites/fieldCollectionSite`)
 
 ## v7.0.0
