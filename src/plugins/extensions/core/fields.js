@@ -91,6 +91,23 @@ export default (configContext) => {
           },
         },
       },
+      uri: {
+        [config]: {
+          messages: defineMessages({
+            name: {
+              id: 'field.ext.core.uri.name',
+              defaultMessage: 'URI',
+            },
+          }),
+          searchDisabled: false,
+          view: {
+            type: TextInput,
+            props: {
+              readOnly: true,
+            },
+          },
+        },
+      },
     },
   };
 };
