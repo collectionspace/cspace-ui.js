@@ -96,7 +96,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.core.uri.name',
-              defaultMessage: 'Uri',
+              defaultMessage: 'URI',
             },
           }),
           searchDisabled: false,
