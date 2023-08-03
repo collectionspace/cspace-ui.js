@@ -8,11 +8,13 @@ const propTypes = {
     PropTypes.func,
     PropTypes.object,
   ]),
+  decorated: PropTypes.bool,
 };
 
 export default function PublicRoute(props) {
   const {
     component: Component,
+    decorated,
     ...remainingProps
   } = props;
 
@@ -20,7 +22,10 @@ export default function PublicRoute(props) {
     <Route
       {...remainingProps}
       render={(routeProps) => (
-        <PublicPage {...routeProps}>
+        <PublicPage
+          decorated={decorated}
+          {...routeProps}
+        >
           <Component {...routeProps} />
         </PublicPage>
       )}

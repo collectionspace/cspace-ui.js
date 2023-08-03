@@ -73,6 +73,10 @@ export const getUserPerms = (state) => fromUser.getPerms(state.user);
 
 export const getUserRoleNames = (state) => fromUser.getRoleNames(state.user);
 
+export const getLoginAuthCodeUrl = (state) => fromLogin.getAuthCodeUrl(state.login);
+
+export const getLoginLandingPath = (state) => fromLogin.getLandingPath(state.login);
+
 export const getLoginUsername = (state) => fromLogin.getUsername(state.login);
 
 export const isLoginPending = (state) => fromLogin.isPending(state.login);

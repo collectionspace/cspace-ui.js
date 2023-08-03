@@ -16,7 +16,6 @@ const propTypes = {
   username: PropTypes.string,
   userPrefsLoaded: PropTypes.bool,
   closeModal: PropTypes.func,
-  resetLogin: PropTypes.func,
 };
 
 export default function ProtectedRoute(props) {
@@ -29,7 +28,6 @@ export default function ProtectedRoute(props) {
     username,
     userPrefsLoaded,
     closeModal,
-    resetLogin,
     ...remainingProps
   } = props;
 
@@ -46,7 +44,6 @@ export default function ProtectedRoute(props) {
             userPrefsLoaded={userPrefsLoaded}
             decorated={decorated}
             closeModal={closeModal}
-            resetLogin={resetLogin}
             {...routeProps}
           >
             <Component {...routeProps} />
@@ -54,9 +51,9 @@ export default function ProtectedRoute(props) {
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/authorize',
               state: {
-                continuation: routeProps.location,
+                continuation: routeProps.location ? routeProps.location.pathname : undefined,
               },
             }}
           />

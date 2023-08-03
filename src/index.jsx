@@ -11,6 +11,8 @@ import { Modal } from 'cspace-layout';
 import logoUrl from '../images/collectionspace.svg';
 import { configureCSpace, readSystemInfo } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
+import { login } from './actions/login';
+import { closeModal } from './actions/notification';
 import { addOptionLists } from './actions/optionList';
 import { savePrefs } from './actions/prefs';
 import { OP_OR } from './constants/searchOperators';
@@ -98,6 +100,13 @@ export default (uiConfig) => {
     window.addEventListener('beforeunload', () => {
       store.dispatch(savePrefs());
     });
+
+    // A callback for logins occurring in a separate window.
+
+    window.onAuthorizationSuccess = () => {
+      store.dispatch(login(config))
+        .then(() => store.dispatch(closeModal()));
+    };
 
     store.dispatch(configureCSpace(config));
     store.dispatch(addOptionLists(optionLists));

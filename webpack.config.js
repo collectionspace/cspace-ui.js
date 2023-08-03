@@ -15,7 +15,6 @@ const publicPath = '/webpack-dev-assets/';
 
 const library = 'cspaceUI';
 const isProduction = process.env.NODE_ENV === 'production';
-const filename = `${library}${isProduction ? '.min' : ''}.js`;
 
 let buildNum = '';
 let repositoryUrl = '';
@@ -34,9 +33,17 @@ try {
 
 module.exports = async () => ({
   mode: isProduction ? 'production' : 'development',
-  entry: './src/index.jsx',
+  entry: {
+    index: {
+      import: './src/index.jsx',
+      filename: `${library}${isProduction ? '.min' : ''}.js`,
+    },
+    service: {
+      import: './src/service.jsx',
+      filename: `${library}-[name]${isProduction ? '.min' : ''}.js`,
+    },
+  },
   output: {
-    filename,
     library,
     libraryTarget: 'umd',
     libraryExport: 'default',

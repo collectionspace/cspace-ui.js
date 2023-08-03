@@ -1,26 +1,28 @@
 import { connect } from 'react-redux';
-import LoginForm from '../../components/login/LoginForm';
-import { login } from '../../actions/login';
+import AuthorizedPage from '../../components/pages/AuthorizedPage';
+import { loginWithAuthCodeRequest } from '../../actions/login';
 
 import {
   getLoginUsername,
   isLoginPending,
   isLoginSuccess,
+  getLoginLandingPath,
   getLoginError,
 } from '../../reducers';
 
 const mapStateToProps = (state) => ({
   isPending: isLoginPending(state),
   isSuccess: isLoginSuccess(state),
+  landingPath: getLoginLandingPath(state),
   username: getLoginUsername(state),
   error: getLoginError(state),
 });
 
 const mapDispatchToProps = {
-  login,
+  loginWithAuthCodeRequest,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LoginForm);
+)(AuthorizedPage);

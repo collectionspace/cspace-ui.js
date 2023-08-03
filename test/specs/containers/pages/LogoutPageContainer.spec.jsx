@@ -27,6 +27,5 @@ describe('LogoutPageContainer', () => {
 
     page.type.should.equal(LogoutPage);
     page.props.should.have.property('logout').that.is.a('function');
-    page.props.should.have.property('resetLogin').that.is.a('function');
   });
 });

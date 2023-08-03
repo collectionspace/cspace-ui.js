@@ -17,7 +17,6 @@ import {
   ACCOUNT_ROLES_READ_FULFILLED,
   AUTH_VOCABS_READ_STARTED,
   AUTH_VOCABS_READ_FULFILLED,
-  RESET_LOGIN,
   OPEN_MODAL,
 } from '../../../src/constants/actionCodes';
 
@@ -238,13 +237,13 @@ describe('cspace action creator', () => {
       return onError(error).should.eventually.be.rejectedWith(error);
     });
 
-    it('should dispatch RESET_LOGIN and OPEN_MODAL if the error is an invalid token 401 error', () => {
+    it('should dispatch OPEN_MODAL if the error is an invalid token 401 error', () => {
       const error = {
         response: {
           status: 401,
-          data: {
-            error: 'invalid_token',
-          },
+          headers: new Map([
+            ['Www-Authenticate', 'Bearer error="invalid_token"'],
+          ]),
         },
       };
 
@@ -252,16 +251,9 @@ describe('cspace action creator', () => {
 
       const actions = store.getActions();
 
-      actions.length.should.equal(2);
+      actions.length.should.equal(1);
 
       actions[0].should.deep.equal({
-        type: RESET_LOGIN,
-        meta: {
-          username: '',
-        },
-      });
-
-      actions[1].should.deep.equal({
         type: OPEN_MODAL,
         meta: {
           name: MODAL_LOGIN,
@@ -272,34 +264,43 @@ describe('cspace action creator', () => {
 
   describe('createSession', () => {
     it('should return a cspace session', () => {
-      const username = 'user@collectionspace.org';
-      const password = 'topsecret';
+      const authCode = '1234';
+      const codeVerifier = 'topsecret';
+      const redirectUri = '/authorized';
 
-      const session = createSession(username, password);
+      const session = createSession(authCode, codeVerifier, redirectUri);
 
       session.should.be.an('object');
-      session.config().should.have.property('username', username);
+      session.config().should.have.property('authCode', authCode);
+      session.config().should.have.property('codeVerifier', codeVerifier);
+      session.config().should.have.property('redirectUri', redirectUri);
     });
   });
 
   describe('setSession', () => {
     it('should create a CSPACE_CONFIGURED action', () => {
-      const username = 'user@collectionspace.org';
-      const password = 'topsecret';
+      const authCode = '1234';
+      const codeVerifier = 'topsecret';
+      const redirectUri = '/authorized';
 
-      const session = createSession(username, password);
+      const session = createSession(authCode, codeVerifier, redirectUri);
 
       setSession(session).should
         .include({ type: CSPACE_CONFIGURED })
         .and.have.property('payload')
-        .that.has.property('username', username);
+        .that.includes({
+          authCode,
+          codeVerifier,
+          redirectUri,
+        });
     });
 
     it('should update the active session', () => {
-      const username = 'user@collectionspace.org';
-      const password = 'topsecret';
+      const authCode = '1234';
+      const codeVerifier = 'topsecret';
+      const redirectUri = 'authorized';
 
-      const session = createSession(username, password);
+      const session = createSession(authCode, codeVerifier, redirectUri);
 
       setSession(session);
 

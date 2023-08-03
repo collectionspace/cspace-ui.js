@@ -9,8 +9,8 @@ The actions dispatched in the cspace-ui application are divided into functionall
 Some action creators are synchronous, resulting in immediate state updates when dispatched. A synchronous action creator is recognizable by its single [fat-arrow](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) signature, defining a function that returns an action object:
 
 ```
-export const resetLogin = () => ({
-  type: RESET_LOGIN,
+export const toggleRecordSidebar = () => ({
+  type: TOGGLE_RECORD_SIDEBAR,
 });
 ```
 

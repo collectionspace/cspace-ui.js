@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Modal } from 'cspace-layout';
-import LoginFormContainer from '../../containers/login/LoginFormContainer';
-
-const formId = 'loginModal.loginForm';
+import LoginForm from './LoginForm';
 
 const renderButtonBar = () => null;
 
@@ -12,21 +10,19 @@ const messages = defineMessages({
   title: {
     id: 'loginModal.title',
     description: 'The title of the login modal.',
-    defaultMessage: 'Sign In',
+    defaultMessage: 'Authorization Required',
   },
 });
 
 const propTypes = {
   isOpen: PropTypes.bool,
   onCloseButtonClick: PropTypes.func,
-  onSuccess: PropTypes.func,
 };
 
 export default function LoginModal(props) {
   const {
     isOpen,
     onCloseButtonClick,
-    onSuccess,
   } = props;
 
   if (!isOpen) {
@@ -42,13 +38,7 @@ export default function LoginModal(props) {
       renderButtonBar={renderButtonBar}
       onCloseButtonClick={onCloseButtonClick}
     >
-      <LoginFormContainer
-        formId={formId}
-        isExpired
-        showForgotLink={false}
-        showHeader={false}
-        onSuccess={onSuccess}
-      />
+      <LoginForm isExpired openNewWindow showPrompt />
     </Modal>
   );
 }

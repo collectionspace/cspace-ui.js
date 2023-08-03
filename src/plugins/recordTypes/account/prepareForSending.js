@@ -1,4 +1,4 @@
-/* global btoa */
+/* global window */
 
 export default (data) => {
   // base64 encode password and delete confirmPassword.
@@ -9,7 +9,7 @@ export default (data) => {
     return data;
   }
 
-  const encodedPassword = btoa(password);
+  const encodedPassword = window.btoa(password);
 
   return data
     .setIn(['ns2:accounts_common', 'password'], encodedPassword)

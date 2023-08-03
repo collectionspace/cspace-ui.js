@@ -10,10 +10,6 @@ import {
 } from '../../reducers';
 
 import {
-  resetLogin,
-} from '../../actions/login';
-
-import {
   closeModal,
 } from '../../actions/notification';
 
@@ -27,7 +23,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   closeModal,
-  resetLogin,
 };
 
 export default connect(

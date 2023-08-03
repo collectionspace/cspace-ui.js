@@ -1,7 +1,8 @@
 import { defineMessages } from 'react-intl';
 import Immutable from 'immutable';
 import { isExistingRecord, isNewRecord } from '../../../helpers/recordDataHelpers';
-import { isValidEmail, isValidPassword } from '../../../helpers/validationHelpers';
+import { isValidPassword } from '../../../helpers/passwordHelpers';
+import { isValidEmail } from '../../../helpers/validationHelpers';
 
 import {
   ERR_INVALID_EMAIL,

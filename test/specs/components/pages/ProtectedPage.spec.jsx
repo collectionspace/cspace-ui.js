@@ -153,17 +153,11 @@ describe('ProtectedPage', () => {
     loginModal.should.not.equal(null);
   });
 
-  it('should when login succeeds', () => {
+  it('should call closeModal when login succeeds', () => {
     let closeModalCalled = false;
 
     const closeModal = () => {
       closeModalCalled = true;
-    };
-
-    let resetLoginCalled = false;
-
-    const resetLogin = () => {
-      resetLoginCalled = true;
     };
 
     const shallowRenderer = createRenderer();
@@ -171,7 +165,6 @@ describe('ProtectedPage', () => {
     const result = shallowRenderer.render(
       <ProtectedPage
         closeModal={closeModal}
-        resetLogin={resetLogin}
         username="user@collectionspace.org"
         userPrefsLoaded
       >
@@ -186,7 +179,6 @@ describe('ProtectedPage', () => {
     return new Promise((resolve) => {
       window.setTimeout(() => {
         closeModalCalled.should.equal(true);
-        resetLoginCalled.should.equal(true);
 
         resolve();
       }, 0);

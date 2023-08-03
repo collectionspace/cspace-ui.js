@@ -3,6 +3,7 @@
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
 import { IntlProvider } from 'react-intl';
+import { MemoryRouter as Router } from 'react-router';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import Immutable from 'immutable';
@@ -29,9 +30,9 @@ describe('LoginModal', () => {
   it('should render a modal', async function test() {
     await asyncRender(
       <IntlProvider locale="en">
-        <StoreProvider store={store}>
+        <Router>
           <LoginModal isOpen />
-        </StoreProvider>
+        </Router>
       </IntlProvider>, this.container,
     );
 

@@ -9,21 +9,21 @@ import { openModal } from './notification';
 
 import {
   CSPACE_CONFIGURED,
-  RESET_LOGIN,
   SYSTEM_INFO_READ_FULFILLED,
   SYSTEM_INFO_READ_REJECTED,
 } from '../constants/actionCodes';
 
 let client;
 
-export const createSession = (username, password) => {
-  if (typeof username === 'undefined' && typeof password === 'undefined') {
+export const createSession = (authCode, codeVerifier, redirectUri) => {
+  if (typeof authCode === 'undefined') {
     return client.session();
   }
 
   return client.session({
-    username,
-    password,
+    authCode,
+    codeVerifier,
+    redirectUri,
   });
 };
 
@@ -59,17 +59,11 @@ export const configureCSpace = (config) => (dispatch) => {
       const status = get(error, ['response', 'status']);
 
       if (status === 401) {
-        const internalError = get(error, ['response', 'data', 'error']);
+        const headers = get(error, ['response', 'headers']);
+        const wwwAuthenticate = headers.get('Www-Authenticate');
 
-        if (internalError === 'invalid_token') {
+        if (wwwAuthenticate && wwwAuthenticate.includes('invalid_token')) {
           // The stored token is no longer valid. Show the login modal.
-
-          dispatch({
-            type: RESET_LOGIN,
-            meta: {
-              username: getSession().config().username,
-            },
-          });
 
           dispatch(openModal(MODAL_LOGIN));
         }
@@ -83,7 +77,7 @@ export const configureCSpace = (config) => (dispatch) => {
 
   dispatch(setSession(newSession));
 
-  const { username } = newSession.config();
+  const username = newSession.username();
 
   if (!username) {
     return Promise.resolve();
