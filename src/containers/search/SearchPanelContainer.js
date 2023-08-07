@@ -5,7 +5,9 @@ import { setSearchPanelPageSize } from '../../actions/prefs';
 
 import {
   getSearchPanelPageSize,
+  getSearchError,
   getSearchResult,
+  isSearchPending,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -36,7 +38,9 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     searchDescriptor,
+    searchError: getSearchError(state, name, searchDescriptor),
     searchResult: getSearchResult(state, name, searchDescriptor),
+    searchIsPending: isSearchPending(state, name, searchDescriptor),
   };
 };
 
