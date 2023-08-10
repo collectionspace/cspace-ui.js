@@ -360,12 +360,12 @@ export default (configContext) => {
             },
           },
         },
-        chronologyDateStructuredDateGroup: {
+        primaryDateRangeStructuredDateGroup: {
           [config]: {
             dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.chronologies_common.chronologyDateStructuredDateGroup.name',
+                id: 'field.chronologies_common.primaryDateRangeStructuredDateGroup.name',
                 defaultMessage: 'Primary date range',
               },
             }),
@@ -375,17 +375,17 @@ export default (configContext) => {
           },
           ...extensions.structuredDate.fields,
         },
-        chronologyPlaces: {
+        spatialCoverages: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          chronologyPlace: {
+          spatialCoverage: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.chronologies_common.chronologyPlaces.name',
+                  id: 'field.chronologies_common.spatialCoverage.name',
                   defaultMessage: 'Spatial coverage',
                 },
               }),
@@ -526,17 +526,17 @@ export default (configContext) => {
             },
           },
         },
-        otherDateGroupList: {
+        altDateGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          otherDateGroup: {
+          altDateGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.chronologies_common.otherDateGroup.name',
+                  id: 'field.chronologies_common.altDateGroup.name',
                   defaultMessage: 'Alternative date',
                 },
               }),
@@ -545,16 +545,16 @@ export default (configContext) => {
                 type: CompoundInput,
               },
             },
-            otherDateStructuredDateGroup: {
+            altDateRangeStructuredDateGroup: {
               [config]: {
                 dataType: DATA_TYPE_STRUCTURED_DATE,
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.chronologies_common.otherDateStructuredDateGroup.fullName',
+                    id: 'field.chronologies_common.altDateRangeStructuredDateGroup.fullName',
                     defaultMessage: 'Alternative date range',
                   },
                   name: {
-                    id: 'field.chronologies_common.otherDateStructuredDateGroup.name',
+                    id: 'field.chronologies_common.altDateRangeStructuredDateGroup.name',
                     defaultMessage: 'Range',
                   },
                 }),
@@ -564,21 +564,21 @@ export default (configContext) => {
               },
               ...extensions.structuredDate.fields,
             },
-            otherDatePlaces: {
+            altDateSpatialCoverages: {
               [config]: {
                 view: {
                   type: CompoundInput,
                 },
               },
-              otherDatePlace: {
+              altDateSpatialCoverage: {
                 [config]: {
                   messages: defineMessages({
                     fullName: {
-                      id: 'field.chronologies_common.otherDatePlace.fullName',
+                      id: 'field.chronologies_common.altDateSpatialCoverage.fullName',
                       defaultMessage: 'Alternative date spacial coverage',
                     },
                     name: {
-                      id: 'field.chronologies_common.otherDatePlace.name',
+                      id: 'field.chronologies_common.altDateSpatialCoverage.name',
                       defaultMessage: 'Spatial coverage',
                     },
                   }),
@@ -592,21 +592,21 @@ export default (configContext) => {
                 },
               },
             },
-            otherDateCitations: {
+            altDateCitations: {
               [config]: {
                 view: {
                   type: CompoundInput,
                 },
               },
-              otherDateCitation: {
+              altDateCitation: {
                 [config]: {
                   messages: defineMessages({
                     fullName: {
-                      id: 'field.chronologies_common.otherDateCitation.fullName',
+                      id: 'field.chronologies_common.altDateCitation.fullName',
                       defaultMessage: 'Alternative date citation',
                     },
                     name: {
-                      id: 'field.chronologies_common.otherDateCitation.name',
+                      id: 'field.chronologies_common.altDateCitation.name',
                       defaultMessage: 'Citation',
                     },
                   }),
@@ -620,15 +620,15 @@ export default (configContext) => {
                 },
               },
             },
-            otherDateNote: {
+            altDateNote: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.chronologies_common.otherDateNote.fullName',
+                    id: 'field.chronologies_common.altDateNote.fullName',
                     defaultMessage: 'Alternative date note',
                   },
                   name: {
-                    id: 'field.chronologies_common.otherDateNote.name',
+                    id: 'field.chronologies_common.altDateNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
