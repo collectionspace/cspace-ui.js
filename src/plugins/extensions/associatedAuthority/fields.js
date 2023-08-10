@@ -685,7 +685,7 @@ export default (configContext) => {
             view: {
               type: AutocompleteInput,
               props: {
-                source: 'chronology/era,chronology/event,chronology/fieldcollection',
+                source: 'chronology/era,chronology/event',
               },
             },
           },
