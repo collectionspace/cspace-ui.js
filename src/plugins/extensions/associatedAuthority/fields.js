@@ -22,17 +22,17 @@ export default (configContext) => {
   } = configContext.config;
 
   return {
-    personGroupList: {
+    assocPersonAuthGroupList: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      personGroup: {
+      assocPersonAuthGroup: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.ext.associatedAuthority.personGroup.name',
+              id: 'field.ext.associatedAuthority.assocPersonAuthGroup.name',
               defaultMessage: 'Person',
             },
           }),
@@ -147,17 +147,17 @@ export default (configContext) => {
         },
       },
     },
-    peopleGroupList: {
+    assocPeopleAuthGroupList: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      peopleGroup: {
+      assocPeopleAuthGroup: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.ext.associatedAuthority.peopleGroup.name',
+              id: 'field.ext.associatedAuthority.assocPeopleAuthGroup.name',
               defaultMessage: 'People',
             },
           }),
@@ -272,17 +272,17 @@ export default (configContext) => {
         },
       },
     },
-    organizationGroupList: {
+    assocOrganizationAuthGroupList: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      organizationGroup: {
+      assocOrganizationAuthGroup: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.ext.associatedAuthority.organizationGroup.name',
+              id: 'field.ext.associatedAuthority.assocOrganizationAuthGroup.name',
               defaultMessage: 'Organization',
             },
           }),
@@ -397,17 +397,17 @@ export default (configContext) => {
         },
       },
     },
-    conceptGroupList: {
+    assocConceptAuthGroupList: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      conceptGroup: {
+      assocConceptAuthGroup: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.ext.associatedAuthority.conceptGroup.name',
+              id: 'field.ext.associatedAuthority.assocConceptAuthGroup.name',
               defaultMessage: 'Concept',
             },
           }),
@@ -522,17 +522,17 @@ export default (configContext) => {
         },
       },
     },
-    placeGroupList: {
+    assocPlaceAuthGroupList: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      placeGroup: {
+      assocPlaceAuthGroup: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.ext.associatedAuthority.placeGroup.name',
+              id: 'field.ext.associatedAuthority.assocPlaceAuthGroup.name',
               defaultMessage: 'Place',
             },
           }),
@@ -647,18 +647,18 @@ export default (configContext) => {
         },
       },
     },
-    relatedPeriodGroupList: {
+    assocChronologyAuthGroupList: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      relatedPeriodGroup: {
+      assocChronologyAuthGroup: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.ext.associatedAuthority.relatedPeriodGroup.name',
-              defaultMessage: 'Related period',
+              id: 'field.ext.associatedAuthority.assocChronologyAuthGroup.name',
+              defaultMessage: 'Related chronology',
             },
           }),
           repeating: true,
@@ -666,15 +666,15 @@ export default (configContext) => {
             type: CompoundInput,
           },
         },
-        relatedPeriod: {
+        chronology: {
           [config]: {
             messages: defineMessages({
               fullName: {
-                id: 'field.ext.associatedAuthority.relatedPeriod.fullName',
-                defaultMessage: 'Related period associated',
+                id: 'field.ext.associatedAuthority.chronology.fullName',
+                defaultMessage: 'Related chronology associated',
               },
               name: {
-                id: 'field.ext.associatedAuthority.relatedPeriod.name',
+                id: 'field.ext.associatedAuthority.chronology.name',
                 defaultMessage: 'Associated',
               },
             }),
@@ -686,15 +686,15 @@ export default (configContext) => {
             },
           },
         },
-        relatedPeriodType: {
+        chronologyType: {
           [config]: {
             messages: defineMessages({
               fullName: {
-                id: 'field.ext.associatedAuthority.relatedPeriodType.fullName',
-                defaultMessage: 'Related period relationship/type',
+                id: 'field.ext.associatedAuthority.chronologyType.fullName',
+                defaultMessage: 'Related chronology relationship/type',
               },
               name: {
-                id: 'field.ext.associatedAuthority.relatedPeriodType.name',
+                id: 'field.ext.associatedAuthority.chronologyType.name',
                 defaultMessage: 'Relationship/Type',
               },
             }),
@@ -706,16 +706,16 @@ export default (configContext) => {
             },
           },
         },
-        relatedPeriodStructuredDateGroup: {
+        chronologyStructuredDateGroup: {
           [config]: {
             dataType: DATA_TYPE_STRUCTURED_DATE,
             messages: defineMessages({
               fullName: {
-                id: 'field.ext.associatedAuthority.relatedPeriodStructuredDateGroup.fullName',
-                defaultMessage: 'Related period date',
+                id: 'field.ext.associatedAuthority.chronologyStructuredDateGroup.fullName',
+                defaultMessage: 'Related chronology date',
               },
               name: {
-                id: 'field.ext.associatedAuthority.relatedPeriodStructuredDateGroup.name',
+                id: 'field.ext.associatedAuthority.chronologyStructuredDateGroup.name',
                 defaultMessage: 'Date',
               },
             }),
@@ -725,21 +725,21 @@ export default (configContext) => {
           },
           ...extensions.structuredDate.fields,
         },
-        relatedPeriodCitations: {
+        chronologyCitations: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          relatedPeriodCitation: {
+          chronologyCitation: {
             [config]: {
               messages: defineMessages({
                 fullName: {
-                  id: 'field.ext.associatedAuthority.relatedPeriodCitation.fullName',
-                  defaultMessage: 'Related period citation',
+                  id: 'field.ext.associatedAuthority.chronologyCitation.fullName',
+                  defaultMessage: 'Related chronology citation',
                 },
                 name: {
-                  id: 'field.ext.associatedAuthority.relatedPeriodCitation.name',
+                  id: 'field.ext.associatedAuthority.chronologyCitation.name',
                   defaultMessage: 'Citation',
                 },
               }),
@@ -753,15 +753,15 @@ export default (configContext) => {
             },
           },
         },
-        relatedPeriodNote: {
+        chronologyNote: {
           [config]: {
             messages: defineMessages({
               fullName: {
-                id: 'field.ext.associatedAuthority.relatedPeriodNote.fullName',
-                defaultMessage: 'Related period note',
+                id: 'field.ext.associatedAuthority.chronologyNote.fullName',
+                defaultMessage: 'Related chronology note',
               },
               name: {
-                id: 'field.ext.associatedAuthority.relatedPeriodNote.name',
+                id: 'field.ext.associatedAuthority.chronologyNote.name',
                 defaultMessage: 'Note',
               },
             }),

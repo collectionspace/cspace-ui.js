@@ -20,8 +20,8 @@ export default (configContext) => {
 
   return (
     <>
-      <Field name="personGroupList">
-        <Field name="personGroup">
+      <Field name="assocPersonAuthGroupList">
+        <Field name="assocPersonAuthGroup">
           <Panel>
             <Row>
               <Field name="person" />
@@ -36,8 +36,8 @@ export default (configContext) => {
         </Field>
       </Field>
 
-      <Field name="peopleGroupList">
-        <Field name="peopleGroup">
+      <Field name="assocPeopleAuthGroupList">
+        <Field name="assocPeopleAuthGroup">
           <Panel>
             <Row>
               <Field name="people" />
@@ -52,8 +52,8 @@ export default (configContext) => {
         </Field>
       </Field>
 
-      <Field name="organizationGroupList">
-        <Field name="organizationGroup">
+      <Field name="assocOrganizationAuthGroupList">
+        <Field name="assocOrganizationAuthGroup">
           <Panel>
             <Row>
               <Field name="organization" />
@@ -68,8 +68,8 @@ export default (configContext) => {
         </Field>
       </Field>
 
-      <Field name="conceptGroupList">
-        <Field name="conceptGroup">
+      <Field name="assocConceptAuthGroupList">
+        <Field name="assocConceptAuthGroup">
           <Panel>
             <Row>
               <Field name="concept" />
@@ -84,8 +84,8 @@ export default (configContext) => {
         </Field>
       </Field>
 
-      <Field name="placeGroupList">
-        <Field name="placeGroup">
+      <Field name="assocPlaceAuthGroupList">
+        <Field name="assocPlaceAuthGroup">
           <Panel>
             <Row>
               <Field name="place" />
@@ -100,17 +100,17 @@ export default (configContext) => {
         </Field>
       </Field>
 
-      <Field name="relatedPeriodGroupList">
-        <Field name="relatedPeriodGroup">
+      <Field name="assocChronologyAuthGroupList">
+        <Field name="assocChronologyAuthGroup">
           <Panel>
             <Row>
-              <Field name="relatedPeriod" />
-              <Field name="relatedPeriodType" />
-              <Field name="relatedPeriodStructuredDateGroup" />
-              <Field name="relatedPeriodCitations">
-                <Field name="relatedPeriodCitation" />
+              <Field name="chronology" />
+              <Field name="chronologyType" />
+              <Field name="chronologyStructuredDateGroup" />
+              <Field name="chronologyCitations">
+                <Field name="chronologyCitation" />
               </Field>
-              <Field name="relatedPeriodNote" />
+              <Field name="chronologyNote" />
             </Row>
           </Panel>
         </Field>

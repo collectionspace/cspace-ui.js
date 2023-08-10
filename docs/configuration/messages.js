@@ -2633,27 +2633,27 @@ export default {
 
   "field.ext.associatedAuthority.placeType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.relatedPeriod.fullName": "Related period associated",
+  "field.ext.associatedAuthority.chronology.fullName": "Related period associated",
 
-  "field.ext.associatedAuthority.relatedPeriod.name": "Associated",
+  "field.ext.associatedAuthority.chronology.name": "Associated",
 
-  "field.ext.associatedAuthority.relatedPeriodCitation.fullName": "Related period citation",
+  "field.ext.associatedAuthority.chronologyCitation.fullName": "Related period citation",
 
-  "field.ext.associatedAuthority.relatedPeriodCitation.name": "Citation",
+  "field.ext.associatedAuthority.chronologyCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.relatedPeriodGroup.name": "Related period",
+  "field.ext.associatedAuthority.chronologyGroup.name": "Related chronology",
 
-  "field.ext.associatedAuthority.relatedPeriodNote.fullName": "Related period note",
+  "field.ext.associatedAuthority.chronologyNote.fullName": "Related chronology note",
 
-  "field.ext.associatedAuthority.relatedPeriodNote.name": "Note",
+  "field.ext.associatedAuthority.chronologyNote.name": "Note",
 
-  "field.ext.associatedAuthority.relatedPeriodStructuredDateGroup.fullName": "Related period date",
+  "field.ext.associatedAuthority.chronologyStructuredDateGroup.fullName": "Related chronology date",
 
-  "field.ext.associatedAuthority.relatedPeriodStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.chronologyStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.relatedPeriodType.fullName": "Related period relationship/type",
+  "field.ext.associatedAuthority.chronologyType.fullName": "Related chronology relationship/type",
 
-  "field.ext.associatedAuthority.relatedPeriodType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.chronologyType.name": "Relationship/Type",
 
   "field.ext.authItem.csid.name": "System CSID",
 
