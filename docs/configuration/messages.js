@@ -767,7 +767,7 @@ export default {
 
   "field.chronologies_common.altDateNote.name": "Note",
 
-  "field.chronologies_common.altDateSpatialCoverage.fullName": "Alternative date spacial coverage",
+  "field.chronologies_common.altDateSpatialCoverage.fullName": "Alternative date spatial coverage",
 
   "field.chronologies_common.altDateSpatialCoverage.name": "Spatial coverage",
 
