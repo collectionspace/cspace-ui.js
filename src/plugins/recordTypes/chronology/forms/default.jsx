@@ -17,10 +17,6 @@ const template = (configContext) => {
     InputTable,
   } = configContext.recordComponents;
 
-  const {
-    extensions,
-  } = configContext.config;
-
   return (
     <Field name="document">
       <Panel name="info" collapsible>
@@ -73,10 +69,6 @@ const template = (configContext) => {
             <Field name="identifierDate" />
           </Field>
         </Field>
-      </Panel>
-
-      <Panel name="associated" collapsible collapsed>
-        {extensions.associatedAuthority.form}
       </Panel>
 
       <Panel name="altdate" collapsible collapsed>

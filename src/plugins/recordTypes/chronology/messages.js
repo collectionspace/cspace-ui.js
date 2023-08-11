@@ -18,10 +18,6 @@ export default {
       id: 'panel.chronology.info',
       defaultMessage: 'Chronology Information',
     },
-    associated: {
-      id: 'panel.chronology.associated',
-      defaultMessage: 'Associated Authorities',
-    },
     altdate: {
       id: 'panel.chronology.altdate',
       defaultMessage: 'Alternative Date Information',

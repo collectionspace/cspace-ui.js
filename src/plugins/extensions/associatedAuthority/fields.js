@@ -1,5 +1,9 @@
 import { defineMessages } from 'react-intl';
 
+/**
+ * The associated authorities extension is currently unused while
+ * it is being re-spec'd
+ */
 export default (configContext) => {
   const {
     AutocompleteInput,

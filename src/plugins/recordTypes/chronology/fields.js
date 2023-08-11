@@ -74,7 +74,6 @@ export default (configContext) => {
           },
         },
         ...extensions.authItem.fields,
-        ...extensions.associatedAuthority.fields,
         chronologyTermGroupList: {
           [config]: {
             messages: defineMessages({
