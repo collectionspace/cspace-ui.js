@@ -17,10 +17,6 @@ const template = (configContext) => {
     InputTable,
   } = configContext.recordComponents;
 
-  const {
-    extensions,
-  } = configContext.config;
-
   return (
     <Field name="document">
       <Panel name="info" collapsible>
@@ -54,10 +50,10 @@ const template = (configContext) => {
 
         <Cols>
           <Col>
-            <Field name="chronologyDateStructuredDateGroup" />
+            <Field name="primaryDateRangeStructuredDateGroup" />
             <Field name="chronologyType" />
-            <Field name="chronologyPlaces">
-              <Field name="chronologyPlace" />
+            <Field name="spatialCoverages">
+              <Field name="spatialCoverage" />
             </Field>
           </Col>
           <Col>
@@ -75,27 +71,23 @@ const template = (configContext) => {
         </Field>
       </Panel>
 
-      <Panel name="associated" collapsible collapsed>
-        {extensions.associatedAuthority.form}
-      </Panel>
-
       <Panel name="altdate" collapsible collapsed>
-        <Field name="otherDateGroupList">
-          <Field name="otherDateGroup">
+        <Field name="altDateGroupList">
+          <Field name="altDateGroup">
             <Panel>
               <Cols>
                 <Col>
-                  <Field name="otherDateStructuredDateGroup" />
-                  <Field name="otherDatePlaces">
-                    <Field name="otherDatePlace" />
+                  <Field name="altDateRangeStructuredDateGroup" />
+                  <Field name="altDateSpatialCoverages">
+                    <Field name="altDateSpatialCoverage" />
                   </Field>
                 </Col>
 
                 <Col>
-                  <Field name="otherDateCitations">
-                    <Field name="otherDateCitation" />
+                  <Field name="altDateCitations">
+                    <Field name="altDateCitation" />
                   </Field>
-                  <Field name="otherDateNote" />
+                  <Field name="altDateNote" />
                 </Col>
               </Cols>
             </Panel>

@@ -725,13 +725,13 @@ export default {
 
   "field.blobs_common.name.name": "Name",
 
-  "field.chronologies_common.chronologyDateStructuredDateGroup.name": "Primary date range",
+  "field.chronologies_common.primaryDateRangeStructuredDateGroup.name": "Primary date range",
 
   "field.chronologies_common.chronologyDescription.name": "Chronology description",
 
   "field.chronologies_common.chronologyNote.name": "Chronology note",
 
-  "field.chronologies_common.chronologyPlaces.name": "Spatial coverage",
+  "field.chronologies_common.spatialCoverage.name": "Spatial coverage",
 
   "field.chronologies_common.chronologyTermGroup.name": "Term",
 
@@ -757,23 +757,23 @@ export default {
 
   "field.chronologies_common.identifierValue.name": "Value",
 
-  "field.chronologies_common.otherDateCitation.fullName": "Alternative date citation",
+  "field.chronologies_common.altDateCitation.fullName": "Alternative date citation",
 
-  "field.chronologies_common.otherDateCitation.name": "Citation",
+  "field.chronologies_common.altDateCitation.name": "Citation",
 
-  "field.chronologies_common.otherDateGroup.name": "Alternative date",
+  "field.chronologies_common.altDateGroup.name": "Alternative date",
 
-  "field.chronologies_common.otherDateNote.fullName": "Alternative date note",
+  "field.chronologies_common.altDateNote.fullName": "Alternative date note",
 
-  "field.chronologies_common.otherDateNote.name": "Note",
+  "field.chronologies_common.altDateNote.name": "Note",
 
-  "field.chronologies_common.otherDatePlace.fullName": "Alternative date spacial coverage",
+  "field.chronologies_common.altDateSpatialCoverage.fullName": "Alternative date spatial coverage",
 
-  "field.chronologies_common.otherDatePlace.name": "Spatial coverage",
+  "field.chronologies_common.altDateSpatialCoverage.name": "Spatial coverage",
 
-  "field.chronologies_common.otherDateStructuredDateGroup.fullName": "Alternative date range",
+  "field.chronologies_common.altDateRangeStructuredDateGroup.fullName": "Alternative date range",
 
-  "field.chronologies_common.otherDateStructuredDateGroup.name": "Range",
+  "field.chronologies_common.altDateRangeStructuredDateGroup.name": "Range",
 
   "field.chronologies_common.termDisplayName.fullName": "Term display name",
 
@@ -2633,27 +2633,27 @@ export default {
 
   "field.ext.associatedAuthority.placeType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.relatedPeriod.fullName": "Related period associated",
+  "field.ext.associatedAuthority.chronology.fullName": "Related period associated",
 
-  "field.ext.associatedAuthority.relatedPeriod.name": "Associated",
+  "field.ext.associatedAuthority.chronology.name": "Associated",
 
-  "field.ext.associatedAuthority.relatedPeriodCitation.fullName": "Related period citation",
+  "field.ext.associatedAuthority.chronologyCitation.fullName": "Related period citation",
 
-  "field.ext.associatedAuthority.relatedPeriodCitation.name": "Citation",
+  "field.ext.associatedAuthority.chronologyCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.relatedPeriodGroup.name": "Related period",
+  "field.ext.associatedAuthority.chronologyGroup.name": "Related chronology",
 
-  "field.ext.associatedAuthority.relatedPeriodNote.fullName": "Related period note",
+  "field.ext.associatedAuthority.chronologyNote.fullName": "Related chronology note",
 
-  "field.ext.associatedAuthority.relatedPeriodNote.name": "Note",
+  "field.ext.associatedAuthority.chronologyNote.name": "Note",
 
-  "field.ext.associatedAuthority.relatedPeriodStructuredDateGroup.fullName": "Related period date",
+  "field.ext.associatedAuthority.chronologyStructuredDateGroup.fullName": "Related chronology date",
 
-  "field.ext.associatedAuthority.relatedPeriodStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.chronologyStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.relatedPeriodType.fullName": "Related period relationship/type",
+  "field.ext.associatedAuthority.chronologyType.fullName": "Related chronology relationship/type",
 
-  "field.ext.associatedAuthority.relatedPeriodType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.chronologyType.name": "Relationship/Type",
 
   "field.ext.authItem.csid.name": "System CSID",
 
