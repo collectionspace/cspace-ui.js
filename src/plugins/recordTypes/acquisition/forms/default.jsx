@@ -81,11 +81,15 @@ const template = (configContext) => {
 
         <Field name="approvalGroupList">
           <Field name="approvalGroup">
-            <Field name="approvalGroup" />
-            <Field name="approvalIndividual" />
-            <Field name="approvalStatus" />
-            <Field name="approvalDate" />
-            <Field name="approvalNote" />
+            <Panel>
+              <Row>
+                <Field name="approvalGroup" />
+                <Field name="approvalIndividual" />
+                <Field name="approvalStatus" />
+                <Field name="approvalDate" />
+              </Row>
+              <Field name="approvalNote" />
+            </Panel>
           </Field>
         </Field>
         <Field name="acquisitionNote" />
