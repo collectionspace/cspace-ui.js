@@ -1,13 +1,5 @@
 .common {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   margin-bottom: 60px;
-}
-
-.common > .about {
-  margin-right: 60px;
-}
-
-.common > .login {
-  flex: 0 0 36%;
 }

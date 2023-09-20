@@ -1,5 +1,13 @@
 # Change Log
 
+## v9.0.0
+
+v9.0.0 adds support for CollectionSpace 8.0.
+
+### Breaking Changes
+
+- Sign in now uses the OAuth 2 authorization code grant, supported in CollectionSpace 8. If this version of cspace-ui is used with an older CollectionSpace server, users will not be able to sign in.
+
 ## v8.0.0
 
 v8.0.0 adds support for CollectionSpace 7.2.

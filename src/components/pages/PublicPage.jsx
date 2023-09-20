@@ -6,7 +6,12 @@ import Logo from '../sections/Logo';
 import styles from '../../../styles/cspace-ui/PublicPage.css';
 
 const propTypes = {
+  decorated: PropTypes.bool,
   children: PropTypes.node,
+};
+
+const defaultProps = {
+  decorated: true,
 };
 
 const contextTypes = {
@@ -20,6 +25,7 @@ const contextTypes = {
 
 export default function PublicPage(props, context) {
   const {
+    decorated,
     children,
   } = props;
 
@@ -28,18 +34,27 @@ export default function PublicPage(props, context) {
     intl,
   } = context;
 
-  return (
-    <div className={styles.common}>
+  let header;
+
+  if (decorated) {
+    header = (
       <header>
         <Logo config={config} />
       </header>
+    );
+  }
 
+  const footer = decorated ? <FooterContainer config={config} intl={intl} /> : null;
+
+  return (
+    <div className={styles.common}>
+      {header}
       {children}
-
-      <FooterContainer config={config} intl={intl} />
+      {footer}
     </div>
   );
 }
 
 PublicPage.propTypes = propTypes;
+PublicPage.defaultProps = defaultProps;
 PublicPage.contextTypes = contextTypes;

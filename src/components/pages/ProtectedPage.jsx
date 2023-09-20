@@ -21,7 +21,6 @@ const propTypes = {
   userPrefsLoaded: PropTypes.bool,
   children: PropTypes.node,
   closeModal: PropTypes.func,
-  resetLogin: PropTypes.func,
 };
 
 const defaultProps = {
@@ -46,14 +45,9 @@ export default class ProtectedPage extends Component {
   handleLoginSuccess() {
     const {
       closeModal,
-      resetLogin,
     } = this.props;
 
     window.setTimeout(() => {
-      if (resetLogin) {
-        resetLogin();
-      }
-
       if (closeModal) {
         closeModal();
       }

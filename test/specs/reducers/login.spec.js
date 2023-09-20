@@ -2,7 +2,6 @@ import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 
 import {
-  RESET_LOGIN,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
@@ -10,6 +9,7 @@ import {
 
 import reducer, {
   getError,
+  getLandingPath,
   getUsername,
   isPending,
   isSuccess,
@@ -25,63 +25,44 @@ describe('login reducer', () => {
     reducer(undefined, {}).should.deep.equal(Immutable.Map({}));
   });
 
-  it('should handle RESET_LOGIN', () => {
-    const username = 'someone@collectionspace.org';
-
-    const state = reducer(undefined, {
-      type: RESET_LOGIN,
-      meta: {
-        username,
-      },
-    });
-
-    state.should.deep.equal(Immutable.Map({
-      username,
-    }));
-
-    expect(isPending(state)).to.equal(undefined);
-  });
-
   it('should handle LOGIN_STARTED', () => {
-    const loginUsername = 'user@collectionspace.org';
-
     const state = reducer(undefined, {
       type: LOGIN_STARTED,
-      meta: {
-        username: loginUsername,
-      },
     });
 
     state.should.deep.equal(Immutable.Map({
       isPending: true,
-      username: loginUsername,
     }));
 
-    getUsername(state).should.equal(loginUsername);
     isPending(state).should.equal(true);
+    expect(getUsername(state)).to.equal(undefined);
   });
 
   it('should handle LOGIN_FULFILLED', () => {
+    const landingPath = '/dashboard';
     const loginUsername = 'user@collectionspace.org';
 
     const state = reducer(undefined, {
       type: LOGIN_FULFILLED,
       meta: {
+        landingPath,
         username: loginUsername,
       },
     });
 
     state.should.deep.equal(Immutable.fromJS({
       isSuccess: true,
+      landingPath,
+      username: loginUsername,
     }));
 
-    expect(getUsername(state)).to.equal(undefined);
+    getUsername(state).should.equal(loginUsername);
+    getLandingPath(state).should.equal(landingPath);
     isSuccess(state).should.equal(true);
     expect(isPending(state)).to.equal(undefined);
   });
 
   it('should handle LOGIN_REJECTED', () => {
-    const loginUsername = 'user@collectionspace.org';
     const errorCode = 'CODE';
     const innerError = new Error();
     const loginError = new Error();
@@ -92,13 +73,9 @@ describe('login reducer', () => {
     const state = reducer(undefined, {
       type: LOGIN_REJECTED,
       payload: loginError,
-      meta: {
-        username: loginUsername,
-      },
     });
 
     state.should.deep.equal(Immutable.Map({
-      username: loginUsername,
       error: Immutable.Map({
         code: errorCode,
         error: innerError,
@@ -110,7 +87,7 @@ describe('login reducer', () => {
       error: innerError,
     }));
 
-    getUsername(state).should.equal(loginUsername);
+    expect(getUsername(state)).to.equal(undefined);
     expect(isPending(state)).to.equal(undefined);
   });
 });

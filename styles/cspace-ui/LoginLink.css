@@ -1,0 +1,22 @@
+.common {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 10px 20px 10px 50px;
+  background-color: #73AA4F;
+  background-image: url(../../images/login.svg);
+  background-size: 28px 28px;
+  background-position: 16px center;
+  background-repeat: no-repeat;
+  font-size: 24px;
+  font-weight: 400;
+  color: white;
+  text-decoration: none;
+}
+
+.common:hover {
+  background-color: #4A7F28;
+}
+
+.common:focus {
+  box-shadow: 0 0 0 2px #4A7F28;
+}

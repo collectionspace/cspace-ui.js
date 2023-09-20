@@ -1,4 +1,7 @@
+/* global window */
+
 import get from 'lodash/get';
+import qs from 'qs';
 import { readAuthVocabs } from './authority';
 import { createSession, setSession } from './cspace';
 import { loadPrefs, savePrefs } from './prefs';
@@ -6,51 +9,50 @@ import { readAccountRoles } from './account';
 import { getUserUsername } from '../reducers';
 
 import {
-  ERR_INVALID_CREDENTIALS,
+  ERR_ACCOUNT_INACTIVE,
+  ERR_ACCOUNT_INVALID,
+  ERR_ACCOUNT_NOT_FOUND,
+  ERR_AUTH_CODE_REQUEST_NOT_FOUND,
   ERR_NETWORK,
   ERR_WRONG_TENANT,
 } from '../constants/errorCodes';
 
 import {
+  AUTH_CODE_URL_CREATED,
   AUTH_RENEW_FULFILLED,
   AUTH_RENEW_REJECTED,
-  RESET_LOGIN,
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
 } from '../constants/actionCodes';
 
-export const resetLogin = (username) => ({
-  type: RESET_LOGIN,
-  meta: {
-    username,
-  },
-});
+const renewAuth = (config, authCode, authCodeRequestData = {}) => (dispatch) => {
+  const {
+    codeVerifier,
+    redirectUri,
+  } = authCodeRequestData;
 
-const renewAuth = (config, username, password) => (dispatch) => {
-  const session = createSession(username, password);
+  const session = createSession(authCode, codeVerifier, redirectUri);
+  const loginPromise = authCode ? session.login() : Promise.resolve();
 
-  return session.login()
+  let username = null;
+
+  return loginPromise
     .then(() => session.read('accounts/0/accountperms'))
     .then((response) => {
       if (get(response, ['data', 'ns2:account_permission', 'account', 'tenantId']) !== config.tenantId) {
         // The logged in user doesn't belong to the tenant that this UI expects.
 
         return session.logout()
-          // TODO: Use .finally when it's supported in all browsers.
-          .then(() => {
-            const error = new Error();
-            error.code = ERR_WRONG_TENANT;
-
-            return Promise.reject(error);
-          })
-          .catch(() => {
+          .finally(() => {
             const error = new Error();
             error.code = ERR_WRONG_TENANT;
 
             return Promise.reject(error);
           });
       }
+
+      username = get(response, ['data', 'ns2:account_permission', 'account', 'userId']);
 
       dispatch(setSession(session));
 
@@ -64,15 +66,24 @@ const renewAuth = (config, username, password) => (dispatch) => {
       });
     })
     .then(() => dispatch(readAccountRoles(config, username)))
+    .then(() => Promise.resolve(username))
     .catch((error) => {
       let { code } = error;
 
-      const desc = get(error, ['response', 'data', 'error_description']) || get(error, 'message');
+      const data = get(error, ['response', 'data']) || '';
 
-      if (desc === 'Bad credentials') {
-        code = ERR_INVALID_CREDENTIALS;
-      } else if (desc === 'Network Error') {
-        code = ERR_NETWORK;
+      if (/invalid state/.test(data)) {
+        code = ERR_ACCOUNT_INVALID;
+      } else if (/inactive/.test(data)) {
+        code = ERR_ACCOUNT_INACTIVE;
+      } else if (/account not found/.test(data)) {
+        code = ERR_ACCOUNT_NOT_FOUND;
+      } else {
+        const desc = get(error, ['response', 'data', 'error_description']) || get(error, 'message');
+
+        if (desc === 'Network Error') {
+          code = ERR_NETWORK;
+        }
       }
 
       dispatch({
@@ -94,24 +105,103 @@ const renewAuth = (config, username, password) => (dispatch) => {
     });
 };
 
-export const login = (config, username, password) => (dispatch, getState) => {
+const generateS256Hash = async (input) => {
+  const inputBytes = new TextEncoder().encode(input);
+  const sha256Bytes = await window.crypto.subtle.digest('SHA-256', inputBytes);
+  const base64 = window.btoa(String.fromCharCode(...new Uint8Array(sha256Bytes)));
+
+  const urlSafeBase64 = base64
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+
+  return urlSafeBase64;
+};
+
+const authCodeRequestRedirectUrl = (serverUrl) => {
+  const currentUrl = window.location.href;
+  const authorizedUrl = new URL('authorized', currentUrl);
+
+  if (!serverUrl) {
+    return `/..${authorizedUrl.pathname}`;
+  }
+
+  return authorizedUrl.toString();
+};
+
+const authCodeRequestStorageKey = (requestId) => `authCodeRequest:${requestId}`;
+
+export const createAuthCodeUrl = (config, landingPath) => async (dispatch) => {
+  const {
+    serverUrl,
+  } = config;
+
+  const requestId = window.crypto.randomUUID();
+  const codeVerifier = window.crypto.randomUUID();
+  const codeChallenge = await generateS256Hash(codeVerifier);
+  const redirectUri = authCodeRequestRedirectUrl(serverUrl);
+
+  const requestData = {
+    codeVerifier,
+    landingPath,
+    redirectUri,
+  };
+
+  window.sessionStorage.setItem(authCodeRequestStorageKey(requestId), JSON.stringify(requestData));
+
+  const params = {
+    response_type: 'code',
+    client_id: 'cspace-ui',
+    scope: 'cspace.full',
+    redirect_uri: redirectUri,
+    state: requestId,
+    code_challenge: codeChallenge,
+    code_challenge_method: 'S256',
+    tid: config.tenantId,
+  };
+
+  const queryString = qs.stringify(params);
+  const url = `${serverUrl}/cspace-services/oauth2/authorize?${queryString}`;
+
+  dispatch({
+    type: AUTH_CODE_URL_CREATED,
+    payload: url,
+  });
+
+  return url;
+};
+
+/**
+ * Log in, using either the saved user or an authorization code.
+ *
+ * @param {*} config
+ * @param {*} authCode    The authorization code. If undefined, the stored user will be used.
+ * @param {*} requestData The data that was used to retrieve the authorization code.
+ * @returns
+ */
+export const login = (config, authCode, authCodeRequestData = {}) => (dispatch, getState) => {
   const prevUsername = getUserUsername(getState());
 
   dispatch(savePrefs());
 
   dispatch({
     type: LOGIN_STARTED,
-    meta: {
-      username,
-    },
   });
 
-  return dispatch(renewAuth(config, username, password))
+  let username;
+
+  return dispatch(renewAuth(config, authCode, authCodeRequestData))
+    .then((loggedInUsername) => {
+      username = loggedInUsername;
+
+      return Promise.resolve();
+    })
     .then(() => dispatch(loadPrefs(config, username)))
     .then(() => dispatch(readAuthVocabs(config)))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,
       meta: {
+        landingPath: authCodeRequestData.landingPath,
         prevUsername,
         username,
       },
@@ -119,8 +209,38 @@ export const login = (config, username, password) => (dispatch, getState) => {
     .catch((error) => dispatch({
       type: LOGIN_REJECTED,
       payload: error,
-      meta: {
-        username,
-      },
     }));
+};
+
+/**
+ * Log in using a fulfilled authorization code request.
+ *
+ * @param {*} config
+ * @param {*} authCodeRequestId
+ * @param {*} authCode
+ * @returns
+ */
+export const loginWithAuthCodeRequest = (
+  config,
+  authCodeRequestId,
+  authCode,
+) => async (dispatch) => {
+  const storageKey = authCodeRequestStorageKey(authCodeRequestId);
+  const authCodeRequestDataJson = window.sessionStorage.getItem(storageKey);
+
+  window.sessionStorage.removeItem(storageKey);
+
+  if (!authCodeRequestDataJson) {
+    const error = new Error();
+    error.code = ERR_AUTH_CODE_REQUEST_NOT_FOUND;
+
+    return dispatch({
+      type: LOGIN_REJECTED,
+      payload: error,
+    });
+  }
+
+  const authCodeRequestData = JSON.parse(authCodeRequestDataJson);
+
+  return dispatch(login(config, authCode, authCodeRequestData));
 };

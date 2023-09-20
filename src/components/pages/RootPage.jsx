@@ -7,17 +7,18 @@ import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
 import AdminPageContainer from '../../containers/pages/AdminPageContainer';
+import AuthorizePageContainer from '../../containers/pages/AuthorizePageContainer';
+import AuthorizedPageContainer from '../../containers/pages/AuthorizedPageContainer';
 import ConfigPage from './ConfigPage';
 import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
 import CreatePageContainer from '../../containers/pages/CreatePageContainer';
 import DashboardPage from './DashboardPage';
 import ExportViewerPageContainer from '../../containers/pages/ExportViewerPageContainer';
 import ToolPageContainer from '../../containers/pages/ToolPageContainer';
-import LoginPageContainer from '../../containers/pages/LoginPageContainer';
+import LoginPage from './LoginPage';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
 import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
-import ResetPasswordPage from './ResetPasswordPage';
 import SearchPageContainer from '../../containers/pages/SearchPageContainer';
 import SearchResultPageContainer from '../../containers/pages/SearchResultPageContainer';
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
@@ -61,10 +62,11 @@ function RootPage(props) {
       </Helmet>
 
       <Switch>
-        <PublicRoute path="/login" component={LoginPageContainer} />
-        <PublicRoute path="/logout" component={LogoutPageContainer} />
+        <PublicRoute path="/login" component={LoginPage} />
+        <PublicRoute path="/logout" component={LogoutPageContainer} decorated={false} />
         <PublicRoute path="/config" component={ConfigPage} />
-        <PublicRoute path="/resetpw" component={ResetPasswordPage} />
+        <PublicRoute path="/authorize" component={AuthorizePageContainer} decorated={false} />
+        <PublicRoute path="/authorized" component={AuthorizedPageContainer} decorated={false} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />

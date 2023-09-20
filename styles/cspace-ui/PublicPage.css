@@ -1,5 +1,5 @@
 .common {
-  width: 1050px;
+  max-width: 1050px;
   padding: 50px 0;
   margin-left: auto;
   margin-right: auto;

@@ -13,7 +13,7 @@ export const logout = () => (dispatch) => {
 
   dispatch(savePrefs());
 
-  return getSession().logout()
+  return getSession().logout(false)
     .then((response) => dispatch({
       type: LOGOUT_FULFILLED,
       payload: response,

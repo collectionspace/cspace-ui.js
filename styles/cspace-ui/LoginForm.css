@@ -1,7 +1,16 @@
+.common {
+  text-align: center;
+}
+
 .common input {
   height: 32px;
   padding: 6px;
   margin-bottom: 6px;
+}
+
+.common a + span {
+  display: block;
+  color: #73AA4F;
 }
 
 .common > p {

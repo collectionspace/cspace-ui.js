@@ -1,23 +1,10 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  defineMessages, injectIntl, intlShape, FormattedMessage,
-} from 'react-intl';
-import { Link } from 'react-router-dom';
-import Immutable from 'immutable';
-import { components as inputComponents } from 'cspace-input';
-import LoginButton from './LoginButton';
-import Notification from '../notification/Notification';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import styles from '../../../styles/cspace-ui/LoginForm.css';
-
-const { LineInput, PasswordInput } = inputComponents;
+import LoginLink from './LoginLink';
 
 const messages = defineMessages({
-  title: {
-    id: 'loginForm.title',
-    description: 'Title displayed above the login form.',
-    defaultMessage: 'Sign In',
-  },
   prompt: {
     id: 'loginForm.prompt',
     description: 'The prompt displayed on the login form when the user is not logged in.',
@@ -26,354 +13,87 @@ const messages = defineMessages({
   expiredPrompt: {
     id: 'loginForm.expiredPrompt',
     description: 'The prompt displayed on the login form when the login session has expired.',
-    defaultMessage: 'Your session has expired. Please sign in again to continue.',
+    defaultMessage: 'Your authorization has expired. Please renew your session to continue.',
   },
-  pending: {
-    id: 'loginForm.pending',
-    description: 'Message displayed while login is in progress.',
-    defaultMessage: 'Signing in...',
+  newWindowNote: {
+    id: 'loginForm.newWindowNote',
+    description: 'The message displayed on the login form to indicate that a new window will be opened.',
+    defaultMessage: '(opens a new window)',
   },
-  success: {
-    id: 'loginForm.success',
-    description: 'Message displayed when login completes successfully.',
-    defaultMessage: 'Sign in complete.',
+  newWindowOpened: {
+    id: 'loginForm.newWindowOpened',
+    description: 'The message displayed on the login form when an authorization pop-up has been opened.',
+    defaultMessage: 'Authorization is in progress in another browser window. You may be prompted to sign in again in that window.',
   },
-  error: {
-    id: 'loginForm.error',
-    description: 'Generic login error message. Displayed when a more specific error message is not available.',
-    defaultMessage: 'Sign in failed.',
-  },
-  ERR_BAD_REQUEST: {
-    id: 'loginForm.ERR_BAD_REQUEST',
-    description: 'Error message displayed when a bad request response was received during login.',
-    defaultMessage: 'Sign in failed. The CollectionSpace server received a bad request.',
-  },
-  ERR_INVALID_CREDENTIALS: {
-    id: 'loginForm.ERR_INVALID_CREDENTIALS',
-    description: 'Error message displayed when incorrect credentials were entered during login.',
-    defaultMessage: 'Sign in failed. Incorrect username/password.',
-  },
-  ERR_NETWORK: {
-    id: 'loginForm.ERR_NETWORK',
-    description: 'Error message displayed when there is a network error during login.',
-    defaultMessage: 'Sign in failed. Unable to reach the CollectionSpace server.',
-  },
-  ERR_WRONG_TENANT: {
-    id: 'loginForm.ERR_WRONG_TENANT',
-    description: 'Error message displayed when the logged in user belongs to the wrong tenant.',
-    defaultMessage: 'Sign in failed. The user is not registered to this CollectionSpace tenant.',
-  },
-  username: {
-    id: 'loginForm.username',
-    description: 'Label for the login username field.',
-    defaultMessage: 'Email',
-  },
-  password: {
-    id: 'loginForm.password',
-    description: 'Label for the login password field.',
-    defaultMessage: 'Password',
-  },
-  forgotPassword: {
-    id: 'loginForm.forgotPassword',
-    description: 'Text of the forgot password link.',
-    defaultMessage: 'Forgot password',
+  newWindowError: {
+    id: 'loginForm.newWindowError',
+    description: 'The message displayed on the login form when an authorization pop-up fails to open.',
+    defaultMessage: 'The authorization window could not be opened. Please allow pop-ups for this site.',
   },
 });
 
-const contextTypes = {
-  config: PropTypes.shape({
-    tenantId: PropTypes.string,
-  }),
-};
-
 const propTypes = {
-  formId: PropTypes.string,
-  intl: intlShape.isRequired,
   isExpired: PropTypes.bool,
-  isPending: PropTypes.bool,
-  isSuccess: PropTypes.bool,
-  username: PropTypes.string,
-  error: PropTypes.instanceOf(Immutable.Map),
-  showForgotLink: PropTypes.bool,
-  showHeader: PropTypes.bool,
-  login: PropTypes.func,
-  onSuccess: PropTypes.func,
+  openNewWindow: PropTypes.bool,
+  showPrompt: PropTypes.bool,
 };
 
 const defaultProps = {
-  showForgotLink: true,
-  showHeader: true,
+  isExpired: false,
+  openNewWindow: false,
+  showPrompt: false,
 };
 
-class LoginForm extends Component {
-  constructor(props) {
-    super(props);
+export default function LoginForm(props) {
+  const {
+    isExpired,
+    openNewWindow,
+    showPrompt,
+  } = props;
 
-    this.handlePasswordInputApi = this.handlePasswordInputApi.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handleUsernameInputApi = this.handleUsernameInputApi.bind(this);
+  const [isNewWindowOpened, setNewWindowOpened] = useState();
+  const [isNewWindowError, setNewWindowError] = useState();
 
-    this.state = {
-      username: props.username,
-    };
-  }
+  let prompt = null;
 
-  componentDidMount() {
-    const {
-      username,
-    } = this.props;
+  if (showPrompt) {
+    const messageKey = isExpired
+      ? 'expiredPrompt'
+      : 'prompt';
 
-    // If there is a username, focus the password input. Otherwise, focus the username input.
-
-    if (username && this.passwordInputApi) {
-      this.passwordInputApi.focus();
-    } else if (this.usernameInputApi) {
-      this.usernameInputApi.focus();
-    }
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({
-      username: nextProps.username,
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      error,
-      isSuccess,
-      username,
-      onSuccess,
-    } = this.props;
-
-    const {
-      error: prevError,
-      username: prevUsername,
-    } = prevProps;
-
-    if (this.passwordInputApi) {
-      // If the username has been set, focus the password.
-
-      if (username && !prevUsername) {
-        this.passwordInputApi.focus();
-      }
-
-      // If login fails, focus the password.
-
-      if (error && !prevError) {
-        this.passwordInputApi.focus();
-      }
-    }
-
-    if (onSuccess && isSuccess && !prevProps.isSuccess) {
-      onSuccess();
-    }
-  }
-
-  handlePasswordInputApi(api) {
-    this.passwordInputApi = api;
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-
-    const {
-      login,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (login) {
-      const form = event.target;
-      const username = form.username.value;
-      const password = form.password.value;
-
-      login(config, username, password);
-    }
-  }
-
-  handleUsernameInputApi(api) {
-    this.usernameInputApi = api;
-  }
-
-  handleUsernameChange(value) {
-    this.setState({
-      username: value,
-    });
-  }
-
-  renderHeader() {
-    const {
-      showHeader,
-    } = this.props;
-
-    if (!showHeader) {
-      return null;
-    }
-
-    return (
-      <h2><FormattedMessage {...messages.title} /></h2>
-    );
-  }
-
-  renderPrompt() {
-    const {
-      isExpired,
-      isPending,
-      isSuccess,
-    } = this.props;
-
-    let messageKey;
-
-    if (isPending) {
-      messageKey = 'pending';
-    } else if (isSuccess) {
-      messageKey = 'success';
-    } else if (isExpired) {
-      messageKey = 'expiredPrompt';
-    } else {
-      messageKey = 'prompt';
-    }
-
-    return (
+    prompt = (
       <p><FormattedMessage {...messages[messageKey]} /></p>
     );
   }
 
-  renderButtonBar() {
-    const {
-      showForgotLink,
-    } = this.props;
+  return (
+    <div className={styles.common}>
+      {isNewWindowOpened && (
+        <FormattedMessage {...messages.newWindowOpened} />
+      )}
 
-    const {
-      username,
-    } = this.state;
+      {!isNewWindowOpened && (
+        <>
+          {prompt}
 
-    let forgotLink;
+          <p>
+            <LoginLink
+              isExpired={isExpired}
+              openNewWindow={openNewWindow}
+              onNewWindowOpen={() => setNewWindowOpened(true)}
+              onNewWindowError={() => setNewWindowError(true)}
+            />
+            {openNewWindow && <FormattedMessage {...messages.newWindowNote} />}
+          </p>
+        </>
+      )}
 
-    if (showForgotLink) {
-      forgotLink = (
-        <Link
-          to={{
-            pathname: '/resetpw',
-            state: {
-              username,
-            },
-          }}
-        >
-          <FormattedMessage {...messages.forgotPassword} />
-        </Link>
-      );
-    } else {
-      forgotLink = <div />;
-    }
-
-    return (
-      <div>
-        {forgotLink}
-        <LoginButton type="submit" />
-      </div>
-    );
-  }
-
-  renderForm() {
-    const {
-      formId,
-      intl,
-      isPending,
-      isSuccess,
-    } = this.props;
-
-    if (isPending || isSuccess) {
-      return null;
-    }
-
-    const {
-      username,
-    } = this.state;
-
-    return (
-      <form id={formId} onSubmit={this.handleSubmit}>
-        <LineInput
-          autoComplete="username email"
-          id="username"
-          placeholder={intl.formatMessage(messages.username)}
-          type="text"
-          value={username}
-          api={this.handleUsernameInputApi}
-          onChange={this.handleUsernameChange}
-        />
-
-        <PasswordInput
-          autoComplete="current-password"
-          id="password"
-          placeholder={intl.formatMessage(messages.password)}
-          api={this.handlePasswordInputApi}
-        />
-
-        {this.renderButtonBar()}
-      </form>
-    );
-  }
-
-  renderError() {
-    const {
-      error,
-      isPending,
-    } = this.props;
-
-    if (isPending || !error) {
-      return undefined;
-    }
-
-    const messageKey = error.get('code') || 'error';
-
-    return (
-      <Notification
-        id="loginForm.error"
-        items={[{
-          message: messages[messageKey] || messages.error,
-        }]}
-        showCloseButton={false}
-        status="error"
-      />
-    );
-  }
-
-  render() {
-    const {
-      isPending,
-      isSuccess,
-    } = this.props;
-
-    let className;
-
-    if (isPending) {
-      className = styles.pending;
-    } else if (isSuccess) {
-      className = styles.success;
-    } else {
-      className = styles.common;
-    }
-
-    return (
-      <div className={className}>
-        {this.renderHeader()}
-        {this.renderPrompt()}
-        {this.renderForm()}
-        {this.renderError()}
-      </div>
-    );
-  }
+      {isNewWindowError && (
+        <FormattedMessage {...messages.newWindowError} />
+      )}
+    </div>
+  );
 }
 
 LoginForm.propTypes = propTypes;
 LoginForm.defaultProps = defaultProps;
-LoginForm.contextTypes = contextTypes;
-
-export { LoginForm as BaseLoginForm };
-export default injectIntl(LoginForm);

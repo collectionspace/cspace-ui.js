@@ -26,6 +26,7 @@ export default function UserMenu(props) {
       {screenName}
       {' '}
       |
+      {' '}
       <Link to="/logout"><FormattedMessage {...messages.logout} /></Link>
     </div>
   );
