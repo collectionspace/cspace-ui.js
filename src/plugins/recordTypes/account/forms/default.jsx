@@ -20,6 +20,7 @@ const template = (configContext) => {
         <Col>
           <Field name="email" />
           <Field name="screenName" />
+          <Field name="requireSSO" />
           <Field name="password" />
           <Field name="confirmPassword" />
           <Field name="status" />

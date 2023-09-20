@@ -20,6 +20,7 @@ const areRolesImmutable = ({ recordData }) => (
 
 export default (configContext) => {
   const {
+    CheckboxInput,
     CompoundInput,
     OptionPickerInput,
     RolesInput,
@@ -30,6 +31,10 @@ export default (configContext) => {
   const {
     configKey: config,
   } = configContext.configHelpers;
+
+  const {
+    DATA_TYPE_BOOL,
+  } = configContext.dataTypes;
 
   return {
     'ns2:accounts_common': {
@@ -142,6 +147,25 @@ export default (configContext) => {
           },
         },
       },
+      requireSSO: {
+        [config]: {
+          cloneable: false,
+          dataType: DATA_TYPE_BOOL,
+          defaultValue: false,
+          messages: defineMessages({
+            name: {
+              id: 'field.accounts_common.requireSSO.name',
+              defaultMessage: 'Require single sign-on (if available)',
+            },
+          }),
+          view: {
+            type: CheckboxInput,
+            props: {
+              readOnly: isMetadataImmutable,
+            },
+          },
+        },
+      },
       password: {
         [config]: {
           cloneable: false,
@@ -156,7 +180,10 @@ export default (configContext) => {
               defaultMessage: 'Password',
             },
           }),
-          required: ({ recordData }) => isNewRecord(recordData),
+          required: ({ recordData }) => (
+            isNewRecord(recordData)
+            && recordData.getIn(['ns2:accounts_common', 'requireSSO']) === false
+          ),
           validate: ({ data, fieldDescriptor }) => {
             if (data && !isValidPassword(data)) {
               return {
@@ -185,7 +212,10 @@ export default (configContext) => {
               defaultMessage: 'Confirm password',
             },
           }),
-          required: ({ recordData }) => isNewRecord(recordData),
+          required: ({ recordData }) => (
+            isNewRecord(recordData)
+            && recordData.getIn(['ns2:accounts_common', 'requireSSO']) === false
+          ),
           view: {
             type: PasswordInput,
             props: {
