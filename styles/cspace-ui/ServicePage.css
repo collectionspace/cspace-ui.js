@@ -30,7 +30,7 @@ body {
   margin-top: 8px;
 }
 
-.common button {
+.common :global(.sso) a, .common button {
   display: block;
   box-sizing: border-box;
   outline-offset: -1px;
@@ -47,11 +47,11 @@ body {
   font: inherit;
 }
 
-.common button:focus {
+.common :global(.sso) a:focus, .common button:focus {
   outline: 2px solid textDark;
 }
 
-.common button:enabled:hover {
+.common :global(.sso) a:hover, .common button:enabled:hover {
   background-color: #fff;
 }
 
@@ -69,6 +69,10 @@ body {
 
 .common :global(button.reset):enabled {
   background-image: url(../../images/lockReset.svg);
+}
+
+.common :global(.sso) + form {
+  margin-top: 36px;
 }
 
 .common form {

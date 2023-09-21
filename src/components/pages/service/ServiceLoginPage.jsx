@@ -14,6 +14,8 @@ const propTypes = {
   error: PropTypes.string,
   isLogoutSuccess: PropTypes.bool,
   intl: intlShape.isRequired,
+  locale: PropTypes.string,
+  sso: PropTypes.object,
   tenantId: PropTypes.string,
 };
 
@@ -21,6 +23,8 @@ const defaultProps = {
   csrf: null,
   error: null,
   isLogoutSuccess: false,
+  locale: 'en-US',
+  sso: {},
   tenantId: null,
 };
 
@@ -50,6 +54,10 @@ const messages = defineMessages({
     description: 'Text of the forgot password link.',
     defaultMessage: 'Forgot password',
   },
+  ssoLink: {
+    id: 'serviceLoginPage.ssoLink',
+    defaultMessage: 'Continue with {name}',
+  },
   localLogin: {
     id: 'serviceLoginPage.localLogin',
     defaultMessage: 'Continue with email and password',
@@ -70,8 +78,30 @@ function ServiceLoginPage(props) {
     error,
     isLogoutSuccess,
     intl,
+    locale,
+    sso,
     tenantId,
   } = props;
+
+  const ssoLinks = Object.entries(sso)
+    .sort((a, b) => a[1].name.localeCompare(b[1].name, locale, { sensitivity: 'base' }))
+    .map(([url, config]) => {
+      const { icon } = config;
+
+      const style = icon
+        ? { backgroundImage: `url(${icon})` }
+        : undefined;
+
+      return (
+        <a className="login" href={url} style={style}>
+          <FormattedMessage {...messages.ssoLink} values={config} />
+        </a>
+      );
+    });
+
+  const ssoPanel = (ssoLinks.length > 0)
+    ? <div className="sso">{ssoLinks}</div>
+    : undefined;
 
   const csrfInput = csrf
     ? <input type="hidden" name={csrf.parameterName} value={csrf.token} />
@@ -106,6 +136,8 @@ function ServiceLoginPage(props) {
 
       <main>
         <p><FormattedMessage {...messages.prompt} /></p>
+
+        {ssoPanel}
 
         <form method="POST">
           <div>

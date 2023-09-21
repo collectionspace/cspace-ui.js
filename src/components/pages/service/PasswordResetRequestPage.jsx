@@ -15,49 +15,54 @@ import { isValidEmail } from '../../../helpers/validationHelpers';
 
 const messages = defineMessages({
   title: {
-    id: 'PasswordResetRequestPage.title',
+    id: 'passwordResetRequestPage.title',
     description: 'Title of the password reset request page.',
     defaultMessage: 'Reset Password',
   },
   prompt: {
-    id: 'PasswordResetRequestPage.prompt',
+    id: 'passwordResetRequestPage.prompt',
     description: 'The prompt displayed on the password reset request page.',
     defaultMessage: 'Please enter your email address to request a password reset.',
   },
   email: {
-    id: 'PasswordResetRequestPage.email',
+    id: 'passwordResetRequestPage.email',
     description: 'Label for the email field on the password reset request page.',
     defaultMessage: 'Email',
   },
   submit: {
-    id: 'PasswordResetRequestPage.submit',
+    id: 'passwordResetRequestPage.submit',
     description: 'Label for the submit button on the password reset request page.',
     defaultMessage: 'Submit',
   },
   success: {
-    id: 'PasswordResetRequestPage.success',
+    id: 'passwordResetRequestPage.success',
     description: 'Message displayed when a password reset has been successfully requested.',
     defaultMessage: 'An email has been sent to {email}. Follow the instructions in the email to finish resetting your password.',
   },
   error: {
-    id: 'PasswordResetRequestPage.error',
+    id: 'passwordResetRequestPage.error',
     description: 'Generic message to display when a password reset request fails, and no more specific message is available.',
     defaultMessage: 'An error occurred while attempting to request the password reset: {detail}',
   },
   errorNotFound: {
-    id: 'PasswordResetRequestPage.errorNotFound',
+    id: 'passwordResetRequestPage.errorNotFound',
     description: 'Message to display when the email is not found for a password reset request.',
     defaultMessage: 'Could not find an account with the email {email}.',
   },
   errorMissingEmail: {
-    id: 'PasswordResetRequestPage.errorMissingEmail',
+    id: 'passwordResetRequestPage.errorMissingEmail',
     description: 'Message to display when no email is entered on the password reset request page.',
     defaultMessage: 'Please enter an email address.',
   },
   errorInvalidEmail: {
-    id: 'PasswordResetRequestPage.errorInvalidEmail',
+    id: 'passwordResetRequestPage.errorInvalidEmail',
     description: 'Message to display when the email entered on the password reset request page is not a valid email address.',
     defaultMessage: '{email} is not a valid email address.',
+  },
+  errorSSORequired: {
+    id: 'passwordResetRequestPage.errorSSORequired',
+    description: 'Message to display on the password reset page when the account requires single sign-on.',
+    defaultMessage: '{email} is required to sign in using a single sign-on provider. The CollectionSpace account password cannot be reset.',
   },
 });
 
@@ -137,6 +142,8 @@ function PasswordResetRequestPage(props) {
 
           if (response.status === 404) {
             setError(<FormattedMessage {...messages.errorNotFound} values={{ email }} />);
+          } else if (/requires single sign-on/.test(text)) {
+            setError(<FormattedMessage {...messages.errorSSORequired} values={{ email }} />);
           } else {
             setError(<FormattedMessage {...messages.error} values={{ detail: text }} />);
           }

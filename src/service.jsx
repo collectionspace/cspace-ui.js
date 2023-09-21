@@ -40,6 +40,7 @@ export default (uiConfig) => {
     locale,
     logo,
     messages,
+    sso,
     tenantId,
     token,
   } = config;
@@ -84,6 +85,7 @@ export default (uiConfig) => {
                     error={error}
                     isLogoutSuccess={isLogoutSuccess}
                     locale={locale}
+                    sso={sso}
                     tenantId={tenantId}
                   />
                 )}
