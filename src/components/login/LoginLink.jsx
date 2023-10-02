@@ -1,23 +1,16 @@
-/* global window */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
+import { AUTHORIZE_PAGE_URL } from '../../actions/login';
 import styles from '../../../styles/cspace-ui/LoginLink.css';
 
 const propTypes = {
-  isExpired: PropTypes.bool,
-  openNewWindow: PropTypes.bool,
-  onNewWindowOpen: PropTypes.func,
-  onNewWindowError: PropTypes.func,
+  openLoginWindow: PropTypes.func,
 };
 
 const defaultProps = {
-  isExpired: false,
-  openNewWindow: false,
-  onNewWindowOpen: null,
-  onNewWindowError: null,
+  openLoginWindow: null,
 };
 
 const messages = defineMessages({
@@ -26,58 +19,32 @@ const messages = defineMessages({
     description: 'Label of the link to log in.',
     defaultMessage: 'Sign in',
   },
-  renew: {
-    id: 'loginLink.renew',
-    description: 'Label of the link to log in when the authorization token has expired.',
-    defaultMessage: 'Renew session',
+  openLabel: {
+    id: 'loginLink.openLabel',
+    description: 'Label of the link to open a login window.',
+    defaultMessage: 'Open sign in window',
   },
 });
 
 export default function LoginLink(props) {
   const {
-    isExpired,
-    onNewWindowOpen,
-    onNewWindowError,
-    openNewWindow,
+    openLoginWindow,
   } = props;
-
-  const authorizePageUrl = '/authorize';
 
   let handleClick;
 
-  if (openNewWindow) {
+  if (openLoginWindow) {
     handleClick = (event) => {
       event.preventDefault();
 
-      const popupWidth = 550;
-      const popupHeight = 800;
-
-      const screenWidth = window.screen.width;
-      const screenHeight = window.screen.height;
-
-      const left = (screenWidth - popupWidth) / 2;
-      const top = (screenHeight - popupHeight) / 2;
-
-      const popup = window.open(
-        authorizePageUrl,
-        'cspace-login',
-        `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`,
-      );
-
-      if (popup) {
-        if (onNewWindowOpen) {
-          onNewWindowOpen();
-        }
-      } else if (onNewWindowError) {
-        onNewWindowError();
-      }
+      openLoginWindow();
     };
   }
 
-  const message = isExpired ? messages.renew : messages.label;
+  const message = openLoginWindow ? messages.openLabel : messages.label;
 
   return (
-    <Link className={styles.common} to={authorizePageUrl} onClick={handleClick}>
+    <Link className={styles.common} to={AUTHORIZE_PAGE_URL} onClick={handleClick}>
       <FormattedMessage {...message} />
     </Link>
   );

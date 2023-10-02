@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { ERR_WRONG_TENANT } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/LoginForm.css';
+import AuthStatusContainer from '../../containers/login/AuthStatusContainer';
 import LoginLink from './LoginLink';
 
 const messages = defineMessages({
@@ -13,51 +17,63 @@ const messages = defineMessages({
   expiredPrompt: {
     id: 'loginForm.expiredPrompt',
     description: 'The prompt displayed on the login form when the login session has expired.',
-    defaultMessage: 'Your authorization has expired. Please renew your session to continue.',
+    defaultMessage: 'Your sign in has expired. Please renew it to continue.',
   },
-  newWindowNote: {
-    id: 'loginForm.newWindowNote',
-    description: 'The message displayed on the login form to indicate that a new window will be opened.',
-    defaultMessage: '(opens a new window)',
+  loginWindowOpen: {
+    id: 'loginForm.loginWindowOpen',
+    description: 'The message displayed on the login form when a login pop-up is open.',
+    defaultMessage: 'Sign in is in progress in another browser window.',
   },
-  newWindowOpened: {
-    id: 'loginForm.newWindowOpened',
-    description: 'The message displayed on the login form when an authorization pop-up has been opened.',
-    defaultMessage: 'Authorization is in progress in another browser window. You may be prompted to sign in again in that window.',
+  loginWindowOpenFailed: {
+    id: 'loginForm.loginWindowOpenFailed',
+    description: 'The message displayed on the login form when a login pop-up fails to open.',
+    defaultMessage: 'The sign in window could not be opened. Please allow pop-ups for this site.',
   },
-  newWindowError: {
-    id: 'loginForm.newWindowError',
-    description: 'The message displayed on the login form when an authorization pop-up fails to open.',
-    defaultMessage: 'The authorization window could not be opened. Please allow pop-ups for this site.',
+  logout: {
+    id: 'loginForm.logout',
+    description: 'The content of the logout link displayed when authorization fails.',
+    defaultMessage: 'Sign out to change to another user.',
   },
 });
 
 const propTypes = {
-  isExpired: PropTypes.bool,
-  openNewWindow: PropTypes.bool,
+  isLoginExpired: PropTypes.bool,
+  isLoginPending: PropTypes.bool,
+  isLoginSuccess: PropTypes.bool,
+  isLoginWindowOpen: PropTypes.bool,
+  isLoginWindowOpenFailed: PropTypes.bool,
+  loginError: PropTypes.instanceOf(Immutable.Map),
+  openLoginWindow: PropTypes.func,
   showPrompt: PropTypes.bool,
 };
 
 const defaultProps = {
-  isExpired: false,
-  openNewWindow: false,
+  isLoginExpired: false,
+  isLoginPending: false,
+  isLoginSuccess: false,
+  isLoginWindowOpen: false,
+  isLoginWindowOpenFailed: false,
+  loginError: null,
+  openLoginWindow: null,
   showPrompt: false,
 };
 
 export default function LoginForm(props) {
   const {
-    isExpired,
-    openNewWindow,
+    isLoginExpired,
+    isLoginPending,
+    isLoginSuccess,
+    isLoginWindowOpen,
+    isLoginWindowOpenFailed,
+    loginError,
+    openLoginWindow,
     showPrompt,
   } = props;
 
-  const [isNewWindowOpened, setNewWindowOpened] = useState();
-  const [isNewWindowError, setNewWindowError] = useState();
-
   let prompt = null;
 
-  if (showPrompt) {
-    const messageKey = isExpired
+  if (!isLoginSuccess && !isLoginPending && !loginError && showPrompt) {
+    const messageKey = isLoginExpired
       ? 'expiredPrompt'
       : 'prompt';
 
@@ -66,30 +82,32 @@ export default function LoginForm(props) {
     );
   }
 
+  const errorCode = loginError && loginError.get('code');
+
   return (
     <div className={styles.common}>
-      {isNewWindowOpened && (
-        <FormattedMessage {...messages.newWindowOpened} />
+      {isLoginWindowOpen && (
+        <FormattedMessage {...messages.loginWindowOpen} />
       )}
 
-      {!isNewWindowOpened && (
+      {!isLoginWindowOpen && (
         <>
+          <AuthStatusContainer />
+
           {prompt}
 
-          <p>
-            <LoginLink
-              isExpired={isExpired}
-              openNewWindow={openNewWindow}
-              onNewWindowOpen={() => setNewWindowOpened(true)}
-              onNewWindowError={() => setNewWindowError(true)}
-            />
-            {openNewWindow && <FormattedMessage {...messages.newWindowNote} />}
-          </p>
+          {!isLoginSuccess && !isLoginPending && (
+            <p>
+              {errorCode === ERR_WRONG_TENANT
+                ? <Link to="/logout"><FormattedMessage {...messages.logout} /></Link>
+                : <LoginLink openLoginWindow={openLoginWindow} />}
+            </p>
+          )}
         </>
       )}
 
-      {isNewWindowError && (
-        <FormattedMessage {...messages.newWindowError} />
+      {isLoginWindowOpenFailed && (
+        <FormattedMessage {...messages.loginWindowOpenFailed} />
       )}
     </div>
   );

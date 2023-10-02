@@ -7,7 +7,7 @@ import Immutable from 'immutable';
 import { MODAL_LOGIN } from '../../constants/modalNames';
 import FooterContainer from '../../containers/sections/FooterContainer';
 import Header from '../sections/Header';
-import LoginModal from '../login/LoginModal';
+import LoginModalContainer from '../../containers/login/LoginModalContainer';
 
 const propTypes = {
   decorated: PropTypes.bool,
@@ -93,7 +93,7 @@ export default class ProtectedPage extends Component {
         {userPrefsLoaded ? children : null}
         {footer}
 
-        <LoginModal
+        <LoginModalContainer
           isOpen={openModalName === MODAL_LOGIN}
           onCloseButtonClick={closeModal}
           onSuccess={this.handleLoginSuccess}

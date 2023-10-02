@@ -11,8 +11,7 @@ import { Modal } from 'cspace-layout';
 import logoUrl from '../images/collectionspace.svg';
 import { configureCSpace, readSystemInfo } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
-import { login } from './actions/login';
-import { closeModal } from './actions/notification';
+import { login, loginWindowClosed } from './actions/login';
 import { addOptionLists } from './actions/optionList';
 import { savePrefs } from './actions/prefs';
 import { OP_OR } from './constants/searchOperators';
@@ -103,9 +102,9 @@ export default (uiConfig) => {
 
     // A callback for logins occurring in a separate window.
 
-    window.onAuthorizationSuccess = () => {
-      store.dispatch(login(config))
-        .then(() => store.dispatch(closeModal()));
+    window.onAuthCodeReceived = (authCode, authCodeRequestData) => {
+      store.dispatch(login(config, authCode, authCodeRequestData));
+      store.dispatch(loginWindowClosed());
     };
 
     store.dispatch(configureCSpace(config));

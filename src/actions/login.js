@@ -24,7 +24,13 @@ import {
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
+  LOGIN_WINDOW_OPENED,
+  LOGIN_WINDOW_OPEN_FAILED,
+  LOGIN_WINDOW_CLOSED,
 } from '../constants/actionCodes';
+
+export const LOGIN_WINDOW_NAME = 'cspace-login';
+export const AUTHORIZE_PAGE_URL = '/authorize';
 
 const renewAuth = (config, authCode, authCodeRequestData = {}) => (dispatch) => {
   const {
@@ -243,5 +249,50 @@ export const receiveAuthCode = (
 
   const authCodeRequestData = JSON.parse(authCodeRequestDataJson);
 
+  if (
+    window.name === LOGIN_WINDOW_NAME
+    && window.opener
+    && window.opener.onAuthCodeReceived != null
+  ) {
+    // If this is a pop-up, send the auth code and request data to the parent, and close this
+    // window.
+
+    window.opener.onAuthCodeReceived(authCode, authCodeRequestData);
+    window.close();
+
+    return undefined;
+  }
+
   return dispatch(login(config, authCode, authCodeRequestData));
 };
+
+export const openLoginWindow = () => {
+  const popupWidth = 550;
+  const popupHeight = 800;
+
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+
+  const left = (screenWidth - popupWidth) / 2;
+  const top = (screenHeight - popupHeight) / 2;
+
+  const popup = window.open(
+    AUTHORIZE_PAGE_URL,
+    LOGIN_WINDOW_NAME,
+    `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`,
+  );
+
+  if (!popup) {
+    return {
+      type: LOGIN_WINDOW_OPEN_FAILED,
+    };
+  }
+
+  return {
+    type: LOGIN_WINDOW_OPENED,
+  };
+};
+
+export const loginWindowClosed = () => ({
+  type: LOGIN_WINDOW_CLOSED,
+});
