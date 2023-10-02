@@ -19,7 +19,7 @@ const propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string,
   }).isRequired,
-  loginWithAuthCodeRequest: PropTypes.func.isRequired,
+  receiveAuthCode: PropTypes.func.isRequired,
   username: PropTypes.string,
 };
 
@@ -167,7 +167,7 @@ export default function AuthorizedPage(props, context = {}) {
     isPending,
     isSuccess,
     location,
-    loginWithAuthCodeRequest,
+    receiveAuthCode,
     username,
   } = props;
 
@@ -180,7 +180,7 @@ export default function AuthorizedPage(props, context = {}) {
     const authCodeRequestId = params.get('state');
     const authCode = params.get('code');
 
-    loginWithAuthCodeRequest(config, authCodeRequestId, authCode);
+    receiveAuthCode(config, authCodeRequestId, authCode);
   }, []);
 
   useEffect(() => {

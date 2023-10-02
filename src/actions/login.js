@@ -213,14 +213,15 @@ export const login = (config, authCode, authCodeRequestData = {}) => (dispatch, 
 };
 
 /**
- * Log in using a fulfilled authorization code request.
+ * Receive an authorization code from the OAuth server. This will have been sent in a redirect from
+ * the server, in response to an authorization code request.
  *
  * @param {*} config
  * @param {*} authCodeRequestId
  * @param {*} authCode
  * @returns
  */
-export const loginWithAuthCodeRequest = (
+export const receiveAuthCode = (
   config,
   authCodeRequestId,
   authCode,
