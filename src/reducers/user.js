@@ -63,7 +63,7 @@ export default (state = Immutable.Map(), action) => {
     case AUTH_RENEW_FULFILLED:
       return handleAccountPermsReadFulfilled(state, action);
     case CSPACE_CONFIGURED:
-      return state.set('username', action.payload.username);
+      return state.set('username', action.meta.username);
     case LOGIN_FULFILLED:
       return state.set('username', action.meta.username);
     case LOGOUT_FULFILLED:

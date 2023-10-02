@@ -33,6 +33,9 @@ export const setSession = (newSession) => {
   return {
     type: CSPACE_CONFIGURED,
     payload: getSession().config(),
+    meta: {
+      username: getSession().username(),
+    },
   };
 };
 

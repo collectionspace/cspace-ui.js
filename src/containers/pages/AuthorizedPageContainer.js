@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import AuthorizedPage from '../../components/pages/AuthorizedPage';
-import { loginWithAuthCodeRequest } from '../../actions/login';
+import { receiveAuthCode } from '../../actions/login';
 
 import {
   getLoginUsername,
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  loginWithAuthCodeRequest,
+  receiveAuthCode,
 };
 
 export default connect(
