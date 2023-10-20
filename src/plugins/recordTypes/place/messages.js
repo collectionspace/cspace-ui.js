@@ -30,6 +30,10 @@ export default {
       id: 'panel.place.hierarchy',
       defaultMessage: 'Hierarchy',
     },
+    authorities: {
+      id: 'panel.chronology.authorities',
+      defaultMessage: 'Associated Authorities',
+    },
   }),
   inputTable: defineMessages({
     nameDetail: {
