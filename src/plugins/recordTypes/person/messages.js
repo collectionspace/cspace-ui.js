@@ -26,6 +26,10 @@ export default {
       id: 'panel.person.supplied',
       defaultMessage: 'Maker-Supplied Identity Information',
     },
+    authorities: {
+      id: 'panel.chronology.authorities',
+      defaultMessage: 'Associated Authorities',
+    },
   }),
   inputTable: defineMessages({
     nameDetail: {
