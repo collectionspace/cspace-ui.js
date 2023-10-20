@@ -1,9 +1,5 @@
 import { defineMessages } from 'react-intl';
 
-/**
- * The associated authorities extension is currently unused while
- * it is being re-spec'd
- */
 export default (configContext) => {
   const {
     AutocompleteInput,
@@ -80,7 +76,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'chronologypersonrelations',
+                source: 'relationtypetype',
               },
             },
           },
@@ -205,7 +201,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'chronologypeoplerelations',
+                source: 'relationtypetype',
               },
             },
           },
@@ -330,7 +326,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'chronologyorganizationrelations',
+                source: 'relationtypetype',
               },
             },
           },
@@ -455,7 +451,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'chronologyconceptrelations',
+                source: 'relationtypetype',
               },
             },
           },
@@ -580,7 +576,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'chronologyplacerelations',
+                source: 'relationtypetype',
               },
             },
           },
@@ -705,7 +701,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'chronologyrelations',
+                source: 'relationtypetype',
               },
             },
           },
