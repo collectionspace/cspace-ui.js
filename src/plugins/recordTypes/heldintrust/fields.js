@@ -4,7 +4,6 @@ export default (configContext) => {
   const {
     CompoundInput,
     DateInput,
-    OptionPickerInput,
     TextInput,
     AutocompleteInput,
     IDGeneratorInput,
@@ -310,9 +309,9 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: OptionPickerInput,
+              type: TermPickerInput,
               props: {
-                source: 'entryReasons',
+                source: 'heldintrustentryreasons',
               },
             },
           },
