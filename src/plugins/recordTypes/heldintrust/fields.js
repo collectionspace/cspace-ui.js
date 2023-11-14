@@ -142,7 +142,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.depositorContactType.fullName',
-                    defaultMessage: 'Depositor Contact type',
+                    defaultMessage: 'Depositor contact type',
                   },
                   name: {
                     id: 'field.heldintrusts_common.depositorContactType.name',
@@ -683,7 +683,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.handlingLimitationsOnBehalfOf.fullName',
-                    defaultMessage: 'On behalf of',
+                    defaultMessage: 'Handling limitations on behalf of',
                   },
                   name: {
                     id: 'field.heldintrusts_common.handlingLimitationsOnBehalfOf.name',
