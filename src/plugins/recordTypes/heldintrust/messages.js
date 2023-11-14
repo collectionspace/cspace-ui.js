@@ -3,31 +3,31 @@ import { defineMessages } from 'react-intl';
 export default {
   record: defineMessages({
     name: {
-      id: 'record.hit.name',
+      id: 'record.heldintrust.name',
       description: 'The name of the record type.',
       defaultMessage: 'Held-in-Trust',
     },
     collectionName: {
-      id: 'record.hit.collectionName',
+      id: 'record.heldintrust.collectionName',
       description: 'The name of a collection of records of the type.',
       defaultMessage: 'Held-in-Trust',
     },
   }),
   panel: defineMessages({
-    hitInfo: {
-      id: 'panel.hit.hitInfo',
+    heldintrust: {
+      id: 'panel.heldintrust.info',
       defaultMessage: 'Held-in-Trust Information',
     },
     fieldCollectionInfo: {
-      id: 'panel.hit.fieldCollectionInfo',
+      id: 'panel.heldintrust.fieldCollectionInfo',
       defaultMessage: 'Field Collection Information',
     },
     cultureCareAndHandling: {
-      id: 'panel.hit.cultureCareAndHandling',
+      id: 'panel.heldintrust.cultureCareAndHandling',
       defaultMessage: 'Culture Care and Handling',
     },
     correspondence: {
-      id: 'panel.hit.correspondence',
+      id: 'panel.heldintrust.correspondence',
       defaultMessage: 'Correspondence',
     },
     file: {

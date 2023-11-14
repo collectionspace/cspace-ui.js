@@ -18,17 +18,17 @@ const template = (configContext) => {
 
   return (
     <Field name="document">
-      <Panel name="hitInfo" collapsible>
+      <Panel name="info" collapsible>
         <Cols>
           <Col>
-            <Field name="hitNumber" />
+            <Field name="heldInTrustNumber" />
           </Col>
           <Col>
             <Field name="entryDate" />
           </Col>
         </Cols>
-        <Field name="hitDepositorGroupList">
-          <Field name="hitDepositorGroup">
+        <Field name="heldInTrustDepositorGroupList">
+          <Field name="heldInTrustDepositorGroup">
             <Field name="depositor" />
             <Field name="depositorContact" />
             <Field name="depositorContactType" />
@@ -127,7 +127,7 @@ const template = (configContext) => {
 export default (configContext) => ({
   messages: defineMessages({
     name: {
-      id: 'form.hit.default.name',
+      id: 'form.heldintrust.default.name',
       defaultMessage: 'Standard Template',
     },
   }),

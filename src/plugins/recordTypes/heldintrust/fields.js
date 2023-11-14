@@ -29,23 +29,23 @@ export default (configContext) => {
         view: {
           type: CompoundInput,
           props: {
-            defaultChildSubpath: 'ns2:hits_common',
+            defaultChildSubpath: 'ns2:heldintrusts_common',
           },
         },
       },
       ...extensions.core.fields,
-      'ns2:hits_common': {
+      'ns2:heldintrusts_common': {
         [config]: {
           service: {
-            ns: 'http://collectionspace.org/services/hit',
+            ns: 'http://collectionspace.org/services/heldintrust',
           },
         },
-        hitNumber: {
+        heldInTrustNumber: {
           [config]: {
             cloneable: false,
             messages: defineMessages({
               name: {
-                id: 'field.hits_common.hitNumber.name',
+                id: 'field.heldintrusts_common.heldInTrustNumber.name',
                 defaultMessage: 'Held-in-Trust number',
               },
             }),
@@ -56,7 +56,7 @@ export default (configContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                source: 'hit',
+                source: 'heldintrust',
               },
             },
           },
@@ -66,7 +66,7 @@ export default (configContext) => {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.hits_common.entryDate.name',
+                id: 'field.heldintrusts_common.entryDate.name',
                 defaultMessage: 'Object entry date',
               },
             }),
@@ -75,17 +75,17 @@ export default (configContext) => {
             },
           },
         },
-        hitDepositorGroupList: {
+        heldInTrustDepositorGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          hitDepositorGroup: {
+          heldInTrustDepositorGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.hitDepositorGroup.name',
+                  id: 'field.heldintrusts_common.heldInTrustDepositorGroup.name',
                   defaultMessage: 'Depositor',
                 },
               }),
@@ -101,11 +101,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.depositor.fullName',
+                    id: 'field.heldintrusts_common.depositor.fullName',
                     defaultMessage: 'Depositor name',
                   },
                   name: {
-                    id: 'field.hits_common.depositor.name',
+                    id: 'field.heldintrusts_common.depositor.name',
                     defaultMessage: 'Name',
                   },
                 }),
@@ -121,11 +121,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.depositorContact.fullName',
+                    id: 'field.heldintrusts_common.depositorContact.fullName',
                     defaultMessage: 'Depositor contact',
                   },
                   name: {
-                    id: 'field.hits_common.depositorContact.name',
+                    id: 'field.heldintrusts_common.depositorContact.name',
                     defaultMessage: 'Contact',
                   },
                 }),
@@ -141,11 +141,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.depositorContactType.fullName',
+                    id: 'field.heldintrusts_common.depositorContactType.fullName',
                     defaultMessage: 'Depositor Contact type',
                   },
                   name: {
-                    id: 'field.hits_common.depositorContactType.name',
+                    id: 'field.heldintrusts_common.depositorContactType.name',
                     defaultMessage: 'Contact type',
                   },
                 }),
@@ -161,11 +161,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.depositorNote.fullName',
+                    id: 'field.heldintrusts_common.depositorNote.fullName',
                     defaultMessage: 'Depositor note',
                   },
                   name: {
-                    id: 'field.hits_common.depositorNote.name',
+                    id: 'field.heldintrusts_common.depositorNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -186,7 +186,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.entryMethod.name',
+                  id: 'field.heldintrusts_common.entryMethod.name',
                   defaultMessage: 'Object entry method',
                 },
               }),
@@ -210,7 +210,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.agreementGroup.name',
+                  id: 'field.heldintrusts_common.agreementGroup.name',
                   defaultMessage: 'Agreement status',
                 },
               }),
@@ -226,11 +226,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.agreementStatus.fullName',
+                    id: 'field.heldintrusts_common.agreementStatus.fullName',
                     defaultMessage: 'Agreement status',
                   },
                   name: {
-                    id: 'field.hits_common.agreementStatus.name',
+                    id: 'field.heldintrusts_common.agreementStatus.name',
                     defaultMessage: 'Status',
                   },
                 }),
@@ -247,11 +247,11 @@ export default (configContext) => {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.agreementStatusDate.fullName',
+                    id: 'field.heldintrusts_common.agreementStatusDate.fullName',
                     defaultMessage: 'Agreement status date',
                   },
                   name: {
-                    id: 'field.hits_common.agreementStatusDate.name',
+                    id: 'field.heldintrusts_common.agreementStatusDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -264,11 +264,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.agreementStatusNote.fullName',
+                    id: 'field.heldintrusts_common.agreementStatusNote.fullName',
                     defaultMessage: 'Agreement status note',
                   },
                   name: {
-                    id: 'field.hits_common.agreementStatusNote.name',
+                    id: 'field.heldintrusts_common.agreementStatusNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -290,7 +290,7 @@ export default (configContext) => {
               dataType: DATA_TYPE_DATE,
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.agreementRenewalDate.name',
+                  id: 'field.heldintrusts_common.agreementRenewalDate.name',
                   defaultMessage: 'Agreement renewal date',
                 },
               }),
@@ -305,7 +305,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.hits_common.entryReason.name',
+                id: 'field.heldintrusts_common.entryReason.name',
                 defaultMessage: 'Object entry reason',
               },
             }),
@@ -322,7 +322,7 @@ export default (configContext) => {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.hits_common.returnDate.name',
+                id: 'field.heldintrusts_common.returnDate.name',
                 defaultMessage: 'Object return date',
               },
             }),
@@ -335,7 +335,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.hits_common.entryNote.name',
+                id: 'field.heldintrusts_common.entryNote.name',
                 defaultMessage: 'Entry note',
               },
             }),
@@ -357,7 +357,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.hitInternalApprovalGroup.name',
+                  id: 'field.heldintrusts_common.heldInTrustInternalApprovalGroup.name',
                   defaultMessage: 'Internal approval',
                 },
               }),
@@ -373,11 +373,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.internalApprovalGroupName.fullName',
+                    id: 'field.heldintrusts_common.internalApprovalGroupName.fullName',
                     defaultMessage: 'Internal approval group',
                   },
                   name: {
-                    id: 'field.hits_common.internalApprovalGroupName.name',
+                    id: 'field.heldintrusts_common.internalApprovalGroupName.name',
                     defaultMessage: 'Group',
                   },
                 }),
@@ -393,11 +393,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.internalApprovalIndividual.fullName',
+                    id: 'field.heldintrusts_common.internalApprovalIndividual.fullName',
                     defaultMessage: 'Internal approval individual',
                   },
                   name: {
-                    id: 'field.hits_common.internalApprovalIndividual.name',
+                    id: 'field.heldintrusts_common.internalApprovalIndividual.name',
                     defaultMessage: 'Individual',
                   },
                 }),
@@ -413,11 +413,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.internalApprovalStatus.fullName',
+                    id: 'field.heldintrusts_common.internalApprovalStatus.fullName',
                     defaultMessage: 'Internal approval status',
                   },
                   name: {
-                    id: 'field.hits_common.internalApprovalStatus.name',
+                    id: 'field.heldintrusts_common.internalApprovalStatus.name',
                     defaultMessage: 'Status',
                   },
                 }),
@@ -433,11 +433,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.internalApprovalDate.fullName',
+                    id: 'field.heldintrusts_common.internalApprovalDate.fullName',
                     defaultMessage: 'Internal approval date',
                   },
                   name: {
-                    id: 'field.hits_common.internalApprovalDate.name',
+                    id: 'field.heldintrusts_common.internalApprovalDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -450,11 +450,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.internalApprovalNote.fullName',
+                    id: 'field.heldintrusts_common.internalApprovalNote.fullName',
                     defaultMessage: 'Internal approval note',
                   },
                   name: {
-                    id: 'field.hits_common.internalApprovalNote.name',
+                    id: 'field.heldintrusts_common.internalApprovalNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -475,7 +475,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.hitExternalApprovalGroup.name',
+                  id: 'field.heldintrusts_common.heldInTrustExternalApprovalGroup.name',
                   defaultMessage: 'External approval',
                 },
               }),
@@ -491,11 +491,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.externalApprovalGroupName.fullName',
+                    id: 'field.heldintrusts_common.externalApprovalGroupName.fullName',
                     defaultMessage: 'External approval group',
                   },
                   name: {
-                    id: 'field.hits_common.externalApprovalGroupName.name',
+                    id: 'field.heldintrusts_common.externalApprovalGroupName.name',
                     defaultMessage: 'Group',
                   },
                 }),
@@ -511,11 +511,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.externalApprovalIndividual.fullName',
+                    id: 'field.heldintrusts_common.externalApprovalIndividual.fullName',
                     defaultMessage: 'External approval individual',
                   },
                   name: {
-                    id: 'field.hits_common.externalApprovalIndividual.name',
+                    id: 'field.heldintrusts_common.externalApprovalIndividual.name',
                     defaultMessage: 'Individual',
                   },
                 }),
@@ -531,11 +531,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.externalApprovalStatus.fullName',
+                    id: 'field.heldintrusts_common.externalApprovalStatus.fullName',
                     defaultMessage: 'External approval status',
                   },
                   name: {
-                    id: 'field.hits_common.externalApprovalStatus.name',
+                    id: 'field.heldintrusts_common.externalApprovalStatus.name',
                     defaultMessage: 'Status',
                   },
                 }),
@@ -551,11 +551,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.externalApprovalDate.fullName',
+                    id: 'field.heldintrusts_common.externalApprovalDate.fullName',
                     defaultMessage: 'External approval date',
                   },
                   name: {
-                    id: 'field.hits_common.externalApprovalDate.name',
+                    id: 'field.heldintrusts_common.externalApprovalDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -568,11 +568,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.externalApprovalNote.fullName',
+                    id: 'field.heldintrusts_common.externalApprovalNote.fullName',
                     defaultMessage: 'External approval note',
                   },
                   name: {
-                    id: 'field.hits_common.externalApprovalNote.name',
+                    id: 'field.heldintrusts_common.externalApprovalNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -587,7 +587,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.hits_common.handlingPreferences.name',
+                id: 'field.heldintrusts_common.handlingPreferences.name',
                 defaultMessage: 'Handling preferences',
               },
             }),
@@ -609,7 +609,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.handlingLimitationsGroup.name',
+                  id: 'field.heldintrusts_common.handlingLimitationsGroup.name',
                   defaultMessage: 'Handling limitations',
                 },
               }),
@@ -622,11 +622,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.handlingLimitationsType.fullName',
+                    id: 'field.heldintrusts_common.handlingLimitationsType.fullName',
                     defaultMessage: 'Handling limitations type',
                   },
                   name: {
-                    id: 'field.hits_common.handlingLimitationsType.name',
+                    id: 'field.heldintrusts_common.handlingLimitationsType.name',
                     defaultMessage: 'Type',
                   },
                 }),
@@ -642,11 +642,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.handlingLimitationsRequestor.fullName',
+                    id: 'field.heldintrusts_common.handlingLimitationsRequestor.fullName',
                     defaultMessage: 'Handling limitations requestor',
                   },
                   name: {
-                    id: 'field.hits_common.handlingLimitationsRequestor.name',
+                    id: 'field.heldintrusts_common.handlingLimitationsRequestor.name',
                     defaultMessage: 'Requestor',
                   },
                 }),
@@ -662,11 +662,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.handlingLimitationsLevel.fullName',
+                    id: 'field.heldintrusts_common.handlingLimitationsLevel.fullName',
                     defaultMessage: 'Handling limitations level',
                   },
                   name: {
-                    id: 'field.hits_common.handlingLimitationsLevel.name',
+                    id: 'field.heldintrusts_common.handlingLimitationsLevel.name',
                     defaultMessage: 'Level',
                   },
                 }),
@@ -682,11 +682,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.handlingLimitationsOnBehalfOf.fullName',
+                    id: 'field.heldintrusts_common.handlingLimitationsOnBehalfOf.fullName',
                     defaultMessage: 'On behalf of',
                   },
                   name: {
-                    id: 'field.hits_common.handlingLimitationsOnBehalfOf.name',
+                    id: 'field.heldintrusts_common.handlingLimitationsOnBehalfOf.name',
                     defaultMessage: 'On behalf of',
                   },
                 }),
@@ -702,11 +702,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.handlingLimitationsDetail.fullName',
+                    id: 'field.heldintrusts_common.handlingLimitationsDetail.fullName',
                     defaultMessage: 'Handling limitations detail',
                   },
                   name: {
-                    id: 'field.hits_common.handlingLimitationsDetail.name',
+                    id: 'field.heldintrusts_common.handlingLimitationsDetail.name',
                     defaultMessage: 'Detail',
                   },
                 }),
@@ -719,11 +719,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.handlingLimitationsDate.fullName',
+                    id: 'field.heldintrusts_common.handlingLimitationsDate.fullName',
                     defaultMessage: 'handlingLimitationsDate',
                   },
                   name: {
-                    id: 'field.hits_common.handlingLimitationsDate.name',
+                    id: 'field.heldintrusts_common.handlingLimitationsDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -744,7 +744,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.hits_common.correspondenceGroup.name',
+                  id: 'field.heldintrusts_common.correspondenceGroup.name',
                   defaultMessage: 'Correspondence',
                 },
               }),
@@ -760,11 +760,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.correspondenceDate.fullName',
+                    id: 'field.heldintrusts_common.correspondenceDate.fullName',
                     defaultMessage: 'Correspondence date',
                   },
                   name: {
-                    id: 'field.hits_common.correspondenceDate.name',
+                    id: 'field.heldintrusts_common.correspondenceDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -777,11 +777,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.correspondenceSender.fullName',
+                    id: 'field.heldintrusts_common.correspondenceSender.fullName',
                     defaultMessage: 'Correspondence sender',
                   },
                   name: {
-                    id: 'field.hits_common.correspondenceSender.name',
+                    id: 'field.heldintrusts_common.correspondenceSender.name',
                     defaultMessage: 'Sender',
                   },
                 }),
@@ -797,11 +797,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.correspondenceRecipient.fullName',
+                    id: 'field.heldintrusts_common.correspondenceRecipient.fullName',
                     defaultMessage: 'Correspondence recipient',
                   },
                   name: {
-                    id: 'field.hits_common.correspondenceRecipient.name',
+                    id: 'field.heldintrusts_common.correspondenceRecipient.name',
                     defaultMessage: 'Recipient',
                   },
                 }),
@@ -817,11 +817,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.correspondenceSummary.fullName',
+                    id: 'field.heldintrusts_common.correspondenceSummary.fullName',
                     defaultMessage: 'Correspondence summary',
                   },
                   name: {
-                    id: 'field.hits_common.correspondenceSummary.name',
+                    id: 'field.heldintrusts_common.correspondenceSummary.name',
                     defaultMessage: 'Summary',
                   },
                 }),
@@ -834,11 +834,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.hits_common.correspondenceReference.fullName',
+                    id: 'field.heldintrusts_common.correspondenceReference.fullName',
                     defaultMessage: 'Correspondence Reference',
                   },
                   name: {
-                    id: 'field.hits_common.correspondenceReference.name',
+                    id: 'field.heldintrusts_common.correspondenceReference.name',
                     defaultMessage: 'Reference',
                   },
                 }),

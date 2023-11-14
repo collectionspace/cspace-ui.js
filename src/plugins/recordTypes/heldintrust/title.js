@@ -12,14 +12,14 @@ export default (configContext) => (data) => {
     return '';
   }
 
-  const common = getPart(data, 'hits_common');
+  const common = getPart(data, 'heldintrusts_common');
 
   if (!common) {
     return '';
   }
 
-  const hitNumber = common.get('hitNumber');
-  const depositor = getDisplayName(deepGet(common, ['hitDepositorGroupList', 'hitDepositorGroup', 0, 'depositor']));
+  const hitNumber = common.get('heldInTrustNumber');
+  const depositor = getDisplayName(deepGet(common, ['heldInTrustDepositorGroupList', 'heldInTrustDepositorGroup', 0, 'depositor']));
 
   return [hitNumber, depositor].filter((part) => !!part).join(' – ');
 };

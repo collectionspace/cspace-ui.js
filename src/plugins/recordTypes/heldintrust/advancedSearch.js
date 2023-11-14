@@ -13,7 +13,7 @@ export default (configContext) => {
     value: [
       {
         op: OP_CONTAIN,
-        path: 'ns2:hits_common/hitNumber',
+        path: 'ns2:heldintrusts_common/heldInTrustNumber',
       },
       ...extensions.core.advancedSearch,
     ],

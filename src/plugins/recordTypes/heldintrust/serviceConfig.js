@@ -1,8 +1,8 @@
 export default {
-  serviceName: 'Hit',
-  servicePath: 'hits',
+  serviceName: 'Heldintrusts',
+  servicePath: 'heldintrusts',
   serviceType: 'procedure',
 
-  objectName: 'Hit',
-  documentName: 'hits',
+  objectName: 'Heldintrust',
+  documentName: 'heldintrusts',
 };

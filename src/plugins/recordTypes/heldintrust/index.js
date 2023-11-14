@@ -10,7 +10,7 @@ import idGenerators from './idGenerators';
 export default () => (configContext) => ({
   idGenerators,
   recordTypes: {
-    hit: {
+    heldintrust: {
       messages,
       serviceConfig,
       advancedSearch: advancedSearch(configContext),
