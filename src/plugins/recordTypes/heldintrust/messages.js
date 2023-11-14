@@ -31,7 +31,7 @@ export default {
       defaultMessage: 'Correspondence',
     },
     file: {
-      id: 'panel.media.file',
+      id: 'panel.heldintrust.file',
       defaultMessage: 'File Information',
     },
   }),
