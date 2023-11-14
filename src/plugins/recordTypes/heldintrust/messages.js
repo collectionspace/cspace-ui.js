@@ -18,10 +18,6 @@ export default {
       id: 'panel.heldintrust.info',
       defaultMessage: 'Held-in-Trust Information',
     },
-    fieldCollectionInfo: {
-      id: 'panel.heldintrust.fieldCollectionInfo',
-      defaultMessage: 'Field Collection Information',
-    },
     cultureCareAndHandling: {
       id: 'panel.heldintrust.cultureCareAndHandling',
       defaultMessage: 'Culture Care and Handling',
@@ -29,10 +25,6 @@ export default {
     correspondence: {
       id: 'panel.heldintrust.correspondence',
       defaultMessage: 'Correspondence',
-    },
-    file: {
-      id: 'panel.heldintrust.file',
-      defaultMessage: 'File Information',
     },
   }),
 };
