@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { AUTHORIZE_PAGE_URL } from '../../actions/login';
 import styles from '../../../styles/cspace-ui/LoginLink.css';
 
 const propTypes = {
@@ -11,6 +10,12 @@ const propTypes = {
 
 const defaultProps = {
   openLoginWindow: null,
+};
+
+const contextTypes = {
+  config: PropTypes.shape({
+    recordTypes: PropTypes.object,
+  }),
 };
 
 const messages = defineMessages({
@@ -26,25 +31,35 @@ const messages = defineMessages({
   },
 });
 
-export default function LoginLink(props) {
+export default function LoginLink(props, context) {
   const {
     openLoginWindow,
   } = props;
 
+  const authorizePath = '/authorize';
+
   let handleClick;
 
   if (openLoginWindow) {
+    const {
+      config,
+    } = context;
+
+    const {
+      basename,
+    } = config;
+
     handleClick = (event) => {
       event.preventDefault();
 
-      openLoginWindow();
+      openLoginWindow(`${basename}${authorizePath}`);
     };
   }
 
   const message = openLoginWindow ? messages.openLabel : messages.label;
 
   return (
-    <Link className={styles.common} to={AUTHORIZE_PAGE_URL} onClick={handleClick}>
+    <Link className={styles.common} to={authorizePath} onClick={handleClick}>
       <FormattedMessage {...message} />
     </Link>
   );
@@ -52,3 +67,4 @@ export default function LoginLink(props) {
 
 LoginLink.propTypes = propTypes;
 LoginLink.defaultProps = defaultProps;
+LoginLink.contextTypes = contextTypes;

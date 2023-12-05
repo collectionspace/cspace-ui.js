@@ -30,7 +30,6 @@ import {
 } from '../constants/actionCodes';
 
 export const LOGIN_WINDOW_NAME = 'cspace-login';
-export const AUTHORIZE_PAGE_URL = '/authorize';
 
 const renewAuth = (config, authCode, authCodeRequestData = {}) => (dispatch) => {
   const {
@@ -266,7 +265,7 @@ export const receiveAuthCode = (
   return dispatch(login(config, authCode, authCodeRequestData));
 };
 
-export const openLoginWindow = () => {
+export const openLoginWindow = (url) => {
   const popupWidth = 550;
   const popupHeight = 800;
 
@@ -277,7 +276,7 @@ export const openLoginWindow = () => {
   const top = (screenHeight - popupHeight) / 2;
 
   const popup = window.open(
-    AUTHORIZE_PAGE_URL,
+    url,
     LOGIN_WINDOW_NAME,
     `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`,
   );
