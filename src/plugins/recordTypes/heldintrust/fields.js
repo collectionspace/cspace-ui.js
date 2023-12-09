@@ -719,7 +719,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.handlingLimitationsDate.fullName',
-                    defaultMessage: 'handlingLimitationsDate',
+                    defaultMessage: 'Handling limitations date',
                   },
                   name: {
                     id: 'field.heldintrusts_common.handlingLimitationsDate.name',
@@ -834,7 +834,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.correspondenceReference.fullName',
-                    defaultMessage: 'Correspondence Reference',
+                    defaultMessage: 'Correspondence reference',
                   },
                   name: {
                     id: 'field.heldintrusts_common.correspondenceReference.name',
