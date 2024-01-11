@@ -53,7 +53,9 @@ export default function ProtectedRoute(props) {
             to={{
               pathname: '/authorize',
               state: {
-                continuation: routeProps.location ? routeProps.location.pathname : undefined,
+                continuation: routeProps.location
+                  ? `${routeProps.location.pathname}${routeProps.location.search}${routeProps.location.hash}`
+                  : undefined,
               },
             }}
           />

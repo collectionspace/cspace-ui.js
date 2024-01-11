@@ -35,7 +35,8 @@ describe('user reducer', () => {
 
     const state = reducer(undefined, {
       type: CSPACE_CONFIGURED,
-      payload: {
+      payload: {},
+      meta: {
         username,
       },
     });

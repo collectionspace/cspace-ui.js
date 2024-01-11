@@ -31,7 +31,9 @@ describe('LoginModal', () => {
     await asyncRender(
       <IntlProvider locale="en">
         <Router>
-          <LoginModal isOpen />
+          <StoreProvider store={store}>
+            <LoginModal isOpen />
+          </StoreProvider>
         </Router>
       </IntlProvider>, this.container,
     );

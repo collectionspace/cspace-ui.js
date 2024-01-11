@@ -12,7 +12,7 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
-import LoginModal from '../../../../src/components/login/LoginModal';
+import LoginModalContainer from '../../../../src/containers/login/LoginModalContainer';
 import ProtectedPage from '../../../../src/components/pages/ProtectedPage';
 
 const { expect } = chai;
@@ -131,24 +131,7 @@ describe('ProtectedPage', () => {
       </ProtectedPage>,
     );
 
-    const loginModal = findWithType(result, LoginModal);
-
-    loginModal.should.not.equal(null);
-  });
-
-  it('should render a login modal', () => {
-    const shallowRenderer = createRenderer();
-
-    const result = shallowRenderer.render(
-      <ProtectedPage
-        username="user@collectionspace.org"
-        userPrefsLoaded
-      >
-        <div id="content">This is some content</div>
-      </ProtectedPage>,
-    );
-
-    const loginModal = findWithType(result, LoginModal);
+    const loginModal = findWithType(result, LoginModalContainer);
 
     loginModal.should.not.equal(null);
   });
@@ -172,7 +155,7 @@ describe('ProtectedPage', () => {
       </ProtectedPage>,
     );
 
-    const loginModal = findWithType(result, LoginModal);
+    const loginModal = findWithType(result, LoginModalContainer);
 
     loginModal.props.onSuccess();
 
