@@ -24,7 +24,12 @@ import {
   LOGIN_STARTED,
   LOGIN_FULFILLED,
   LOGIN_REJECTED,
+  LOGIN_WINDOW_OPENED,
+  LOGIN_WINDOW_OPEN_FAILED,
+  LOGIN_WINDOW_CLOSED,
 } from '../constants/actionCodes';
+
+export const LOGIN_WINDOW_NAME = 'cspace-login';
 
 const renewAuth = (config, authCode, authCodeRequestData = {}) => (dispatch) => {
   const {
@@ -213,14 +218,15 @@ export const login = (config, authCode, authCodeRequestData = {}) => (dispatch, 
 };
 
 /**
- * Log in using a fulfilled authorization code request.
+ * Receive an authorization code from the OAuth server. This will have been sent in a redirect from
+ * the server, in response to an authorization code request.
  *
  * @param {*} config
  * @param {*} authCodeRequestId
  * @param {*} authCode
  * @returns
  */
-export const loginWithAuthCodeRequest = (
+export const receiveAuthCode = (
   config,
   authCodeRequestId,
   authCode,
@@ -242,5 +248,50 @@ export const loginWithAuthCodeRequest = (
 
   const authCodeRequestData = JSON.parse(authCodeRequestDataJson);
 
+  if (
+    window.name === LOGIN_WINDOW_NAME
+    && window.opener
+    && window.opener.onAuthCodeReceived != null
+  ) {
+    // If this is a pop-up, send the auth code and request data to the parent, and close this
+    // window.
+
+    window.opener.onAuthCodeReceived(authCode, authCodeRequestData);
+    window.close();
+
+    return undefined;
+  }
+
   return dispatch(login(config, authCode, authCodeRequestData));
 };
+
+export const openLoginWindow = (url) => {
+  const popupWidth = 550;
+  const popupHeight = 800;
+
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
+
+  const left = (screenWidth - popupWidth) / 2;
+  const top = (screenHeight - popupHeight) / 2;
+
+  const popup = window.open(
+    url,
+    LOGIN_WINDOW_NAME,
+    `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`,
+  );
+
+  if (!popup) {
+    return {
+      type: LOGIN_WINDOW_OPEN_FAILED,
+    };
+  }
+
+  return {
+    type: LOGIN_WINDOW_OPENED,
+  };
+};
+
+export const loginWindowClosed = () => ({
+  type: LOGIN_WINDOW_CLOSED,
+});

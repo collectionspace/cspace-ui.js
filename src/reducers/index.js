@@ -85,6 +85,10 @@ export const isLoginSuccess = (state) => fromLogin.isSuccess(state.login);
 
 export const getLoginError = (state) => fromLogin.getError(state.login);
 
+export const isLoginWindowOpen = (state) => fromLogin.isWindowOpen(state.login);
+
+export const isLoginWindowOpenFailed = (state) => fromLogin.isWindowOpenFailed(state.login);
+
 export const isLogoutPending = (state) => fromLogout.isPending(state.logout);
 
 export const getLogoutResponse = (state) => fromLogout.getResponse(state.logout);
