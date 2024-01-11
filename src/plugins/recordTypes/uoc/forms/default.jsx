@@ -85,10 +85,14 @@ const template = (configContext) => {
 
         <Field name="authorizationGroupList">
           <Field name="authorizationGroup">
-            <Field name="authorizedBy" />
-            <Field name="authorizationDate" />
-            <Field name="authorizationStatus" />
-            <Field name="authorizationNote" />
+            <Panel>
+              <Row>
+                <Field name="authorizedBy" />
+                <Field name="authorizationDate" />
+                <Field name="authorizationStatus" />
+              </Row>
+              <Field name="authorizationNote" />
+            </Panel>
           </Field>
         </Field>
 
