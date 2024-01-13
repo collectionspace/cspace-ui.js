@@ -2,9 +2,6 @@ import cspaceClient from 'cspace-client';
 import get from 'lodash/get';
 import { MODAL_LOGIN } from '../constants/modalNames';
 import getSession, { storeSession } from '../helpers/session';
-import { loadPrefs } from './prefs';
-import { readAccountPerms, readAccountRoles } from './account';
-import { readAuthVocabs } from './authority';
 import { openModal } from './notification';
 
 import {
@@ -80,26 +77,5 @@ export const configureCSpace = (config) => (dispatch) => {
 
   dispatch(setSession(newSession));
 
-  const username = newSession.username();
-
-  if (!username) {
-    return Promise.resolve();
-  }
-
-  return dispatch(readAccountPerms(config))
-    .then(() => dispatch(readAccountRoles(config, username)))
-    .then(() => dispatch(loadPrefs(config, username)))
-    .then(() => dispatch(readAuthVocabs(config)))
-    .catch((error) => {
-      // 401 is expected if the user's auth token has expired. The client onError handler will take
-      // care of showing a notification, so the error can be swallowed here.
-
-      const status = get(error, ['response', 'status']);
-
-      if (status === 401) {
-        return Promise.resolve();
-      }
-
-      return Promise.reject(error);
-    });
+  return Promise.resolve();
 };

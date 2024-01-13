@@ -1,5 +1,3 @@
-/* global window */
-
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import chaiAsPromised from 'chai-as-promised';
@@ -10,13 +8,8 @@ import { MODAL_LOGIN } from '../../../src/constants/modalNames';
 
 import {
   CSPACE_CONFIGURED,
-  PREFS_LOADED,
   SYSTEM_INFO_READ_FULFILLED,
   SYSTEM_INFO_READ_REJECTED,
-  ACCOUNT_PERMS_READ_FULFILLED,
-  ACCOUNT_ROLES_READ_FULFILLED,
-  AUTH_VOCABS_READ_STARTED,
-  AUTH_VOCABS_READ_FULFILLED,
   OPEN_MODAL,
 } from '../../../src/constants/actionCodes';
 
@@ -68,11 +61,7 @@ describe('cspace action creator', () => {
       session.config().should.have.property('url', serverUrl);
     });
 
-    it('should dispatch CSPACE_CONFIGURED, ACCOUNT_PERMS_READ_FULFILLED, ACCOUNT_ROLES_READ_FULFILLED, PREFS_LOADED, and AUTH_VOCABS_READ_FULFILLED', () => {
-      worker.use(
-        rest.get(`${serverUrl}/*`, (req, res, ctx) => res(ctx.json({}))),
-      );
-
+    it('should dispatch CSPACE_CONFIGURED', () => {
       const store = mockStore({
         user: Immutable.Map(),
       });
@@ -89,117 +78,17 @@ describe('cspace action creator', () => {
           },
         },
       };
-
-      // Set a stored cspace-client username.
-
-      window.localStorage.setItem('cspace-client', JSON.stringify({
-        'cspace-ui': {
-          [cspaceConfig.serverUrl]: {
-            username: 'user@collectionspace.org',
-          },
-        },
-      }));
 
       store.dispatch(configureCSpace(cspaceConfig));
 
-      return new Promise((resolve) => {
-        window.setTimeout(() => {
-          const actions = store.getActions();
+      const actions = store.getActions();
 
-          actions.should.have.lengthOf(6);
+      actions.should.have.lengthOf(1);
 
-          actions[0].should
-            .include({ type: CSPACE_CONFIGURED })
-            .and.have.property('payload')
-            .that.has.property('url', serverUrl);
-
-          actions[1].should.include({ type: ACCOUNT_PERMS_READ_FULFILLED });
-          actions[2].should.include({ type: ACCOUNT_ROLES_READ_FULFILLED });
-          actions[3].should.include({ type: PREFS_LOADED });
-          actions[4].should.include({ type: AUTH_VOCABS_READ_STARTED });
-          actions[5].should.include({ type: AUTH_VOCABS_READ_FULFILLED });
-
-          window.localStorage.removeItem('cspace-client');
-
-          resolve();
-        }, 500);
-      });
-    });
-
-    it('should resolve if the readAccountPerms query returns a 401 error', () => {
-      worker.use(
-        rest.get(
-          `${serverUrl}/cspace-services/accounts/0/accountperms`,
-          (req, res, ctx) => res(ctx.status(401)),
-        ),
-      );
-
-      const store = mockStore({
-        user: Immutable.Map(),
-      });
-
-      const cspaceConfig = {
-        foo: 'bar',
-        serverUrl,
-        recordTypes: {
-          person: {
-            serviceConfig: {
-              servicePath: 'personauthorities',
-              serviceType: 'authority',
-            },
-          },
-        },
-      };
-
-      // Set a stored cspace-client username.
-
-      window.localStorage.setItem('cspace-client', JSON.stringify({
-        'cspace-ui': {
-          [cspaceConfig.serverUrl]: {
-            username: 'user@collectionspace.org',
-          },
-        },
-      }));
-
-      return store.dispatch(configureCSpace(cspaceConfig)).should.eventually.be.fulfilled;
-    });
-
-    it('should reject if the readAccountPerms query returns an error other than 401', () => {
-      worker.use(
-        rest.get(
-          `${serverUrl}/cspace-services/accounts/0/accountperms`,
-          (req, res, ctx) => res(ctx.status(500)),
-        ),
-      );
-
-      const store = mockStore({
-        user: Immutable.Map(),
-      });
-
-      const cspaceConfig = {
-        foo: 'bar',
-        serverUrl,
-        recordTypes: {
-          person: {
-            serviceConfig: {
-              servicePath: 'personauthorities',
-              serviceType: 'authority',
-            },
-          },
-        },
-      };
-
-      // Set a stored cspace-client username.
-
-      window.localStorage.setItem('cspace-client', JSON.stringify({
-        'cspace-ui': {
-          [cspaceConfig.serverUrl]: {
-            username: 'user@collectionspace.org',
-          },
-        },
-      }));
-
-      return store.dispatch(configureCSpace(cspaceConfig)).should.eventually.be.rejected;
+      actions[0].should
+        .include({ type: CSPACE_CONFIGURED })
+        .and.have.property('payload')
+        .that.has.property('url', serverUrl);
     });
 
     it('should configure an onError callback that is a function', () => {

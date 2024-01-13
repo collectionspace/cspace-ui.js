@@ -3,19 +3,17 @@ import AuthorizedPage from '../../components/pages/AuthorizedPage';
 import { receiveAuthCode } from '../../actions/login';
 
 import {
-  getLoginUsername,
+  getLoginError,
+  getLoginLandingPath,
   isLoginPending,
   isLoginSuccess,
-  getLoginLandingPath,
-  getLoginError,
 } from '../../reducers';
 
 const mapStateToProps = (state) => ({
-  isPending: isLoginPending(state),
-  isSuccess: isLoginSuccess(state),
+  isLoginPending: isLoginPending(state),
+  isLoginSuccess: isLoginSuccess(state),
   landingPath: getLoginLandingPath(state),
-  username: getLoginUsername(state),
-  error: getLoginError(state),
+  loginError: getLoginError(state),
 });
 
 const mapDispatchToProps = {
