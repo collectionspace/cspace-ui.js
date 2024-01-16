@@ -27,7 +27,7 @@ export default {
       defaultMessage: 'Maker-Supplied Identity Information',
     },
     authorities: {
-      id: 'panel.chronology.authorities',
+      id: 'panel.person.authorities',
       defaultMessage: 'Associated Authorities',
     },
   }),

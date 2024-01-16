@@ -31,7 +31,7 @@ export default {
       defaultMessage: 'Hierarchy',
     },
     authorities: {
-      id: 'panel.chronology.authorities',
+      id: 'panel.place.authorities',
       defaultMessage: 'Associated Authorities',
     },
   }),
