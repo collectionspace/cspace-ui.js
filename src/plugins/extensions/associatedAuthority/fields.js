@@ -658,7 +658,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocChronologyAuthGroup.name',
-              defaultMessage: 'Related chronology',
+              defaultMessage: 'Event/Era',
             },
           }),
           repeating: true,
@@ -671,7 +671,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.chronology.fullName',
-                defaultMessage: 'Related chronology associated',
+                defaultMessage: 'Event/Era associated',
               },
               name: {
                 id: 'field.ext.associatedAuthority.chronology.name',
@@ -691,7 +691,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.chronologyType.fullName',
-                defaultMessage: 'Related chronology relationship/type',
+                defaultMessage: 'Event/Era relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.chronologyType.name',
@@ -712,7 +712,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.chronologyStructuredDateGroup.fullName',
-                defaultMessage: 'Related chronology date',
+                defaultMessage: 'Event/Era date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.chronologyStructuredDateGroup.name',
@@ -736,7 +736,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.chronologyCitation.fullName',
-                  defaultMessage: 'Related chronology citation',
+                  defaultMessage: 'Event/Era citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.chronologyCitation.name',
@@ -758,7 +758,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.chronologyNote.fullName',
-                defaultMessage: 'Related chronology note',
+                defaultMessage: 'Event/Era note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.chronologyNote.name',
