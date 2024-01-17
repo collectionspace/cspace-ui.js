@@ -30,8 +30,8 @@ export default (configContext) => {
               <Field name="personCitations">
                 <Field name="personCitation" />
               </Field>
-              <Field name="personNote" />
             </Row>
+            <Field name="personNote" />
           </Panel>
         </Field>
       </Field>
@@ -46,8 +46,8 @@ export default (configContext) => {
               <Field name="peopleCitations">
                 <Field name="peopleCitation" />
               </Field>
-              <Field name="peopleNote" />
             </Row>
+            <Field name="peopleNote" />
           </Panel>
         </Field>
       </Field>
@@ -62,8 +62,8 @@ export default (configContext) => {
               <Field name="organizationCitations">
                 <Field name="organizationCitation" />
               </Field>
-              <Field name="organizationNote" />
             </Row>
+            <Field name="organizationNote" />
           </Panel>
         </Field>
       </Field>
@@ -78,8 +78,8 @@ export default (configContext) => {
               <Field name="conceptCitations">
                 <Field name="conceptCitation" />
               </Field>
-              <Field name="conceptNote" />
             </Row>
+            <Field name="conceptNote" />
           </Panel>
         </Field>
       </Field>
@@ -94,8 +94,8 @@ export default (configContext) => {
               <Field name="placeCitations">
                 <Field name="placeCitation" />
               </Field>
-              <Field name="placeNote" />
             </Row>
+            <Field name="placeNote" />
           </Panel>
         </Field>
       </Field>
@@ -110,8 +110,8 @@ export default (configContext) => {
               <Field name="chronologyCitations">
                 <Field name="chronologyCitation" />
               </Field>
-              <Field name="chronologyNote" />
             </Row>
+            <Field name="chronologyNote" />
           </Panel>
         </Field>
       </Field>
