@@ -75,6 +75,7 @@ export default (configContext) => {
           },
         },
         ...extensions.authItem.fields,
+        ...extensions.associatedAuthority.fields,
         personTermGroupList: {
           [config]: {
             messages: defineMessages({
