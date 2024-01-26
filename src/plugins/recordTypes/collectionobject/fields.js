@@ -6207,6 +6207,123 @@ export default (configContext) => {
             },
           },
         },
+        objectCountGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectCountGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectCountGroup.name',
+                  defaultMessage: 'Object count',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+              },
+            },
+            objectCount: {
+              [config]: {
+                dataType: DATA_TYPE_INT,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectCount.fullName',
+                    defaultMessage: 'Object count value',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectCount.name',
+                    defaultMessage: 'Value',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            objectCountType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectCountType.fullName',
+                    defaultMessage: 'Object count type',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectCountType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'objectcounttypes',
+                  },
+                },
+              },
+            },
+            objectCountCountedBy: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectCountCountedBy.fullName',
+                    defaultMessage: 'Object count counted by',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectCountCountedBy.name',
+                    defaultMessage: 'Counted by',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local,person/shared,person/ulan',
+                  },
+                },
+              },
+            },
+            objectCountDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectCountDate.fullName',
+                    defaultMessage: 'Object count date',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectCountDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+            objectCountNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectCountNote.fullName',
+                    defaultMessage: 'Object count note',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectCountNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                  props: {
+                    multiline: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
