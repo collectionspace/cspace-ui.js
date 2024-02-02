@@ -17,6 +17,10 @@ const template = (configContext) => {
     InputTable,
   } = configContext.recordComponents;
 
+  const {
+    extensions,
+  } = configContext.config;
+
   return (
     <Field name="document">
       <Panel name="info" collapsible>
@@ -93,6 +97,10 @@ const template = (configContext) => {
             </Panel>
           </Field>
         </Field>
+      </Panel>
+
+      <Panel name="authorities" collapsible collapsed>
+        {extensions.associatedAuthority.form}
       </Panel>
 
       <Panel name="hierarchy" collapsible collapsed>
