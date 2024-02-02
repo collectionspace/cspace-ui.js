@@ -65,6 +65,8 @@ const template = (configContext) => {
           </Col>
 
           <Col>
+            <Field name="nameNote" />
+
             <Field name="groups">
               <Field name="group" />
             </Field>

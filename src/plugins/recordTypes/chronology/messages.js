@@ -26,6 +26,10 @@ export default {
       id: 'panel.chronology.hierarchy',
       defaultMessage: 'Hierarchy',
     },
+    authorities: {
+      id: 'panel.chronology.authorities',
+      defaultMessage: 'Associated Authorities',
+    },
   }),
   inputTable: defineMessages({
     termSource: {

@@ -62,10 +62,14 @@ const template = (configContext) => {
 
         <Field name="annotationGroupList" subpath="ns2:collectionobjects_annotation">
           <Field name="annotationGroup">
-            <Field name="annotationType" />
-            <Field name="annotationNote" />
-            <Field name="annotationDate" />
-            <Field name="annotationAuthor" />
+            <Panel>
+              <Row>
+                <Field name="annotationType" />
+                <Field name="annotationDate" />
+                <Field name="annotationAuthor" />
+              </Row>
+              <Field name="annotationNote" />
+            </Panel>
           </Field>
         </Field>
 
@@ -102,6 +106,20 @@ const template = (configContext) => {
             <Field name="objectNameType" />
             <Field name="objectNameLanguage" />
             <Field name="objectNameNote" />
+          </Field>
+        </Field>
+
+        <Field name="objectCountGroupList">
+          <Field name="objectCountGroup">
+            <Panel>
+              <Row>
+                <Field name="objectCount" />
+                <Field name="objectCountType" />
+                <Field name="objectCountCountedBy" />
+                <Field name="objectCountDate" />
+              </Row>
+              <Field name="objectCountNote" />
+            </Panel>
           </Field>
         </Field>
 

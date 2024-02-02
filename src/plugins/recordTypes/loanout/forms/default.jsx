@@ -43,11 +43,15 @@ const template = (configContext) => {
 
         <Field name="loanStatusGroupList">
           <Field name="loanStatusGroup">
-            <Field name="loanGroup" />
-            <Field name="loanIndividual" />
-            <Field name="loanStatus" />
-            <Field name="loanStatusDate" />
-            <Field name="loanStatusNote" />
+            <Panel>
+              <Row>
+                <Field name="loanGroup" />
+                <Field name="loanIndividual" />
+                <Field name="loanStatus" />
+                <Field name="loanStatusDate" />
+              </Row>
+              <Field name="loanStatusNote" />
+            </Panel>
           </Field>
         </Field>
 
