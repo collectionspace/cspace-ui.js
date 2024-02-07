@@ -6224,6 +6224,9 @@ export default (configContext) => {
               repeating: true,
               view: {
                 type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
               },
             },
             objectCount: {
@@ -6316,9 +6319,6 @@ export default (configContext) => {
                 }),
                 view: {
                   type: TextInput,
-                  props: {
-                    multiline: true,
-                  },
                 },
               },
             },
