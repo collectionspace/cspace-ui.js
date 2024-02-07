@@ -401,13 +401,13 @@ describe('searchHelpers', () => {
     it('should normalize the value of the condition', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: [' 2', ' 4 '],
       });
 
       normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: ['2', '4'],
       }));
     });
@@ -415,7 +415,7 @@ describe('searchHelpers', () => {
     it('should return null if the value normalizes to null', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: [' ', null],
       });
 
@@ -425,7 +425,7 @@ describe('searchHelpers', () => {
     it('should return null if the condition has no value', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
       });
 
       expect(normalizeRangeFieldCondition(fields, condition)).to.equal(null);
@@ -434,13 +434,13 @@ describe('searchHelpers', () => {
     it('should return a >= condition if the value is not a list and the field is not a structured date', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: '2',
       });
 
       normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
         op: OP_GTE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: '2',
       }));
     });
@@ -448,13 +448,13 @@ describe('searchHelpers', () => {
     it('should return a >= condition if the end of range is omitted and the field is not a structured date', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: ['2'],
       });
 
       normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
         op: OP_GTE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: '2',
       }));
     });
@@ -476,13 +476,13 @@ describe('searchHelpers', () => {
     it('should return a <= condition if the start of range is omitted and the field is not a structured date', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: [undefined, '4'],
       });
 
       normalizeRangeFieldCondition(fields, condition).should.equal(Immutable.fromJS({
         op: OP_LTE,
-        path: 'ns2:part/numberOfObjects',
+        path: 'ns2:part/objectCountGroupList/objectCountGroup/objectCount',
         value: '4',
       }));
     });
@@ -564,13 +564,13 @@ describe('searchHelpers', () => {
     it('should normalize OP_RANGE conditions', () => {
       const condition = Immutable.fromJS({
         op: OP_RANGE,
-        path: 'collectionobjects_common/numberOfObjects',
+        path: 'collectionobjects_common/objectCountGroupList/objectCountGroup/objectCount',
         value: [' 2', ' 4 '],
       });
 
       normalizeCondition(fields, condition).should.equal(Immutable.fromJS({
         op: OP_RANGE,
-        path: 'collectionobjects_common/numberOfObjects',
+        path: 'collectionobjects_common/objectCountGroupList/objectCountGroup/objectCount',
         value: ['2', '4'],
       }));
     });
