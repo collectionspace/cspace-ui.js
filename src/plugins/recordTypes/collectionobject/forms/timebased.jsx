@@ -27,7 +27,6 @@ const template = (configContext) => {
         <Row>
           <Col>
             <Field name="objectNumber" />
-            <Field name="numberOfObjects" />
 
             <Field name="otherNumberList">
               <Field name="otherNumber">
@@ -111,15 +110,11 @@ const template = (configContext) => {
 
         <Field name="objectCountGroupList">
           <Field name="objectCountGroup">
-            <Panel>
-              <Row>
-                <Field name="objectCount" />
-                <Field name="objectCountType" />
-                <Field name="objectCountCountedBy" />
-                <Field name="objectCountDate" />
-              </Row>
-              <Field name="objectCountNote" />
-            </Panel>
+            <Field name="objectCount" />
+            <Field name="objectCountType" />
+            <Field name="objectCountCountedBy" />
+            <Field name="objectCountDate" />
+            <Field name="objectCountNote" />
           </Field>
         </Field>
 

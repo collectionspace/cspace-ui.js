@@ -234,20 +234,6 @@ export default (configContext) => {
             },
           },
         },
-        numberOfObjects: {
-          [config]: {
-            dataType: DATA_TYPE_INT,
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.numberOfObjects.name',
-                defaultMessage: 'Number of objects',
-              },
-            }),
-            view: {
-              type: TextInput,
-            },
-          },
-        },
         otherNumberList: {
           [config]: {
             view: {
@@ -6224,6 +6210,9 @@ export default (configContext) => {
               repeating: true,
               view: {
                 type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
               },
             },
             objectCount: {
@@ -6316,9 +6305,6 @@ export default (configContext) => {
                 }),
                 view: {
                   type: TextInput,
-                  props: {
-                    multiline: true,
-                  },
                 },
               },
             },
