@@ -27,7 +27,6 @@ const template = (configContext) => {
         <Row>
           <Col>
             <Field name="objectNumber" />
-            <Field name="numberOfObjects" />
 
             <Field name="otherNumberList">
               <Field name="otherNumber">
