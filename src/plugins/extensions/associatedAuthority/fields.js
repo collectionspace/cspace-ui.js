@@ -440,7 +440,7 @@ export default (configContext) => {
             view: {
               type: AutocompleteInput,
               props: {
-                source: 'assocConcept/activity,concept/associated,concept/material,concept/nomenclature,concept/occasion',
+                source: 'concept/activity,concept/associated,concept/material,concept/nomenclature,concept/occasion',
               },
             },
           },
