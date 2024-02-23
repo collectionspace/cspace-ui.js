@@ -24,14 +24,14 @@ export default (configContext) => {
         <Field name="assocPersonAuthGroup">
           <Panel>
             <Row>
-              <Field name="person" />
-              <Field name="personType" />
-              <Field name="personStructuredDateGroup" />
-              <Field name="personCitations">
-                <Field name="personCitation" />
+              <Field name="assocPerson" />
+              <Field name="assocPersonType" />
+              <Field name="assocPersonStructuredDateGroup" />
+              <Field name="assocPersonCitations">
+                <Field name="assocPersonCitation" />
               </Field>
             </Row>
-            <Field name="personNote" />
+            <Field name="assocPersonNote" />
           </Panel>
         </Field>
       </Field>
@@ -40,14 +40,14 @@ export default (configContext) => {
         <Field name="assocPeopleAuthGroup">
           <Panel>
             <Row>
-              <Field name="people" />
-              <Field name="peopleType" />
-              <Field name="peopleStructuredDateGroup" />
-              <Field name="peopleCitations">
-                <Field name="peopleCitation" />
+              <Field name="assocPeople" />
+              <Field name="assocPeopleType" />
+              <Field name="assocPeopleStructuredDateGroup" />
+              <Field name="assocPeopleCitations">
+                <Field name="assocPeopleCitation" />
               </Field>
             </Row>
-            <Field name="peopleNote" />
+            <Field name="assocPeopleNote" />
           </Panel>
         </Field>
       </Field>
@@ -56,14 +56,14 @@ export default (configContext) => {
         <Field name="assocOrganizationAuthGroup">
           <Panel>
             <Row>
-              <Field name="organization" />
-              <Field name="organizationType" />
-              <Field name="organizationStructuredDateGroup" />
-              <Field name="organizationCitations">
-                <Field name="organizationCitation" />
+              <Field name="assocOrganization" />
+              <Field name="assocOrganizationType" />
+              <Field name="assocOrganizationStructuredDateGroup" />
+              <Field name="assocOrganizationCitations">
+                <Field name="assocOrganizationCitation" />
               </Field>
             </Row>
-            <Field name="organizationNote" />
+            <Field name="assocOrganizationNote" />
           </Panel>
         </Field>
       </Field>
@@ -72,14 +72,14 @@ export default (configContext) => {
         <Field name="assocConceptAuthGroup">
           <Panel>
             <Row>
-              <Field name="concept" />
-              <Field name="conceptType" />
-              <Field name="conceptStructuredDateGroup" />
-              <Field name="conceptCitations">
-                <Field name="conceptCitation" />
+              <Field name="assocConcept" />
+              <Field name="assocConceptType" />
+              <Field name="assocConceptStructuredDateGroup" />
+              <Field name="assocConceptCitations">
+                <Field name="assocConceptCitation" />
               </Field>
             </Row>
-            <Field name="conceptNote" />
+            <Field name="assocConceptNote" />
           </Panel>
         </Field>
       </Field>
@@ -88,14 +88,14 @@ export default (configContext) => {
         <Field name="assocPlaceAuthGroup">
           <Panel>
             <Row>
-              <Field name="place" />
-              <Field name="placeType" />
-              <Field name="placeStructuredDateGroup" />
-              <Field name="placeCitations">
-                <Field name="placeCitation" />
+              <Field name="assocPlace" />
+              <Field name="assocPlaceType" />
+              <Field name="assocPlaceStructuredDateGroup" />
+              <Field name="assocPlaceCitations">
+                <Field name="assocPlaceCitation" />
               </Field>
             </Row>
-            <Field name="placeNote" />
+            <Field name="assocPlaceNote" />
           </Panel>
         </Field>
       </Field>
@@ -104,14 +104,14 @@ export default (configContext) => {
         <Field name="assocChronologyAuthGroup">
           <Panel>
             <Row>
-              <Field name="chronology" />
-              <Field name="chronologyType" />
-              <Field name="chronologyStructuredDateGroup" />
-              <Field name="chronologyCitations">
-                <Field name="chronologyCitation" />
+              <Field name="assocChronology" />
+              <Field name="assocChronologyType" />
+              <Field name="assocChronologyStructuredDateGroup" />
+              <Field name="assocChronologyCitations">
+                <Field name="assocChronologyCitation" />
               </Field>
             </Row>
-            <Field name="chronologyNote" />
+            <Field name="assocChronologyNote" />
           </Panel>
         </Field>
       </Field>
