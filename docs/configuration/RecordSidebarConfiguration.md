@@ -4,6 +4,8 @@ The sidebar that is displayed when viewing or editing a record may be configured
 
 Currently only the related records that are displayed may be configured, by supplying an array of related record descriptors. A related record panel will be displayed for each descriptor, in the order listed.
 
+**NOTE: This configuration controls the related record *tables* in the sidebar. It does *not* affect/control the media snapshot panel that appears at the top of the sidebar in Object records. See [the `mediaSnapshotSort` setting](./README.md#mediaSnapshotSort) to control order of display in that panel.**
+
 ```
 type SidebarDescriptor = {
   relatedRecords: Array<RelatedRecordDescriptor>,
@@ -49,7 +51,7 @@ A record type name, which must correspond to a key in the [recordTypes](./Record
 ```
 columnSet: string = 'narrow'
 ```
-A column set name, which must correspond to a key in the [columns](./ColumnConfiguration) configuration for the specified record type.
+A column set name, which should correspond to a key in the [columns](./ColumnConfiguration) configuration for the specified record type. If the specified column set does not exist for the specified record type, the `default` columnSet for the record typewill be used.
 
 ### sort
 ```
