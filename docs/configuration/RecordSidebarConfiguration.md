@@ -21,6 +21,8 @@ type RelatedRecordDescriptor = {
 
 ## Example
 
+This example adds a separate related media table to the sidebar of the Object record. It does not affect the media snapshot at the top of the sidebar:
+
 ```
 cspaceUI({
   recordTypes: {
