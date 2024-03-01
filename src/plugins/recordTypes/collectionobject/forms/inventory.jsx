@@ -72,6 +72,7 @@ const template = (configContext) => {
         <Field name="objectNameList">
           <Field name="objectNameGroup">
             <Field name="objectName" />
+            <Field name="objectNameControlled" />
             <Field name="objectNameCurrency" />
             <Field name="objectNameLevel" />
             <Field name="objectNameSystem" />
