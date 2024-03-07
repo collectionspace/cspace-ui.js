@@ -33,7 +33,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocPersonAuthGroup.name',
-              defaultMessage: 'Person',
+              defaultMessage: 'Associated person',
             },
           }),
           repeating: true,
@@ -46,11 +46,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPerson.fullName',
-                defaultMessage: 'Person associated',
+                defaultMessage: 'Associated person',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPerson.name',
-                defaultMessage: 'Associated',
+                defaultMessage: 'Person',
               },
             }),
             view: {
@@ -66,7 +66,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPersonType.fullName',
-                defaultMessage: 'Person relationship/type',
+                defaultMessage: 'Associated person relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPersonType.name',
@@ -87,7 +87,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPersonStructuredDateGroup.fullName',
-                defaultMessage: 'Person date',
+                defaultMessage: 'Associated person date',
+              },
+              groupName: {
+                id: 'field.ext.associatedAuthority.assocPersonStructuredDateGroup.groupName',
+                defaultMessage: 'Date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPersonStructuredDateGroup.name',
@@ -111,7 +115,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.assocPersonCitation.fullName',
-                  defaultMessage: 'Person citation',
+                  defaultMessage: 'Associated person citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.assocPersonCitation.name',
@@ -133,7 +137,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPersonNote.fullName',
-                defaultMessage: 'Person note',
+                defaultMessage: 'Associated person note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPersonNote.name',
@@ -161,7 +165,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocPeopleAuthGroup.name',
-              defaultMessage: 'People',
+              defaultMessage: 'Associated people',
             },
           }),
           repeating: true,
@@ -174,11 +178,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPeople.fullName',
-                defaultMessage: 'People associated',
+                defaultMessage: 'Associated people',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPeople.name',
-                defaultMessage: 'Associated',
+                defaultMessage: 'People',
               },
             }),
             view: {
@@ -194,7 +198,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPeopleType.fullName',
-                defaultMessage: 'People relationship/type',
+                defaultMessage: 'Associated people relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPeopleType.name',
@@ -215,7 +219,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPeopleStructuredDateGroup.fullName',
-                defaultMessage: 'People date',
+                defaultMessage: 'Associated people date',
+              },
+              groupName: {
+                id: 'field.ext.associatedAuthority.assocPeopleStructuredDateGroup.groupName',
+                defaultMessage: 'Date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPeopleStructuredDateGroup.name',
@@ -239,7 +247,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.assocPeopleCitation.fullName',
-                  defaultMessage: 'People citation',
+                  defaultMessage: 'Associated people citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.assocPeopleCitation.name',
@@ -261,7 +269,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPeopleNote.fullName',
-                defaultMessage: 'People note',
+                defaultMessage: 'Associated people note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPeopleNote.name',
@@ -289,7 +297,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocOrganizationAuthGroup.name',
-              defaultMessage: 'Organization',
+              defaultMessage: 'Associated organization',
             },
           }),
           repeating: true,
@@ -302,11 +310,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocOrganization.fullName',
-                defaultMessage: 'Organization associated',
+                defaultMessage: 'Associated organization',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocOrganization.name',
-                defaultMessage: 'Associated',
+                defaultMessage: 'Organization',
               },
             }),
             view: {
@@ -322,7 +330,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocOrganizationType.fullName',
-                defaultMessage: 'Organization relationship/type',
+                defaultMessage: 'Associated organization relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocOrganizationType.name',
@@ -343,7 +351,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocOrganizationStructuredDateGroup.fullName',
-                defaultMessage: 'Organization date',
+                defaultMessage: 'Associated organization date',
+              },
+              groupName: {
+                id: 'field.ext.associatedAuthority.assocOrganizationStructuredDateGroup.groupName',
+                defaultMessage: 'Date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocOrganizationStructuredDateGroup.name',
@@ -367,7 +379,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.assocOrganizationCitation.fullName',
-                  defaultMessage: 'Organization citation',
+                  defaultMessage: 'Associated organization citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.assocOrganizationCitation.name',
@@ -389,7 +401,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocOrganizationNote.fullName',
-                defaultMessage: 'Organization note',
+                defaultMessage: 'Associated organization note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocOrganizationNote.name',
@@ -417,7 +429,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocConceptAuthGroup.name',
-              defaultMessage: 'Concept',
+              defaultMessage: 'Associated concept',
             },
           }),
           repeating: true,
@@ -430,11 +442,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocConcept.fullName',
-                defaultMessage: 'Concept associated',
+                defaultMessage: 'Associated concept',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocConcept.name',
-                defaultMessage: 'Associated',
+                defaultMessage: 'Concept',
               },
             }),
             view: {
@@ -450,7 +462,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocConceptType.fullName',
-                defaultMessage: 'Concept relationship/type',
+                defaultMessage: 'Associated concept relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocConceptType.name',
@@ -471,7 +483,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocConceptStructuredDateGroup.fullName',
-                defaultMessage: 'Concept date',
+                defaultMessage: 'Associated concept date',
+              },
+              groupName: {
+                id: 'field.ext.associatedAuthority.assocConceptStructuredDateGroup.groupName',
+                defaultMessage: 'Date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocConceptStructuredDateGroup.name',
@@ -495,7 +511,11 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.assocConceptCitation.fullName',
-                  defaultMessage: 'Concept citation',
+                  defaultMessage: 'Associated concept citation',
+                },
+                groupName: {
+                  id: 'field.ext.associatedAuthority.assocConceptCitation.groupName',
+                  defaultMessage: 'Citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.assocConceptCitation.name',
@@ -517,7 +537,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocConceptNote.fullName',
-                defaultMessage: 'Concept note',
+                defaultMessage: 'Associated concept note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocConceptNote.name',
@@ -545,7 +565,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocPlaceAuthGroup.name',
-              defaultMessage: 'Place',
+              defaultMessage: 'Associated place',
             },
           }),
           repeating: true,
@@ -558,11 +578,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPlace.fullName',
-                defaultMessage: 'Place associated',
+                defaultMessage: 'Associated place',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPlace.name',
-                defaultMessage: 'Associated',
+                defaultMessage: 'Place',
               },
             }),
             view: {
@@ -578,7 +598,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPlaceType.fullName',
-                defaultMessage: 'Place relationship/type',
+                defaultMessage: 'Associated place relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPlaceType.name',
@@ -599,7 +619,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPlaceStructuredDateGroup.fullName',
-                defaultMessage: 'Place date',
+                defaultMessage: 'Associated place date',
+              },
+              groupName: {
+                id: 'field.ext.associatedAuthority.assocPlaceStructuredDateGroup.groupName',
+                defaultMessage: 'Date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPlaceStructuredDateGroup.name',
@@ -623,7 +647,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.assocPlaceCitation.fullName',
-                  defaultMessage: 'Place citation',
+                  defaultMessage: 'Associated place citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.assocPlaceCitation.name',
@@ -645,7 +669,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocPlaceNote.fullName',
-                defaultMessage: 'Place note',
+                defaultMessage: 'Associated place note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocPlaceNote.name',
@@ -673,7 +697,7 @@ export default (configContext) => {
           messages: defineMessages({
             name: {
               id: 'field.ext.associatedAuthority.assocChronologyAuthGroup.name',
-              defaultMessage: 'Event/Era',
+              defaultMessage: 'Associated event/era',
             },
           }),
           repeating: true,
@@ -686,11 +710,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocChronology.fullName',
-                defaultMessage: 'Event/Era associated',
+                defaultMessage: 'Associated event/era',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocChronology.name',
-                defaultMessage: 'Associated',
+                defaultMessage: 'Event/era',
               },
             }),
             view: {
@@ -706,7 +730,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocChronologyType.fullName',
-                defaultMessage: 'Event/Era relationship/type',
+                defaultMessage: 'Associated event/era relationship/type',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocChronologyType.name',
@@ -727,7 +751,11 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocChronologyStructuredDateGroup.fullName',
-                defaultMessage: 'Event/Era date',
+                defaultMessage: 'Associated event/era date',
+              },
+              groupName: {
+                id: 'field.ext.associatedAuthority.assocChronologyStructuredDateGroup.groupName',
+                defaultMessage: 'Date',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocChronologyStructuredDateGroup.name',
@@ -751,7 +779,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.ext.associatedAuthority.assocChronologyCitation.fullName',
-                  defaultMessage: 'Event/Era citation',
+                  defaultMessage: 'Associated event/era citation',
                 },
                 name: {
                   id: 'field.ext.associatedAuthority.assocChronologyCitation.name',
@@ -773,7 +801,7 @@ export default (configContext) => {
             messages: defineMessages({
               fullName: {
                 id: 'field.ext.associatedAuthority.assocChronologyNote.fullName',
-                defaultMessage: 'Event/Era note',
+                defaultMessage: 'Associated event/era note',
               },
               name: {
                 id: 'field.ext.associatedAuthority.assocChronologyNote.name',
