@@ -202,6 +202,7 @@ export default (configContext) => {
                 view: {
                   type: TextInput,
                   props: {
+                    height: 23,
                     multiline: true,
                   },
                 },
