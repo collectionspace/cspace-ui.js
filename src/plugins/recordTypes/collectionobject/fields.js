@@ -4049,18 +4049,26 @@ export default (configContext) => {
             },
           },
         },
-        fieldCollectionPlace: {
+        fieldCollectionPlaces: {
           [config]: {
-            messages: defineMessages({
-              name: {
-                id: 'field.collectionobjects_common.fieldCollectionPlace.name',
-                defaultMessage: 'Field collection place',
-              },
-            }),
             view: {
-              type: AutocompleteInput,
-              props: {
-                source: 'place/local,place/shared,place/tgn',
+              type: CompoundInput,
+            },
+          },
+          fieldCollectionPlace: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.fieldCollectionPlace.name',
+                  defaultMessage: 'Field collection place',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'place/local,place/shared,place/tgn',
+                },
               },
             },
           },

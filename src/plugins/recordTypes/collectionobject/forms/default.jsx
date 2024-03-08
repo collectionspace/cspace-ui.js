@@ -592,7 +592,9 @@ const template = (configContext) => {
               <Field name="fieldCollectionMethod" />
             </Field>
 
-            <Field name="fieldCollectionPlace" />
+            <Field name="fieldCollectionPlaces">
+              <Field name="fieldCollectionPlace" />
+            </Field>
 
             <Field name="fieldCollectionSources">
               <Field name="fieldCollectionSource" />
