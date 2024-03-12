@@ -76,7 +76,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'relationtypetype',
+                source: 'assocauthorityrelationtype',
               },
             },
           },
@@ -208,7 +208,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'relationtypetype',
+                source: 'assocauthorityrelationtype',
               },
             },
           },
@@ -340,7 +340,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'relationtypetype',
+                source: 'assocauthorityrelationtype',
               },
             },
           },
@@ -472,7 +472,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'relationtypetype',
+                source: 'assocauthorityrelationtype',
               },
             },
           },
@@ -608,7 +608,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'relationtypetype',
+                source: 'assocauthorityrelationtype',
               },
             },
           },
@@ -740,7 +740,7 @@ export default (configContext) => {
             view: {
               type: TermPickerInput,
               props: {
-                source: 'relationtypetype',
+                source: 'assocauthorityrelationtype',
               },
             },
           },
