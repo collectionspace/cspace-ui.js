@@ -7,8 +7,22 @@ v9.0.0 adds support for CollectionSpace 8.0. It can not be used with earlier ver
 ### Breaking Changes
 
 - Sign in now uses the OAuth 2 authorization code grant, supported in CollectionSpace 8. If this version of cspace-ui is used with an older CollectionSpace server, users will not be able to sign in.
-- Object record:
-  - `fieldCollectionPlace` has been replaced with the repeating `fieldCollectionPlaces/fieldCollectionPlace`.
+
+- On the record editor form for Object records:
+  - The number of objects field (`numberOfObjects`) has been replaced with the repeating object count group (`objectCountGroupList/objectCountGroup`). If this version of cspace-ui is used with an older CollectionSpace server, values entered in the repeating group will not be saved.
+  - The field collection place field (`fieldCollectionPlace`) has been replaced with the repeating field collection places (`fieldCollectionPlaces/fieldCollectionPlace`). If this version of cspace-ui is used with an older CollectionSpace server, values entered in the repeating field will not be saved.
+
+- On the record editor form for Chronology records:
+  - Various associated authority fields have been added, in the Associated Authorities panel. If this version of cspace-ui is used with an older CollectionSpace server, values entered in these fields will not be saved.
+
+- On the record editor form for Organization records:
+  - The Name Note field (`nameNote`) has been added. If this version of cspace-ui is used with an older CollectionSpace server, values entered in this field will not be saved.
+
+- On the record editor form for Person records:
+  - Various associated authority fields have been added, in the Associated Authorities panel. If this version of cspace-ui is used with an older CollectionSpace server, values entered in these fields will not be saved.
+
+- On the record editor form for Place records:
+  - Various associated authority fields have been added, in the Associated Authorities panel. If this version of cspace-ui is used with an older CollectionSpace server, values entered in these fields will not be saved.
 
 ## v8.0.0
 
