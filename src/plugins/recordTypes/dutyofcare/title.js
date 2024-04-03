@@ -1,0 +1,20 @@
+export default (configContext) => (data) => {
+  const {
+    getPart,
+  } = configContext.recordDataHelpers;
+
+  if (!data) {
+    return '';
+  }
+
+  const common = getPart(data, 'dutyofcares_common');
+
+  if (!common) {
+    return '';
+  }
+
+  const referenceNumber = common.get('dutyOfCareNumber');
+  const title = common.get('dutyOfCareTitle');
+
+  return [referenceNumber, title].filter((part) => !!part).join(' – ');
+};
