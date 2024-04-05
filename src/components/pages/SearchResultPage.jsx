@@ -771,13 +771,7 @@ export default class SearchResultPage extends Component {
     const searchDescriptor = this.getSearchDescriptor();
     const advancedSearchCondition = searchDescriptor.getIn(['searchQuery', 'as']);
     return (
-      <div
-        className={
-          advancedSearchCondition
-            ? sidebarToggleBarStyles.advanced
-            : sidebarToggleBarStyles.normal
-        }
-      >
+      <div className={sidebarToggleBarStyles.advanced}>
         <SearchResultSidebarToggleButtonContainer />
       </div>
     );

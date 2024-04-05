@@ -40,6 +40,10 @@
   text-align: right;
 }
 
+.searchresult {
+  margin-bottom: 31px;
+}
+
 .audit > div > div > aside > h2,
 .object > div > div > aside > h2,
 .procedure > div > div > aside > h2,
