@@ -104,6 +104,7 @@ export default class SearchResultPage extends Component {
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
+    this.renderSidebarToggle = this.renderSidebarToggle.bind(this);
     this.search = this.search.bind(this);
 
     this.state = {
@@ -766,6 +767,22 @@ export default class SearchResultPage extends Component {
     return null;
   }
 
+  renderSidebarToggle() {
+    const searchDescriptor = this.getSearchDescriptor();
+    const advancedSearchCondition = searchDescriptor.getIn(['searchQuery', 'as']);
+    return (
+      <div
+        className={
+          advancedSearchCondition
+            ? sidebarToggleBarStyles.advanced
+            : sidebarToggleBarStyles.normal
+        }
+      >
+        <SearchResultSidebarToggleButtonContainer />
+      </div>
+    );
+  }
+
   render() {
     const {
       location,
@@ -785,7 +802,6 @@ export default class SearchResultPage extends Component {
     } = this.state;
 
     const searchDescriptor = this.getSearchDescriptor();
-    const advancedSearchCondition = searchDescriptor.getIn(['searchQuery', 'as']);
 
     const listType = this.getListType(searchDescriptor);
 
@@ -847,17 +863,6 @@ export default class SearchResultPage extends Component {
           searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
           updateDocumentTitle
         />
-
-        <div
-          className={
-            advancedSearchCondition
-              ? sidebarToggleBarStyles.advanced
-              : sidebarToggleBarStyles.normal
-          }
-        >
-          <SearchResultSidebarToggleButtonContainer />
-        </div>
-
         <div className={isSidebarOpen ? pageBodyStyles.common : pageBodyStyles.full}>
           <WatchedSearchResultTableContainer
             config={config}
@@ -881,6 +886,7 @@ export default class SearchResultPage extends Component {
             isOpen={isSidebarOpen}
             recordType={recordType}
             selectedItems={selectedItems}
+            renderSidebarToggle={this.renderSidebarToggle}
           />
         </div>
 

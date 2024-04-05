@@ -17,6 +17,7 @@ const propTypes = {
   recordType: PropTypes.string,
   isOpen: PropTypes.bool,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
+  renderSidebarToggle: PropTypes.func,
 };
 
 const defaultProps = {
@@ -30,14 +31,23 @@ export default function SearchResultSidebar(props) {
     recordType,
     isOpen,
     selectedItems,
+    renderSidebarToggle,
   } = props;
 
+  const toggle = renderSidebarToggle();
+
   if (!isOpen) {
-    return null;
+    return (
+      <div className={styles.common}>
+        {toggle}
+      </div>
+    );
   }
 
   return (
     <div className={styles.common}>
+      {toggle}
+
       <SearchResultReportPanelContainer
         color={panelColor}
         config={config}
