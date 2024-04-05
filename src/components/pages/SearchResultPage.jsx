@@ -104,7 +104,6 @@ export default class SearchResultPage extends Component {
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
-    this.renderSidebarToggle = this.renderSidebarToggle.bind(this);
     this.search = this.search.bind(this);
 
     this.state = {
@@ -767,16 +766,6 @@ export default class SearchResultPage extends Component {
     return null;
   }
 
-  renderSidebarToggle() {
-    const searchDescriptor = this.getSearchDescriptor();
-    const advancedSearchCondition = searchDescriptor.getIn(['searchQuery', 'as']);
-    return (
-      <div className={sidebarToggleBarStyles.advanced}>
-        <SearchResultSidebarToggleButtonContainer />
-      </div>
-    );
-  }
-
   render() {
     const {
       location,
@@ -880,7 +869,6 @@ export default class SearchResultPage extends Component {
             isOpen={isSidebarOpen}
             recordType={recordType}
             selectedItems={selectedItems}
-            renderSidebarToggle={this.renderSidebarToggle}
           />
         </div>
 
