@@ -12,4 +12,5 @@
 .advanced > :global(.cspace-ui-SidebarToggleButton--common) {
   top: -31px;
   right: 0;
+  width: max-content;
 }

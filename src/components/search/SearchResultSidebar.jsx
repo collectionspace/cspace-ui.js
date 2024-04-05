@@ -38,7 +38,7 @@ export default function SearchResultSidebar(props) {
 
   if (!isOpen) {
     return (
-      <div className={styles.common}>
+      <div className={styles.closed}>
         {toggle}
       </div>
     );

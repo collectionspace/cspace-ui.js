@@ -1,3 +1,7 @@
 .common {
   width: 30%;
 }
+
+.closed {
+  flex: none;
+}
