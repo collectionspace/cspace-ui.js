@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import SidebarToggleButton from '../navigation/SidebarToggleButton';
+import sidebarToggleBarStyles from '../../../styles/cspace-ui/SidebarToggleBar.css';
 
 const propTypes = {
   config: PropTypes.shape({
@@ -28,11 +29,13 @@ export default function RecordSidebarToggleButton(props) {
   const isAuthority = serviceType === 'authority';
 
   return (
-    <SidebarToggleButton
-      color={isAuthority ? 'purple' : 'blue'}
-      isOpen={isRecordSidebarOpen}
-      toggle={toggleRecordSidebar}
-    />
+    <div className={sidebarToggleBarStyles.common}>
+      <SidebarToggleButton
+        color={isAuthority ? 'purple' : 'blue'}
+        isOpen={isRecordSidebarOpen}
+        toggle={toggleRecordSidebar}
+      />
+    </div>
   );
 }
 
