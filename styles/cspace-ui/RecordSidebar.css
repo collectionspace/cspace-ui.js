@@ -17,6 +17,12 @@
   font-size: 12px;
 }
 
+.closed {
+  composes: common;
+  width: 0%;
+  flex: none !important;
+}
+
 .audit {
   composes: common;
 }
