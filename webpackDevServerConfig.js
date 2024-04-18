@@ -164,7 +164,7 @@ module.exports = async ({
       return;
     }
 
-    const locationUrl = new URL(location);
+    const locationUrl = new URL(location, proxyTargetUrl);
 
     if (locationUrl.host !== proxyTargetUrl.host) {
       return;
