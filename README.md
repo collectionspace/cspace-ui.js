@@ -18,7 +18,7 @@ The CollectionSpace UI is a JavaScript application that runs in a web browser. S
 
 ### For CollectionSpace Developers
 
-[Node.js](https://nodejs.org/) 20 and npm 10 are recommended to build the application. A minimum of Node.js 18 and npm 10 are required.
+[Node.js](https://nodejs.org/) 20 and npm 10 are recommended to build the application. A minimum of Node.js 18 and npm 9 are required.
 
 To download and install the source code of the application for development:
 
