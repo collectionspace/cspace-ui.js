@@ -28,6 +28,12 @@ $ cd cspace-ui.js
 $ npm install
 ```
 
+To run the application in development at http://localhost:8080, using a remote back-end CollectionSpace server:
+
+```
+$ npm run devserver --back-end=https://core.dev.collectionspace.org
+```
+
 See the [developer documentation](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/developer) for instructions on building, testing, and running the source code.
 
 ## About CollectionSpace
