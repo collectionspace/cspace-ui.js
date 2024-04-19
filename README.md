@@ -28,11 +28,24 @@ $ cd cspace-ui.js
 $ npm install
 ```
 
-To run the application in development at http://localhost:8080, using a remote back-end CollectionSpace server:
+To run the application in development, using a remote back-end CollectionSpace server:
 
 ```
 $ npm run devserver --back-end=https://core.dev.collectionspace.org
 ```
+
+Then open a browser to http://localhost:8080.
+
+Alternatively, to run the application in development, using the UI configuration in index.html:
+
+```
+$ npm run devserver
+```
+
+By default, the configuration in index.html uses the CollectionSpace services API located at
+http://localhost:8180. To run the application against CollectionSpace services located on a
+different host, edit index.html, and change the `serverUrl` configuration property. Note that the
+specified server must be configured to allow CORS requests from http://localhost:8080.
 
 See the [developer documentation](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/developer) for instructions on building, testing, and running the source code.
 
