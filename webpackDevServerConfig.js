@@ -211,7 +211,7 @@ module.exports = async ({
         `,
       );
 
-      const pluginsPattern = /plugins:\s+\[\s+(.*?),?\s+\]/s;
+      const pluginsPattern = /plugins:\s*\[\s*(.*?),?\s*\]/s;
 
       if (pluginsPattern.test(pageWithScript)) {
         return pageWithScript.replace(
