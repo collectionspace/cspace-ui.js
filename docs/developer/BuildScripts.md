@@ -58,9 +58,12 @@ npm run devserver [--back-end=<url> [--local-index=<path>]]
 
 The `devserver` script starts a local development web server, listening at port 8080. The cspace-ui application may be accessed in a browser by opening the URL http://localhost:8080. As source code files are edited, changes are automatically detected and deployed into the dev server. The browser automatically reloads the page, so the latest changes are always visible.
 
-If the `back-end` option is supplied, the dev server acts as a proxy to the specified URL. This allows the locally running UI to connect to a remote CollectionSpace server regardless of CORS settings on that server. When the index.html file is retrieved from the server, the proxy attempts to rewrite it to inject the local UI that is under development. If this fails, or other changes are needed to the index.html file retrieved from the server, a local index file can be substituted by supplying the `local-index` option, specifying a path to a local HTML file.
+If the `--back-end` option is supplied, the dev server acts as a proxy to the specified URL. This allows the locally running UI to connect to a remote CollectionSpace server regardless of CORS settings on that server. When the index.html file is retrieved from the server, the proxy attempts to rewrite it to inject the local UI that is under development. If this fails, or other changes are needed to the index.html file retrieved from the server, a local index file can be substituted by supplying the `local-index` option, specifying a path to a local HTML file.
 
-If the `back-end` option is not supplied, the page served by the dev server is the top-level [index.html](../../index.html) file.
+> [!WARNING]
+> SAML single sign-on will not work when using the `--back-end` option. If SSO is required while developing the UI, run the development server without `--back-end`, as described below.
+
+If the `--back-end` option is not supplied, the page served by the dev server is the top-level [index.html](../../index.html) file. The URL of the CollectionSpace server to use can be set by specifying the `serverUrl` configuration property in index.html. Note that the CORS settings on that server must allow the origin `http://localhost:8080`.
 
 To stop the dev server, type control-c in the shell in which it was started.
 

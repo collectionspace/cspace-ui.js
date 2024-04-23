@@ -164,7 +164,7 @@ module.exports = async ({
       return;
     }
 
-    const locationUrl = new URL(location);
+    const locationUrl = new URL(location, proxyTargetUrl);
 
     if (locationUrl.host !== proxyTargetUrl.host) {
       return;
@@ -211,7 +211,7 @@ module.exports = async ({
         `,
       );
 
-      const pluginsPattern = /plugins:\s+\[\s+(.*?),?\s+\]/s;
+      const pluginsPattern = /plugins:\s*\[\s*(.*?),?\s*\]/s;
 
       if (pluginsPattern.test(pageWithScript)) {
         return pageWithScript.replace(
