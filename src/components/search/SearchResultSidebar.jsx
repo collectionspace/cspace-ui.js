@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import SearchResultBatchPanelContainer from '../../containers/search/SearchResultBatchPanelContainer';
 import SearchResultReportPanelContainer from '../../containers/search/SearchResultReportPanelContainer';
+import SearchResultSidebarToggleButtonContainer from '../../containers/search/SearchResultSidebarToggleButtonContainer';
 import styles from '../../../styles/cspace-ui/SearchResultSidebar.css';
+import sidebarToggleBarStyles from '../../../styles/cspace-ui/SidebarToggleBar.css';
 
 const panelColor = 'black';
 
@@ -23,6 +25,14 @@ const defaultProps = {
   isOpen: true,
 };
 
+function renderSidebarToggle() {
+  return (
+    <div className={sidebarToggleBarStyles.common}>
+      <SearchResultSidebarToggleButtonContainer />
+    </div>
+  );
+}
+
 export default function SearchResultSidebar(props) {
   const {
     config,
@@ -32,12 +42,20 @@ export default function SearchResultSidebar(props) {
     selectedItems,
   } = props;
 
+  const toggle = renderSidebarToggle();
+
   if (!isOpen) {
-    return null;
+    return (
+      <div className={styles.closed}>
+        {toggle}
+      </div>
+    );
   }
 
   return (
     <div className={styles.common}>
+      {toggle}
+
       <SearchResultReportPanelContainer
         color={panelColor}
         config={config}

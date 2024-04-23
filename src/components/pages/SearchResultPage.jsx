@@ -17,7 +17,6 @@ import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import SelectBar from '../search/SelectBar';
 import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
-import SearchResultSidebarToggleButtonContainer from '../../containers/search/SearchResultSidebarToggleButtonContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
 import { getListType } from '../../helpers/searchHelpers';
@@ -32,7 +31,6 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
-import sidebarToggleBarStyles from '../../../styles/cspace-ui/SidebarToggleBar.css';
 
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
@@ -785,7 +783,6 @@ export default class SearchResultPage extends Component {
     } = this.state;
 
     const searchDescriptor = this.getSearchDescriptor();
-    const advancedSearchCondition = searchDescriptor.getIn(['searchQuery', 'as']);
 
     const listType = this.getListType(searchDescriptor);
 
@@ -847,17 +844,6 @@ export default class SearchResultPage extends Component {
           searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
           updateDocumentTitle
         />
-
-        <div
-          className={
-            advancedSearchCondition
-              ? sidebarToggleBarStyles.advanced
-              : sidebarToggleBarStyles.normal
-          }
-        >
-          <SearchResultSidebarToggleButtonContainer />
-        </div>
-
         <div className={isSidebarOpen ? pageBodyStyles.common : pageBodyStyles.full}>
           <WatchedSearchResultTableContainer
             config={config}

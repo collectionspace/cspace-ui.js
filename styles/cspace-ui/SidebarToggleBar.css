@@ -1,15 +1,12 @@
 @value tabHeight from '../dimensions.css';
 
-.normal {
-  height: tabHeight;
-}
-
-.advanced {
+.common {
   height: 0;
   position: relative;
 }
 
-.advanced > :global(.cspace-ui-SidebarToggleButton--common) {
+.common > :global(.cspace-ui-SidebarToggleButton--common) {
   top: -31px;
   right: 0;
+  width: max-content;
 }

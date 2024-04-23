@@ -95,6 +95,7 @@ export default function SearchResultTitleBar(props) {
   }
 
   let advancedTitle;
+  let serviceType = 'searchresult';
 
   if (advancedSearchCondition) {
     advancedTitle = (
@@ -106,6 +107,7 @@ export default function SearchResultTitleBar(props) {
         recordType={recordType}
       />
     );
+    serviceType = 'advancedsearchresult';
   }
 
   const title = (
@@ -125,6 +127,7 @@ export default function SearchResultTitleBar(props) {
       title={title}
       aside={aside}
       subtitle={advancedTitle}
+      serviceType={serviceType}
       {...remainingProps}
     />
   );
