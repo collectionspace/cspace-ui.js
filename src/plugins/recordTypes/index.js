@@ -28,6 +28,7 @@ import loanout from './loanout';
 import location from './location';
 import media from './media';
 import movement from './movement';
+import nagpraclaim from './nagpraclaim';
 import object from './object';
 import objectexit from './objectexit';
 import organization from './organization';
@@ -75,6 +76,7 @@ export default [
   location,
   media,
   movement,
+  nagpraclaim,
   object,
   objectexit,
   organization,
