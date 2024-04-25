@@ -7,7 +7,7 @@ import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
-import LoginPage from '../../../../src/components/pages/LoginPage';
+import WelcomePage from '../../../../src/components/pages/WelcomePage';
 
 chai.should();
 
@@ -19,7 +19,7 @@ const store = mockStore({
 
 const history = mockHistory();
 
-describe('LoginPage', () => {
+describe('WelcomePage', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -29,7 +29,7 @@ describe('LoginPage', () => {
       <IntlProvider locale="en">
         <StoreProvider store={store}>
           <Router>
-            <LoginPage
+            <WelcomePage
               history={history}
               location={{}}
             />

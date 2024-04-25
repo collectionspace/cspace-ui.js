@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import About from '../sections/About';
 import LoginForm from '../login/LoginForm';
-import styles from '../../../styles/cspace-ui/LoginPage.css';
+import styles from '../../../styles/cspace-ui/WelcomePage.css';
 
 const propTypes = {
   intl: intlShape.isRequired,
@@ -11,13 +11,13 @@ const propTypes = {
 
 const messages = defineMessages({
   title: {
-    id: 'loginPage.title',
-    description: 'Title of the login page.',
+    id: 'welcomePage.title',
+    description: 'Title of the welcome page.',
     defaultMessage: 'Welcome',
   },
 });
 
-function LoginPage(props) {
+function WelcomePage(props) {
   const {
     intl,
   } = props;
@@ -40,6 +40,6 @@ function LoginPage(props) {
   );
 }
 
-LoginPage.propTypes = propTypes;
+WelcomePage.propTypes = propTypes;
 
-export default injectIntl(LoginPage);
+export default injectIntl(WelcomePage);
