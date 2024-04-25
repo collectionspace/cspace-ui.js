@@ -62,7 +62,7 @@ function RootPage(props) {
       </Helmet>
 
       <Switch>
-        <PublicRoute path="/login" component={WelcomePage} />
+        <PublicRoute path="/welcome" component={WelcomePage} />
         <PublicRoute path="/logout" component={LogoutPageContainer} decorated={false} />
         <PublicRoute path="/config" component={ConfigPage} />
         <PublicRoute path="/authorize" component={AuthorizePageContainer} decorated={false} />

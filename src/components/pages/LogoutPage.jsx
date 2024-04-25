@@ -76,7 +76,7 @@ export default class LogoutPage extends Component {
       logout();
     }
 
-    history.replace('/login');
+    history.replace('/welcome');
   }
 
   render() {
