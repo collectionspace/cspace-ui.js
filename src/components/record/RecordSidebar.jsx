@@ -6,6 +6,7 @@ import MediaSnapshotPanelContainer from '../../containers/record/MediaSnapshotPa
 import RelatedRecordPanelContainer from '../../containers/record/RelatedRecordPanelContainer';
 import RecordBatchPanelContainer from '../../containers/record/RecordBatchPanelContainer';
 import RecordReportPanelContainer from '../../containers/record/RecordReportPanelContainer';
+import RecordSidebarToggleButtonContainer from '../../containers/record/RecordSidebarToggleButtonContainer';
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSidebar.css';
@@ -49,11 +50,6 @@ export default function RecordSidebar(props) {
     isOpen,
     isRelatable,
   } = props;
-
-  if (!isOpen) {
-    return null;
-  }
-
   // TODO: Make sidebar components configurable based on service type/record type.
 
   const recordTypeConfig = config.recordTypes[recordType];
@@ -67,6 +63,17 @@ export default function RecordSidebar(props) {
   const isAuthority = serviceType === 'authority';
   const isUtility = serviceType === 'utility';
   const panelColor = isAuthority ? 'purple' : 'blue';
+
+  if (!isOpen) {
+    return (
+      <div className={styles.closed}>
+        <RecordSidebarToggleButtonContainer
+          recordType={recordType}
+          config={config}
+        />
+      </div>
+    );
+  }
 
   const relatedRecordDescriptors = get(recordTypeConfig, ['sidebar', 'relatedRecords'])
     || [{ recordType: 'collectionobject' }, { recordType: 'procedure' }];
@@ -194,6 +201,10 @@ export default function RecordSidebar(props) {
 
   return (
     <div className={styles[serviceType]}>
+      <RecordSidebarToggleButtonContainer
+        recordType={recordType}
+        config={config}
+      />
       {mediaSnapshot}
       {altMediaSnapshot}
       <TermsUsedPanelContainer
