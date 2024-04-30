@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import qs from 'qs';
-import styles from '../../../styles/cspace-ui/LoginPage.css';
+import styles from '../../../styles/cspace-ui/WelcomePage.css';
 
 const propTypes = {
   history: PropTypes.shape({
@@ -76,7 +76,7 @@ export default class LogoutPage extends Component {
       logout();
     }
 
-    history.replace('/login');
+    history.replace('/welcome');
   }
 
   render() {
