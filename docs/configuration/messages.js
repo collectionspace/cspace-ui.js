@@ -5007,6 +5007,9 @@ export default {
   // The title of the login modal.
   "loginModal.title": "Sign In",
 
+  // The title of the welcome page.
+  "welcomePage.title": "Welcome",
+
   // The title (advisory text) of the application logo image.
   "logo.title": "CollectionSpace",
 
