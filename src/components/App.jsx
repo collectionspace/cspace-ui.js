@@ -74,6 +74,7 @@ export default class App extends Component {
             <Router basename={basename} getUserConfirmation={this.showConfirmNavigationModal}>
               <Switch>
                 <Redirect exact path="/" to={index} />
+                <Redirect exact path="/login" to="/welcome" />
                 <Route component={withClassName(RootPage, className)} />
               </Switch>
             </Router>
