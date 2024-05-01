@@ -1,6 +1,11 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findAllWithType } from 'react-shallow-testutils';
+import { Provider as StoreProvider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import Immutable from 'immutable';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import MediaSnapshotPanelContainer from '../../../../src/containers/record/MediaSnapshotPanelContainer';
@@ -36,16 +41,27 @@ describe('RecordSidebar', () => {
     expect(this.container.firstElementChild).to.equal(null);
   });
 
-  it('should render nothing if isOpen is false', function test() {
+  it('should render show sidebar message if isOpen is false', function test() {
+    const mockStore = configureMockStore([thunk]);
+    const store = mockStore({
+      prefs: Immutable.Map({
+        recordSidebarOpen: false,
+      }),
+    });
+
     render(
-      <RecordSidebar
-        config={config}
-        recordType="group"
-        isOpen={false}
-      />, this.container,
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <RecordSidebar
+            config={config}
+            recordType="group"
+            isOpen={false}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
     );
 
-    expect(this.container.firstElementChild).to.equal(null);
+    this.container.querySelector('.cspace-ui-SidebarToggleBar--common').textContent.should.equal('Show sidebar');
   });
 
   it('should render a secondary media snapshot panel if altMediaSnapshot is supplied in config', () => {
