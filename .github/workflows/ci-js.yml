@@ -10,5 +10,20 @@ jobs:
   check:
     name: Check code
     uses: collectionspace/.github/.github/workflows/check-js.yml@main
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  upload-coverage:
+    name: Upload coverage report
+    needs: check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download coverage report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+
+      - name: Upload to codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
