@@ -26,7 +26,7 @@ const store = mockStore({
 });
 
 const TestRouter = ({ children }) => (
-  <StaticRouter location="/login" context={{}}>
+  <StaticRouter location="/welcome" context={{}}>
     {children}
   </StaticRouter>
 );
