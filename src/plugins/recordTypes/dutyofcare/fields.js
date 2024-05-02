@@ -162,7 +162,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'dutyofcaretype',
+                    source: 'nagpratype',
                   },
                 },
               },
@@ -171,18 +171,18 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.procedure.detailLevel.fullName',
+                    id: 'field.dutyofcares_common.detailLevel.fullName',
                     defaultMessage: 'Duty of care details level',
                   },
                   name: {
-                    id: 'field.procedure.detailLevel.name',
+                    id: 'field.dutyofcares_common.detailLevel.name',
                     defaultMessage: 'Level',
                   },
                 }),
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'dutyofcarelevel',
+                    source: 'nagpralevel',
                   },
                 },
               },
@@ -324,7 +324,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'dutyofcarerole',
+                    source: 'nagprainvolvedrole',
                   },
                 },
               },
