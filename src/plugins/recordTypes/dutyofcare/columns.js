@@ -6,7 +6,7 @@ export default () => ({
       messages: defineMessages({
         label: {
           id: 'column.dutyofcares_common.default.dutyOfCareNumber',
-          defaultMessage: 'Duty of care id',
+          defaultMessage: 'Duty of care ID',
         },
       }),
       order: 10,

@@ -5,12 +5,12 @@ export default {
     name: {
       id: 'record.dutyofcare.name',
       description: 'The name of the record type',
-      defaultMessage: 'Duty of care',
+      defaultMessage: 'Duty of Care',
     },
     collectionName: {
       id: 'record.dutyofcare.collectionName',
       description: 'The name of a collection of records of the type.',
-      defaultMessage: 'Duty of cares',
+      defaultMessage: 'Duty of Cares',
     },
   }),
   panel: defineMessages({

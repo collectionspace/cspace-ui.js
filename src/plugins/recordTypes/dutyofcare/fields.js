@@ -53,7 +53,7 @@ export default (configContext) => {
               },
               name: {
                 id: 'field.dutyofcares_common.dutyOfCareNumber.name',
-                defaultMessage: 'Duty of care id',
+                defaultMessage: 'Duty of care ID',
               },
             }),
             required: true,
