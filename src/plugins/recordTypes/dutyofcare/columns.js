@@ -34,7 +34,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.dutyofcare.default.updatedAt',
-            defaultMessage: 'Updated at',
+            defaultMessage: 'Updated',
           },
         }),
         order: 30,
@@ -70,7 +70,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.dutyofcare.narrow.updatedAt',
-            defaultMessage: 'Updated at',
+            defaultMessage: 'Updated',
           },
         }),
         order: 30,
