@@ -90,10 +90,6 @@ export default (configContext) => {
         dutyOfCareTitle: {
           [config]: {
             messages: defineMessages({
-              fullName: {
-                id: 'field.dutyofcares_common.dutyOfCareTitle.fullName',
-                defaultMessage: 'Duty of care title',
-              },
               name: {
                 id: 'field.dutyofcares_common.dutyOfCareTitle.name',
                 defaultMessage: 'Title',
@@ -258,7 +254,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.dutyofcares_common.partiesInvolvedGroup.name',
-                  defaultMessage: 'Parties involved',
+                  defaultMessage: 'Party involved',
                 },
               }),
               repeating: true,
@@ -274,11 +270,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.dutyofcares_common.involvedParty.fullName',
-                    defaultMessage: 'Parties involved',
+                    defaultMessage: 'Party involved name',
                   },
                   name: {
                     id: 'field.dutyofcares_common.involvedParty.name',
-                    defaultMessage: 'Party',
+                    defaultMessage: 'Name',
                   },
                 }),
                 view: {
@@ -294,7 +290,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.dutyofcares_common.involvedOnBehalfOf.fullName',
-                    defaultMessage: 'Parties involved on behalf of',
+                    defaultMessage: 'Party involved on behalf of',
                   },
                   name: {
                     id: 'field.dutyofcares_common.involvedOnBehalfOf.name',
@@ -314,7 +310,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.dutyofcares_common.involvedRole.fullName',
-                    defaultMessage: 'Parties involved roles',
+                    defaultMessage: 'Party involved roles',
                   },
                   name: {
                     id: 'field.dutyofcares_common.involvedRole.name',
