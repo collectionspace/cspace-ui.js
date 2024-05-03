@@ -18,15 +18,15 @@ export default (configContext) => {
         sortBy: 'dutyofcares_common:dutyOfCareNumber',
         width: 200,
       },
-      dutyOfCareTitle: {
+      title: {
         messages: defineMessages({
           label: {
-            id: 'column.dutyofcare.default.dutyOfCareTitle',
-            defaultMessage: 'Duty of care title',
+            id: 'column.dutyofcare.default.title',
+            defaultMessage: 'Title',
           },
         }),
         order: 20,
-        sortBy: 'dutyofcares_common:dutyOfCareTitle',
+        sortBy: 'dutyofcares_common:title',
         width: 200,
       },
       updatedAt: {
@@ -54,15 +54,15 @@ export default (configContext) => {
         sortBy: 'dutyofcares_common:dutyOfCareNumber',
         width: 200,
       },
-      dutyOfCareTitle: {
+      title: {
         messages: defineMessages({
           label: {
-            id: 'column.dutyofcare.narrow.dutyOfCareTitle',
+            id: 'column.dutyofcare.narrow.title',
             defaultMessage: 'Title',
           },
         }),
         order: 20,
-        sortBy: 'dutyofcares_common:dutyOfCareTitle',
+        sortBy: 'dutyofcares_common:title',
         width: 200,
       },
       updatedAt: {

@@ -13,7 +13,7 @@ describe('dutyofcare record title', () => {
       document: {
         'ns2:dutyofcares_common': {
           dutyOfCareNumber: 'DC',
-          dutyOfCareTitle: 'Title',
+          title: 'Title',
         },
       },
     });
@@ -37,7 +37,7 @@ describe('dutyofcare record title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:dutyofcares_common': {
-          dutyOfCareTitle: 'Title',
+          title: 'Title',
         },
       },
     });

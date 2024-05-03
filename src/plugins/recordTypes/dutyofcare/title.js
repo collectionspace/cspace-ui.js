@@ -14,7 +14,7 @@ export default (configContext) => (data) => {
   }
 
   const referenceNumber = common.get('dutyOfCareNumber');
-  const title = common.get('dutyOfCareTitle');
+  const title = common.get('title');
 
   return [referenceNumber, title].filter((part) => !!part).join(' – ');
 };

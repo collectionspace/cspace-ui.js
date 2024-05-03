@@ -22,12 +22,12 @@ const template = (configContext) => {
         <Cols>
           <Col>
             <Field name="dutyOfCareNumber" />
-            <Field name="dutyOfCareTitle" />
+            <Field name="title" />
           </Col>
           <Col>
             <Field name="originationDate" />
-            <Field name="dutyOfCareNotes">
-              <Field name="dutyOfCareNote" />
+            <Field name="notes">
+              <Field name="note" />
             </Field>
           </Col>
         </Cols>
@@ -40,8 +40,8 @@ const template = (configContext) => {
           </Field>
         </Field>
 
-        <Field name="dutyOfCareDetailsGroupList">
-          <Field name="dutyOfCareDetailsGroup">
+        <Field name="detailGroupList">
+          <Field name="detailGroup">
             <Panel>
               <Row>
                 <Field name="detailType" />
