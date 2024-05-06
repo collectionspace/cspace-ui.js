@@ -11,7 +11,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.dutyofcare.default.dutyOfCareNumber',
-            defaultMessage: 'Duty of care ID',
+            defaultMessage: 'Duty of care number',
           },
         }),
         order: 10,
@@ -34,42 +34,6 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.dutyofcare.default.updatedAt',
-            defaultMessage: 'Updated',
-          },
-        }),
-        order: 30,
-        sortBy: 'collectionspace_core:updatedAt',
-        width: 150,
-      },
-    },
-    narrow: {
-      dutyOfCareNumber: {
-        messages: defineMessages({
-          label: {
-            id: 'column.dutyofcare.narrow.dutyOfCareNumber',
-            defaultMessage: 'ID',
-          },
-        }),
-        order: 10,
-        sortBy: 'dutyofcares_common:dutyOfCareNumber',
-        width: 200,
-      },
-      title: {
-        messages: defineMessages({
-          label: {
-            id: 'column.dutyofcare.narrow.title',
-            defaultMessage: 'Title',
-          },
-        }),
-        order: 20,
-        sortBy: 'dutyofcares_common:title',
-        width: 200,
-      },
-      updatedAt: {
-        formatValue: formatTimestamp,
-        messages: defineMessages({
-          label: {
-            id: 'column.dutyofcare.narrow.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
