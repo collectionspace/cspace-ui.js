@@ -14,6 +14,7 @@ import concept from './concept';
 import conditioncheck from './conditioncheck';
 import conservation from './conservation';
 import contact from './contact';
+import dutyofcare from './dutyofcare';
 import exhibition from './exhibition';
 import exxport from './export';
 import group from './group';
@@ -60,6 +61,7 @@ export default [
   conditioncheck,
   conservation,
   contact,
+  dutyofcare,
   exhibition,
   exxport,
   group,
