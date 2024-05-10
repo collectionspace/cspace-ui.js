@@ -90,12 +90,15 @@ const propTypes = {
   csrf: PropTypes.object,
   intl: intlShape.isRequired,
   tenantId: PropTypes.string,
+  tenantLoginUrl: PropTypes.string,
   token: PropTypes.string.isRequired,
 };
 
 const defaultProps = {
   csrf: null,
   tenantId: null,
+  // If we don't receive a tenant-specific login URL, default to the services login page.
+  tenantLoginUrl: '/cspace-services/login',
 };
 
 function PasswordResetPage(props) {
@@ -103,6 +106,7 @@ function PasswordResetPage(props) {
     csrf,
     intl,
     tenantId,
+    tenantLoginUrl,
     token,
   } = props;
 
@@ -175,7 +179,7 @@ function PasswordResetPage(props) {
           setError(null);
 
           const loginLink = (
-            <a href="../login">
+            <a href={tenantLoginUrl}>
               <FormattedMessage {...messages.loginLink} />
             </a>
           );

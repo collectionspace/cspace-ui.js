@@ -42,6 +42,7 @@ export default (uiConfig) => {
     messages,
     sso,
     tenantId,
+    tenantLoginUrl,
     token,
   } = config;
 
@@ -116,6 +117,7 @@ export default (uiConfig) => {
                   <PasswordResetPage
                     csrf={csrf}
                     tenantId={tenantId}
+                    tenantLoginUrl={tenantLoginUrl}
                     token={token}
                   />
                 )}
