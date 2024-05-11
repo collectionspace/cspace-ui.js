@@ -128,6 +128,11 @@ const authCodeRequestRedirectUrl = (serverUrl) => {
   const authorizedUrl = new URL('authorized', currentUrl);
 
   if (!serverUrl) {
+    // Note: The "/.." prefix is needed because Spring Security OAuth appears to be appending
+    // to the base path of the services layer when sending redirects, so "/cspace" becomes
+    // "/cspace-services/cspace". The "/.." works around that, until I can figure out how to
+    // configure Spring to do something different.
+
     return `/..${authorizedUrl.pathname}`;
   }
 
