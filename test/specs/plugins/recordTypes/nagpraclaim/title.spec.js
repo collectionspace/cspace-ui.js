@@ -13,7 +13,7 @@ describe('nagpraclaim record title', () => {
       document: {
         'ns2:nagpraclaims_common': {
           claimNumber: 'NCL',
-          claimTitle: 'Title',
+          title: 'Title',
         },
       },
     });
@@ -37,7 +37,7 @@ describe('nagpraclaim record title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:nagpraclaims_common': {
-          claimTitle: 'Title',
+          title: 'Title',
         },
       },
     });
