@@ -470,7 +470,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'concept/culture',
+                    source: 'concept/ethculture',
                   },
                 },
               },
