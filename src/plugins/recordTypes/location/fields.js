@@ -409,7 +409,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.persons_common.conditionGroup.name',
+                  id: 'field.locations_common.conditionGroup.name',
                   defaultMessage: 'Condition note',
                 },
               }),
