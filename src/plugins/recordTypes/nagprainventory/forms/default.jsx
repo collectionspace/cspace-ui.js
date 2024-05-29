@@ -78,7 +78,7 @@ const template = (configContext) => {
         </Field>
       </Panel>
 
-      <Panel id="context">
+      <Panel name="context" collapsible collapsed>
         <Cols>
           <Col>
             <Field name="geographicPlaceGroupList">
