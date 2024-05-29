@@ -326,22 +326,30 @@ export default (configContext) => {
                 },
               },
             },
-            determinedBy: {
+            determinedByList: {
               [config]: {
-                messages: defineMessages({
-                  fullName: {
-                    id: 'field.nagprainventories_common.determinedBy.fullName',
-                    defaultMessage: 'Inventory cultural affiliation determined by',
-                  },
-                  name: {
-                    id: 'field.nagprainventories_common.determinedBy.name',
-                    defaultMessage: 'Determined by',
-                  },
-                }),
                 view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'person/local,person/ulan,organization/local,organization/ulan',
+                  type: CompoundInput,
+                },
+              },
+              determinedBy: {
+                [config]: {
+                  messages: defineMessages({
+                    fullName: {
+                      id: 'field.nagprainventories_common.determinedBy.fullName',
+                      defaultMessage: 'Inventory cultural affiliation determined by',
+                    },
+                    name: {
+                      id: 'field.nagprainventories_common.determinedBy.name',
+                      defaultMessage: 'Determined by',
+                    },
+                  }),
+                  repeating: true,
+                  view: {
+                    type: AutocompleteInput,
+                    props: {
+                      source: 'person/local,person/ulan,organization/local,organization/ulan',
+                    },
                   },
                 },
               },
@@ -379,6 +387,7 @@ export default (configContext) => {
                 view: {
                   type: TextInput,
                   props: {
+                    height: 46,
                     multiline: true,
                   },
                 },
@@ -399,6 +408,7 @@ export default (configContext) => {
                 view: {
                   type: TextInput,
                   props: {
+                    height: 46,
                     multiline: true,
                   },
                 },
@@ -520,6 +530,10 @@ export default (configContext) => {
                 }),
                 view: {
                   type: TextInput,
+                  props: {
+                    height: 46,
+                    multiline: true,
+                  },
                 },
               },
             },

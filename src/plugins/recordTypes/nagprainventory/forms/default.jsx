@@ -54,7 +54,9 @@ const template = (configContext) => {
               <Row>
                 <Field name="tribeOrNation" />
                 <Field name="includeInNotice" />
-                <Field name="determinedBy" />
+                <Field name="determinedByList">
+                  <Field name="determinedBy" />
+                </Field>
                 <Field name="determinationDate" />
               </Row>
               <Field name="basisOfDetermination" />
