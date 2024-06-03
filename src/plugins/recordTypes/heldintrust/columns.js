@@ -19,16 +19,16 @@ export default (configContext) => {
         sortBy: 'heldintrusts_common:heldInTrustNumber',
         width: 200,
       },
-      depositor: {
+      owner: {
         formatValue: formatRefName,
         messages: defineMessages({
           label: {
-            id: 'column.heldintrust.default.depositor',
-            defaultMessage: 'Depositor',
+            id: 'column.heldintrust.default.owner',
+            defaultMessage: 'Owner',
           },
         }),
         order: 20,
-        sortBy: 'heldintrusts_common:heldInTrustDepositorGroupList/0/depositor',
+        sortBy: 'heldintrusts_common:owners/owner/0',
         width: 450,
       },
       updatedAt: {

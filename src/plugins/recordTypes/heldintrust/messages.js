@@ -14,17 +14,9 @@ export default {
     },
   }),
   panel: defineMessages({
-    heldintrust: {
+    info: {
       id: 'panel.heldintrust.info',
       defaultMessage: 'Held-in-Trust Information',
-    },
-    cultureCareAndHandling: {
-      id: 'panel.heldintrust.cultureCareAndHandling',
-      defaultMessage: 'Culture Care and Handling',
-    },
-    correspondence: {
-      id: 'panel.heldintrust.correspondence',
-      defaultMessage: 'Correspondence',
     },
   }),
 };

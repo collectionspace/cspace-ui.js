@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default {
   heldintrust: {
-    csid: '038b61f2-2975-4b33-ac93-ce8d8b6042f0',
+    csid: '6b5bc008-34f9-40be-bd49-0440ee9f262d',
     messages: defineMessages({
       type: {
         id: 'idGenerator.heldintrust.type',
