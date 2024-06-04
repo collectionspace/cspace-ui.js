@@ -53,7 +53,7 @@ export default (configContext) => {
               },
               name: {
                 id: 'field.nagprainventories_common.inventoryNumber.name',
-                defaultMessage: 'Inventory/Documentation Number',
+                defaultMessage: 'Inventory/documentation Number',
               },
             }),
             required: true,
@@ -79,7 +79,7 @@ export default (configContext) => {
             messages: defineMessages({
               name: {
                 id: 'field.nagprainventories_common.originationDate.name',
-                defaultMessage: 'Origination Date',
+                defaultMessage: 'Origination date',
               },
             }),
             view: {
