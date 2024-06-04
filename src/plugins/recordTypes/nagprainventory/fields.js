@@ -451,10 +451,7 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: AutocompleteInput,
-                  props: {
-                    source: 'organization/local,organization/ulan',
-                  },
+                  type: TextInput,
                 },
               },
             },
