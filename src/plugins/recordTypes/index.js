@@ -29,6 +29,7 @@ import location from './location';
 import media from './media';
 import movement from './movement';
 import nagpraclaim from './nagpraclaim';
+import nagprainventory from './nagprainventory';
 import object from './object';
 import objectexit from './objectexit';
 import organization from './organization';
@@ -77,6 +78,7 @@ export default [
   media,
   movement,
   nagpraclaim,
+  nagprainventory,
   object,
   objectexit,
   organization,
