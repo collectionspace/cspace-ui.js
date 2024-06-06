@@ -13,7 +13,7 @@ export default (configContext) => {
     value: [
       {
         op: OP_CONTAIN,
-        path: 'ns2:summarydocumentations_common/documentationCommon',
+        path: 'ns2:summarydocumentations_common/documentationNumber',
       },
       ...extensions.core.advancedSearch,
     ],
