@@ -1,3 +1,14 @@
+@value textDark from '../colors.css';
+@value activeEdgeWidth from '../dimensions.css';
+
+.common > a:focus {
+  outline: solid textDark;
+  outline-width: activeEdgeWidth;
+  outline-offset: activeEdgeWidth;
+  border-radius: 1px;
+  position: relative;
+}
+
 .common > a {
   display: inline-block;
 }

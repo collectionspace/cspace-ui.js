@@ -6,7 +6,6 @@
 
 .common > :global(.cspace-ui-Logo--common) {
   flex: 0 1 auto;
-  overflow: hidden;
 
   margin-right: 22px;
   /*
