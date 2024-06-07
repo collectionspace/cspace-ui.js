@@ -470,6 +470,9 @@ export default {
   // Title of the dashboard page.
   "dashboardPage.title": "My CollectionSpace",
 
+  // The tooltip for DateInput dropdowns.
+  "dateInput.tooltip": "Use the down arrow key or mouse to open the calendar",
+
   // The value of a datetime field.
   "dateTimeInputContainer.value": "{date} {time}",
 
