@@ -13,6 +13,7 @@ import collectionobject from './collectionobject';
 import concept from './concept';
 import conditioncheck from './conditioncheck';
 import conservation from './conservation';
+import consultation from './consultation';
 import contact from './contact';
 import dutyofcare from './dutyofcare';
 import exhibition from './exhibition';
@@ -63,6 +64,7 @@ export default [
   concept,
   conditioncheck,
   conservation,
+  consultation,
   contact,
   dutyofcare,
   exhibition,
