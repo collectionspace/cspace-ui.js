@@ -11,12 +11,12 @@ describe('heldintrust record columns', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have depositor source column that is formatted as a refname display name', () => {
-    const { depositor } = columns.default;
+  it('should have owner source column that is formatted as a refname display name', () => {
+    const { owner } = columns.default;
 
-    depositor.should.have.property('formatValue').that.is.a('function');
+    owner.should.have.property('formatValue').that.is.a('function');
 
-    depositor.formatValue('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(johndoe)\'John Doe\'').should
+    owner.formatValue('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(johndoe)\'John Doe\'').should
       .equal('John Doe');
   });
 });
