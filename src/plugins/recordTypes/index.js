@@ -40,6 +40,7 @@ import relation from './relation';
 import report from './report';
 import reportinvocation from './reportinvocation';
 import structdateparser from './structdateparser';
+import summarydocumentation from './summarydocumentation';
 import transport from './transport';
 import uoc from './uoc';
 import valuation from './valuation';
@@ -91,6 +92,7 @@ export default [
   report,
   reportinvocation,
   structdateparser,
+  summarydocumentation,
   valuation,
   vocabulary,
   work,
