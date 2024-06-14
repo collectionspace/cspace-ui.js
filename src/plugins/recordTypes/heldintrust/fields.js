@@ -22,6 +22,10 @@ export default (configContext) => {
     extensions,
   } = configContext.config;
 
+  const {
+    validateNotInUse,
+  } = configContext.validationHelpers;
+
   return {
     document: {
       [config]: {
@@ -43,6 +47,10 @@ export default (configContext) => {
           [config]: {
             cloneable: false,
             messages: defineMessages({
+              inUse: {
+                id: 'field.heldintrusts_common.heldInTrustNumber.inUse',
+                defaultMessage: 'The Held-in-Trust number {value} is in use by another record.',
+              },
               name: {
                 id: 'field.heldintrusts_common.heldInTrustNumber.name',
                 defaultMessage: 'Held-in-Trust number',
@@ -52,6 +60,11 @@ export default (configContext) => {
             searchView: {
               type: TextInput,
             },
+            validate: (validationContext) => validateNotInUse({
+              configContext,
+              validationContext,
+              fieldName: 'heldintrusts_common:heldInTrustNumber',
+            }),
             view: {
               type: IDGeneratorInput,
               props: {
