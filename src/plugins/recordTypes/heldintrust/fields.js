@@ -82,7 +82,7 @@ export default (configContext) => {
               },
             }),
             view: {
-              type: AutocompleteInput,
+              type: TermPickerInput,
               props: {
                 source: 'heldintrusttype',
               },
