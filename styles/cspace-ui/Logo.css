@@ -1,3 +1,6 @@
+@value textDark from '../colors.css';
+@value activeEdgeWidth from '../dimensions.css';
+
 .common > a {
   display: inline-block;
 }
