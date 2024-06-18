@@ -19,7 +19,7 @@ export default (configContext) => (data) => {
   }
 
   const hitNumber = common.get('heldInTrustNumber');
-  const depositor = getDisplayName(deepGet(common, ['heldInTrustDepositorGroupList', 'heldInTrustDepositorGroup', 0, 'depositor']));
+  const depositor = getDisplayName(deepGet(common, ['owners', 'owner', 0]));
 
   return [hitNumber, depositor].filter((part) => !!part).join(' – ');
 };

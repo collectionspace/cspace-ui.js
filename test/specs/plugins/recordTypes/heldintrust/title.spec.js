@@ -13,10 +13,10 @@ describe('heldintrust record title', () => {
       document: {
         'ns2:heldintrusts_common': {
           heldInTrustNumber: 'HIT2023.1',
-          heldInTrustDepositorGroupList: {
-            heldInTrustDepositorGroup: {
-              depositor: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Depositor)\'Depositor\'',
-            },
+          owners: {
+            owner: [
+              'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Depositor)\'Depositor\'',
+            ],
           },
         },
       },
@@ -30,10 +30,8 @@ describe('heldintrust record title', () => {
       document: {
         'ns2:heldintrusts_common': {
           heldInTrustNumber: 'HIT2023.1',
-          heldInTrustDepositorGroupList: {
-            heldInTrustDepositorGroup: {
-              depositor: '',
-            },
+          owners: {
+            owner: [],
           },
         },
       },
@@ -47,10 +45,8 @@ describe('heldintrust record title', () => {
       document: {
         'ns2:heldintrusts_common': {
           heldInTrustNumber: '',
-          heldInTrustDepositorGroupList: {
-            heldInTrustDepositorGroup: {
-              depositor: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Depositor)\'Depositor\'',
-            },
+          owners: {
+            owner: ['urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Depositor)\'Depositor\''],
           },
         },
       },

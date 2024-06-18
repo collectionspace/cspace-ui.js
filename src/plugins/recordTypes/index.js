@@ -18,7 +18,7 @@ import dutyofcare from './dutyofcare';
 import exhibition from './exhibition';
 import exxport from './export';
 import group from './group';
-// import heldintrust from './heldintrust';
+import heldintrust from './heldintrust';
 import idgenerator from './idgenerator';
 import insurance from './insurance';
 import intake from './intake';
@@ -68,7 +68,7 @@ export default [
   exhibition,
   exxport,
   group,
-  // heldintrust,
+  heldintrust,
   idgenerator,
   insurance,
   intake,
