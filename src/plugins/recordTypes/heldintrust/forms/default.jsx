@@ -71,6 +71,23 @@ const template = (configContext) => {
           </Field>
         </Field>
       </Panel>
+
+      <Panel name="culturalCare" collapsible collapsed>
+        <Field name="culturalCareNotes">
+          <Field name="culturalCareNote" />
+        </Field>
+
+        <Field name="accessLimitationsGroupList">
+          <Field name="accessLimitationsGroup">
+            <Field name="limitationType" />
+            <Field name="limitationLevel" />
+            <Field name="limitationDetails" />
+            <Field name="requester" />
+            <Field name="requestOnBehalfOf" />
+            <Field name="requestDate" />
+          </Field>
+        </Field>
+      </Panel>
     </Field>
   );
 };
