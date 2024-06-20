@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl';
 export default (configContext) => {
   const {
     CompoundInput,
-    AutocompleteInput,
+    TextInput,
   } = configContext.inputComponents;
 
   const {
@@ -11,27 +11,25 @@ export default (configContext) => {
   } = configContext.configHelpers;
 
   return {
-    document: {
+    params: {
       [config]: {
         view: {
           type: CompoundInput,
         },
       },
-      target: {
+      groupItems: {
         [config]: {
           messages: defineMessages({
             name: {
-              id: 'field.batch.Merge Authority Items.targetCSID.name',
-              defaultMessage: 'Target record',
+              id: 'field.batch.Merge Authority Items.groupItems.name',
+              defaultMessage: 'Group items',
             },
           }),
           required: true,
           view: {
-            type: AutocompleteInput,
+            type: TextInput,
             props: {
-              disableAltTerms: true,
-              source: 'citation/local,citation/worldcat,concept/activity,concept/associated,concept/material,concept/occasion,organization/local,organization/ulan,person/local,person/ulan,place/local,place/tgn,location/local,location/offsite,work/local',
-              showQuickAdd: false,
+              multiline: true,
             },
           },
         },
