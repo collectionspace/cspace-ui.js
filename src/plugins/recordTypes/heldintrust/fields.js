@@ -453,6 +453,169 @@ export default (configContext) => {
             },
           },
         },
+        culturalCareNotes: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          culturalCareNote: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.heldintrusts_common.culturalCareNote.name',
+                  defaultMessage: 'Cultural care note',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TextInput,
+                props: {
+                  multiline: true,
+                },
+              },
+            },
+          },
+        },
+        accessLimitationsGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          accessLimitationsGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.heldintrusts_common.accessLimitationsGroup.name',
+                  defaultMessage: 'Access limitation',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            limitationType: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.heldintrusts_common.limitationType.fullName',
+                    defaultMessage: 'Access limitation type',
+                  },
+                  name: {
+                    id: 'field.heldintrusts_common.limitationType.name',
+                    defaultMessage: 'Type',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'limitationtype',
+                  },
+                },
+              },
+            },
+            limitationLevel: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.heldintrusts_common.limitationLevel.fullName',
+                    defaultMessage: 'Access limitation level',
+                  },
+                  name: {
+                    id: 'field.heldintrusts_common.limitationLevel.name',
+                    defaultMessage: 'Level',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'limitationlevel',
+                  },
+                },
+              },
+            },
+            limitationDetails: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.heldintrusts_common.limitationDetails.fullName',
+                    defaultMessage: 'Access limitation detail',
+                  },
+                  name: {
+                    id: 'field.heldintrusts_common.limitationDetails.name',
+                    defaultMessage: 'Detail',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            requester: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.heldintrusts_common.requester.fullName',
+                    defaultMessage: 'Access limitation requestor',
+                  },
+                  name: {
+                    id: 'field.heldintrusts_common.requester.name',
+                    defaultMessage: 'Requestor',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local',
+                  },
+                },
+              },
+            },
+            requestOnBehalfOf: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.heldintrusts_common.requestOnBehalfOf.fullName',
+                    defaultMessage: 'Access limitation requested on behalf of',
+                  },
+                  name: {
+                    id: 'field.heldintrusts_common.requestOnBehalfOf.name',
+                    defaultMessage: 'On behalf of',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local',
+                  },
+                },
+              },
+            },
+            requestDate: {
+              [config]: {
+                dataType: DATA_TYPE_DATE,
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.heldintrusts_common.requestDate.fullName',
+                    defaultMessage: 'Access limitation request date',
+                  },
+                  name: {
+                    id: 'field.heldintrusts_common.requestDate.name',
+                    defaultMessage: 'Date',
+                  },
+                }),
+                view: {
+                  type: DateInput,
+                },
+              },
+            },
+          },
+        },
       },
     },
   };
