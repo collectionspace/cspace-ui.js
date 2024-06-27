@@ -7,7 +7,7 @@ export default (configContext) => (data) => {
     return '';
   }
 
-  const common = getPart(data, 'nagpraclaims_common');
+  const common = getPart(data, 'repatriationclaims_common');
 
   if (!common) {
     return '';

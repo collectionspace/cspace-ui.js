@@ -29,7 +29,6 @@ import loanout from './loanout';
 import location from './location';
 import media from './media';
 import movement from './movement';
-import nagpraclaim from './nagpraclaim';
 import nagprainventory from './nagprainventory';
 import object from './object';
 import objectexit from './objectexit';
@@ -38,6 +37,7 @@ import person from './person';
 import place from './place';
 import procedure from './procedure';
 import relation from './relation';
+import repatriationclaim from './repatriationclaim';
 import report from './report';
 import reportinvocation from './reportinvocation';
 import structdateparser from './structdateparser';
@@ -60,6 +60,7 @@ export default [
   blob,
   citation,
   chronology,
+  repatriationclaim,
   collectionobject,
   concept,
   conditioncheck,
@@ -80,7 +81,6 @@ export default [
   location,
   media,
   movement,
-  nagpraclaim,
   nagprainventory,
   object,
   objectexit,
