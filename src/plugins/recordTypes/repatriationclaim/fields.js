@@ -100,13 +100,13 @@ export default (configContext) => {
             },
           },
         },
-        alternativeTitleGroupList: {
+        alternativeIdentifierGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          alternativeTitleGroup: {
+          alternativeIdentifierGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
@@ -122,7 +122,7 @@ export default (configContext) => {
                 },
               },
             },
-            alternativeTitle: {
+            alternativeIdentifier: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
@@ -139,7 +139,7 @@ export default (configContext) => {
                 },
               },
             },
-            alternativeTitleNote: {
+            alternativeIdentifierNote: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
@@ -555,13 +555,13 @@ export default (configContext) => {
             },
           },
         },
-        nagpraStatusGroupList: {
+        statusGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          nagpraStatusGroup: {
+          statusGroup: {
             [config]: {
               messages: defineMessages({
                 fullName: {
@@ -574,7 +574,7 @@ export default (configContext) => {
                 type: CompoundInput,
               },
             },
-            statusGroup: {
+            statusGroupType: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
@@ -587,7 +587,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
                 },
               },
             },
@@ -672,13 +675,13 @@ export default (configContext) => {
             },
           },
         },
-        nagpraDocumentationGroupList: {
+        documentationGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          nagpraDocumentationGroup: {
+          documentationGroup: {
             [config]: {
               messages: defineMessages({
                 fullName: {
@@ -771,7 +774,7 @@ export default (configContext) => {
                 },
               },
             },
-            documentationGroup: {
+            documentationGroupType: {
               [config]: {
                 messages: defineMessages({
                   fullName: {

@@ -26,10 +26,10 @@ const template = (configContext) => {
             <Field name="types">
               <Field name="type" />
             </Field>
-            <Field name="alternativeTitleGroupList">
-              <Field name="alternativeTitleGroup">
-                <Field name="alternativeTitle" />
-                <Field name="alternativeTitleNote" />
+            <Field name="alternativeIdentifierGroupList">
+              <Field name="alternativeIdentifierGroup">
+                <Field name="alternativeIdentifier" />
+                <Field name="alternativeIdentifierNote" />
               </Field>
             </Field>
           </Col>
@@ -86,11 +86,11 @@ const template = (configContext) => {
       </Panel>
 
       <Panel name="status" collapsible collapsed>
-        <Field name="nagpraStatusGroupList">
-          <Field name="nagpraStatusGroup">
+        <Field name="statusGroupList">
+          <Field name="statusGroup">
             <Panel>
               <Row>
-                <Field name="statusGroup" />
+                <Field name="statusGroupType" />
                 <Field name="statusIndividual" />
                 <Field name="status" />
                 <Field name="statusDate" />
@@ -102,11 +102,11 @@ const template = (configContext) => {
       </Panel>
 
       <Panel name="documentation" collapsible collapsed>
-        <Field name="nagpraDocumentationGroupList">
-          <Field name="nagpraDocumentationGroup">
+        <Field name="documentationGroupList">
+          <Field name="documentationGroup">
             <Panel>
               <Row>
-                <Field name="documentationGroup" />
+                <Field name="documentationGroupType" />
                 <Field name="documentationIndividual" />
                 <Field name="documentationStatus" />
                 <Field name="documentationDate" />
