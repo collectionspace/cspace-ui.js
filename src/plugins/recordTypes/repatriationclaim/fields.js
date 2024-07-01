@@ -174,7 +174,10 @@ export default (configContext) => {
               }),
               repeating: true,
               view: {
-                type: TextInput,
+                type: TermPickerInput,
+                props: {
+                  source: 'claimtype',
+                },
               },
             },
           },
