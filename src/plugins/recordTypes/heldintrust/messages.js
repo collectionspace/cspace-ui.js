@@ -18,5 +18,9 @@ export default {
       id: 'panel.heldintrust.info',
       defaultMessage: 'Held-in-Trust Information',
     },
+    culturalCare: {
+      id: 'panel.heldintrust.culturalCare',
+      defaultMessage: 'Cultural Care Information',
+    },
   }),
 };
