@@ -40,6 +40,7 @@ import relation from './relation';
 import repatriationclaim from './repatriationclaim';
 import report from './report';
 import reportinvocation from './reportinvocation';
+import restrictedmedia from './restrictedmedia';
 import structdateparser from './structdateparser';
 import summarydocumentation from './summarydocumentation';
 import transport from './transport';
@@ -93,6 +94,7 @@ export default [
   relation,
   report,
   reportinvocation,
+  restrictedmedia,
   structdateparser,
   summarydocumentation,
   valuation,
