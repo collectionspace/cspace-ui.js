@@ -622,11 +622,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.status.fullName',
-                    defaultMessage: 'Claim status state',
+                    defaultMessage: 'Claim status value',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.status.name',
-                    defaultMessage: 'State',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {
