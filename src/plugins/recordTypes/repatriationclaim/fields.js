@@ -32,15 +32,15 @@ export default (configContext) => {
         view: {
           type: CompoundInput,
           props: {
-            defaultChildSubpath: 'ns2:nagpraclaims_common',
+            defaultChildSubpath: 'ns2:repatriationclaims_common',
           },
         },
       },
       ...extensions.core.fields,
-      'ns2:nagpraclaims_common': {
+      'ns2:repatriationclaims_common': {
         [config]: {
           service: {
-            ns: 'http://collectionspace.org/services/nagpraclaim',
+            ns: 'http://collectionspace.org/services/repatriationclaim',
           },
         },
         claimNumber: {
@@ -48,11 +48,11 @@ export default (configContext) => {
             cloneable: false,
             messages: defineMessages({
               inUse: {
-                id: 'field.nagpraclaims_common.claimNumber.inUse',
+                id: 'field.repatriationclaims_common.claimNumber.inUse',
                 defaultMessage: 'The identification number {value} is in use by another record.',
               },
               name: {
-                id: 'field.nagpraclaims_common.claimNumber.name',
+                id: 'field.repatriationclaims_common.claimNumber.name',
                 defaultMessage: 'Claim number',
               },
             }),
@@ -63,12 +63,12 @@ export default (configContext) => {
             validate: (validationContext) => validateNotInUse({
               configContext,
               validationContext,
-              fieldName: 'nagpraclaims_common:claimNumber',
+              fieldName: 'repatriationclaims_common:claimNumber',
             }),
             view: {
               type: IDGeneratorInput,
               props: {
-                source: 'nagpraclaim',
+                source: 'repatriationclaim',
               },
             },
           },
@@ -77,7 +77,7 @@ export default (configContext) => {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.nagpraclaims_common.title.name',
+                id: 'field.repatriationclaims_common.title.name',
                 defaultMessage: 'Title',
               },
             }),
@@ -91,7 +91,7 @@ export default (configContext) => {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.nagpraclaims_common.claimDate.name',
+                id: 'field.repatriationclaims_common.claimDate.name',
                 defaultMessage: 'Origination date',
               },
             }),
@@ -100,18 +100,18 @@ export default (configContext) => {
             },
           },
         },
-        alternativeTitleGroupList: {
+        alternativeIdentifierGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          alternativeTitleGroup: {
+          alternativeIdentifierGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.alternativeTitleGroup.name',
-                  defaultMessage: 'Alternative title',
+                  id: 'field.repatriationclaims_common.alternativeIdentifierGroup.name',
+                  defaultMessage: 'Alternative identifier',
                 },
               }),
               repeating: true,
@@ -122,16 +122,16 @@ export default (configContext) => {
                 },
               },
             },
-            alternativeTitle: {
+            alternativeIdentifier: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.alternativeTitle.fullName',
-                    defaultMessage: 'Alternative title name/number',
+                    id: 'field.repatriationclaims_common.alternativeIdentifier.fullName',
+                    defaultMessage: 'Alternative identifier value',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.alternativeTitle.name',
-                    defaultMessage: 'Name/number',
+                    id: 'field.repatriationclaims_common.alternativeIdentifier.name',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {
@@ -139,15 +139,15 @@ export default (configContext) => {
                 },
               },
             },
-            alternativeTitleNote: {
+            alternativeIdentifierNote: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.alternativeTitleNote.fullName',
-                    defaultMessage: 'Alternative title note',
+                    id: 'field.repatriationclaims_common.alternativeIdentifierNote.fullName',
+                    defaultMessage: 'Alternative identifier note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.alternativeTitleNote.name',
+                    id: 'field.repatriationclaims_common.alternativeIdentifierNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -168,13 +168,16 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.type.name',
+                  id: 'field.repatriationclaims_common.type.name',
                   defaultMessage: 'Type',
                 },
               }),
               repeating: true,
               view: {
-                type: TextInput,
+                type: TermPickerInput,
+                props: {
+                  source: 'claimtype',
+                },
               },
             },
           },
@@ -189,7 +192,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.note.name',
+                  id: 'field.repatriationclaims_common.note.name',
                   defaultMessage: 'Note',
                 },
               }),
@@ -213,7 +216,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.treatmentNote.name',
+                  id: 'field.repatriationclaims_common.treatmentNote.name',
                   defaultMessage: 'Treatment note',
                 },
               }),
@@ -237,7 +240,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.partiesInvolvedGroup.name',
+                  id: 'field.repatriationclaims_common.partiesInvolvedGroup.name',
                   defaultMessage: 'Party involved',
                 },
               }),
@@ -253,11 +256,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.involvedParty.fullName',
+                    id: 'field.repatriationclaims_common.involvedParty.fullName',
                     defaultMessage: 'Party involved name',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.involvedParty.name',
+                    id: 'field.repatriationclaims_common.involvedParty.name',
                     defaultMessage: 'Name',
                   },
                 }),
@@ -273,11 +276,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.involvedOnBehalfOf.fullName',
+                    id: 'field.repatriationclaims_common.involvedOnBehalfOf.fullName',
                     defaultMessage: 'Party involved on behalf of',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.involvedOnBehalfOf.name',
+                    id: 'field.repatriationclaims_common.involvedOnBehalfOf.name',
                     defaultMessage: 'On behalf of',
                   },
                 }),
@@ -293,11 +296,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.involvedRole.fullName',
+                    id: 'field.repatriationclaims_common.involvedRole.fullName',
                     defaultMessage: 'Party involved role',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.involvedRole.name',
+                    id: 'field.repatriationclaims_common.involvedRole.name',
                     defaultMessage: 'Role',
                   },
                 }),
@@ -321,7 +324,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.geographicPlaceGroup.name',
+                  id: 'field.repatriationclaims_common.geographicPlaceGroup.name',
                   defaultMessage: 'Place represented',
                 },
               }),
@@ -337,11 +340,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.geographicPlace.fullName',
+                    id: 'field.repatriationclaims_common.geographicPlace.fullName',
                     defaultMessage: 'Place represented name',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.geographicPlace.name',
+                    id: 'field.repatriationclaims_common.geographicPlace.name',
                     defaultMessage: 'Name',
                   },
                 }),
@@ -357,11 +360,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.geographicPlaceNote.fullName',
+                    id: 'field.repatriationclaims_common.geographicPlaceNote.fullName',
                     defaultMessage: 'Place represented note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.geographicPlaceNote.name',
+                    id: 'field.repatriationclaims_common.geographicPlaceNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -382,7 +385,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.timePeriodGroup.name',
+                  id: 'field.repatriationclaims_common.timePeriodGroup.name',
                   defaultMessage: 'Time period',
                 },
               }),
@@ -398,11 +401,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.timePeriod.fullName',
+                    id: 'field.repatriationclaims_common.timePeriod.fullName',
                     defaultMessage: 'Time period era',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.timePeriod.name',
+                    id: 'field.repatriationclaims_common.timePeriod.name',
                     defaultMessage: 'Era',
                   },
                 }),
@@ -418,11 +421,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.timePeriodNote.fullName',
+                    id: 'field.repatriationclaims_common.timePeriodNote.fullName',
                     defaultMessage: 'Time period note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.timePeriodNote.name',
+                    id: 'field.repatriationclaims_common.timePeriodNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -443,7 +446,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.culturalGroup.name',
+                  id: 'field.repatriationclaims_common.culturalGroup.name',
                   defaultMessage: 'Cultural group',
                 },
               }),
@@ -459,11 +462,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.culture.fullName',
+                    id: 'field.repatriationclaims_common.culture.fullName',
                     defaultMessage: 'Cultural group name',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.culture.name',
+                    id: 'field.repatriationclaims_common.culture.name',
                     defaultMessage: 'Name',
                   },
                 }),
@@ -479,11 +482,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.cultureNote.fullName',
+                    id: 'field.repatriationclaims_common.cultureNote.fullName',
                     defaultMessage: 'Cultural group note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.cultureNote.name',
+                    id: 'field.repatriationclaims_common.cultureNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -504,7 +507,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagpraclaims_common.archaeologicalSiteGroup.name',
+                  id: 'field.repatriationclaims_common.archaeologicalSiteGroup.name',
                   defaultMessage: 'Archaeological site',
                 },
               }),
@@ -520,11 +523,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.archaeologicalSite.fullName',
+                    id: 'field.repatriationclaims_common.archaeologicalSite.fullName',
                     defaultMessage: 'Archaeological site name',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.archaeologicalSite.name',
+                    id: 'field.repatriationclaims_common.archaeologicalSite.name',
                     defaultMessage: 'Name',
                   },
                 }),
@@ -540,11 +543,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.archaeologicalSiteNote.fullName',
+                    id: 'field.repatriationclaims_common.archaeologicalSiteNote.fullName',
                     defaultMessage: 'Archaeological site note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.archaeologicalSiteNote.name',
+                    id: 'field.repatriationclaims_common.archaeologicalSiteNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -555,17 +558,17 @@ export default (configContext) => {
             },
           },
         },
-        nagpraStatusGroupList: {
+        statusGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          nagpraStatusGroup: {
+          statusGroup: {
             [config]: {
               messages: defineMessages({
-                name: {
-                  id: 'field.nagpraclaims_common.nagpraStatusGroup.name',
+                fullName: {
+                  id: 'field.repatriationclaims_common.statusGroup.fullName',
                   defaultMessage: 'Claim status',
                 },
               }),
@@ -574,20 +577,23 @@ export default (configContext) => {
                 type: CompoundInput,
               },
             },
-            statusGroup: {
+            statusGroupType: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.statusGroup.fullName',
+                    id: 'field.repatriationclaims_common.statusGroupType.fullName',
                     defaultMessage: 'Claim status group',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.statusGroup.name',
+                    id: 'field.repatriationclaims_common.statusGroupType.name',
                     defaultMessage: 'Group',
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
                 },
               },
             },
@@ -595,11 +601,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.statusIndividual.fullName',
+                    id: 'field.repatriationclaims_common.statusIndividual.fullName',
                     defaultMessage: 'Claim status individual',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.statusIndividual.name',
+                    id: 'field.repatriationclaims_common.statusIndividual.name',
                     defaultMessage: 'Individual',
                   },
                 }),
@@ -615,12 +621,12 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.status.fullName',
-                    defaultMessage: 'Claim status state',
+                    id: 'field.repatriationclaims_common.status.fullName',
+                    defaultMessage: 'Claim status value',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.status.name',
-                    defaultMessage: 'State',
+                    id: 'field.repatriationclaims_common.status.name',
+                    defaultMessage: 'Value',
                   },
                 }),
                 view: {
@@ -636,11 +642,11 @@ export default (configContext) => {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.statusDate.fullName',
+                    id: 'field.repatriationclaims_common.statusDate.fullName',
                     defaultMessage: 'Claim status date',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.statusDate.name',
+                    id: 'field.repatriationclaims_common.statusDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -653,11 +659,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.statusNote.fullName',
+                    id: 'field.repatriationclaims_common.statusNote.fullName',
                     defaultMessage: 'Claim status note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.statusNote.name',
+                    id: 'field.repatriationclaims_common.statusNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -672,17 +678,17 @@ export default (configContext) => {
             },
           },
         },
-        nagpraDocumentationGroupList: {
+        documentationGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          nagpraDocumentationGroup: {
+          documentationGroup: {
             [config]: {
               messages: defineMessages({
-                name: {
-                  id: 'field.nagpraclaims_common.nagpraDocumentationGroup.name',
+                fullName: {
+                  id: 'field.repatriationclaims_common.documentationGroup.fullName',
                   defaultMessage: 'Claim documentation',
                 },
               }),
@@ -695,11 +701,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.documentationNote.fullName',
+                    id: 'field.repatriationclaims_common.documentationNote.fullName',
                     defaultMessage: 'Claim documentation note',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.documentationNote.name',
+                    id: 'field.repatriationclaims_common.documentationNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -718,11 +724,11 @@ export default (configContext) => {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.documentationDate.fullName',
+                    id: 'field.repatriationclaims_common.documentationDate.fullName',
                     defaultMessage: 'Claim documentation date',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.documentationDate.name',
+                    id: 'field.repatriationclaims_common.documentationDate.name',
                     defaultMessage: 'Date',
                   },
                 }),
@@ -735,11 +741,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.documentationStatus.fullName',
+                    id: 'field.repatriationclaims_common.documentationStatus.fullName',
                     defaultMessage: 'Claim documentation status',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.documentationStatus.name',
+                    id: 'field.repatriationclaims_common.documentationStatus.name',
                     defaultMessage: 'Status',
                   },
                 }),
@@ -755,11 +761,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.documentationIndividual.fullName',
+                    id: 'field.repatriationclaims_common.documentationIndividual.fullName',
                     defaultMessage: 'Claim documentation individual',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.documentationIndividual.name',
+                    id: 'field.repatriationclaims_common.documentationIndividual.name',
                     defaultMessage: 'Individual',
                   },
                 }),
@@ -771,20 +777,23 @@ export default (configContext) => {
                 },
               },
             },
-            documentationGroup: {
+            documentationGroupType: {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.nagpraclaims_common.documentationGroup.fullName',
+                    id: 'field.repatriationclaims_common.documentationGroupType.fullName',
                     defaultMessage: 'Claim documentation group',
                   },
                   name: {
-                    id: 'field.nagpraclaims_common.documentationGroup.name',
+                    id: 'field.repatriationclaims_common.documentationGroupType.name',
                     defaultMessage: 'Group',
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
                 },
               },
             },

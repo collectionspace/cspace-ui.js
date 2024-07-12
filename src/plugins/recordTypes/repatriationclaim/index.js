@@ -10,7 +10,7 @@ import title from './title';
 export default () => (configContext) => ({
   idGenerators,
   recordTypes: {
-    nagpraclaim: {
+    repatriationclaim: {
       messages,
       serviceConfig,
       advancedSearch: advancedSearch(configContext),

@@ -10,30 +10,30 @@ export default (configContext) => {
       claimNumber: {
         messages: defineMessages({
           label: {
-            id: 'column.nagpraclaim.default.claimNumber',
+            id: 'column.repatriationclaim.default.claimNumber',
             defaultMessage: 'Claim number',
           },
         }),
         order: 10,
-        sortBy: 'nagpraclaims_common:claimNumber',
+        sortBy: 'repatriationclaims_common:claimNumber',
         width: 200,
       },
       title: {
         messages: defineMessages({
           label: {
-            id: 'column.nagpraclaim.default.title',
+            id: 'column.repatriationclaim.default.title',
             defaultMessage: 'Claim title',
           },
         }),
         order: 20,
-        sortBy: 'nagpraclaims_common:title',
+        sortBy: 'repatriationclaims_common:title',
         width: 200,
       },
       updatedAt: {
         formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
-            id: 'column.nagpraclaim.default.updatedAt',
+            id: 'column.repatriationclaim.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
