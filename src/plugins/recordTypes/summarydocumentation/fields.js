@@ -207,11 +207,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.involvedParty.fullName',
-                    defaultMessage: 'Party involved name',
+                    defaultMessage: 'Party involved person',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.involvedParty.name',
-                    defaultMessage: 'Name',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
