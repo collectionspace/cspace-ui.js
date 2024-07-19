@@ -261,11 +261,11 @@ export default (configContext) => {
                   messages: defineMessages({
                     fullName: {
                       id: 'field.consultations_common.consultParty.fullName',
-                      defaultMessage: 'Consultation log party',
+                      defaultMessage: 'Consultation log recipient',
                     },
                     name: {
                       id: 'field.consultations_common.consultParty.name',
-                      defaultMessage: 'Party',
+                      defaultMessage: 'Recipient',
                     },
                   }),
                   repeating: true,
