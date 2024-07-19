@@ -154,11 +154,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.consultations_common.involvedParty.fullName',
-                    defaultMessage: 'Parties involved party',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.consultations_common.involvedParty.name',
-                    defaultMessage: 'Party',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
