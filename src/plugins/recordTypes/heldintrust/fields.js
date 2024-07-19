@@ -107,7 +107,7 @@ export default (configContext) => {
               view: {
                 type: AutocompleteInput,
                 props: {
-                  source: 'person/local,person/ulan',
+                  source: 'person/local',
                 },
               },
             },
@@ -269,7 +269,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -386,7 +386,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan,organization/local,organization/ulan',
+                    source: 'person/local,organization/local',
                   },
                 },
               },
@@ -406,7 +406,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan,organization/local,organization/ulan',
+                    source: 'person/local,organization/local',
                   },
                 },
               },
