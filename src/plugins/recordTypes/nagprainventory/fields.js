@@ -573,7 +573,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'place/local,place/tgn',
+                    source: 'place/local',
                   },
                 },
               },
