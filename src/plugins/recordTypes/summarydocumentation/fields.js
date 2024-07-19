@@ -288,11 +288,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.tribeOrNation.fullName',
-                    defaultMessage: 'Summary affiliation tribe',
+                    defaultMessage: 'Summary affiliation tribe/nation',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.tribeOrNation.name',
-                    defaultMessage: 'Tribe',
+                    defaultMessage: 'Tribe/Nation',
                   },
                 }),
                 view: {
