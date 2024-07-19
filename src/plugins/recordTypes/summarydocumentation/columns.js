@@ -7,7 +7,7 @@ export default (configContext) => {
 
   return {
     default: {
-      referenceNumber: {
+      documentationNumber: {
         messages: defineMessages({
           label: {
             id: 'column.summarydocumentation.default.documentationNumber',
