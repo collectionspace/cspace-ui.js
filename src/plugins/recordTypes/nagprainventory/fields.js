@@ -207,11 +207,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.involvedParty.fullName',
-                    defaultMessage: 'Parties involved party',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.nagprainventories_common.involvedParty.name',
-                    defaultMessage: 'Party',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
@@ -480,11 +480,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryStatus.fullName',
-                    defaultMessage: 'Inventory status state',
+                    defaultMessage: 'Inventory status',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryStatus.name',
-                    defaultMessage: 'State',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
