@@ -229,7 +229,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.heldintrusts_common.agreementApprovalGroup.name',
-                  defaultMessage: 'Agreement approval',
+                  defaultMessage: 'Held-in-Trust status',
                 },
               }),
               repeating: true,
@@ -242,7 +242,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.agreementGroup.fullName',
-                    defaultMessage: 'Agreement approval group',
+                    defaultMessage: 'Held-in-Trust status group',
                   },
                   name: {
                     id: 'field.heldintrusts_common.agreementGroup.name',
@@ -259,7 +259,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.agreementIndividual.fullName',
-                    defaultMessage: 'Agreement approval individual',
+                    defaultMessage: 'Held-in-Trust status individual',
                   },
                   name: {
                     id: 'field.heldintrusts_common.agreementIndividual.name',
@@ -279,7 +279,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.agreementStatus.fullName',
-                    defaultMessage: 'Agreement approval status',
+                    defaultMessage: 'Held-in-Trust status',
                   },
                   name: {
                     id: 'field.heldintrusts_common.agreementStatus.name',
@@ -300,7 +300,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.agreementDate.fullName',
-                    defaultMessage: 'Agreement approval date',
+                    defaultMessage: 'Held-in-Trust status date',
                   },
                   name: {
                     id: 'field.heldintrusts_common.agreementDate.name',
@@ -317,7 +317,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.agreementNote.fullName',
-                    defaultMessage: 'Agreement approval note',
+                    defaultMessage: 'Held-in-Trust status note',
                   },
                   name: {
                     id: 'field.heldintrusts_common.agreementNote.name',
