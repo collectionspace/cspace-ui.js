@@ -154,17 +154,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.consultations_common.involvedParty.fullName',
-                    defaultMessage: 'Parties involved party',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.consultations_common.involvedParty.name',
-                    defaultMessage: 'Party',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -184,7 +184,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -261,18 +261,18 @@ export default (configContext) => {
                   messages: defineMessages({
                     fullName: {
                       id: 'field.consultations_common.consultParty.fullName',
-                      defaultMessage: 'Consultation log party',
+                      defaultMessage: 'Consultation log recipient',
                     },
                     name: {
                       id: 'field.consultations_common.consultParty.name',
-                      defaultMessage: 'Party',
+                      defaultMessage: 'Recipient',
                     },
                   }),
                   repeating: true,
                   view: {
                     type: AutocompleteInput,
                     props: {
-                      source: 'person/local,person/ulan',
+                      source: 'person/local',
                     },
                   },
                 },
