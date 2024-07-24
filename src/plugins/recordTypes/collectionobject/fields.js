@@ -385,7 +385,6 @@ export default (configContext) => {
           },
           publishTo: {
             [config]: {
-              defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(publishto):item:name(none)\'None\'',
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.publishTo.name',
@@ -410,7 +409,6 @@ export default (configContext) => {
           },
           inventoryStatus: {
             [config]: {
-              defaultValue: 'urn:cspace:core.collectionspace.org:vocabularies:name(inventorystatus):item:name(unknown)\'unknown\'',
               messages: defineMessages({
                 name: {
                   id: 'field.collectionobjects_common.inventoryStatus.name',
