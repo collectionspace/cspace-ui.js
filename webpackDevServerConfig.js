@@ -198,6 +198,15 @@ module.exports = async ({
       );
     }
 
+    const serviceLibrary = `${library}-service`;
+
+    if (pageUsesLibrary(page, serviceLibrary)) {
+      return page.replace(
+        scriptUrlPattern(serviceLibrary),
+        `src="${publicPath}${serviceLibrary}.js"`,
+      );
+    }
+
     // This package isn't being used in the page. If the page appears to use the CSpace UI and this
     // package appears to be a CSpace UI plugin, inject a script tag for it, and add it to the
     // UI plugin configuration.
