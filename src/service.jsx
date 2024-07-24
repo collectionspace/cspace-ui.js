@@ -62,6 +62,7 @@ export default (uiConfig) => {
         <Helmet
           defaultTitle={title}
           titleTemplate={`%s | ${title}`}
+          htmlAttributes={{ lang: locale }}
         >
           {/*
             * TODO: Generate a full set of icons to support a range of platforms (e.g. using
