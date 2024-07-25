@@ -289,7 +289,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'heldintruststatus',
+                    source: 'deaccessionapprovalstatus',
                   },
                 },
               },
