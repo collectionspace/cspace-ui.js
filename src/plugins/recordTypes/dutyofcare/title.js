@@ -7,7 +7,7 @@ export default (configContext) => (data) => {
     return '';
   }
 
-  const common = getPart(data, 'dutyofcares_common');
+  const common = getPart(data, 'dutiesofcare_common');
 
   if (!common) {
     return '';

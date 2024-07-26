@@ -15,7 +15,7 @@ export default (configContext) => {
           },
         }),
         order: 10,
-        sortBy: 'dutyofcares_common:dutyOfCareNumber',
+        sortBy: 'dutiesofcare_common:dutyOfCareNumber',
         width: 200,
       },
       title: {
@@ -26,7 +26,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'dutyofcares_common:title',
+        sortBy: 'dutiesofcare_common:title',
         width: 200,
       },
       updatedAt: {

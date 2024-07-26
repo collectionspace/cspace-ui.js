@@ -11,7 +11,7 @@ describe('dutyofcare record title', () => {
   it('should return the dutyofcare number and title when both are present', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:dutyofcares_common': {
+        'ns2:dutiesofcare_common': {
           dutyOfCareNumber: 'DC',
           title: 'Title',
         },
@@ -24,7 +24,7 @@ describe('dutyofcare record title', () => {
   it('should return the dutyofcare number only when the title is missing', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:dutyofcares_common': {
+        'ns2:dutiesofcare_common': {
           dutyOfCareNumber: 'DC',
         },
       },
@@ -36,7 +36,7 @@ describe('dutyofcare record title', () => {
   it('should return the title only when the dutyofcare number is missing', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:dutyofcares_common': {
+        'ns2:dutiesofcare_common': {
           title: 'Title',
         },
       },
@@ -53,7 +53,7 @@ describe('dutyofcare record title', () => {
   it('should return an empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:dutyofcares_extension': {
+        'ns2:dutiesofcare_extension': {
           dutyofcareAltTitle: 'Alt dutyofcare title',
         },
       },

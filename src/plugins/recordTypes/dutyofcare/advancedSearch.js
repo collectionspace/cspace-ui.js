@@ -13,7 +13,7 @@ export default (configContext) => {
     value: [
       {
         op: OP_CONTAIN,
-        path: 'ns2:dutyofcares_common/dutyOfCareNumber',
+        path: 'ns2:dutiesofcare_common/dutyOfCareNumber',
       },
       ...extensions.core.advancedSearch,
     ],
