@@ -87,11 +87,11 @@ export default (configContext) => {
             },
           },
         },
-        title: {
+        dutyOfCareTitle: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.dutiesofcare_common.title.name',
+                id: 'field.dutiesofcare_common.dutyOfCareTitle.name',
                 defaultMessage: 'Title',
               },
             }),

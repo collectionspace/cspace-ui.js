@@ -18,15 +18,15 @@ export default (configContext) => {
         sortBy: 'dutiesofcare_common:dutyOfCareNumber',
         width: 200,
       },
-      title: {
+      dutyOfCareTitle: {
         messages: defineMessages({
           label: {
-            id: 'column.dutyofcare.default.title',
+            id: 'column.dutyofcare.default.dutyOfCareTitle',
             defaultMessage: 'Title',
           },
         }),
         order: 20,
-        sortBy: 'dutiesofcare_common:title',
+        sortBy: 'dutiesofcare_common:dutyOfCareTitle',
         width: 200,
       },
       updatedAt: {

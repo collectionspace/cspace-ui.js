@@ -8,12 +8,12 @@ describe('dutyofcare record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should return the dutyofcare number and title when both are present', () => {
+  it('should return the dutyofcare number and dutyOfCareTitle when both are present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:dutiesofcare_common': {
           dutyOfCareNumber: 'DC',
-          title: 'Title',
+          dutyOfCareTitle: 'Title',
         },
       },
     });
@@ -21,7 +21,7 @@ describe('dutyofcare record title', () => {
     title(data).should.equal('DC – Title');
   });
 
-  it('should return the dutyofcare number only when the title is missing', () => {
+  it('should return the dutyofcare number only when the dutyOfCareTitle is missing', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:dutiesofcare_common': {
@@ -33,11 +33,11 @@ describe('dutyofcare record title', () => {
     title(data).should.equal('DC');
   });
 
-  it('should return the title only when the dutyofcare number is missing', () => {
+  it('should return the dutyOfCareTitle only when the dutyofcare number is missing', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:dutiesofcare_common': {
-          title: 'Title',
+          dutyOfCareTitle: 'Title',
         },
       },
     });
@@ -54,7 +54,7 @@ describe('dutyofcare record title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:dutiesofcare_extension': {
-          dutyofcareAltTitle: 'Alt dutyofcare title',
+          dutyofcareAltTitle: 'Alt dutyofcare dutyOfCareTitle',
         },
       },
     });

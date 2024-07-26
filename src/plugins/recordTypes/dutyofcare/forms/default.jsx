@@ -22,7 +22,7 @@ const template = (configContext) => {
         <Cols>
           <Col>
             <Field name="dutyOfCareNumber" />
-            <Field name="title" />
+            <Field name="dutyOfCareTitle" />
           </Col>
           <Col>
             <Field name="originationDate" />
