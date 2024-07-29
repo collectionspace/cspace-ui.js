@@ -250,7 +250,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
                 },
               },
             },
