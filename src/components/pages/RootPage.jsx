@@ -52,6 +52,7 @@ function RootPage(props) {
       <Helmet
         defaultTitle={title}
         titleTemplate={`%s | ${title}`}
+        htmlAttributes={{ lang: intl.locale }}
       >
         {/*
           * TODO: Generate a full set of icons to support a range of platforms (e.g. using
