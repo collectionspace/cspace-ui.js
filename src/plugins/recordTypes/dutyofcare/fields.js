@@ -32,12 +32,12 @@ export default (configContext) => {
         view: {
           type: CompoundInput,
           props: {
-            defaultChildSubpath: 'ns2:dutyofcares_common',
+            defaultChildSubpath: 'ns2:dutiesofcare_common',
           },
         },
       },
       ...extensions.core.fields,
-      'ns2:dutyofcares_common': {
+      'ns2:dutiesofcare_common': {
         [config]: {
           service: {
             ns: 'http://collectionspace.org/services/dutyofcare',
@@ -48,11 +48,11 @@ export default (configContext) => {
             cloneable: false,
             messages: defineMessages({
               inUse: {
-                id: 'field.dutyofcares_common.dutyOfCareNumber.inUse',
+                id: 'field.dutiesofcare_common.dutyOfCareNumber.inUse',
                 defaultMessage: 'The identification number {value} is in use by another record.',
               },
               name: {
-                id: 'field.dutyofcares_common.dutyOfCareNumber.name',
+                id: 'field.dutiesofcare_common.dutyOfCareNumber.name',
                 defaultMessage: 'Duty of care number',
               },
             }),
@@ -63,7 +63,7 @@ export default (configContext) => {
             validate: (validationContext) => validateNotInUse({
               configContext,
               validationContext,
-              fieldName: 'dutyofcares_common:dutyOfCareNumber',
+              fieldName: 'dutiesofcare_common:dutyOfCareNumber',
             }),
             view: {
               type: IDGeneratorInput,
@@ -78,7 +78,7 @@ export default (configContext) => {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.dutyofcares_common.originationDate.name',
+                id: 'field.dutiesofcare_common.originationDate.name',
                 defaultMessage: 'Origination date',
               },
             }),
@@ -87,11 +87,11 @@ export default (configContext) => {
             },
           },
         },
-        title: {
+        dutyOfCareTitle: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.dutyofcares_common.title.name',
+                id: 'field.dutiesofcare_common.dutyOfCareTitle.name',
                 defaultMessage: 'Title',
               },
             }),
@@ -110,7 +110,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.dutyofcares_common.note.name',
+                  id: 'field.dutiesofcare_common.note.name',
                   defaultMessage: 'Note',
                 },
               }),
@@ -134,7 +134,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.dutyofcares_common.detailGroup.name',
+                  id: 'field.dutiesofcare_common.detailGroup.name',
                   defaultMessage: 'Duty of care detail',
                 },
               }),
@@ -147,11 +147,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.detailType.fullName',
+                    id: 'field.dutiesofcare_common.detailType.fullName',
                     defaultMessage: 'Duty of care detail type',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.detailType.name',
+                    id: 'field.dutiesofcare_common.detailType.name',
                     defaultMessage: 'Type',
                   },
                 }),
@@ -167,11 +167,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.detailLevel.fullName',
+                    id: 'field.dutiesofcare_common.detailLevel.fullName',
                     defaultMessage: 'Duty of care detail level',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.detailLevel.name',
+                    id: 'field.dutiesofcare_common.detailLevel.name',
                     defaultMessage: 'Level',
                   },
                 }),
@@ -187,18 +187,18 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.detailDeterminedBy.fullName',
+                    id: 'field.dutiesofcare_common.detailDeterminedBy.fullName',
                     defaultMessage: 'Duty of care detail determined by',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.detailDeterminedBy.name',
+                    id: 'field.dutiesofcare_common.detailDeterminedBy.name',
                     defaultMessage: 'Determined by',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan,organization/local,organization/ulan',
+                    source: 'person/local,organization/local',
                   },
                 },
               },
@@ -208,11 +208,11 @@ export default (configContext) => {
                 dataType: DATA_TYPE_DATE,
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.detailDeterminationDate.fullName',
+                    id: 'field.dutiesofcare_common.detailDeterminationDate.fullName',
                     defaultMessage: 'Duty of care detail determination date',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.detailDeterminationDate.name',
+                    id: 'field.dutiesofcare_common.detailDeterminationDate.name',
                     defaultMessage: 'Determination date',
                   },
                 }),
@@ -225,11 +225,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.detailNote.fullName',
+                    id: 'field.dutiesofcare_common.detailNote.fullName',
                     defaultMessage: 'Duty of care detail note',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.detailNote.name',
+                    id: 'field.dutiesofcare_common.detailNote.name',
                     defaultMessage: 'Note',
                   },
                 }),
@@ -253,7 +253,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.dutyofcares_common.partiesInvolvedGroup.name',
+                  id: 'field.dutiesofcare_common.partiesInvolvedGroup.name',
                   defaultMessage: 'Party involved',
                 },
               }),
@@ -269,18 +269,18 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.involvedParty.fullName',
-                    defaultMessage: 'Party involved name',
+                    id: 'field.dutiesofcare_common.involvedParty.fullName',
+                    defaultMessage: 'Party involved person',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.involvedParty.name',
-                    defaultMessage: 'Name',
+                    id: 'field.dutiesofcare_common.involvedParty.name',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -289,18 +289,18 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.involvedOnBehalfOf.fullName',
+                    id: 'field.dutiesofcare_common.involvedOnBehalfOf.fullName',
                     defaultMessage: 'Party involved on behalf of',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.involvedOnBehalfOf.name',
+                    id: 'field.dutiesofcare_common.involvedOnBehalfOf.name',
                     defaultMessage: 'On behalf of',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -309,11 +309,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.dutyofcares_common.involvedRole.fullName',
+                    id: 'field.dutiesofcare_common.involvedRole.fullName',
                     defaultMessage: 'Party involved roles',
                   },
                   name: {
-                    id: 'field.dutyofcares_common.involvedRole.name',
+                    id: 'field.dutiesofcare_common.involvedRole.name',
                     defaultMessage: 'Role',
                   },
                 }),

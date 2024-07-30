@@ -1,6 +1,6 @@
 export default {
   serviceName: 'Dutyofcare',
-  servicePath: 'dutyofcares',
+  servicePath: 'dutiesofcare',
   serviceType: 'procedure',
 
   objectName: 'Dutyofcare',
