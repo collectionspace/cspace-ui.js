@@ -162,6 +162,16 @@ const template = (configContext) => {
       <Panel name="viewer" collapsible>
         <Field name="viewersContributionNote" />
       </Panel>
+
+      <Panel name="reference" collapsible>
+        <Field name="publishedRelatedLinkGroupList">
+          <Field name="publishedRelatedLinkGroup">
+            <Field name="relatedLink" />
+            <Field name="descriptiveTitle" />
+          </Field>
+        </Field>
+      </Panel>
+
     </Field>
   );
 };
