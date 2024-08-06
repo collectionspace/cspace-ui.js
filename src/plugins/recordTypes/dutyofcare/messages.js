@@ -10,7 +10,7 @@ export default {
     collectionName: {
       id: 'record.dutyofcare.collectionName',
       description: 'The name of a collection of records of the type.',
-      defaultMessage: 'Duty of Cares',
+      defaultMessage: 'Duties of Care',
     },
   }),
   panel: defineMessages({
