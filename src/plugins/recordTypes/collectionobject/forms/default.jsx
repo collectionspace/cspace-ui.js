@@ -577,6 +577,13 @@ const template = (configContext) => {
             <Field name="referenceNote" />
           </Field>
         </Field>
+
+        <Field name="publishedRelatedLinkGroupList">
+          <Field name="publishedRelatedLinkGroup">
+            <Field name="relatedLink" />
+            <Field name="descriptiveTitle" />
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="collect" collapsible collapsed>

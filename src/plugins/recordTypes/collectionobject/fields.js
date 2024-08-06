@@ -3879,6 +3879,64 @@ export default (configContext) => {
             },
           },
         },
+        publishedRelatedLinkGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          publishedRelatedLinkGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.procedure.publishedRelatedLinkGroup.name',
+                  defaultMessage: 'Published related link',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            relatedLink: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.relatedLink.fullName',
+                    defaultMessage: 'Published related link url',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.relatedLink.name',
+                    defaultMessage: 'URL',
+                  },
+                }),
+                view: {
+                  type: URLInput,
+                },
+              },
+            },
+            descriptiveTitle: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.descriptiveTitle.fullName',
+                    defaultMessage: 'Published related link descriptive title',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.descriptiveTitle.name',
+                    defaultMessage: 'Descriptive title',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
         referenceGroupList: {
           [config]: {
             view: {
