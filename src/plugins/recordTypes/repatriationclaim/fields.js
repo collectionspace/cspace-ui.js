@@ -261,7 +261,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.repatriationclaims_common.involvedParty.name',
-                    defaultMessage: 'Name',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
