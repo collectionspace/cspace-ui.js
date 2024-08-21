@@ -28,7 +28,7 @@ export default {
     },
     documentation: {
       id: 'panel.repatriationclaim.documentation',
-      defaultMessage: 'Claim Documentation',
+      defaultMessage: 'Claim Documentation Status',
     },
   }),
 };
