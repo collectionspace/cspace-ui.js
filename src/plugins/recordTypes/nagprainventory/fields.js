@@ -264,17 +264,17 @@ export default (configContext) => {
             },
           },
         },
-        culturalAffiliationGroupList: {
+        affiliationGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          culturalAffiliationGroup: {
+          affiliationGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagprainventories_common.culturalAffiliationGroup.name',
+                  id: 'field.nagprainventories_common.affiliationGroup.name',
                   defaultMessage: 'Inventory cultural affiliation',
                 },
               }),
