@@ -427,7 +427,10 @@ export default (configContext) => {
               }),
               repeating: true,
               view: {
-                type: CompoundInput,
+                type: TermPickerInput,
+                props: {
+                  source: 'documentationgroup',
+                },
               },
             },
             statusGroupType: {
