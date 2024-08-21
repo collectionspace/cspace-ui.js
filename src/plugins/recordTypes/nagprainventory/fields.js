@@ -295,7 +295,7 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.nagprainventories_common.tribeOrNation.name',
-                    defaultMessage: 'Tribe/nation',
+                    defaultMessage: 'Tribe/Nation',
                   },
                 }),
                 view: {
