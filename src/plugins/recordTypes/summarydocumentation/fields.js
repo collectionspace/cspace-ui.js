@@ -264,17 +264,17 @@ export default (configContext) => {
             },
           },
         },
-        culturalAffiliationGroupList: {
+        affiliationGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          culturalAffiliationGroup: {
+          affiliationGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.summarydocumentations_common.culturalAffiliationGroup.name',
+                  id: 'field.summarydocumentations_common.affiliationGroup.name',
                   defaultMessage: 'Summary affiliation',
                 },
               }),
