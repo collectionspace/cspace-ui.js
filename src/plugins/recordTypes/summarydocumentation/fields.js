@@ -482,7 +482,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'nagprastatus',
+                    source: 'nagpradocumentationstatus',
                   },
                 },
               },
