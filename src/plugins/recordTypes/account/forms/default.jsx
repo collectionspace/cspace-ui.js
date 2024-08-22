@@ -15,7 +15,7 @@ const template = (configContext) => {
   } = configContext.recordComponents;
 
   return (
-    <Field name="ns3:accounts_common">
+    <Field name="ns2:accounts_common">
       <Row>
         <Col>
           <Field name="email" />
