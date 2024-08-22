@@ -72,5 +72,6 @@ export const ConnectedPanel = connect(
 const EnhancedConnectedPanel = withRecordType(withConfig(ConnectedPanel));
 
 EnhancedConnectedPanel.propTypes = Panel.propTypes;
+EnhancedConnectedPanel.toJSON = () => 'Panel';
 
 export default EnhancedConnectedPanel;

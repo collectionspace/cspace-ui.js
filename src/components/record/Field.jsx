@@ -242,3 +242,4 @@ export default function Field(props, context) {
 
 Field.contextTypes = contextTypes;
 Field.propTypes = propTypes;
+Field.toJSON = () => 'Field';
