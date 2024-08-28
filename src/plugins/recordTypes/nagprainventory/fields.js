@@ -207,17 +207,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.involvedParty.fullName',
-                    defaultMessage: 'Parties involved party',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.nagprainventories_common.involvedParty.name',
-                    defaultMessage: 'Party',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -237,7 +237,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -264,17 +264,17 @@ export default (configContext) => {
             },
           },
         },
-        culturalAffiliationGroupList: {
+        affiliationGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          culturalAffiliationGroup: {
+          affiliationGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.nagprainventories_common.culturalAffiliationGroup.name',
+                  id: 'field.nagprainventories_common.affiliationGroup.name',
                   defaultMessage: 'Inventory cultural affiliation',
                 },
               }),
@@ -295,13 +295,13 @@ export default (configContext) => {
                   },
                   name: {
                     id: 'field.nagprainventories_common.tribeOrNation.name',
-                    defaultMessage: 'Tribe/nation',
+                    defaultMessage: 'Tribe/Nation',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -348,7 +348,7 @@ export default (configContext) => {
                   view: {
                     type: AutocompleteInput,
                     props: {
-                      source: 'person/local,person/ulan,organization/local,organization/ulan',
+                      source: 'person/local,organization/local',
                     },
                   },
                 },
@@ -451,7 +451,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'deaccessionapprovalgroup',
+                  },
                 },
               },
             },
@@ -470,7 +473,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -480,17 +483,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryStatus.fullName',
-                    defaultMessage: 'Inventory status state',
+                    defaultMessage: 'Inventory status',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryStatus.name',
-                    defaultMessage: 'State',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'nagprainvstate',
+                    source: 'nagpradocumentationstatus',
                   },
                 },
               },
@@ -573,7 +576,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'place/local,place/tgn',
+                    source: 'place/local',
                   },
                 },
               },
@@ -634,7 +637,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'concept/ethculture',
+                    source: 'concept/ethculture,concept/archculture',
                   },
                 },
               },

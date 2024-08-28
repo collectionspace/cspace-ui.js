@@ -156,5 +156,26 @@ export default {
       servicePath: 'urn:cspace:name(ethculture)',
     },
   },
-
+  archculture: {
+    messages: defineMessages({
+      name: {
+        id: 'vocab.concept.archculture.name',
+        description: 'The name of the vocabulary.',
+        defaultMessage: 'Archaeological Culture',
+      },
+      collectionName: {
+        id: 'vocab.concept.archculture.collectionName',
+        description: 'The name of a collection of records from the vocabulary.',
+        defaultMessage: 'Archaeological Culture Concepts',
+      },
+      itemName: {
+        id: 'vocab.concept.archculture.itemName',
+        description: 'The name of a record from the vocabulary.',
+        defaultMessage: 'Archaeological Culture Concept',
+      },
+    }),
+    serviceConfig: {
+      servicePath: 'urn:cspace:name(archculture)',
+    },
+  },
 };
