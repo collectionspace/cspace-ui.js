@@ -111,3 +111,4 @@ export default function InputTable(props, context) {
 
 InputTable.propTypes = propTypes;
 InputTable.contextTypes = contextTypes;
+InputTable.toJSON = () => 'InputTable';
