@@ -166,12 +166,12 @@ export default {
       collectionName: {
         id: 'vocab.concept.archculture.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
-        defaultMessage: 'Archaeological Culture Concepts',
+        defaultMessage: 'Archaeological Cultures',
       },
       itemName: {
         id: 'vocab.concept.archculture.itemName',
         description: 'The name of a record from the vocabulary.',
-        defaultMessage: 'Archaeological Culture Concept',
+        defaultMessage: 'Archaeological Culture',
       },
     }),
     serviceConfig: {
