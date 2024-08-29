@@ -6318,6 +6318,26 @@ export default (configContext) => {
                 },
               },
             },
+            objectCountUnit: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.objectCountUnit.fullName',
+                    defaultMessage: 'Object count unit',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.objectCountUnit.name',
+                    defaultMessage: 'Unit',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'objectcountunit',
+                  },
+                },
+              },
+            },
             objectCountCountedBy: {
               [config]: {
                 messages: defineMessages({
