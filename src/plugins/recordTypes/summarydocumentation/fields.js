@@ -427,10 +427,7 @@ export default (configContext) => {
               }),
               repeating: true,
               view: {
-                type: TermPickerInput,
-                props: {
-                  source: 'documentationgroup',
-                },
+                type: CompoundInput,
               },
             },
             statusGroupType: {
@@ -446,7 +443,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'documentationgroup',
+                  },
                 },
               },
             },
