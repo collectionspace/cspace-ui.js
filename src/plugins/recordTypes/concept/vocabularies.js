@@ -139,17 +139,17 @@ export default {
       name: {
         id: 'vocab.concept.ethculture.name',
         description: 'The name of the vocabulary.',
-        defaultMessage: 'Culture',
+        defaultMessage: 'Cultural Group',
       },
       collectionName: {
         id: 'vocab.concept.ethculture.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
-        defaultMessage: 'Culture Concepts',
+        defaultMessage: 'Cultural Groups',
       },
       itemName: {
         id: 'vocab.concept.ethculture.itemName',
         description: 'The name of a record from the vocabulary.',
-        defaultMessage: 'Culture Concept',
+        defaultMessage: 'Cultural Group',
       },
     }),
     serviceConfig: {
@@ -166,12 +166,12 @@ export default {
       collectionName: {
         id: 'vocab.concept.archculture.collectionName',
         description: 'The name of a collection of records from the vocabulary.',
-        defaultMessage: 'Archaeological Culture Concepts',
+        defaultMessage: 'Archaeological Cultures',
       },
       itemName: {
         id: 'vocab.concept.archculture.itemName',
         description: 'The name of a record from the vocabulary.',
-        defaultMessage: 'Archaeological Culture Concept',
+        defaultMessage: 'Archaeological Culture',
       },
     }),
     serviceConfig: {
