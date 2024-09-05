@@ -241,7 +241,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.repatriationclaims_common.partiesInvolvedGroup.name',
-                  defaultMessage: 'Party involved',
+                  defaultMessage: 'Parties involved',
                 },
               }),
               repeating: true,
@@ -257,17 +257,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.involvedParty.fullName',
-                    defaultMessage: 'Party involved name',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.involvedParty.name',
-                    defaultMessage: 'Name',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -277,7 +277,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.involvedOnBehalfOf.fullName',
-                    defaultMessage: 'Party involved on behalf of',
+                    defaultMessage: 'Parties involved on behalf of',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.involvedOnBehalfOf.name',
@@ -287,7 +287,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -297,7 +297,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.involvedRole.fullName',
-                    defaultMessage: 'Party involved role',
+                    defaultMessage: 'Parties involved role',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.involvedRole.name',
@@ -351,7 +351,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'place/local,place/tgn',
+                    source: 'place/local',
                   },
                 },
               },
@@ -473,7 +473,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'concept/ethculture',
+                    source: 'concept/ethculture,concept/archculture',
                   },
                 },
               },
@@ -612,7 +612,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -622,17 +622,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.status.fullName',
-                    defaultMessage: 'Claim status value',
+                    defaultMessage: 'Claim status',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.status.name',
-                    defaultMessage: 'Value',
+                    defaultMessage: 'Status',
                   },
                 }),
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'nagprastatus',
+                    source: 'deaccessionapprovalstatus',
                   },
                 },
               },
@@ -689,7 +689,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.repatriationclaims_common.documentationGroup.fullName',
-                  defaultMessage: 'Claim documentation',
+                  defaultMessage: 'Claim documentation status',
                 },
               }),
               repeating: true,
@@ -702,7 +702,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.documentationNote.fullName',
-                    defaultMessage: 'Claim documentation note',
+                    defaultMessage: 'Claim documentation status note',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.documentationNote.name',
@@ -725,7 +725,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.documentationDate.fullName',
-                    defaultMessage: 'Claim documentation date',
+                    defaultMessage: 'Claim documentation status date',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.documentationDate.name',
@@ -762,7 +762,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.documentationIndividual.fullName',
-                    defaultMessage: 'Claim documentation individual',
+                    defaultMessage: 'Claim documentation status individual',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.documentationIndividual.name',
@@ -772,7 +772,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -782,7 +782,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationclaims_common.documentationGroupType.fullName',
-                    defaultMessage: 'Claim documentation group',
+                    defaultMessage: 'Claim documentation status group',
                   },
                   name: {
                     id: 'field.repatriationclaims_common.documentationGroupType.name',
@@ -792,7 +792,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'deaccessionapprovalgroup',
+                    source: 'documentationgroup',
                   },
                 },
               },
