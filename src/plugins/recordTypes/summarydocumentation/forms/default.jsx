@@ -48,8 +48,8 @@ const template = (configContext) => {
           </Field>
         </Field>
 
-        <Field name="culturalAffiliationGroupList">
-          <Field name="culturalAffiliationGroup">
+        <Field name="affiliationGroupList">
+          <Field name="affiliationGroup">
             <Panel>
               <Row>
                 <Field name="tribeOrNation" />
