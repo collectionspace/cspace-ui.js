@@ -207,17 +207,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.involvedParty.fullName',
-                    defaultMessage: 'Party involved name',
+                    defaultMessage: 'Party involved person',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.involvedParty.name',
-                    defaultMessage: 'Name',
+                    defaultMessage: 'Person',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -237,7 +237,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -264,17 +264,17 @@ export default (configContext) => {
             },
           },
         },
-        culturalAffiliationGroupList: {
+        affiliationGroupList: {
           [config]: {
             view: {
               type: CompoundInput,
             },
           },
-          culturalAffiliationGroup: {
+          affiliationGroup: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.summarydocumentations_common.culturalAffiliationGroup.name',
+                  id: 'field.summarydocumentations_common.affiliationGroup.name',
                   defaultMessage: 'Summary affiliation',
                 },
               }),
@@ -288,17 +288,17 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.tribeOrNation.fullName',
-                    defaultMessage: 'Summary affiliation tribe',
+                    defaultMessage: 'Summary affiliation tribe/nation',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.tribeOrNation.name',
-                    defaultMessage: 'Tribe',
+                    defaultMessage: 'Tribe/Nation',
                   },
                 }),
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'organization/local,organization/ulan',
+                    source: 'organization/local',
                   },
                 },
               },
@@ -345,7 +345,7 @@ export default (configContext) => {
                   view: {
                     type: AutocompleteInput,
                     props: {
-                      source: 'person/local,person/ulan,organization/local,organization/ulan',
+                      source: 'person/local,organization/local',
                     },
                   },
                 },
@@ -443,7 +443,10 @@ export default (configContext) => {
                   },
                 }),
                 view: {
-                  type: TextInput,
+                  type: TermPickerInput,
+                  props: {
+                    source: 'documentationgroup',
+                  },
                 },
               },
             },
@@ -462,7 +465,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'person/local,person/ulan',
+                    source: 'person/local',
                   },
                 },
               },
@@ -482,7 +485,7 @@ export default (configContext) => {
                 view: {
                   type: TermPickerInput,
                   props: {
-                    source: 'nagprastatus',
+                    source: 'nagpradocumentationstatus',
                   },
                 },
               },
@@ -564,7 +567,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'place/local,place/tgn',
+                    source: 'place/local',
                   },
                 },
               },
@@ -686,7 +689,7 @@ export default (configContext) => {
                 view: {
                   type: AutocompleteInput,
                   props: {
-                    source: 'concept/ethculture',
+                    source: 'concept/ethculture,concept/archculture',
                   },
                 },
               },
