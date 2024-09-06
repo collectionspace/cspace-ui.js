@@ -15,6 +15,7 @@ import conditioncheck from './conditioncheck';
 import conservation from './conservation';
 import consultation from './consultation';
 import contact from './contact';
+import deaccession from './deaccession';
 import dutyofcare from './dutyofcare';
 import exhibition from './exhibition';
 import exxport from './export';
@@ -67,6 +68,7 @@ export default [
   conservation,
   consultation,
   contact,
+  deaccession,
   dutyofcare,
   exhibition,
   exxport,
