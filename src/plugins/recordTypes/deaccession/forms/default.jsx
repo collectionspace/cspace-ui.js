@@ -6,8 +6,6 @@ const template = (configContext) => {
   } = configContext.lib;
 
   const {
-    Col,
-    Cols,
     Panel,
     Row,
   } = configContext.layoutComponents;
@@ -19,20 +17,14 @@ const template = (configContext) => {
   return (
     <Field name="document">
       <Panel name="info" collapsible>
-        <Cols>
-          <Col>
-            <Field name="deaccessionNumber" />
-
-            <Field name="deaccessionReasons">
-              <Field name="deaccessionReason" />
-            </Field>
-
-          </Col>
-          <Col>
-            <Field name="deaccessionDate" />
-            <Field name="deaccessionRationale" />
-          </Col>
-        </Cols>
+        <Row>
+          <Field name="deaccessionNumber" />
+          <Field name="deaccessionReasons">
+            <Field name="deaccessionReason" />
+          </Field>
+          <Field name="deaccessionDate" />
+        </Row>
+        <Field name="deaccessionRationale" />
         <Field name="deaccessionNote" />
         <Field name="deaccessionApprovalGroupList">
           <Field name="deaccessionApprovalGroup">
