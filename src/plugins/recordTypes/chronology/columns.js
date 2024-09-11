@@ -25,7 +25,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'chronologies_common:citationTermGroupList/0/termDisplayName',
+        sortBy: 'chronologies_common:chronologyTermGroupList/0/termDisplayName',
         width: 250,
       },
       termStatus: {
@@ -37,7 +37,7 @@ export default (configContext) => {
           },
         }),
         order: 30,
-        sortBy: 'chronologies_common:citationTermGroupList/0/termStatus',
+        sortBy: 'chronologies_common:chronologyTermGroupList/0/termStatus',
         width: 250,
       },
       vocabulary: {
