@@ -8,20 +8,26 @@ describe('deaccession record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should return the deaccession number and deaccessionTitle when both are present', () => {
+  it('should return the deaccession number and deaccession approval individual when both are present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:deaccessions_common': {
           deaccessionNumber: 'DE',
-          // deaccessionTitle: 'Title',
+          deaccessionApprovalGroupList: {
+            deaccessionApprovalGroup: [{
+              deaccessionApprovalIndividual: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Party)\'Party\'',
+            }, {
+              deaccessionApprovalIndividual: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(OtherParty)\'OtherParty\'',
+            }],
+          },
         },
       },
     });
 
-    title(data).should.equal('DE – Title');
+    title(data).should.equal('DE – Party');
   });
 
-  it('should return the deaccession number only when the deaccessionTitle is missing', () => {
+  it('should return the deaccession number only when the deaccession approval individual is missing', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:deaccessions_common': {
@@ -33,16 +39,22 @@ describe('deaccession record title', () => {
     title(data).should.equal('DE');
   });
 
-  it('should return the deaccessionTitle only when the deaccession number is missing', () => {
+  it('should return the deaccession approval individual only when the deaccession number is missing', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:deaccessions_common': {
-          // deaccessionTitle: 'Title',
+          deaccessionApprovalGroupList: {
+            deaccessionApprovalGroup: [{
+              deaccessionApprovalIndividual: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(Party)\'Party\'',
+            }, {
+              deaccessionApprovalIndividual: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(OtherParty)\'OtherParty\'',
+            }],
+          },
         },
       },
     });
 
-    title(data).should.equal('');
+    title(data).should.equal('Party');
   });
 
   it('should return an empty string if no document is passed', () => {
