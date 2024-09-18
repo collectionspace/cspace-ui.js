@@ -23,10 +23,4 @@ export default {
       defaultMessage: 'Proposed Exit Details',
     },
   }),
-  inputTable: defineMessages({
-    exitReason: {
-      id: 'panel.deaccession.exitReason',
-      defaultMessage: 'Proposed Exit Reason',
-    },
-  }),
 };
