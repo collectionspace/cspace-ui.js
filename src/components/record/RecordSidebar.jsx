@@ -124,6 +124,7 @@ export default function RecordSidebar(props) {
     relatedRecords = relatedRecordDescriptors.map((relatedRecordDescriptor) => {
       const {
         sort,
+        serviceTag,
         recordType: relatedRecordType,
         columnSet = 'narrow',
       } = relatedRecordDescriptor;
@@ -140,6 +141,7 @@ export default function RecordSidebar(props) {
           recordType={recordType}
           relatedRecordType={relatedRecordType}
           showAddButton={isRelatable}
+          serviceTag={serviceTag}
         />
       );
     });
