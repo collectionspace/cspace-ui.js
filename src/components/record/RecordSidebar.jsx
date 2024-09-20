@@ -141,6 +141,7 @@ export default function RecordSidebar(props) {
           initialSort={sort}
           key={panelName}
           name={panelName}
+          panelId={id}
           recordType={recordType}
           relatedRecordType={relatedRecordType}
           showAddButton={isRelatable}

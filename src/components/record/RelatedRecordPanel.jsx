@@ -75,6 +75,7 @@ const propTypes = {
   showCheckboxColumn: PropTypes.bool,
   showSearchButton: PropTypes.bool,
   showAddButton: PropTypes.bool,
+  panelId: PropTypes.string, // not set on this prop name yet
   openModalName: PropTypes.string,
   closeModal: PropTypes.func,
   openModal: PropTypes.func,
@@ -363,12 +364,17 @@ export default class RelatedRecordPanel extends Component {
   renderTitle() {
     const {
       config,
+      recordType,
       relatedRecordType,
+      panelId,
     } = this.props;
 
+    const sidebarMessage = get(config, ['recordTypes', recordType, 'messages', 'sidebar', panelId]);
     const collectionNameMessage = get(config, ['recordTypes', relatedRecordType, 'messages', 'record', 'collectionName']);
 
-    const collectionName = <FormattedMessage {...collectionNameMessage} />;
+    const collectionName = sidebarMessage != null
+      ? <FormattedMessage {...sidebarMessage} />
+      : <FormattedMessage {...collectionNameMessage} />;
 
     return <FormattedMessage {...messages.title} values={{ collectionName }} />;
   }
