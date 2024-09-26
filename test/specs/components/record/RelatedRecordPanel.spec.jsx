@@ -81,6 +81,7 @@ describe('RelatedRecordPanel', () => {
     const relatedRecordType = 'group';
     const recordRelationUpdatedTimestamp = '2017-03-06T12:05:34.000Z';
     const sort = 'objectNumber';
+    const serviceTag = 'ownership';
 
     const shallowRenderer = createRenderer();
 
@@ -93,6 +94,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType={relatedRecordType}
         recordRelationUpdatedTimestamp={recordRelationUpdatedTimestamp}
         initialSort={sort}
+        serviceTag={serviceTag}
       />,
     );
 
@@ -111,6 +113,7 @@ describe('RelatedRecordPanel', () => {
         relType: 'affects',
         p: 0,
         size: 5,
+        serviceTag,
       },
       seqID: recordRelationUpdatedTimestamp,
     }));
