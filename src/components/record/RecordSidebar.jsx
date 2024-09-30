@@ -123,10 +123,14 @@ export default function RecordSidebar(props) {
 
     relatedRecords = relatedRecordDescriptors.map((relatedRecordDescriptor) => {
       const {
+        id,
         sort,
+        serviceTag,
         recordType: relatedRecordType,
         columnSet = 'narrow',
       } = relatedRecordDescriptor;
+
+      const panelName = id ? `related${upperFirst(id)}Panel` : `related${upperFirst(relatedRecordType)}Panel`;
 
       return (
         <RelatedRecordPanelContainer
@@ -135,11 +139,13 @@ export default function RecordSidebar(props) {
           columnSetName={columnSet}
           config={config}
           initialSort={sort}
-          key={relatedRecordType}
-          name={`related${upperFirst(relatedRecordType)}Panel`}
+          key={panelName}
+          name={panelName}
+          panelId={id}
           recordType={recordType}
           relatedRecordType={relatedRecordType}
           showAddButton={isRelatable}
+          serviceTag={serviceTag}
         />
       );
     });

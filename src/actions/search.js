@@ -186,6 +186,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
       pgSz: searchQuery.get('size'),
       rtSbj: searchQuery.get('rel'),
       rtPredicate: searchQuery.get('relType'),
+      servicetag: searchQuery.get('serviceTag'),
       sn: searchQuery.get('sn'), // accounts screen name
       dn: searchQuery.get('dn'), // role display name
       wf_deleted: false,
