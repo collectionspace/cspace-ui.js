@@ -31,7 +31,7 @@ const isSortable = (column, searchDescriptor) => {
   return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
 };
 
-const rowRenderer = (params, location) => {
+const rowRenderer = (params, location, primaryCol) => {
   // This is a fork of react-virtualized's default row renderer:
   // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
 
@@ -58,7 +58,8 @@ const rowRenderer = (params, location) => {
     // onRowMouseOver ||
     // onRowRightClick
   ) {
-    a11yProps['aria-label'] = 'row';
+    const label = rowData.get(primaryCol);
+    a11yProps['aria-label'] = label || 'row';
     a11yProps.tabIndex = 0;
 
     if (onRowClick) {
@@ -156,6 +157,7 @@ export default class SearchResultTable extends Component {
   constructor() {
     super();
 
+    this.getColumnConfig = this.getColumnConfig.bind(this);
     this.getItemLocation = this.getItemLocation.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
@@ -191,6 +193,35 @@ export default class SearchResultTable extends Component {
 
       onItemClick(item, index);
     }
+  }
+
+  getColumnConfig() {
+    const {
+      columnSetName,
+      config,
+      searchDescriptor,
+    } = this.props;
+
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
+
+    const columnConfigurer = subresource
+      ? config.subresources[subresource]
+      : config.recordTypes[recordType];
+
+    let columnConfig = get(columnConfigurer, ['columns', columnSetName]);
+
+    if (!columnConfig && columnSetName !== defaultProps.columnSetName) {
+      // Fall back to the default column set if the named one doesn't exist.
+
+      columnConfig = get(columnConfigurer, ['columns', defaultProps.columnSetName]);
+    }
+
+    if (!columnConfig) {
+      columnConfig = [];
+    }
+
+    return columnConfig;
   }
 
   getItemLocation(item) {
@@ -271,12 +302,16 @@ export default class SearchResultTable extends Component {
       location = locationGetter(rowData);
     }
 
-    return rowRenderer(params, location);
+    const columnConfig = this.getColumnConfig();
+    const primaryCol = Object.keys(columnConfig)
+      .filter((col) => col !== 'workflowState')
+      .at(0);
+
+    return rowRenderer(params, location, primaryCol);
   }
 
   renderTable() {
     const {
-      columnSetName,
       config,
       formatCellData,
       formatColumnLabel,
@@ -288,8 +323,6 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     if (searchResult) {
-      const recordType = searchDescriptor.get('recordType');
-      const subresource = searchDescriptor.get('subresource');
       const searchQuery = searchDescriptor.get('searchQuery');
 
       const listTypeConfig = config.listTypes[listType];
@@ -320,21 +353,7 @@ export default class SearchResultTable extends Component {
         items = Immutable.List.of(items);
       }
 
-      const columnConfigurer = subresource
-        ? config.subresources[subresource]
-        : config.recordTypes[recordType];
-
-      let columnConfig = get(columnConfigurer, ['columns', columnSetName]);
-
-      if (!columnConfig && columnSetName !== defaultProps.columnSetName) {
-        // Fall back to the default column set if the named one doesn't exist.
-
-        columnConfig = get(columnConfigurer, ['columns', defaultProps.columnSetName]);
-      }
-
-      if (!columnConfig) {
-        columnConfig = [];
-      }
+      const columnConfig = this.getColumnConfig();
 
       const columns = Object.keys(columnConfig)
         .filter((name) => !columnConfig[name].disabled)
