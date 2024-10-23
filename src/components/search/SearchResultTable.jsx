@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
@@ -15,6 +15,11 @@ const messages = defineMessages({
   searchPending: {
     id: 'searchResultTable.searchPending',
     defaultMessage: '⋯',
+  },
+  rowLabel: {
+    id: 'searchResultTable.rowLabel',
+    description: 'The aria-label for a row',
+    defaultMessage: '{primary} selected row {index} of {total}',
   },
 });
 
@@ -31,7 +36,7 @@ const isSortable = (column, searchDescriptor) => {
   return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
 };
 
-const rowRenderer = (params, location, primaryCol) => {
+const rowRenderer = (params, location, ariaLabel) => {
   // This is a fork of react-virtualized's default row renderer:
   // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
 
@@ -58,8 +63,7 @@ const rowRenderer = (params, location, primaryCol) => {
     // onRowMouseOver ||
     // onRowRightClick
   ) {
-    const label = rowData.get(primaryCol);
-    a11yProps['aria-label'] = label || 'row';
+    a11yProps['aria-label'] = ariaLabel;
     a11yProps.tabIndex = 0;
 
     if (onRowClick) {
@@ -123,6 +127,7 @@ const propTypes = {
   }).isRequired,
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
+  intl: intlShape,
   isSearchPending: PropTypes.bool,
   linkItems: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
@@ -163,6 +168,7 @@ export default class SearchResultTable extends Component {
     this.handleRowClick = this.handleRowClick.bind(this);
     this.renderNoItems = this.renderNoItems.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.renderRowLabel = this.renderRowLabel.bind(this);
     this.sort = this.sort.bind(this);
   }
 
@@ -284,7 +290,31 @@ export default class SearchResultTable extends Component {
     return <div className={emptyResultStyles.common}>{message}</div>;
   }
 
-  renderRow(params) {
+  renderRowLabel(params, totalItems) {
+    const {
+      intl,
+    } = this.props;
+
+    const {
+      index,
+      rowData,
+    } = params;
+
+    const columnConfig = this.getColumnConfig();
+    const primaryCol = Object.keys(columnConfig)
+      .filter((col) => col !== 'workflowState')
+      .at(0);
+
+    const primaryData = rowData.get(primaryCol);
+    const label = primaryData
+      ? intl.formatMessage(messages.rowLabel,
+        { primary: primaryData, index: index + 1, total: totalItems })
+      : 'row';
+
+    return label;
+  }
+
+  renderRow(params, totalItems) {
     const {
       getItemLocation,
       linkItems,
@@ -302,12 +332,9 @@ export default class SearchResultTable extends Component {
       location = locationGetter(rowData);
     }
 
-    const columnConfig = this.getColumnConfig();
-    const primaryCol = Object.keys(columnConfig)
-      .filter((col) => col !== 'workflowState')
-      .at(0);
+    const ariaLabel = this.renderRowLabel(params, totalItems);
 
-    return rowRenderer(params, location, primaryCol);
+    return rowRenderer(params, location, ariaLabel);
   }
 
   renderTable() {
@@ -421,6 +448,7 @@ export default class SearchResultTable extends Component {
       }
 
       const height = (heightBasis * rowHeight) + rowHeight;
+      const renderWithTotal = (params) => this.renderRow(params, totalItems);
 
       return (
         <div style={{ height }}>
@@ -435,7 +463,7 @@ export default class SearchResultTable extends Component {
             sortBy={sortColumnName}
             sortDirection={sortDir === 'desc' ? Table.SortDirection.DESC : Table.SortDirection.ASC}
             noRowsRenderer={this.renderNoItems}
-            rowRenderer={this.renderRow}
+            rowRenderer={renderWithTotal}
           />
         </div>
       );
