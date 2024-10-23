@@ -145,6 +145,10 @@ const searchResult = Immutable.fromJS({
   },
 });
 
+const intl = {
+  formatMessage: (message) => `formatted ${message.id}`,
+};
+
 describe('SearchResultTable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -153,7 +157,10 @@ describe('SearchResultTable', () => {
   it('should render as a div', function test() {
     render(
       <Router>
-        <SearchResultTable config={config} />
+        <SearchResultTable
+          config={config}
+          intl={intl}
+        />
       </Router>, this.container,
     );
 
@@ -166,6 +173,7 @@ describe('SearchResultTable', () => {
         <SearchResultTable
           columnSetName="narrow"
           config={config}
+          intl={intl}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
@@ -183,6 +191,7 @@ describe('SearchResultTable', () => {
         <SearchResultTable
           columnSetName="foobar"
           config={config}
+          intl={intl}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
@@ -200,6 +209,7 @@ describe('SearchResultTable', () => {
         <SearchResultTable
           columnSetName="foobar"
           config={config}
+          intl={intl}
           searchDescriptor={groupSearchDescriptor}
           searchResult={searchResult}
         />
@@ -216,6 +226,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
@@ -230,6 +241,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
         />
@@ -244,6 +256,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           linkItems={false}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -259,6 +272,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           listType="foo"
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -274,6 +288,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           listType="bar"
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -298,6 +313,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           searchDescriptor={searchDescriptor}
           searchResult={emptySearchResult}
         />
@@ -322,6 +338,7 @@ describe('SearchResultTable', () => {
         <Router>
           <SearchResultTable
             config={config}
+            intl={intl}
             isSearchPending
             searchDescriptor={searchDescriptor}
             searchResult={emptySearchResult}
@@ -353,6 +370,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={singleSearchResult}
@@ -376,6 +394,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={singleSearchResult}
@@ -390,6 +409,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -413,6 +433,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -442,6 +463,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -469,6 +491,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -500,6 +523,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -537,6 +561,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
@@ -567,6 +592,7 @@ describe('SearchResultTable', () => {
     render(
       <Router>
         <SearchResultTable
+          intl={intl}
           config={config}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
@@ -596,6 +622,7 @@ describe('SearchResultTable', () => {
       <Router>
         <SearchResultTable
           config={config}
+          intl={intl}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
