@@ -448,7 +448,7 @@ export default class SearchResultTable extends Component {
       }
 
       const height = (heightBasis * rowHeight) + rowHeight;
-      const renderWithTotal = (params) => this.renderRow(params, totalItems);
+      const renderRowWithTotal = (params) => this.renderRow(params, totalItems);
 
       return (
         <div style={{ height }}>
@@ -463,7 +463,7 @@ export default class SearchResultTable extends Component {
             sortBy={sortColumnName}
             sortDirection={sortDir === 'desc' ? Table.SortDirection.DESC : Table.SortDirection.ASC}
             noRowsRenderer={this.renderNoItems}
-            rowRenderer={renderWithTotal}
+            rowRenderer={renderRowWithTotal}
           />
         </div>
       );
