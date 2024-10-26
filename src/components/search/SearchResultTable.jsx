@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import { Table } from 'cspace-layout';
@@ -15,6 +15,11 @@ const messages = defineMessages({
   searchPending: {
     id: 'searchResultTable.searchPending',
     defaultMessage: '⋯',
+  },
+  rowLabel: {
+    id: 'searchResultTable.rowLabel',
+    description: 'The aria-label for a row',
+    defaultMessage: '{primary} selected row {index} of {total}',
   },
 });
 
@@ -31,7 +36,7 @@ const isSortable = (column, searchDescriptor) => {
   return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
 };
 
-const rowRenderer = (params, location) => {
+const rowRenderer = (params, location, ariaLabel) => {
   // This is a fork of react-virtualized's default row renderer:
   // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
 
@@ -58,7 +63,7 @@ const rowRenderer = (params, location) => {
     // onRowMouseOver ||
     // onRowRightClick
   ) {
-    a11yProps['aria-label'] = 'row';
+    a11yProps['aria-label'] = ariaLabel;
     a11yProps.tabIndex = 0;
 
     if (onRowClick) {
@@ -122,6 +127,7 @@ const propTypes = {
   }).isRequired,
   formatCellData: PropTypes.func,
   formatColumnLabel: PropTypes.func,
+  intl: intlShape,
   isSearchPending: PropTypes.bool,
   linkItems: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
@@ -156,11 +162,13 @@ export default class SearchResultTable extends Component {
   constructor() {
     super();
 
+    this.getColumnConfig = this.getColumnConfig.bind(this);
     this.getItemLocation = this.getItemLocation.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.renderNoItems = this.renderNoItems.bind(this);
     this.renderRow = this.renderRow.bind(this);
+    this.renderRowLabel = this.renderRowLabel.bind(this);
     this.sort = this.sort.bind(this);
   }
 
@@ -191,6 +199,35 @@ export default class SearchResultTable extends Component {
 
       onItemClick(item, index);
     }
+  }
+
+  getColumnConfig() {
+    const {
+      columnSetName,
+      config,
+      searchDescriptor,
+    } = this.props;
+
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
+
+    const columnConfigurer = subresource
+      ? config.subresources[subresource]
+      : config.recordTypes[recordType];
+
+    let columnConfig = get(columnConfigurer, ['columns', columnSetName]);
+
+    if (!columnConfig && columnSetName !== defaultProps.columnSetName) {
+      // Fall back to the default column set if the named one doesn't exist.
+
+      columnConfig = get(columnConfigurer, ['columns', defaultProps.columnSetName]);
+    }
+
+    if (!columnConfig) {
+      columnConfig = [];
+    }
+
+    return columnConfig;
   }
 
   getItemLocation(item) {
@@ -253,7 +290,31 @@ export default class SearchResultTable extends Component {
     return <div className={emptyResultStyles.common}>{message}</div>;
   }
 
-  renderRow(params) {
+  renderRowLabel(params, totalItems) {
+    const {
+      intl,
+    } = this.props;
+
+    const {
+      index,
+      rowData,
+    } = params;
+
+    const columnConfig = this.getColumnConfig();
+    const primaryCol = Object.keys(columnConfig)
+      .filter((col) => col !== 'workflowState')
+      .at(0);
+
+    const primaryData = rowData.get(primaryCol);
+    const label = primaryData
+      ? intl.formatMessage(messages.rowLabel,
+        { primary: primaryData, index: index + 1, total: totalItems })
+      : 'row';
+
+    return label;
+  }
+
+  renderRow(params, totalItems) {
     const {
       getItemLocation,
       linkItems,
@@ -271,12 +332,13 @@ export default class SearchResultTable extends Component {
       location = locationGetter(rowData);
     }
 
-    return rowRenderer(params, location);
+    const ariaLabel = this.renderRowLabel(params, totalItems);
+
+    return rowRenderer(params, location, ariaLabel);
   }
 
   renderTable() {
     const {
-      columnSetName,
       config,
       formatCellData,
       formatColumnLabel,
@@ -288,8 +350,6 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     if (searchResult) {
-      const recordType = searchDescriptor.get('recordType');
-      const subresource = searchDescriptor.get('subresource');
       const searchQuery = searchDescriptor.get('searchQuery');
 
       const listTypeConfig = config.listTypes[listType];
@@ -320,21 +380,7 @@ export default class SearchResultTable extends Component {
         items = Immutable.List.of(items);
       }
 
-      const columnConfigurer = subresource
-        ? config.subresources[subresource]
-        : config.recordTypes[recordType];
-
-      let columnConfig = get(columnConfigurer, ['columns', columnSetName]);
-
-      if (!columnConfig && columnSetName !== defaultProps.columnSetName) {
-        // Fall back to the default column set if the named one doesn't exist.
-
-        columnConfig = get(columnConfigurer, ['columns', defaultProps.columnSetName]);
-      }
-
-      if (!columnConfig) {
-        columnConfig = [];
-      }
+      const columnConfig = this.getColumnConfig();
 
       const columns = Object.keys(columnConfig)
         .filter((name) => !columnConfig[name].disabled)
@@ -402,6 +448,7 @@ export default class SearchResultTable extends Component {
       }
 
       const height = (heightBasis * rowHeight) + rowHeight;
+      const renderRowWithTotal = (params) => this.renderRow(params, totalItems);
 
       return (
         <div style={{ height }}>
@@ -416,7 +463,7 @@ export default class SearchResultTable extends Component {
             sortBy={sortColumnName}
             sortDirection={sortDir === 'desc' ? Table.SortDirection.DESC : Table.SortDirection.ASC}
             noRowsRenderer={this.renderNoItems}
-            rowRenderer={this.renderRow}
+            rowRenderer={renderRowWithTotal}
           />
         </div>
       );
