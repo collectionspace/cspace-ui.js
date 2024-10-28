@@ -38,7 +38,7 @@ import person from './person';
 import place from './place';
 import procedure from './procedure';
 import relation from './relation';
-import repatriationclaim from './repatriationclaim';
+import repatriationrequest from './repatriationrequest';
 import report from './report';
 import reportinvocation from './reportinvocation';
 import structdateparser from './structdateparser';
@@ -61,7 +61,7 @@ export default [
   blob,
   citation,
   chronology,
-  repatriationclaim,
+  repatriationrequest,
   collectionobject,
   concept,
   conditioncheck,

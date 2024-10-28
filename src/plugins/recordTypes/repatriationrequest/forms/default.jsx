@@ -123,7 +123,7 @@ const template = (configContext) => {
 export default (configContext) => ({
   messages: defineMessages({
     name: {
-      id: 'form.repatriationclaim.default.name',
+      id: 'form.repatriationrequest.default.name',
       defaultMessage: 'Standard Template',
     },
   }),

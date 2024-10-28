@@ -1,17 +1,17 @@
 import Immutable from 'immutable';
-import createTitleGetter from '../../../../../src/plugins/recordTypes/repatriationclaim/title';
+import createTitleGetter from '../../../../../src/plugins/recordTypes/repatriationrequest/title';
 import createConfigContext from '../../../../../src/helpers/createConfigContext';
 
 chai.should();
 
-describe('repatriationclaim record title', () => {
+describe('repatriationrequest record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
   it('should return the claim number and title when both are present', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:repatriationclaims_common': {
+        'ns2:repatriationrequests_common': {
           claimNumber: 'NCL',
           title: 'Title',
         },
@@ -24,7 +24,7 @@ describe('repatriationclaim record title', () => {
   it('should return the claim number only when the title is missing', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:repatriationclaims_common': {
+        'ns2:repatriationrequests_common': {
           claimNumber: 'NCL',
         },
       },
@@ -36,7 +36,7 @@ describe('repatriationclaim record title', () => {
   it('should return the title only when the claim number is missing', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:repatriationclaims_common': {
+        'ns2:repatriationrequests_common': {
           title: 'Title',
         },
       },
@@ -53,8 +53,8 @@ describe('repatriationclaim record title', () => {
   it('should return an empty string if the common part is not present', () => {
     const data = Immutable.fromJS({
       document: {
-        'ns2:repatriationclaims_extension': {
-          repatriationclaimAltTitle: 'Alt claim title',
+        'ns2:repatriationrequests_extension': {
+          repatriationrequestAltTitle: 'Alt claim title',
         },
       },
     });
