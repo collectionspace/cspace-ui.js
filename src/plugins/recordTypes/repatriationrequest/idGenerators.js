@@ -6,7 +6,7 @@ export default {
     messages: defineMessages({
       type: {
         id: 'idGenerator.repatriationrequest.type',
-        defaultMessage: 'Claim',
+        defaultMessage: 'Repatriation Request',
       },
     }),
   },
