@@ -43,16 +43,16 @@ export default (configContext) => {
             ns: 'http://collectionspace.org/services/repatriationrequest',
           },
         },
-        claimNumber: {
+        requestNumber: {
           [config]: {
             cloneable: false,
             messages: defineMessages({
               inUse: {
-                id: 'field.repatriationrequests_common.claimNumber.inUse',
+                id: 'field.repatriationrequests_common.requestNumber.inUse',
                 defaultMessage: 'The identification number {value} is in use by another record.',
               },
               name: {
-                id: 'field.repatriationrequests_common.claimNumber.name',
+                id: 'field.repatriationrequests_common.requestNumber.name',
                 defaultMessage: 'Claim number',
               },
             }),
@@ -63,7 +63,7 @@ export default (configContext) => {
             validate: (validationContext) => validateNotInUse({
               configContext,
               validationContext,
-              fieldName: 'repatriationrequests_common:claimNumber',
+              fieldName: 'repatriationrequests_common:requestNumber',
             }),
             view: {
               type: IDGeneratorInput,
@@ -86,12 +86,12 @@ export default (configContext) => {
             },
           },
         },
-        claimDate: {
+        requestDate: {
           [config]: {
             dataType: DATA_TYPE_DATE,
             messages: defineMessages({
               name: {
-                id: 'field.repatriationrequests_common.claimDate.name',
+                id: 'field.repatriationrequests_common.requestDate.name',
                 defaultMessage: 'Origination date',
               },
             }),
@@ -176,7 +176,7 @@ export default (configContext) => {
               view: {
                 type: TermPickerInput,
                 props: {
-                  source: 'claimtype',
+                  source: 'requesttype',
                 },
               },
             },

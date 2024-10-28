@@ -7,15 +7,15 @@ export default (configContext) => {
 
   return {
     default: {
-      claimNumber: {
+      requestNumber: {
         messages: defineMessages({
           label: {
-            id: 'column.repatriationrequest.default.claimNumber',
+            id: 'column.repatriationrequest.default.requestNumber',
             defaultMessage: 'Claim number',
           },
         }),
         order: 10,
-        sortBy: 'repatriationrequests_common:claimNumber',
+        sortBy: 'repatriationrequests_common:requestNumber',
         width: 200,
       },
       title: {

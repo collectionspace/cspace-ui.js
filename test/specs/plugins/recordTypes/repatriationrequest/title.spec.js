@@ -8,11 +8,11 @@ describe('repatriationrequest record title', () => {
   const configContext = createConfigContext();
   const title = createTitleGetter(configContext);
 
-  it('should return the claim number and title when both are present', () => {
+  it('should return the request number and title when both are present', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:repatriationrequests_common': {
-          claimNumber: 'NCL',
+          requestNumber: 'NCL',
           title: 'Title',
         },
       },
@@ -21,11 +21,11 @@ describe('repatriationrequest record title', () => {
     title(data).should.equal('NCL – Title');
   });
 
-  it('should return the claim number only when the title is missing', () => {
+  it('should return the request number only when the title is missing', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:repatriationrequests_common': {
-          claimNumber: 'NCL',
+          requestNumber: 'NCL',
         },
       },
     });
@@ -33,7 +33,7 @@ describe('repatriationrequest record title', () => {
     title(data).should.equal('NCL');
   });
 
-  it('should return the title only when the claim number is missing', () => {
+  it('should return the title only when the request number is missing', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:repatriationrequests_common': {
@@ -54,7 +54,7 @@ describe('repatriationrequest record title', () => {
     const data = Immutable.fromJS({
       document: {
         'ns2:repatriationrequests_extension': {
-          repatriationrequestAltTitle: 'Alt claim title',
+          repatriationrequestAltTitle: 'Alt request title',
         },
       },
     });
