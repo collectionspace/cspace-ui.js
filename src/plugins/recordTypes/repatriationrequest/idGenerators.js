@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 
 export default {
   repatriationrequest: {
-    csid: 'a253d167-4f1a-4be3-a477-a2bd8a30cd7f',
+    csid: '7f6e2d67-b95a-4a0c-841c-5a00a9cd1db0',
     messages: defineMessages({
       type: {
         id: 'idGenerator.repatriationrequest.type',
