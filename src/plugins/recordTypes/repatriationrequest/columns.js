@@ -11,7 +11,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.repatriationrequest.default.requestNumber',
-            defaultMessage: 'Repatriation Request number',
+            defaultMessage: 'Repatriation request number',
           },
         }),
         order: 10,
@@ -22,7 +22,7 @@ export default (configContext) => {
         messages: defineMessages({
           label: {
             id: 'column.repatriationrequest.default.title',
-            defaultMessage: 'Repatriation Request title',
+            defaultMessage: 'Repatriation request title',
           },
         }),
         order: 20,

@@ -53,7 +53,7 @@ export default (configContext) => {
               },
               name: {
                 id: 'field.repatriationrequests_common.requestNumber.name',
-                defaultMessage: 'Repatriation Request number',
+                defaultMessage: 'Repatriation request number',
               },
             }),
             required: true,
@@ -569,7 +569,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.repatriationrequests_common.statusGroup.fullName',
-                  defaultMessage: 'Repatriation Request status',
+                  defaultMessage: 'Repatriation request status',
                 },
               }),
               repeating: true,
@@ -582,7 +582,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.statusGroupType.fullName',
-                    defaultMessage: 'Repatriation Request status group',
+                    defaultMessage: 'Repatriation request status group',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.statusGroupType.name',
@@ -602,7 +602,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.statusIndividual.fullName',
-                    defaultMessage: 'Repatriation Request status individual',
+                    defaultMessage: 'Repatriation request status individual',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.statusIndividual.name',
@@ -622,7 +622,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.status.fullName',
-                    defaultMessage: 'Repatriation Request status',
+                    defaultMessage: 'Repatriation request status',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.status.name',
@@ -643,7 +643,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.statusDate.fullName',
-                    defaultMessage: 'Repatriation Request status date',
+                    defaultMessage: 'Repatriation request status date',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.statusDate.name',
@@ -660,7 +660,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.statusNote.fullName',
-                    defaultMessage: 'Repatriation Request status note',
+                    defaultMessage: 'Repatriation request status note',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.statusNote.name',
@@ -689,7 +689,7 @@ export default (configContext) => {
               messages: defineMessages({
                 fullName: {
                   id: 'field.repatriationrequests_common.documentationGroup.fullName',
-                  defaultMessage: 'Repatriation Request documentation status',
+                  defaultMessage: 'Repatriation request documentation status',
                 },
               }),
               repeating: true,
@@ -702,7 +702,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.documentationNote.fullName',
-                    defaultMessage: 'Repatriation Request documentation status note',
+                    defaultMessage: 'Repatriation request documentation status note',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.documentationNote.name',
@@ -725,7 +725,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.documentationDate.fullName',
-                    defaultMessage: 'Repatriation Request documentation status date',
+                    defaultMessage: 'Repatriation request documentation status date',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.documentationDate.name',
@@ -742,7 +742,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.documentationStatus.fullName',
-                    defaultMessage: 'Repatriation Request documentation status',
+                    defaultMessage: 'Repatriation request documentation status',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.documentationStatus.name',
@@ -762,7 +762,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.documentationIndividual.fullName',
-                    defaultMessage: 'Repatriation Request documentation status individual',
+                    defaultMessage: 'Repatriation request documentation status individual',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.documentationIndividual.name',
@@ -782,7 +782,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.documentationGroupType.fullName',
-                    defaultMessage: 'Repatriation Request documentation status group',
+                    defaultMessage: 'Repatriation request documentation status group',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.documentationGroupType.name',
