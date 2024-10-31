@@ -21,7 +21,7 @@ const template = (configContext) => {
       <Panel name="info" collapsible>
         <Cols>
           <Col>
-            <Field name="claimNumber" />
+            <Field name="requestNumber" />
             <Field name="title" />
             <Field name="types">
               <Field name="type" />
@@ -34,7 +34,7 @@ const template = (configContext) => {
             </Field>
           </Col>
           <Col>
-            <Field name="claimDate" />
+            <Field name="requestDate" />
             <Field name="notes">
               <Field name="note" />
             </Field>
@@ -123,7 +123,7 @@ const template = (configContext) => {
 export default (configContext) => ({
   messages: defineMessages({
     name: {
-      id: 'form.repatriationclaim.default.name',
+      id: 'form.repatriationrequest.default.name',
       defaultMessage: 'Standard Template',
     },
   }),

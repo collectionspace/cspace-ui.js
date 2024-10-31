@@ -7,12 +7,12 @@ export default (configContext) => (data) => {
     return '';
   }
 
-  const common = getPart(data, 'repatriationclaims_common');
+  const common = getPart(data, 'repatriationrequests_common');
 
   if (!common) {
     return '';
   }
-  const claimNumber = common.get('claimNumber');
+  const requestNumber = common.get('requestNumber');
   const title = common.get('title');
-  return [claimNumber, title].filter((part) => !!part).join(' – ');
+  return [requestNumber, title].filter((part) => !!part).join(' – ');
 };

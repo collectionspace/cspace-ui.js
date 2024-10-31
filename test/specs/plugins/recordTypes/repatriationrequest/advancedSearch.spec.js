@@ -1,9 +1,9 @@
 import createConfigContext from '../../../../../src/helpers/createConfigContext';
-import advancedSearch from '../../../../../src/plugins/recordTypes/repatriationclaim/advancedSearch';
+import advancedSearch from '../../../../../src/plugins/recordTypes/repatriationrequest/advancedSearch';
 
 chai.should();
 
-describe('repatriationclaim record advanced search', () => {
+describe('repatriationrequest record advanced search', () => {
   const configContext = createConfigContext();
 
   it('should contain a top level property `op`', () => {
