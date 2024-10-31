@@ -45,7 +45,10 @@ $ npm run devserver
 By default, the configuration in index.html uses the CollectionSpace services API located at
 http://localhost:8180. To run the application against CollectionSpace services located on a
 different host, edit index.html, and change the `serverUrl` configuration property. Note that the
-specified server must be configured to allow CORS requests from http://localhost:8080.
+CollectionSpace services on the specified server must have been deployed with the build-time
+environment variable `CSPACE_CORE_UI_BASE_URL_OPT` set to `http://localhost:8080/` (note the
+trailing slash). This ensures that CORS and OAuth on the server are configured to allow connections
+from the locally running UI.
 
 See the [developer documentation](https://github.com/collectionspace/cspace-ui.js/tree/master/docs/developer) for instructions on building, testing, and running the source code.
 
