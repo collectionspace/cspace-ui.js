@@ -127,11 +127,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.repatriationrequests_common.alternativeIdentifier.fullName',
-                    defaultMessage: 'Alternative identifier value',
+                    defaultMessage: 'Alternative identifier',
                   },
                   name: {
                     id: 'field.repatriationrequests_common.alternativeIdentifier.name',
-                    defaultMessage: 'Value',
+                    defaultMessage: 'Identifier',
                   },
                 }),
                 view: {
