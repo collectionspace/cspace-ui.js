@@ -176,7 +176,7 @@ export default (configContext) => {
               view: {
                 type: TermPickerInput,
                 props: {
-                  source: 'requesttype',
+                  source: 'repatriationrequesttype',
                 },
               },
             },
