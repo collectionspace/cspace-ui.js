@@ -564,11 +564,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.heldintrusts_common.requester.fullName',
-                    defaultMessage: 'Access limitation requestor',
+                    defaultMessage: 'Access limitation requester',
                   },
                   name: {
                     id: 'field.heldintrusts_common.requester.name',
-                    defaultMessage: 'Requestor',
+                    defaultMessage: 'Requester',
                   },
                 }),
                 view: {
