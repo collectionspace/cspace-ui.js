@@ -749,11 +749,11 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.timePeriod.fullName',
-                    defaultMessage: 'Time period name',
+                    defaultMessage: 'Time period era',
                   },
                   name: {
                     id: 'field.nagprainventories_common.timePeriod.name',
-                    defaultMessage: 'Name',
+                    defaultMessage: 'Era',
                   },
                 }),
                 view: {
