@@ -7,33 +7,33 @@ export default (configContext) => {
 
   return {
     default: {
-      claimNumber: {
+      requestNumber: {
         messages: defineMessages({
           label: {
-            id: 'column.repatriationclaim.default.claimNumber',
-            defaultMessage: 'Claim number',
+            id: 'column.repatriationrequest.default.requestNumber',
+            defaultMessage: 'Repatriation request number',
           },
         }),
         order: 10,
-        sortBy: 'repatriationclaims_common:claimNumber',
+        sortBy: 'repatriationrequests_common:requestNumber',
         width: 200,
       },
       title: {
         messages: defineMessages({
           label: {
-            id: 'column.repatriationclaim.default.title',
-            defaultMessage: 'Claim title',
+            id: 'column.repatriationrequest.default.title',
+            defaultMessage: 'Repatriation request title',
           },
         }),
         order: 20,
-        sortBy: 'repatriationclaims_common:title',
+        sortBy: 'repatriationrequests_common:title',
         width: 200,
       },
       updatedAt: {
         formatValue: formatTimestamp,
         messages: defineMessages({
           label: {
-            id: 'column.repatriationclaim.default.updatedAt',
+            id: 'column.repatriationrequest.default.updatedAt',
             defaultMessage: 'Updated',
           },
         }),
