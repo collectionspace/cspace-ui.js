@@ -71,7 +71,7 @@ export default (configContext) => {
             view: {
               type: IDGeneratorInput,
               props: {
-                source: 'exitnumber',
+                source: 'exit',
               },
             },
           },
@@ -86,6 +86,9 @@ export default (configContext) => {
             }),
             view: {
               type: TextInput,
+              props: {
+                multiline: true,
+              },
             },
           },
         },
@@ -336,7 +339,7 @@ export default (configContext) => {
               view: {
                 type: CompoundInput,
                 props: {
-                  tabular: true,
+                  tabular: false,
                 },
               },
             },

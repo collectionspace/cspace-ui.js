@@ -18,5 +18,9 @@ export default {
       id: 'panel.exit.info',
       defaultMessage: 'Object Exit Information',
     },
+    sale: {
+      id: 'panel.exit.sale',
+      defaultMessage: 'Sale Information',
+    },
   }),
 };
