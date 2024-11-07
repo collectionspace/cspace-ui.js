@@ -5,12 +5,12 @@ export default {
     name: {
       id: 'record.objectexit.name',
       description: 'The name of the record type.',
-      defaultMessage: 'Object Exit',
+      defaultMessage: 'Object Exit (Legacy)',
     },
     collectionName: {
       id: 'record.objectexit.collectionName',
       description: 'The name of a collection of records of the type.',
-      defaultMessage: 'Object Exits',
+      defaultMessage: 'Object Exits (Legacy)',
     },
   }),
   panel: defineMessages({
