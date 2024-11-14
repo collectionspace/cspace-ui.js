@@ -40,4 +40,4 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getTag = (state, recordType) => state.getIn(['tags', recordType]);
+export const getTags = (state, recordType) => state.getIn(['tags', recordType]);
