@@ -17,6 +17,7 @@ import recordPage, * as fromRecordPage from './recordPage';
 import searchToSelect, * as fromSearchToSelect from './searchToSelect';
 import relation, * as fromRelation from './relation';
 import search, * as fromSearch from './search';
+import tags from './tags';
 import user, * as fromUser from './user';
 import vocabulary, * as fromVocabulary from './vocabulary';
 
@@ -39,6 +40,7 @@ export default combineReducers({
   searchToSelect,
   relation,
   search,
+  tags,
   user,
   vocabulary,
 });
