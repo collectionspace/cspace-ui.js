@@ -18,6 +18,7 @@ import contact from './contact';
 import deaccession from './deaccession';
 import dutyofcare from './dutyofcare';
 import exhibition from './exhibition';
+import exit from './exit';
 import exxport from './export';
 import group from './group';
 import heldintrust from './heldintrust';
@@ -71,6 +72,7 @@ export default [
   deaccession,
   dutyofcare,
   exhibition,
+  exit,
   exxport,
   group,
   heldintrust,
