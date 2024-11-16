@@ -4,6 +4,7 @@ import CreatePage from '../../components/pages/CreatePage';
 import {
   getAuthorityVocabWorkflowState,
   getUserPerms,
+  getTagsForRecord,
 } from '../../reducers';
 
 const mapStateToProps = (state) => ({
@@ -11,6 +12,7 @@ const mapStateToProps = (state) => ({
   getAuthorityVocabWorkflowState: (recordType, vocabulary) => getAuthorityVocabWorkflowState(
     state, recordType, vocabulary,
   ),
+  getTagsForRecord: (recordType) => getTagsForRecord(state, recordType),
 });
 
 export default connect(
