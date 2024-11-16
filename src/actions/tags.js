@@ -60,7 +60,6 @@ const readProcedures = (response, dispatch) => {
 };
 
 export default () => (dispatch) => {
-  console.log('Reading ServiceTags');
   dispatch({ type: SERVICE_TAGS_READ_STARTED });
 
   const session = getSession();
