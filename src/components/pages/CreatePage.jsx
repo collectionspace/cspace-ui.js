@@ -51,53 +51,49 @@ const tagMessages = defineMessages({
   },
 });
 
-const checkPermissions = (recordType, serviceType, perms, config) => {
-  const recordTypeConfig = config[recordType];
-
-  return (
-    recordTypeConfig.serviceConfig.serviceType === serviceType
-    && !recordTypeConfig.disabled
-    && canCreate(recordType, perms)
-  );
-};
-
-const sortRecords = (lhs, rhs, config, intl) => {
-  const configA = config[lhs];
-  const configB = config[rhs];
-
-  // Primary sort by sortOrder
-
-  let sortOrderA = configA.sortOrder;
-  let sortOrderB = configB.sortOrder;
-
-  if (typeof sortOrderA !== 'number') {
-    sortOrderA = Number.MAX_VALUE;
-  }
-
-  if (typeof sortOrderB !== 'number') {
-    sortOrderB = Number.MAX_VALUE;
-  }
-
-  if (sortOrderA !== sortOrderB) {
-    return (sortOrderA > sortOrderB ? 1 : -1);
-  }
-
-  // Secondary sort by label
-
-  const labelA = intl.formatMessage(configA.messages.record.name);
-  const labelB = intl.formatMessage(configB.messages.record.name);
-
-  // FIXME: This should be locale aware
-  return labelA.localeCompare(labelB);
-};
-
 const getRecordTypesByServiceType = (recordTypes, perms, intl) => {
   const recordTypesByServiceType = {};
 
   serviceTypes.forEach((serviceType) => {
     const recordTypeNames = Object.keys(recordTypes)
-      .filter((recordTypeName) => checkPermissions(recordTypeName, serviceType, perms, recordTypes))
-      .sort((nameA, nameB) => sortRecords(nameA, nameB, recordTypes, intl));
+      .filter((recordTypeName) => {
+        const recordTypeConfig = recordTypes[recordTypeName];
+
+        return (
+          recordTypeConfig.serviceConfig.serviceType === serviceType
+          && !recordTypeConfig.disabled
+          && canCreate(recordTypeName, perms)
+        );
+      })
+      .sort((nameA, nameB) => {
+        const configA = recordTypes[nameA];
+        const configB = recordTypes[nameB];
+
+        // Primary sort by sortOrder
+
+        let sortOrderA = configA.sortOrder;
+        let sortOrderB = configB.sortOrder;
+
+        if (typeof sortOrderA !== 'number') {
+          sortOrderA = Number.MAX_VALUE;
+        }
+
+        if (typeof sortOrderB !== 'number') {
+          sortOrderB = Number.MAX_VALUE;
+        }
+
+        if (sortOrderA !== sortOrderB) {
+          return (sortOrderA > sortOrderB ? 1 : -1);
+        }
+
+        // Secondary sort by label
+
+        const labelA = intl.formatMessage(configA.messages.record.name);
+        const labelB = intl.formatMessage(configB.messages.record.name);
+
+        // FIXME: This should be locale aware
+        return labelA.localeCompare(labelB);
+      });
 
     recordTypesByServiceType[serviceType] = recordTypeNames;
   });
