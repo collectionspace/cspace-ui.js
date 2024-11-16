@@ -25,7 +25,7 @@ const handleProcedureByTagFulfilled = (state, action) => {
   let nextState = state;
   const docTypes = Array.isArray(hasDocTypes) ? hasDocTypes : [hasDocTypes];
   docTypes.forEach((docType) => {
-    nextState = nextState.setIn([docType.toLowerCase()], [action.meta.tag]);
+    nextState = nextState.setIn([docType.toLowerCase()], action.meta.tag);
   });
 
   return nextState;
@@ -40,4 +40,4 @@ export default (state = Immutable.Map(), action) => {
   }
 };
 
-export const getTags = (state, recordType) => state.getIn(['tags', recordType]);
+export const getTags = (state, recordType) => state.get(recordType);
