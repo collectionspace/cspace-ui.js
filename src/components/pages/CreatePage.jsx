@@ -11,6 +11,16 @@ import panelStyles from '../../../styles/cspace-ui/CreatePagePanel.css';
 
 const serviceTypes = ['object', 'procedure', 'authority'];
 
+/**
+ * We need to define weights when displaying the procedures so we do it here
+ * Ideally this is part of the config - we'll see if we can get it in before 8.1
+ */
+const tagOrder = {
+  defaultgroup: 1,
+  nagpra: 2,
+  legacy: 100,
+};
+
 const messages = defineMessages({
   title: {
     id: 'createPage.title',
@@ -30,49 +40,64 @@ const messages = defineMessages({
   },
 });
 
+const tagMessages = defineMessages({
+  nagpra: {
+    id: 'createPage.tag.nagpra',
+    defaultMessage: 'NAGPRA',
+  },
+  legacy: {
+    id: 'createPage.tag.legacy',
+    defaultMessage: 'Legacy',
+  },
+});
+
+const checkPermissions = (recordType, serviceType, perms, config) => {
+  const recordTypeConfig = config[recordType];
+
+  return (
+    recordTypeConfig.serviceConfig.serviceType === serviceType
+    && !recordTypeConfig.disabled
+    && canCreate(recordType, perms)
+  );
+};
+
+const sortRecords = (lhs, rhs, config, intl) => {
+  const configA = config[lhs];
+  const configB = config[rhs];
+
+  // Primary sort by sortOrder
+
+  let sortOrderA = configA.sortOrder;
+  let sortOrderB = configB.sortOrder;
+
+  if (typeof sortOrderA !== 'number') {
+    sortOrderA = Number.MAX_VALUE;
+  }
+
+  if (typeof sortOrderB !== 'number') {
+    sortOrderB = Number.MAX_VALUE;
+  }
+
+  if (sortOrderA !== sortOrderB) {
+    return (sortOrderA > sortOrderB ? 1 : -1);
+  }
+
+  // Secondary sort by label
+
+  const labelA = intl.formatMessage(configA.messages.record.name);
+  const labelB = intl.formatMessage(configB.messages.record.name);
+
+  // FIXME: This should be locale aware
+  return labelA.localeCompare(labelB);
+};
+
 const getRecordTypesByServiceType = (recordTypes, perms, intl) => {
   const recordTypesByServiceType = {};
 
   serviceTypes.forEach((serviceType) => {
     const recordTypeNames = Object.keys(recordTypes)
-      .filter((recordTypeName) => {
-        const recordTypeConfig = recordTypes[recordTypeName];
-
-        return (
-          recordTypeConfig.serviceConfig.serviceType === serviceType
-          && !recordTypeConfig.disabled
-          && canCreate(recordTypeName, perms)
-        );
-      })
-      .sort((nameA, nameB) => {
-        const configA = recordTypes[nameA];
-        const configB = recordTypes[nameB];
-
-        // Primary sort by sortOrder
-
-        let sortOrderA = configA.sortOrder;
-        let sortOrderB = configB.sortOrder;
-
-        if (typeof sortOrderA !== 'number') {
-          sortOrderA = Number.MAX_VALUE;
-        }
-
-        if (typeof sortOrderB !== 'number') {
-          sortOrderB = Number.MAX_VALUE;
-        }
-
-        if (sortOrderA !== sortOrderB) {
-          return (sortOrderA > sortOrderB ? 1 : -1);
-        }
-
-        // Secondary sort by label
-
-        const labelA = intl.formatMessage(configA.messages.record.name);
-        const labelB = intl.formatMessage(configB.messages.record.name);
-
-        // FIXME: This should be locale aware
-        return labelA.localeCompare(labelB);
-      });
+      .filter((recordTypeName) => checkPermissions(recordTypeName, serviceType, perms, recordTypes))
+      .sort((nameA, nameB) => sortRecords(nameA, nameB, recordTypes, intl));
 
     recordTypesByServiceType[serviceType] = recordTypeNames;
   });
@@ -135,6 +160,140 @@ const getVocabularies = (recordTypeConfig, intl, getAuthorityVocabWorkflowState)
   return vocabularyNames;
 };
 
+const renderListItem = (recordType, config) => {
+  const recordConfig = config[recordType];
+  const recordDisplayName = <FormattedMessage {...recordConfig.messages.record.name} />;
+  const recordLink = <Link id={recordType} to={`/record/${recordType}`}>{recordDisplayName}</Link>;
+  return (
+    <li key={recordType}>
+      {recordLink}
+    </li>
+  );
+};
+
+/**
+ * Render the div for Object records
+ *
+ * @param {Object} recordTypes the object records
+ * @param {Object} config the cspace config
+ * @returns the div
+ */
+const renderObjects = (recordTypes, config) => {
+  const serviceType = 'object';
+
+  const items = recordTypes.map((recordType) => renderListItem(recordType, config));
+
+  // todo: validate items exist?
+  return (
+    <div className={panelStyles[serviceType]} key={serviceType}>
+      <h2><FormattedMessage {...messages[serviceType]} /></h2>
+      <ul>
+        {items}
+      </ul>
+    </div>
+  );
+};
+
+/**
+ * Render the div for procedure records. The procedures are grouped together by their service tags
+ * in order to display similar procedures together. Each tag will have its own header in order to
+ * act as a delimiter within the div.
+ *
+ * @param {Object} recordTypes the procedure record types
+ * @param {Object} config the cspace config
+ * @param {function} getTagsForRecord function to query the service tag of a record
+ * @returns
+ */
+const renderProcedures = (recordTypes, config, getTagsForRecord) => {
+  const serviceType = 'procedure';
+
+  const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultgroup');
+  const {
+    defaultgroup: defaultRecordTypes,
+    ...taggedRecordTypes
+  } = grouped;
+
+  const defaultItems = defaultRecordTypes.map((recordType) => renderListItem(recordType, config));
+
+  const taggedItems = Object.keys(taggedRecordTypes).sort((lhs, rhs) => {
+    const lhsOrder = tagOrder[lhs] || 5;
+    const rhsOrder = tagOrder[rhs] || 5;
+
+    return lhsOrder > rhsOrder;
+  }).map((tag) => {
+    const tagRecordTypes = taggedRecordTypes[tag];
+    const items = tagRecordTypes.map((recordType) => renderListItem(recordType, config));
+
+    // todo: custom style for tag header
+    return (
+      <>
+        <h3><FormattedMessage {...tagMessages[tag]} /></h3>
+        {items}
+      </>
+    );
+  });
+
+  return (
+    <div className={panelStyles[serviceType]} key={serviceType}>
+      <h2><FormattedMessage {...messages[serviceType]} /></h2>
+      <ul>
+        {defaultItems}
+        {taggedItems}
+      </ul>
+    </div>
+  );
+};
+
+/**
+ * Render the div for creating authority items. Each authority is a header and its vocabulary items
+ * are represented as a sub-list.
+ *
+ * @param {*} recordTypes the authority records
+ * @param {Object} config the cspace config
+ * @param {intlShape} intl the intl object
+ * @param {function} getAuthorityVocabWorkflowState function to get workflow states
+ */
+const renderAuthorities = (recordTypes, config, intl, getAuthorityVocabWorkflowState) => {
+  const authorityItems = recordTypes.map((recordType) => {
+    const recordConfig = config[recordType];
+    const vocabularies = getVocabularies(
+      recordConfig, intl, getAuthorityVocabWorkflowState,
+    );
+
+    if (!vocabularies || vocabularies.length === 0) {
+      return null;
+    }
+
+    const vocabularyItems = vocabularies.map((vocabulary) => (
+      <li key={vocabulary}>
+        <Link id={`${recordType}/${vocabulary}`} to={`/record/${recordType}/${vocabulary}`}>
+          <FormattedMessage {...recordConfig.vocabularies[vocabulary].messages.name} />
+        </Link>
+      </li>
+    ));
+    const vocabularyList = <ul>{vocabularyItems}</ul>;
+
+    const recordDisplayName = <FormattedMessage {...recordConfig.messages.record.name} />;
+    const recordLink = <h3 id={recordType}>{recordDisplayName}</h3>;
+
+    return (
+      <li key={recordType}>
+        {recordLink}
+        {vocabularyList}
+      </li>
+    );
+  });
+
+  return (
+    <div className={panelStyles.authority} key="authority">
+      <h2><FormattedMessage {...messages.authority} /></h2>
+      <ul>
+        {authorityItems}
+      </ul>
+    </div>
+  );
+};
+
 const contextTypes = {
   config: PropTypes.shape({
     recordTypes: PropTypes.object,
@@ -145,6 +304,7 @@ const propTypes = {
   intl: intlShape,
   perms: PropTypes.instanceOf(Immutable.Map),
   getAuthorityVocabWorkflowState: PropTypes.func,
+  getTagsForRecord: PropTypes.func,
 };
 
 const defaultProps = {
@@ -156,6 +316,7 @@ export default function CreatePage(props, context) {
     intl,
     perms,
     getAuthorityVocabWorkflowState,
+    getTagsForRecord,
   } = props;
 
   const {
@@ -166,74 +327,23 @@ export default function CreatePage(props, context) {
     recordTypes,
   } = config;
 
-  const itemsByServiceType = {};
-  const lists = [];
+  let objectPanel;
+  let procedurePanel;
+  let authorityPanel;
 
   if (recordTypes) {
     const recordTypesByServiceType = getRecordTypesByServiceType(recordTypes, perms, intl);
 
-    serviceTypes.forEach((serviceType) => {
-      itemsByServiceType[serviceType] = recordTypesByServiceType[serviceType].map((recordType) => {
-        const recordTypeConfig = recordTypes[recordType];
+    objectPanel = renderObjects(recordTypesByServiceType.object, recordTypes);
 
-        const vocabularies = getVocabularies(
-          recordTypeConfig, intl, getAuthorityVocabWorkflowState,
-        );
+    procedurePanel = renderProcedures(recordTypesByServiceType.procedure,
+      recordTypes,
+      getTagsForRecord);
 
-        let vocabularyList;
-
-        if (vocabularies && vocabularies.length > 0) {
-          const vocabularyItems = vocabularies.map((vocabulary) => (
-            <li key={vocabulary}>
-              <Link id={`${recordType}/${vocabulary}`} to={`/record/${recordType}/${vocabulary}`}>
-                <FormattedMessage {...recordTypeConfig.vocabularies[vocabulary].messages.name} />
-              </Link>
-            </li>
-          ));
-
-          vocabularyList = <ul>{vocabularyItems}</ul>;
-        }
-
-        if (recordTypeConfig.vocabularies && !vocabularyList) {
-          // The record type is an authority, but no vocabularies are enabled. Don't render
-          // anything.
-
-          return null;
-        }
-
-        const recordDisplayName = <FormattedMessage {...recordTypeConfig.messages.record.name} />;
-
-        let recordLink;
-
-        if (vocabularyList) {
-          recordLink = <h3 id={recordType}>{recordDisplayName}</h3>;
-        } else {
-          recordLink = <Link id={recordType} to={`/record/${recordType}`}>{recordDisplayName}</Link>;
-        }
-
-        return (
-          <li key={recordType}>
-            {recordLink}
-            {vocabularyList}
-          </li>
-        );
-      });
-    });
-
-    serviceTypes.forEach((serviceType) => {
-      const items = itemsByServiceType[serviceType].filter((item) => !!item);
-
-      if (items && items.length > 0) {
-        lists.push(
-          <div className={panelStyles[serviceType]} key={serviceType}>
-            <h2><FormattedMessage {...messages[serviceType]} /></h2>
-            <ul>
-              {items}
-            </ul>
-          </div>,
-        );
-      }
-    });
+    authorityPanel = renderAuthorities(recordTypesByServiceType.authority,
+      recordTypes,
+      intl,
+      getAuthorityVocabWorkflowState);
   }
 
   const title = <FormattedMessage {...messages.title} />;
@@ -243,7 +353,9 @@ export default function CreatePage(props, context) {
       <TitleBar title={title} updateDocumentTitle />
 
       <div>
-        {lists}
+        {objectPanel}
+        {procedurePanel}
+        {authorityPanel}
       </div>
     </div>
   );
