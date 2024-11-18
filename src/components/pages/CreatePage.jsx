@@ -203,8 +203,16 @@ const renderProcedures = (recordTypes, config, getTagsForRecord, tagConfig) => {
   const defaultItems = defaultRecordTypes.map((recordType) => renderListItem(recordType, config));
 
   const taggedItems = Object.keys(taggedRecordTypes).sort((lhs, rhs) => {
-    const lhsOrder = tagConfig[lhs].sortOrder || Number.MAX_VALUE;
-    const rhsOrder = tagConfig[rhs].sortOrder || Number.MAX_VALUE;
+    const lhsConfig = tagConfig[lhs] || {};
+    const rhsConfig = tagConfig[rhs] || {};
+
+    const {
+      sortOrder: lhsOrder = Number.MAX_SAFE_INTEGER,
+    } = lhsConfig;
+
+    const {
+      sortOrder: rhsOrder = Number.MAX_SAFE_INTEGER,
+    } = rhsConfig;
 
     return lhsOrder > rhsOrder ? 1 : -1;
   }).map((tag) => {
