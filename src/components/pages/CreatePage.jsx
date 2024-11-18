@@ -196,7 +196,7 @@ const renderObjects = (recordTypes = [], config) => {
  *
  * @param {Array} recordTypes the procedure record types
  * @param {Object} config the cspace config
- * @param {function} getTagsForRecord function to query the service tag of a record
+ * @param {Function} getTagsForRecord function to query the service tag of a record
  * @param {Object} tagConfig the configuration for the service tags containing their sortOrder
  * @returns
  */
@@ -245,10 +245,10 @@ const renderProcedures = (recordTypes = [], config, getTagsForRecord, tagConfig)
  * Render the div for creating authority items. Each authority is a header and its vocabulary items
  * are represented as a sub-list.
  *
- * @param {*} recordTypes the authority records
+ * @param {Array} recordTypes the authority records
  * @param {Object} config the cspace config
  * @param {intlShape} intl the intl object
- * @param {function} getAuthorityVocabWorkflowState function to get workflow states
+ * @param {Function} getAuthorityVocabWorkflowState function to get workflow states
  */
 const renderAuthorities = (recordTypes = [], config, intl, getAuthorityVocabWorkflowState) => {
   const authorityItems = recordTypes.map((recordType) => {
