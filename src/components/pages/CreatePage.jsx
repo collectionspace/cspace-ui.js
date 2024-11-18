@@ -16,7 +16,7 @@ const serviceTypes = ['object', 'procedure', 'authority'];
  * Ideally this is part of the config - we'll see if we can get it in before 8.1
  */
 const tagOrder = {
-  defaultgroup: 1,
+  defaultGroup: 1,
   nagpra: 2,
   legacy: 100,
 };
@@ -203,9 +203,9 @@ const renderObjects = (recordTypes, config) => {
 const renderProcedures = (recordTypes, config, getTagsForRecord) => {
   const serviceType = 'procedure';
 
-  const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultgroup');
+  const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultGroup');
   const {
-    defaultgroup: defaultRecordTypes,
+    defaultGroup: defaultRecordTypes,
     ...taggedRecordTypes
   } = grouped;
 
@@ -220,12 +220,13 @@ const renderProcedures = (recordTypes, config, getTagsForRecord) => {
     const tagRecordTypes = taggedRecordTypes[tag];
     const items = tagRecordTypes.map((recordType) => renderListItem(recordType, config));
 
-    // todo: custom style for tag header
     return (
-      <>
-        <h3><FormattedMessage {...tagMessages[tag]} /></h3>
-        {items}
-      </>
+      <li className={panelStyles.tag}>
+        <h3 id={tag}><FormattedMessage {...tagMessages[tag]} /></h3>
+        <ul>
+          {items}
+        </ul>
+      </li>
     );
   });
 
