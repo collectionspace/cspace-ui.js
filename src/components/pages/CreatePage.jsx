@@ -158,45 +158,54 @@ const renderListItem = (recordType, config) => {
 };
 
 /**
- * Render the div for Object records
+ * Render the panel for a group of Procedures
  *
- * @param {Object} recordTypes the object records
- * @param {Object} config the cspace config
- * @returns the div
+ * @param {String} serviceType the name of the service type (object, procedure, authority)
+ * @param {Array} items the array of list items to display for the service
+ * @returns
  */
-const renderObjects = (recordTypes, config) => {
-  const serviceType = 'object';
-
-  const items = recordTypes.map((recordType) => renderListItem(recordType, config));
-
-  // todo: validate items exist?
-  return (
+const renderPanel = (serviceType, items) => (
+  items && items.length > 0 ? (
     <div className={panelStyles[serviceType]} key={serviceType}>
       <h2><FormattedMessage {...messages[serviceType]} /></h2>
       <ul>
         {items}
       </ul>
     </div>
-  );
+  ) : null
+);
+
+/**
+ * Render the div for Object records
+ *
+ * @param {Array} recordTypes the object records
+ * @param {Object} config the cspace config
+ * @returns the div
+ */
+const renderObjects = (recordTypes = [], config) => {
+  const serviceType = 'object';
+  const items = recordTypes.map((recordType) => renderListItem(recordType, config));
+  return renderPanel(serviceType, items);
 };
 
 /**
  * Render the div for procedure records. The procedures are grouped together by their service tags
- * in order to display similar procedures together. Each tag will have its own header in order to
- * act as a delimiter within the div.
+ * in order to display procedures in a workflow together. Each tag has its own header in order to
+ * act as a delimiter within the div. Procedures without a tag do not have a header and are part
+ * of a default group.
  *
- * @param {Object} recordTypes the procedure record types
+ * @param {Array} recordTypes the procedure record types
  * @param {Object} config the cspace config
  * @param {function} getTagsForRecord function to query the service tag of a record
  * @param {Object} tagConfig the configuration for the service tags containing their sortOrder
  * @returns
  */
-const renderProcedures = (recordTypes, config, getTagsForRecord, tagConfig) => {
+const renderProcedures = (recordTypes = [], config, getTagsForRecord, tagConfig) => {
   const serviceType = 'procedure';
 
   const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultGroup');
   const {
-    defaultGroup: defaultRecordTypes,
+    defaultGroup: defaultRecordTypes = [],
     ...taggedRecordTypes
   } = grouped;
 
@@ -229,15 +238,7 @@ const renderProcedures = (recordTypes, config, getTagsForRecord, tagConfig) => {
     );
   });
 
-  return (
-    <div className={panelStyles[serviceType]} key={serviceType}>
-      <h2><FormattedMessage {...messages[serviceType]} /></h2>
-      <ul>
-        {defaultItems}
-        {taggedItems}
-      </ul>
-    </div>
-  );
+  return renderPanel(serviceType, defaultItems.concat(taggedItems));
 };
 
 /**
@@ -249,7 +250,7 @@ const renderProcedures = (recordTypes, config, getTagsForRecord, tagConfig) => {
  * @param {intlShape} intl the intl object
  * @param {function} getAuthorityVocabWorkflowState function to get workflow states
  */
-const renderAuthorities = (recordTypes, config, intl, getAuthorityVocabWorkflowState) => {
+const renderAuthorities = (recordTypes = [], config, intl, getAuthorityVocabWorkflowState) => {
   const authorityItems = recordTypes.map((recordType) => {
     const recordConfig = config[recordType];
     const vocabularies = getVocabularies(
@@ -280,14 +281,7 @@ const renderAuthorities = (recordTypes, config, intl, getAuthorityVocabWorkflowS
     );
   });
 
-  return (
-    <div className={panelStyles.authority} key="authority">
-      <h2><FormattedMessage {...messages.authority} /></h2>
-      <ul>
-        {authorityItems}
-      </ul>
-    </div>
-  );
+  return renderPanel('authority', authorityItems);
 };
 
 const contextTypes = {
