@@ -55,6 +55,17 @@ const defaultConfig = mergeConfig({
   showTermListStateIcon: false,
   structDateOptionListNames: ['dateQualifiers'],
   structDateVocabNames: ['dateera', 'datecertainty', 'datequalifier'],
+  tags: {
+    defaultGroup: {
+      sortOrder: 0,
+    },
+    nagpra: {
+      sortOrder: 1,
+    },
+    legacy: {
+      sortOrder: 3,
+    },
+  },
   tenantId: '1',
   termDeprecationEnabled: false,
 }, {

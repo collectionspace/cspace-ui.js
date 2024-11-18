@@ -11,16 +11,6 @@ import panelStyles from '../../../styles/cspace-ui/CreatePagePanel.css';
 
 const serviceTypes = ['object', 'procedure', 'authority'];
 
-/**
- * We need to define weights when displaying the procedures so we do it here
- * Ideally this is part of the config - we'll see if we can get it in before 8.1
- */
-const tagOrder = {
-  defaultGroup: 1,
-  nagpra: 2,
-  legacy: 100,
-};
-
 const messages = defineMessages({
   title: {
     id: 'createPage.title',
@@ -198,9 +188,10 @@ const renderObjects = (recordTypes, config) => {
  * @param {Object} recordTypes the procedure record types
  * @param {Object} config the cspace config
  * @param {function} getTagsForRecord function to query the service tag of a record
+ * @param {Object} tagConfig the configuration for the service tags containing their sortOrder
  * @returns
  */
-const renderProcedures = (recordTypes, config, getTagsForRecord) => {
+const renderProcedures = (recordTypes, config, getTagsForRecord, tagConfig) => {
   const serviceType = 'procedure';
 
   const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultGroup');
@@ -212,10 +203,10 @@ const renderProcedures = (recordTypes, config, getTagsForRecord) => {
   const defaultItems = defaultRecordTypes.map((recordType) => renderListItem(recordType, config));
 
   const taggedItems = Object.keys(taggedRecordTypes).sort((lhs, rhs) => {
-    const lhsOrder = tagOrder[lhs] || 5;
-    const rhsOrder = tagOrder[rhs] || 5;
+    const lhsOrder = tagConfig[lhs].sortOrder || Number.MAX_VALUE;
+    const rhsOrder = tagConfig[rhs].sortOrder || Number.MAX_VALUE;
 
-    return lhsOrder > rhsOrder;
+    return lhsOrder > rhsOrder ? 1 : -1;
   }).map((tag) => {
     const tagRecordTypes = taggedRecordTypes[tag];
     const items = tagRecordTypes.map((recordType) => renderListItem(recordType, config));
@@ -321,6 +312,7 @@ export default function CreatePage(props, context) {
   } = context;
 
   const {
+    tags: tagConfig,
     recordTypes,
   } = config;
 
@@ -335,7 +327,8 @@ export default function CreatePage(props, context) {
 
     procedurePanel = renderProcedures(recordTypesByServiceType.procedure,
       recordTypes,
-      getTagsForRecord);
+      getTagsForRecord,
+      tagConfig);
 
     authorityPanel = renderAuthorities(recordTypesByServiceType.authority,
       recordTypes,
