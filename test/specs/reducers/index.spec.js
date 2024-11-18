@@ -91,6 +91,7 @@ describe('reducer', () => {
       'relation',
       'search',
       'searchToSelect',
+      'tags',
       'user',
       'vocabulary',
     ]);
