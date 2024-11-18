@@ -189,7 +189,7 @@ const perms = Immutable.fromJS({
   },
 });
 
-describe.only('CreatePage', () => {
+describe('CreatePage', () => {
   const getAuthorityVocabWorkflowState = () => 'project';
   const getTagsForRecord = () => undefined;
 
