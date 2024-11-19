@@ -24,7 +24,7 @@ const mockStore = configureMockStore([thunk]);
 const successTag = 'test-tag';
 const failureTag = 'failure-tag';
 
-describe('search action creator', () => {
+describe('tags action creator', () => {
   const worker = setupWorker();
   const procedureUrl = '/cspace-services/servicegroups/procedure';
   const procedureTagsUrl = '/cspace-services/servicegroups/procedure/tags';
@@ -87,11 +87,10 @@ describe('search action creator', () => {
         });
     });
 
-    it('skips procedures when no tags are found', () => {
+    it('resolves early when no tags are found', () => {
       worker.use(
         rest.get(procedureTagsUrl, (req, res, ctx) => res(ctx.json({
           'ns2:abstract-common-list': {
-            'list-item': [],
           },
         }))),
       );
