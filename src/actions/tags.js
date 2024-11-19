@@ -47,7 +47,7 @@ const doRead = (tag, dispatch) => {
 const readProcedures = (response, dispatch) => {
   let tags = get(response, ['data', 'ns2:abstract-common-list', 'list-item']);
   if (!tags) {
-    return Promise.success();
+    return Promise.resolve();
   }
 
   if (!Array.isArray(tags)) {
