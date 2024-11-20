@@ -9,6 +9,7 @@ import { getCommonFieldValue } from '../../helpers/recordDataHelpers';
 import RecordFormContainer from '../../containers/record/RecordFormContainer';
 import styles from '../../../styles/cspace-ui/InvocationEditor.css';
 import messageStyles from '../../../styles/cspace-ui/FormStatusMessage.css';
+import '../../../styles/cspace-ui/Customizations.css';
 
 const messages = defineMessages({
   loading: {
@@ -152,6 +153,10 @@ export default class InvocationEditor extends Component {
 
     const invocableNameGetter = get(config, ['recordTypes', recordType, 'invocableName']);
     const invocableName = invocableNameGetter && invocableNameGetter(metadata);
+    const invocableShortName = invocableName ? invocableName.slice(
+      invocableName.lastIndexOf('.') + 1,
+      invocableName.length,
+    ) : '';
 
     const paramRecordTypeConfig = get(config, ['invocables', recordType, invocableName]);
 
@@ -193,8 +198,10 @@ export default class InvocationEditor extends Component {
       );
     }
 
+    const invocableClassName = `cspace-ui-${recordType}--${invocableShortName}`;
+
     return (
-      <div className={styles.common}>
+      <div className={`${styles.common} ${invocableClassName}`}>
         <p>{description}</p>
 
         <InvocationDescriptorEditor

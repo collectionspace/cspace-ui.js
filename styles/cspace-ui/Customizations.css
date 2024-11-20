@@ -1,0 +1,9 @@
+div[class*=cspace-ui-batch--MergeAuthorityItemsBatchJob],
+div[class*=cspace-ui-batch--BulkObjectEditBatchJob] {
+  height: 500px;
+  width: 850px;
+}
+
+div[class*=cspace-ui-batch--MergeAuthorityItemsBatchJob] > div > fieldset {
+  max-width: 50%;
+}

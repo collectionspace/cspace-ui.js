@@ -1,9 +1,9 @@
 .common :global(.cspace-layout-Modal--common) {
-  overflow: visible;
+  overflow: auto;
 }
 
 .common :global(.cspace-layout-Modal--common > div > div) {
-  overflow: visible;
+  overflow: auto;
 }
 
 .running {
