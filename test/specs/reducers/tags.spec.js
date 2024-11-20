@@ -14,7 +14,7 @@ const { expect } = chai;
 chai.use(chaiImmutable);
 chai.should();
 
-describe('service tags reducer', () => {
+describe('tags reducer', () => {
   it('should have an empty immutable initial state', () => {
     reducer(undefined, {}).should.deep.equal(Immutable.Map({}));
   });
