@@ -6,6 +6,7 @@ import { readAuthVocabs } from './authority';
 import { createSession, setSession } from './cspace';
 import { loadPrefs, savePrefs } from './prefs';
 import { readAccountRoles } from './account';
+import readServiceTags from './tags';
 import { getUserUsername } from '../reducers';
 
 import {
@@ -207,6 +208,7 @@ export const login = (config, authCode, authCodeRequestData = {}) => (dispatch, 
       return Promise.resolve();
     })
     .then(() => dispatch(loadPrefs(config, username)))
+    .then(() => dispatch(readServiceTags()))
     .then(() => dispatch(readAuthVocabs(config)))
     .then(() => dispatch({
       type: LOGIN_FULFILLED,

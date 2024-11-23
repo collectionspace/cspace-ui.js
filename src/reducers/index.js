@@ -17,6 +17,7 @@ import recordPage, * as fromRecordPage from './recordPage';
 import searchToSelect, * as fromSearchToSelect from './searchToSelect';
 import relation, * as fromRelation from './relation';
 import search, * as fromSearch from './search';
+import tags, * as fromTags from './tags';
 import user, * as fromUser from './user';
 import vocabulary, * as fromVocabulary from './vocabulary';
 
@@ -39,6 +40,7 @@ export default combineReducers({
   searchToSelect,
   relation,
   search,
+  tags,
   user,
   vocabulary,
 });
@@ -266,3 +268,5 @@ export const getNotifications = (state) => fromNotification.getNotifications(sta
 export const getOpenModalName = (state) => fromNotification.getModal(state.notification);
 
 export const getCSpaceSystemInfo = (state) => fromCspace.getSystemInfo(state.cspace);
+
+export const getTagsForRecord = (state, recordType) => fromTags.getTags(state.tags, recordType);

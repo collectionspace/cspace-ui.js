@@ -61,6 +61,7 @@ import reducer, {
   getSearchToSelectVocabulary,
   getNotifications,
   getOpenModalName,
+  getTagsForRecord,
 } from '../../../src/reducers';
 
 import { searchKey } from '../../../src/reducers/search';
@@ -91,6 +92,7 @@ describe('reducer', () => {
       'relation',
       'search',
       'searchToSelect',
+      'tags',
       'user',
       'vocabulary',
     ]);
@@ -1024,6 +1026,19 @@ describe('reducer', () => {
           modal: modalName,
         }),
       }).should.equal(modalName);
+    });
+  });
+
+  describe('getTagsForProcedure selector', () => {
+    it('should select from the tags key', () => {
+      const recordType = 'collectionobject';
+      const recordTags = Immutable.Map();
+
+      getTagsForRecord({
+        tags: Immutable.Map({
+          [recordType]: recordTags,
+        }),
+      }, recordType).should.deep.equal(recordTags);
     });
   });
 });

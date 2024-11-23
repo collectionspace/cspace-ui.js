@@ -15,6 +15,7 @@ const { expect } = chai;
 chai.should();
 
 const config = {
+  tags: {},
   recordTypes: {
     collectionobject: {
       messages: {
@@ -190,6 +191,7 @@ const perms = Immutable.fromJS({
 
 describe('CreatePage', () => {
   const getAuthorityVocabWorkflowState = () => 'project';
+  const getTagsForRecord = () => undefined;
 
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -202,6 +204,7 @@ describe('CreatePage', () => {
           <Router>
             <CreatePage
               perms={perms}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -219,6 +222,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -253,6 +257,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -274,6 +279,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -297,6 +303,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={lockedULANVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -320,6 +327,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={noULANVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -341,6 +349,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -383,6 +392,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>
@@ -434,6 +444,7 @@ describe('CreatePage', () => {
             <CreatePage
               perms={perms}
               getAuthorityVocabWorkflowState={getAuthorityVocabWorkflowState}
+              getTagsForRecord={getTagsForRecord}
             />
           </Router>
         </ConfigProvider>

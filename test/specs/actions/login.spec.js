@@ -16,6 +16,8 @@ import {
   ACCOUNT_PERMS_READ_FULFILLED,
   ACCOUNT_PERMS_READ_REJECTED,
   ACCOUNT_ROLES_READ_FULFILLED,
+  SERVICE_TAGS_READ_STARTED,
+  SERVICE_TAGS_READ_FULFILLED,
 } from '../../../src/constants/actionCodes';
 
 import {
@@ -65,6 +67,7 @@ describe('login action creator', () => {
     const tokenUrl = '/cspace-services/oauth2/token';
     const accountPermsUrl = '/cspace-services/accounts/0/accountperms';
     const accountRolesUrl = `/cspace-services/accounts/${accountId}/accountroles`;
+    const procedureTagsUrl = '/cspace-services/servicegroups/procedure/tags';
     const config = {};
 
     const store = mockStore({
@@ -109,13 +112,19 @@ describe('login action creator', () => {
         }))),
 
         rest.get(accountRolesUrl, (req, res, ctx) => res(ctx.json({}))),
+
+        rest.get(procedureTagsUrl, (req, res, ctx) => res(ctx.json({
+          'ns2:abstract-common-list': {
+            'list-item': [],
+          },
+        }))),
       );
 
       return store.dispatch(login(config, authCode, authCodeRequestData))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(6);
+          actions.should.have.lengthOf(8);
 
           actions[0].should.deep.equal({
             type: LOGIN_STARTED,
@@ -145,7 +154,10 @@ describe('login action creator', () => {
 
           actions[4].should.have.property('type', PREFS_LOADED);
 
-          actions[5].should.deep.equal({
+          actions[5].should.have.property('type', SERVICE_TAGS_READ_STARTED);
+          actions[6].should.have.property('type', SERVICE_TAGS_READ_FULFILLED);
+
+          actions[7].should.deep.equal({
             type: LOGIN_FULFILLED,
             meta: {
               landingPath: authCodeRequestData.landingPath,

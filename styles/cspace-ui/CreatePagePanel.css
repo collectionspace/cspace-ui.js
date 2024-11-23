@@ -27,18 +27,16 @@
   list-style: none;
 }
 
-.common > ul > li > ul > li {
+.authority > ul > li > ul > li {
   display: inline-block;
 }
 
-.common > ul > li > ul > li + li::before {
+.authority > ul > li > ul > li + li::before {
   content: ' | ';
 }
 
-.audit {
-  composes: common;
-  background-color: #F0F5FB;
-  color: #305A8D;
+.tag > ul > li + li {
+  margin-top: 4px;
 }
 
 .object {
