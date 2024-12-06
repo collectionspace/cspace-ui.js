@@ -33,11 +33,11 @@ const messages = defineMessages({
 const tagMessages = defineMessages({
   nagpra: {
     id: 'createPage.tag.nagpra',
-    defaultMessage: 'NAGPRA',
+    defaultMessage: 'NAGPRA Procedures',
   },
   legacy: {
     id: 'createPage.tag.legacy',
-    defaultMessage: 'Legacy',
+    defaultMessage: 'Legacy Procedures',
   },
 });
 
