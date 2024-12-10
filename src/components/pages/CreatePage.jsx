@@ -203,7 +203,16 @@ const renderObjects = (recordTypes = [], config) => {
 const renderProcedures = (recordTypes = [], config, getTagsForRecord, tagConfig) => {
   const serviceType = 'procedure';
 
-  const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultGroup');
+  const grouped = {};
+  recordTypes.forEach((recordType) => {
+    const tag = getTagsForRecord(recordType) || 'defaultGroup';
+    if (grouped[tag] === undefined) {
+      grouped[tag] = [recordType];
+    } else {
+      grouped[tag].push(recordType);
+    }
+  });
+
   const {
     defaultGroup: defaultRecordTypes = [],
     ...taggedRecordTypes
