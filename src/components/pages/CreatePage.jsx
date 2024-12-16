@@ -33,11 +33,11 @@ const messages = defineMessages({
 const tagMessages = defineMessages({
   nagpra: {
     id: 'createPage.tag.nagpra',
-    defaultMessage: 'NAGPRA',
+    defaultMessage: 'NAGPRA Procedures',
   },
   legacy: {
     id: 'createPage.tag.legacy',
-    defaultMessage: 'Legacy',
+    defaultMessage: 'Legacy Procedures',
   },
 });
 
@@ -203,7 +203,16 @@ const renderObjects = (recordTypes = [], config) => {
 const renderProcedures = (recordTypes = [], config, getTagsForRecord, tagConfig) => {
   const serviceType = 'procedure';
 
-  const grouped = Object.groupBy(recordTypes, (recordType) => getTagsForRecord(recordType) || 'defaultGroup');
+  const grouped = {};
+  recordTypes.forEach((recordType) => {
+    const tag = getTagsForRecord(recordType) || 'defaultGroup';
+    if (grouped[tag] === undefined) {
+      grouped[tag] = [recordType];
+    } else {
+      grouped[tag].push(recordType);
+    }
+  });
+
   const {
     defaultGroup: defaultRecordTypes = [],
     ...taggedRecordTypes
