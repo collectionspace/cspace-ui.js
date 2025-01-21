@@ -23,8 +23,8 @@ export default (configContext) => {
         formatValue: formatRefName,
         messages: defineMessages({
           label: {
-            id: 'column.exit.default.exitOwner',
-            defaultMessage: 'Exit owner',
+            id: 'column.exit.default.owner',
+            defaultMessage: 'Owner after exit',
           },
         }),
         order: 20,
