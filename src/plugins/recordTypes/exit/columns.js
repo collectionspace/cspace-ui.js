@@ -19,7 +19,7 @@ export default (configContext) => {
         sortBy: 'exits_common:exitNumber',
         width: 200,
       },
-      exitOwner: {
+      owner: {
         formatValue: formatRefName,
         messages: defineMessages({
           label: {
@@ -28,7 +28,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'exits_common:owners/owner/0',
+        sortBy: 'exits_common:owners/0',
         width: 200,
       },
       updatedAt: {

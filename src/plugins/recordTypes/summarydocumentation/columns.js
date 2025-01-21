@@ -26,7 +26,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'summarydocumentations_common:titles/title/0',
+        sortBy: 'summarydocumentations_common:titles/0',
         width: 200,
       },
       updatedAt: {
