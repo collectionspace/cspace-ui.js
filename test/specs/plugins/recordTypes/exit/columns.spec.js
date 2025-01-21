@@ -11,12 +11,12 @@ describe('exit record columns', () => {
     columns.should.have.property('default').that.is.an('object');
   });
 
-  it('should have exit owner column that can format a refname', () => {
-    const { exitOwner } = columns.default;
+  it('should have owner column that can format a refname', () => {
+    const { owner } = columns.default;
 
-    exitOwner.should.have.property('formatValue').that.is.a('function');
+    owner.should.have.property('formatValue').that.is.a('function');
 
-    exitOwner.formatValue('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(johndoe)\'John Doe\'').should
+    owner.formatValue('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(johndoe)\'John Doe\'').should
       .equal('John Doe');
   });
 });
