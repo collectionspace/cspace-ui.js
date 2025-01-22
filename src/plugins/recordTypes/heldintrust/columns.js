@@ -28,7 +28,7 @@ export default (configContext) => {
           },
         }),
         order: 20,
-        sortBy: 'heldintrusts_common:owners/owner/0',
+        sortBy: 'heldintrusts_common:owners/0',
         width: 450,
       },
       updatedAt: {

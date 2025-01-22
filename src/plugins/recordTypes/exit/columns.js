@@ -19,16 +19,16 @@ export default (configContext) => {
         sortBy: 'exits_common:exitNumber',
         width: 200,
       },
-      exitOwner: {
+      owner: {
         formatValue: formatRefName,
         messages: defineMessages({
           label: {
-            id: 'column.exit.default.exitOwner',
-            defaultMessage: 'Exit owner',
+            id: 'column.exit.default.owner',
+            defaultMessage: 'Owner after exit',
           },
         }),
         order: 20,
-        sortBy: 'exits_common:owners/owner/0',
+        sortBy: 'exits_common:owners/0',
         width: 200,
       },
       updatedAt: {
