@@ -1,5 +1,44 @@
 # Change Log
 
+## v10.0.0
+
+v10.0.0 adds support for CollectionSpace 8.1. It can not be used with earlier versions.
+
+### New Procedures
+
+Support for the following procedures has been added:
+  - Consultation
+  - Deaccession
+  - Duty of Care
+  - NAGPRA Inventory
+  - Restricted Media Handling
+  - Repatriation Request
+  - Summary Documentation
+
+### Legacy Procedures
+
+The Object Exit procedure has been revamped, and the old Object Exit is now considered legacy.
+
+### Non-Breaking Changes
+
+- `ethculture` has been relabeled to Cultural Group
+- `archculture` has been relabeled to Archaeological Culture
+
+### Breaking Changes
+
+- On the Create New page:
+  - Procedures are now grouped by their tags defined by the CollectionSpace server.
+
+- On the record editor for Object records:
+  - The Published Related Link field group (`publishedRelatedLinkGroupList/publishedRelatedLinkGroup`) has been added. Values entered in these fields will not be saved with an older CollectionSpace server.
+  - The field Object count unit (`objectCountUnit`) has been added to the Object Count group list. Values entered in this field will not be saved with an older CollectionSpace server.
+
+### Bug Fixes
+
+- Sorting for Chronology authority searches on Display name and Term status have been fixed.
+- The message ID for the field `conditionGroupList/conditionGroup` in the Storage Location authority has been fixed.
+- The namespace for the accounts common has been fixed.
+
 ## v9.0.0
 
 v9.0.0 adds support for CollectionSpace 8.0. It can not be used with earlier versions.
