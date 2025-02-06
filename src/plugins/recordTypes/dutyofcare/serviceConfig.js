@@ -4,5 +4,5 @@ export default {
   serviceType: 'procedure',
 
   objectName: 'Dutyofcare',
-  documentName: 'Dutyofcares',
+  documentName: 'dutyofcares',
 };
