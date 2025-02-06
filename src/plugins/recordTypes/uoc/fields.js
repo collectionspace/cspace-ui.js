@@ -322,11 +322,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.uoc_common.hoursSpent.fullName',
+                    id: 'field.uoc_common.useDateHoursSpent.fullName',
                     defaultMessage: 'Start/ongoing date hours spent',
                   },
                   name: {
-                    id: 'field.uoc_common.hoursSpent.name',
+                    id: 'field.uoc_common.useDateHoursSpent.name',
                     defaultMessage: 'Hours spent',
                   },
                 }),
