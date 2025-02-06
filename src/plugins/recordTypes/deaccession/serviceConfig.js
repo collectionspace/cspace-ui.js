@@ -4,5 +4,5 @@ export default {
   serviceType: 'procedure',
 
   objectName: 'Deaccession',
-  documentName: 'Deaccessions',
+  documentName: 'deaccessions',
 };
