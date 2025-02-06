@@ -1265,9 +1265,9 @@ export default {
 
   "field.collectionobjects_common.comment.name": "Comment",
 
-  "field.collectionobjects_common.compressionstandard.fullName": "File codec compression standard",
+  "field.collectionobjects_common.compressionStandard.fullName": "File codec compression standard",
 
-  "field.collectionobjects_common.compressionstandard.name": "Compression standard",
+  "field.collectionobjects_common.compressionStandard.name": "Compression standard",
 
   "field.collectionobjects_common.computedCurrentLocation.name": "Computed current location",
 
