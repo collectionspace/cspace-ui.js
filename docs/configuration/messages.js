@@ -2259,7 +2259,7 @@ export default {
 
   "field.conservation_common.sampleReturned.fullName": "Destructive analysis sample returned",
 
-  "field.conservation_common.sampleReturned.nadme": "Sample returned",
+  "field.conservation_common.sampleReturned.name": "Sample returned",
 
   "field.conservation_common.sampleReturnedLocation.fullName": "Destructive analysis sample returned location",
 
