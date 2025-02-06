@@ -5205,9 +5205,9 @@ export default {
 
   "field.uoc_common.feeValue.name": "Value",
 
-  "field.uoc_common.hoursSpent.fullName": "Start/ongoing date hours spent",
+  "field.uoc_common.useDateHoursSpent.fullName": "Start/ongoing date hours spent",
 
-  "field.uoc_common.hoursSpent.name": "Hours spent",
+  "field.uoc_common.useDateHoursSpent.name": "Hours spent",
 
   "field.uoc_common.location.name": "Location",
 
