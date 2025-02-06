@@ -85,6 +85,39 @@ export default {
   // Label of the input on the search bar of the role admin page.
   "authRoleSearchBar.filter": "Filter by name",
 
+  // Error message displayed when the account is inactive during login.
+  "authStatus.ERR_ACCOUNT_INACTIVE": "Sign in failed. The account is inactive.",
+
+  // Error message displayed when the account is in an invalid state during login.
+  "authStatus.ERR_ACCOUNT_INVALID": "Sign in failed. The account is in an invalid state.",
+
+  // Error message displayed when the account is not found during login.
+  "authStatus.ERR_ACCOUNT_NOT_FOUND": "Sign in failed. Account not found.",
+
+  // Error message displayed when an invalid authorization code request ID was received.
+  "authStatus.ERR_AUTH_CODE_REQUEST_NOT_FOUND": "Sign in failed. The authorization code does not belong to an active sign in request.",
+
+  // Error message displayed when a bad request response was received during login.
+  "authStatus.ERR_BAD_REQUEST": "Sign in failed. The CollectionSpace server received a bad request.",
+
+  // Error message displayed when incorrect credentials were entered during login.
+  "authStatus.ERR_INVALID_CREDENTIALS": "Sign in failed. Incorrect username/password.",
+
+  // Error message displayed when there is a network error during login.
+  "authStatus.ERR_NETWORK": "Sign in failed. Unable to reach the CollectionSpace server.",
+
+  // Error message displayed when the logged in user belongs to the wrong tenant.
+  "authStatus.ERR_WRONG_TENANT": "Sign in failed. The user is not registered to this CollectionSpace tenant.",
+
+  // Generic login error message. Displayed when a more specific error message is not available.
+  "authStatus.error": "Sign in failed.",
+
+  // Message displayed while login is in progress.
+  "authStatus.pending": "Finishing sign in...",
+
+  // Message displayed when login completes successfully.
+  "authStatus.success": "Signed in as {username}.",
+
   // Message displayed in the autocomplete input dropdown to prompt a user to add a new term.
   "autocompleteInputContainer.addPrompt": "Add \"{displayName}\" to {destinationName}",
 
@@ -231,6 +264,22 @@ export default {
 
   "column.conservation.default.updatedAt": "Updated",
 
+  "column.consultation.default.Number": "Consultation number",
+
+  "column.consultation.default.updatedAt": "Updated",
+
+  "column.deaccession.default.deaccessionApprovalIndividual": "Individual",
+
+  "column.deaccession.default.deaccessionNumber": "Deaccession number",
+
+  "column.deaccession.default.updatedAt": "Updated",
+
+  "column.dutyofcare.default.dutyOfCareNumber": "Duty of care number",
+
+  "column.dutyofcare.default.dutyOfCareTitle": "Title",
+
+  "column.dutyofcare.default.updatedAt": "Updated",
+
   "column.exhibition.default.exhibitionNumber": "Exhibition number",
 
   "column.exhibition.default.title": "Title",
@@ -239,11 +288,23 @@ export default {
 
   "column.exhibition.default.updatedAt": "Updated",
 
+  "column.exit.default.exitNumber": "Exit number",
+
+  "column.exit.default.owner": "Owner after exit",
+
+  "column.exit.default.updatedAt": "Updated",
+
   "column.group.default.owner": "Owner",
 
   "column.group.default.title": "Title",
 
   "column.group.default.updatedAt": "Updated",
+
+  "column.heldintrust.default.heldInTrustNumber": "Held-in-Trust number",
+
+  "column.heldintrust.default.owner": "Owner",
+
+  "column.heldintrust.default.updatedAt": "Updated",
 
   "column.insurance.default.insuranceIndemnityReferenceNumber": "Reference number",
 
@@ -296,6 +357,12 @@ export default {
   "column.movement.default.movementReferenceNumber": "Reference number",
 
   "column.movement.default.updatedAt": "Updated",
+
+  "column.nagprainventory.default.inventoryNumber": "Inventory number",
+
+  "column.nagprainventory.default.title": "Title",
+
+  "column.nagprainventory.default.updatedAt": "Updated",
 
   "column.object.default.docName": "Summary",
 
@@ -361,7 +428,27 @@ export default {
 
   "column.refs.narrow.sourceField": "Field",
 
+  "column.repatriationrequest.default.requestNumber": "Repatriation request number",
+
+  "column.repatriationrequest.default.title": "Repatriation request title",
+
+  "column.repatriationrequest.default.updatedAt": "Updated",
+
   "column.report.default.name": "Name",
+
+  "column.restrictedmedia.default.blobCsid": "Thumbnail",
+
+  "column.restrictedmedia.default.identificationNumber": "Identification number",
+
+  "column.restrictedmedia.default.title": "Title",
+
+  "column.restrictedmedia.default.updatedAt": "Updated",
+
+  "column.summarydocumentation.default.documentationNumber": "Summary number",
+
+  "column.summarydocumentation.default.title": "Title",
+
+  "column.summarydocumentation.default.updatedAt": "Updated",
 
   "column.terms.itemDisplayName": "Term",
 
@@ -462,6 +549,10 @@ export default {
 
   "createPage.procedure": "Procedures",
 
+  "createPage.tag.legacy": "Legacy Procedures",
+
+  "createPage.tag.nagpra": "NAGPRA Procedures",
+
   "createPage.title": "Create New",
 
   // Title of the recent records panel on the dashboard page.
@@ -469,6 +560,9 @@ export default {
 
   // Title of the dashboard page.
   "dashboardPage.title": "My CollectionSpace",
+
+  // Tip to display for interacting with the DateInput
+  "dateInput.tooltip": "Use the down arrow key or mouse to open the calendar",
 
   // The value of a datetime field.
   "dateTimeInputContainer.value": "{date} {time}",
@@ -540,6 +634,8 @@ export default {
   "field.accounts_common.password.name": "Password",
 
   "field.accounts_common.passwordConfirmation.name": "Confirm password",
+
+  "field.accounts_common.requireSSO.name": "Require single sign-on (if available)",
 
   "field.accounts_common.screenName.name": "Full name",
 
@@ -725,13 +821,27 @@ export default {
 
   "field.blobs_common.name.name": "Name",
 
-  "field.chronologies_common.primaryDateRangeStructuredDateGroup.name": "Primary date range",
+  "field.chronologies_common.altDateCitation.fullName": "Alternative date citation",
+
+  "field.chronologies_common.altDateCitation.name": "Citation",
+
+  "field.chronologies_common.altDateGroup.name": "Alternative date",
+
+  "field.chronologies_common.altDateNote.fullName": "Alternative date note",
+
+  "field.chronologies_common.altDateNote.name": "Note",
+
+  "field.chronologies_common.altDateRangeStructuredDateGroup.fullName": "Alternative date range",
+
+  "field.chronologies_common.altDateRangeStructuredDateGroup.name": "Range",
+
+  "field.chronologies_common.altDateSpatialCoverage.fullName": "Alternative date spatial coverage",
+
+  "field.chronologies_common.altDateSpatialCoverage.name": "Spatial coverage",
 
   "field.chronologies_common.chronologyDescription.name": "Chronology description",
 
   "field.chronologies_common.chronologyNote.name": "Chronology note",
-
-  "field.chronologies_common.spatialCoverage.name": "Spatial coverage",
 
   "field.chronologies_common.chronologyTermGroup.name": "Term",
 
@@ -757,23 +867,9 @@ export default {
 
   "field.chronologies_common.identifierValue.name": "Value",
 
-  "field.chronologies_common.altDateCitation.fullName": "Alternative date citation",
+  "field.chronologies_common.primaryDateRangeStructuredDateGroup.name": "Primary date range",
 
-  "field.chronologies_common.altDateCitation.name": "Citation",
-
-  "field.chronologies_common.altDateGroup.name": "Alternative date",
-
-  "field.chronologies_common.altDateNote.fullName": "Alternative date note",
-
-  "field.chronologies_common.altDateNote.name": "Note",
-
-  "field.chronologies_common.altDateSpatialCoverage.fullName": "Alternative date spatial coverage",
-
-  "field.chronologies_common.altDateSpatialCoverage.name": "Spatial coverage",
-
-  "field.chronologies_common.altDateRangeStructuredDateGroup.fullName": "Alternative date range",
-
-  "field.chronologies_common.altDateRangeStructuredDateGroup.name": "Range",
+  "field.chronologies_common.spatialCoverage.name": "Spatial coverage",
 
   "field.chronologies_common.termDisplayName.fullName": "Term display name",
 
@@ -1021,6 +1117,8 @@ export default {
 
   "field.collectionobjects_common.apiUrl.name": "API URL",
 
+  "field.collectionobjects_common.apparelSize.name": "Apparel size",
+
   "field.collectionobjects_common.applicationInteractionGroup.name": "Interacting application",
 
   "field.collectionobjects_common.applicationInteractionRequired.fullName": "Interacting application required",
@@ -1100,6 +1198,10 @@ export default {
   "field.collectionobjects_common.assocDateType.fullName": "Associated date type",
 
   "field.collectionobjects_common.assocDateType.name": "Type",
+
+  "field.collectionobjects_common.assocEvent.fullName": "Associated controlled event or period/era",
+
+  "field.collectionobjects_common.assocEvent.name": "Event or period/era",
 
   "field.collectionobjects_common.assocEventName.fullName": "Associated event",
 
@@ -1287,6 +1389,10 @@ export default {
 
   "field.collectionobjects_common.contentDescription.name": "Description",
 
+  "field.collectionobjects_common.contentEvent.fullName": "Content controlled event or period/era",
+
+  "field.collectionobjects_common.contentEvent.name": "Event or period/era",
+
   "field.collectionobjects_common.contentEventName.fullName": "Content event name",
 
   "field.collectionobjects_common.contentEventName.name": "Name",
@@ -1371,6 +1477,12 @@ export default {
 
   "field.collectionobjects_common.credentialType.name": "Type",
 
+  "field.collectionobjects_common.descriptionLevel.name": "Description level",
+
+  "field.collectionobjects_common.descriptiveTitle.fullName": "Published related link descriptive title",
+
+  "field.collectionobjects_common.descriptiveTitle.name": "Descriptive title",
+
   "field.collectionobjects_common.distinguishingFeatures.name": "Distinguishing features",
 
   "field.collectionobjects_common.distributedLedgerGroup.name": "Distributed ledger",
@@ -1424,6 +1536,8 @@ export default {
   "field.collectionobjects_common.fieldCollectionNumber.name": "Field collection number",
 
   "field.collectionobjects_common.fieldCollectionPlace.name": "Field collection place",
+
+  "field.collectionobjects_common.fieldCollectionSite.name": "Field collection site",
 
   "field.collectionobjects_common.fieldCollectionSource.name": "Field collection source",
 
@@ -1605,8 +1719,6 @@ export default {
 
   "field.collectionobjects_common.numberOfChannels.name": "Number of associated channels",
 
-  "field.collectionobjects_common.numberOfObjects.name": "Number of objects",
-
   "field.collectionobjects_common.numberType.fullName": "Other number type",
 
   "field.collectionobjects_common.numberType.name": "Type",
@@ -1624,6 +1736,32 @@ export default {
   "field.collectionobjects_common.objectComponentName.fullName": "Object component name",
 
   "field.collectionobjects_common.objectComponentName.name": "Name",
+
+  "field.collectionobjects_common.objectCount.fullName": "Object count value",
+
+  "field.collectionobjects_common.objectCount.name": "Value",
+
+  "field.collectionobjects_common.objectCountCountedBy.fullName": "Object count counted by",
+
+  "field.collectionobjects_common.objectCountCountedBy.name": "Counted by",
+
+  "field.collectionobjects_common.objectCountDate.fullName": "Object count date",
+
+  "field.collectionobjects_common.objectCountDate.name": "Date",
+
+  "field.collectionobjects_common.objectCountGroup.name": "Object count",
+
+  "field.collectionobjects_common.objectCountNote.fullName": "Object count note",
+
+  "field.collectionobjects_common.objectCountNote.name": "Note",
+
+  "field.collectionobjects_common.objectCountType.fullName": "Object count type",
+
+  "field.collectionobjects_common.objectCountType.name": "Type",
+
+  "field.collectionobjects_common.objectCountUnit.fullName": "Object count unit",
+
+  "field.collectionobjects_common.objectCountUnit.name": "Unit",
 
   "field.collectionobjects_common.objectHistoryNote.name": "Object history note",
 
@@ -1668,6 +1806,8 @@ export default {
   "field.collectionobjects_common.objectNumber.name": "Identification number",
 
   "field.collectionobjects_common.objectProductionDateGroup.name": "Production date",
+
+  "field.collectionobjects_common.objectProductionEra.name": "Production era",
 
   "field.collectionobjects_common.objectProductionNote.name": "Production note",
 
@@ -1780,6 +1920,10 @@ export default {
   "field.collectionobjects_common.referenceNote.fullName": "Reference note",
 
   "field.collectionobjects_common.referenceNote.name": "Note",
+
+  "field.collectionobjects_common.relatedLink.fullName": "Published related link url",
+
+  "field.collectionobjects_common.relatedLink.name": "URL",
 
   "field.collectionobjects_common.responsibleDepartment.name": "Responsible department",
 
@@ -2281,6 +2425,52 @@ export default {
 
   "field.conservation_common.treatmentSummary.name": "Treatment summary",
 
+  "field.consultations_common.consultationDate.name": "Initial consultation date",
+
+  "field.consultations_common.consultationLogGroup.name": "Consultation log",
+
+  "field.consultations_common.consultationNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.consultations_common.consultationNumber.name": "Consultation number",
+
+  "field.consultations_common.consultDate.fullName": "Consultation log date",
+
+  "field.consultations_common.consultDate.name": "Date",
+
+  "field.consultations_common.consultNote.fullName": "Consultation log note",
+
+  "field.consultations_common.consultNote.name": "Note",
+
+  "field.consultations_common.consultParty.fullName": "Consultation log recipient",
+
+  "field.consultations_common.consultParty.name": "Recipient",
+
+  "field.consultations_common.consultStatus.fullName": "Consultation log status",
+
+  "field.consultations_common.consultStatus.name": "Status",
+
+  "field.consultations_common.consultType.fullName": "Consultation log type",
+
+  "field.consultations_common.consultType.name": "Type",
+
+  "field.consultations_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
+
+  "field.consultations_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.consultations_common.involvedParty.fullName": "Parties involved person",
+
+  "field.consultations_common.involvedParty.name": "Person",
+
+  "field.consultations_common.involvedRole.fullName": "Parties involved role",
+
+  "field.consultations_common.involvedRole.name": "Role",
+
+  "field.consultations_common.note.name": "Consultation note",
+
+  "field.consultations_common.partiesInvolvedGroup.name": "Parties involved",
+
+  "field.consultations_common.reason.name": "Consultation reason",
+
   "field.contacts_common.addressCountry.name": "Country",
 
   "field.contacts_common.addressGroup.name": "Address",
@@ -2320,6 +2510,92 @@ export default {
   "field.contacts_common.webAddressGroup.name": "Web site",
 
   "field.contacts_common.webAddressType.name": "Type",
+
+  "field.deaccessions_common.deaccessionApprovalDate.fullName": "Deaccession approval date",
+
+  "field.deaccessions_common.deaccessionApprovalDate.name": "Date",
+
+  "field.deaccessions_common.deaccessionApprovalGroup.deaccessionApprovalGroup.fullName": "Deaccession approval group",
+
+  "field.deaccessions_common.deaccessionApprovalGroup.deaccessionApprovalGroup.name": "Group",
+
+  "field.deaccessions_common.deaccessionApprovalGroup.name": "Deaccession approval",
+
+  "field.deaccessions_common.deaccessionApprovalIndividual.fullName": "Deaccession approval individual",
+
+  "field.deaccessions_common.deaccessionApprovalIndividual.name": "Individual",
+
+  "field.deaccessions_common.deaccessionApprovalNote.fullName": "Deaccession approval note",
+
+  "field.deaccessions_common.deaccessionApprovalNote.name": "Note",
+
+  "field.deaccessions_common.deaccessionApprovalStatus.fullName": "Deaccession approval status",
+
+  "field.deaccessions_common.deaccessionApprovalStatus.name": "Status",
+
+  "field.deaccessions_common.deaccessionDate.name": "Deaccession date",
+
+  "field.deaccessions_common.deaccessionNote.name": "Deaccession note",
+
+  "field.deaccessions_common.deaccessionNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.deaccessions_common.deaccessionNumber.name": "Deaccession number",
+
+  "field.deaccessions_common.deaccessionRationale.name": "Deaccession rationale",
+
+  "field.deaccessions_common.deaccessionReason.name": "Deaccession reason",
+
+  "field.deaccessions_common.exitDate.name": "Exit date",
+
+  "field.deaccessions_common.exitMethod.name": "Exit method",
+
+  "field.deaccessions_common.exitRecipient.name": "Exit recipient",
+
+  "field.dutiesofcare_common.detailDeterminationDate.fullName": "Duty of care detail determination date",
+
+  "field.dutiesofcare_common.detailDeterminationDate.name": "Determination date",
+
+  "field.dutiesofcare_common.detailDeterminedBy.fullName": "Duty of care detail determined by",
+
+  "field.dutiesofcare_common.detailDeterminedBy.name": "Determined by",
+
+  "field.dutiesofcare_common.detailGroup.name": "Duty of care detail",
+
+  "field.dutiesofcare_common.detailLevel.fullName": "Duty of care detail level",
+
+  "field.dutiesofcare_common.detailLevel.name": "Level",
+
+  "field.dutiesofcare_common.detailNote.fullName": "Duty of care detail note",
+
+  "field.dutiesofcare_common.detailNote.name": "Note",
+
+  "field.dutiesofcare_common.detailType.fullName": "Duty of care detail type",
+
+  "field.dutiesofcare_common.detailType.name": "Type",
+
+  "field.dutiesofcare_common.dutyOfCareNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.dutiesofcare_common.dutyOfCareNumber.name": "Duty of care number",
+
+  "field.dutiesofcare_common.dutyOfCareTitle.name": "Title",
+
+  "field.dutiesofcare_common.involvedOnBehalfOf.fullName": "Party involved on behalf of",
+
+  "field.dutiesofcare_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.dutiesofcare_common.involvedParty.fullName": "Party involved person",
+
+  "field.dutiesofcare_common.involvedParty.name": "Person",
+
+  "field.dutiesofcare_common.involvedRole.fullName": "Party involved roles",
+
+  "field.dutiesofcare_common.involvedRole.name": "Role",
+
+  "field.dutiesofcare_common.note.name": "Note",
+
+  "field.dutiesofcare_common.originationDate.name": "Origination date",
+
+  "field.dutiesofcare_common.partiesInvolvedGroup.name": "Party involved",
 
   "field.exhibitions_common.boilerplateText.name": "Boilerplate text",
 
@@ -2493,6 +2769,64 @@ export default {
 
   "field.exhibitions_common.workingGroupTitle.name": "Title",
 
+  "field.exits_common.agent.fullName": "Exit agent name",
+
+  "field.exits_common.agent.name": "Name",
+
+  "field.exits_common.approvalStatusGroup.name": "Approval status",
+
+  "field.exits_common.approvalStatusNote.fullName": "Approval status note",
+
+  "field.exits_common.approvalStatusNote.name": "Note",
+
+  "field.exits_common.date.fullName": "Approval status date",
+
+  "field.exits_common.date.name": "Date",
+
+  "field.exits_common.exitAgentGroup.name": "Exit agent",
+
+  "field.exits_common.exitCountNote.name": "Exit count note",
+
+  "field.exits_common.exitDate.name": "Exit date",
+
+  "field.exits_common.exitNumber.inUse": "The exit number {value} is in use by another record.",
+
+  "field.exits_common.exitNumber.name": "Exit number",
+
+  "field.exits_common.group.fullName": "Approval status group",
+
+  "field.exits_common.group.name": "Group",
+
+  "field.exits_common.individual.fullName": "Approval status individual",
+
+  "field.exits_common.individual.name": "Individual",
+
+  "field.exits_common.method.name": "Exit method",
+
+  "field.exits_common.owner.name": "Owner after exit",
+
+  "field.exits_common.reason.name": "Exit reason",
+
+  "field.exits_common.role.fullName": "Exit agent role",
+
+  "field.exits_common.role.name": "Role",
+
+  "field.exits_common.saleCurrency.name": "Sale/auction currency",
+
+  "field.exits_common.saleDate.name": "Sale/auction date",
+
+  "field.exits_common.saleLot.name": "Sale/auction lot",
+
+  "field.exits_common.saleNote.name": "Sale/auction note",
+
+  "field.exits_common.saleNumber.name": "Sale/auction number",
+
+  "field.exits_common.saleValue.name": "Sale/auction value",
+
+  "field.exits_common.status.fullName": "Approval status",
+
+  "field.exits_common.status.name": "Status",
+
   "field.ext.address.addressCountry.fullName": "Address country",
 
   "field.ext.address.addressCountry.name": "Country",
@@ -2523,137 +2857,151 @@ export default {
 
   "field.ext.address.addrGroup.name": "Address",
 
-  "field.ext.associatedAuthority.concept.fullName": "Concept associated",
+  "field.ext.associatedAuthority.assocChronology.fullName": "Associated event/era",
 
-  "field.ext.associatedAuthority.concept.name": "Associated",
+  "field.ext.associatedAuthority.assocChronology.name": "Event/era",
 
-  "field.ext.associatedAuthority.conceptCitation.fullName": "Concept citation",
+  "field.ext.associatedAuthority.assocChronologyAuthGroup.name": "Associated event/era",
 
-  "field.ext.associatedAuthority.conceptCitation.name": "Citation",
+  "field.ext.associatedAuthority.assocChronologyCitation.fullName": "Associated event/era citation",
 
-  "field.ext.associatedAuthority.conceptGroup.name": "Concept",
+  "field.ext.associatedAuthority.assocChronologyCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.conceptNote.fullName": "Concept note",
+  "field.ext.associatedAuthority.assocChronologyNote.fullName": "Associated event/era note",
 
-  "field.ext.associatedAuthority.conceptNote.name": "Note",
+  "field.ext.associatedAuthority.assocChronologyNote.name": "Note",
 
-  "field.ext.associatedAuthority.conceptStructuredDateGroup.fullName": "Concept date",
+  "field.ext.associatedAuthority.assocChronologyStructuredDateGroup.fullName": "Associated event/era date",
 
-  "field.ext.associatedAuthority.conceptStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.assocChronologyStructuredDateGroup.groupName": "Date",
 
-  "field.ext.associatedAuthority.conceptType.fullName": "Concept relationship/type",
+  "field.ext.associatedAuthority.assocChronologyStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.conceptType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.assocChronologyType.fullName": "Associated event/era relationship/type",
 
-  "field.ext.associatedAuthority.organization.fullName": "Organization associated",
+  "field.ext.associatedAuthority.assocChronologyType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.organization.name": "Associated",
+  "field.ext.associatedAuthority.assocConcept.fullName": "Associated concept",
 
-  "field.ext.associatedAuthority.organizationCitation.fullName": "Organization citation",
+  "field.ext.associatedAuthority.assocConcept.name": "Concept",
 
-  "field.ext.associatedAuthority.organizationCitation.name": "Citation",
+  "field.ext.associatedAuthority.assocConceptAuthGroup.name": "Associated concept",
 
-  "field.ext.associatedAuthority.organizationGroup.name": "Organization",
+  "field.ext.associatedAuthority.assocConceptCitation.fullName": "Associated concept citation",
 
-  "field.ext.associatedAuthority.organizationNote.fullName": "Organization note",
+  "field.ext.associatedAuthority.assocConceptCitation.groupName": "Citation",
 
-  "field.ext.associatedAuthority.organizationNote.name": "Note",
+  "field.ext.associatedAuthority.assocConceptCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.organizationStructuredDateGroup.fullName": "Organization date",
+  "field.ext.associatedAuthority.assocConceptNote.fullName": "Associated concept note",
 
-  "field.ext.associatedAuthority.organizationStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.assocConceptNote.name": "Note",
 
-  "field.ext.associatedAuthority.organizationType.fullName": "Organization relationship/type",
+  "field.ext.associatedAuthority.assocConceptStructuredDateGroup.fullName": "Associated concept date",
 
-  "field.ext.associatedAuthority.organizationType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.assocConceptStructuredDateGroup.groupName": "Date",
 
-  "field.ext.associatedAuthority.people.fullName": "People associated",
+  "field.ext.associatedAuthority.assocConceptStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.people.name": "Associated",
+  "field.ext.associatedAuthority.assocConceptType.fullName": "Associated concept relationship/type",
 
-  "field.ext.associatedAuthority.peopleCitation.fullName": "People citation",
+  "field.ext.associatedAuthority.assocConceptType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.peopleCitation.name": "Citation",
+  "field.ext.associatedAuthority.assocOrganization.fullName": "Associated organization",
 
-  "field.ext.associatedAuthority.peopleGroup.name": "People",
+  "field.ext.associatedAuthority.assocOrganization.name": "Organization",
 
-  "field.ext.associatedAuthority.peopleNote.fullName": "People note",
+  "field.ext.associatedAuthority.assocOrganizationAuthGroup.name": "Associated organization",
 
-  "field.ext.associatedAuthority.peopleNote.name": "Note",
+  "field.ext.associatedAuthority.assocOrganizationCitation.fullName": "Associated organization citation",
 
-  "field.ext.associatedAuthority.peopleStructuredDateGroup.fullName": "People date",
+  "field.ext.associatedAuthority.assocOrganizationCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.peopleStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.assocOrganizationNote.fullName": "Associated organization note",
 
-  "field.ext.associatedAuthority.peopleType.fullName": "People relationship/type",
+  "field.ext.associatedAuthority.assocOrganizationNote.name": "Note",
 
-  "field.ext.associatedAuthority.peopleType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.assocOrganizationStructuredDateGroup.fullName": "Associated organization date",
 
-  "field.ext.associatedAuthority.person.fullName": "Person associated",
+  "field.ext.associatedAuthority.assocOrganizationStructuredDateGroup.groupName": "Date",
 
-  "field.ext.associatedAuthority.person.name": "Associated",
+  "field.ext.associatedAuthority.assocOrganizationStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.personCitation.fullName": "Person citation",
+  "field.ext.associatedAuthority.assocOrganizationType.fullName": "Associated organization relationship/type",
 
-  "field.ext.associatedAuthority.personCitation.name": "Citation",
+  "field.ext.associatedAuthority.assocOrganizationType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.personGroup.name": "Person",
+  "field.ext.associatedAuthority.assocPeople.fullName": "Associated people",
 
-  "field.ext.associatedAuthority.personNote.fullName": "Person note",
+  "field.ext.associatedAuthority.assocPeople.name": "People",
 
-  "field.ext.associatedAuthority.personNote.name": "Note",
+  "field.ext.associatedAuthority.assocPeopleAuthGroup.name": "Associated people",
 
-  "field.ext.associatedAuthority.personStructuredDateGroup.fullName": "Person date",
+  "field.ext.associatedAuthority.assocPeopleCitation.fullName": "Associated people citation",
 
-  "field.ext.associatedAuthority.personStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.assocPeopleCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.personType.fullName": "Person relationship/type",
+  "field.ext.associatedAuthority.assocPeopleNote.fullName": "Associated people note",
 
-  "field.ext.associatedAuthority.personType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.assocPeopleNote.name": "Note",
 
-  "field.ext.associatedAuthority.place.fullName": "Place associated",
+  "field.ext.associatedAuthority.assocPeopleStructuredDateGroup.fullName": "Associated people date",
 
-  "field.ext.associatedAuthority.place.name": "Associated",
+  "field.ext.associatedAuthority.assocPeopleStructuredDateGroup.groupName": "Date",
 
-  "field.ext.associatedAuthority.placeCitation.fullName": "Place citation",
+  "field.ext.associatedAuthority.assocPeopleStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.placeCitation.name": "Citation",
+  "field.ext.associatedAuthority.assocPeopleType.fullName": "Associated people relationship/type",
 
-  "field.ext.associatedAuthority.placeGroup.name": "Place",
+  "field.ext.associatedAuthority.assocPeopleType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.placeNote.fullName": "Place note",
+  "field.ext.associatedAuthority.assocPerson.fullName": "Associated person",
 
-  "field.ext.associatedAuthority.placeNote.name": "Note",
+  "field.ext.associatedAuthority.assocPerson.name": "Person",
 
-  "field.ext.associatedAuthority.placeStructuredDateGroup.fullName": "Place date",
+  "field.ext.associatedAuthority.assocPersonAuthGroup.name": "Associated person",
 
-  "field.ext.associatedAuthority.placeStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.assocPersonCitation.fullName": "Associated person citation",
 
-  "field.ext.associatedAuthority.placeType.fullName": "Place relationship/type",
+  "field.ext.associatedAuthority.assocPersonCitation.name": "Citation",
 
-  "field.ext.associatedAuthority.placeType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.assocPersonNote.fullName": "Associated person note",
 
-  "field.ext.associatedAuthority.chronology.fullName": "Related period associated",
+  "field.ext.associatedAuthority.assocPersonNote.name": "Note",
 
-  "field.ext.associatedAuthority.chronology.name": "Associated",
+  "field.ext.associatedAuthority.assocPersonStructuredDateGroup.fullName": "Associated person date",
 
-  "field.ext.associatedAuthority.chronologyCitation.fullName": "Related period citation",
+  "field.ext.associatedAuthority.assocPersonStructuredDateGroup.groupName": "Date",
 
-  "field.ext.associatedAuthority.chronologyCitation.name": "Citation",
+  "field.ext.associatedAuthority.assocPersonStructuredDateGroup.name": "Date",
 
-  "field.ext.associatedAuthority.chronologyGroup.name": "Related chronology",
+  "field.ext.associatedAuthority.assocPersonType.fullName": "Associated person relationship/type",
 
-  "field.ext.associatedAuthority.chronologyNote.fullName": "Related chronology note",
+  "field.ext.associatedAuthority.assocPersonType.name": "Relationship/Type",
 
-  "field.ext.associatedAuthority.chronologyNote.name": "Note",
+  "field.ext.associatedAuthority.assocPlace.fullName": "Associated place",
 
-  "field.ext.associatedAuthority.chronologyStructuredDateGroup.fullName": "Related chronology date",
+  "field.ext.associatedAuthority.assocPlace.name": "Place",
 
-  "field.ext.associatedAuthority.chronologyStructuredDateGroup.name": "Date",
+  "field.ext.associatedAuthority.assocPlaceAuthGroup.name": "Associated place",
 
-  "field.ext.associatedAuthority.chronologyType.fullName": "Related chronology relationship/type",
+  "field.ext.associatedAuthority.assocPlaceCitation.fullName": "Associated place citation",
 
-  "field.ext.associatedAuthority.chronologyType.name": "Relationship/Type",
+  "field.ext.associatedAuthority.assocPlaceCitation.name": "Citation",
+
+  "field.ext.associatedAuthority.assocPlaceNote.fullName": "Associated place note",
+
+  "field.ext.associatedAuthority.assocPlaceNote.name": "Note",
+
+  "field.ext.associatedAuthority.assocPlaceStructuredDateGroup.fullName": "Associated place date",
+
+  "field.ext.associatedAuthority.assocPlaceStructuredDateGroup.groupName": "Date",
+
+  "field.ext.associatedAuthority.assocPlaceStructuredDateGroup.name": "Date",
+
+  "field.ext.associatedAuthority.assocPlaceType.fullName": "Associated place relationship/type",
+
+  "field.ext.associatedAuthority.assocPlaceType.name": "Relationship/Type",
 
   "field.ext.authItem.csid.name": "System CSID",
 
@@ -2670,6 +3018,8 @@ export default {
   "field.ext.core.updatedAt.name": "Last updated time",
 
   "field.ext.core.updatedBy.name": "Last updated by",
+
+  "field.ext.core.uri.name": "URI",
 
   "field.ext.dimension.dimension.fullName": "Measurement dimension",
 
@@ -2774,6 +3124,100 @@ export default {
   "field.groups_common.scopeNote.name": "Scope note",
 
   "field.groups_common.title.name": "Title",
+
+  "field.heldintrusts_common.accessLimitationsGroup.name": "Access limitation",
+
+  "field.heldintrusts_common.agreementApprovalGroup.name": "Held-in-Trust status",
+
+  "field.heldintrusts_common.agreementDate.fullName": "Held-in-Trust status date",
+
+  "field.heldintrusts_common.agreementDate.name": "Date",
+
+  "field.heldintrusts_common.agreementDescription.name": "Description of agreement",
+
+  "field.heldintrusts_common.agreementGroup.fullName": "Held-in-Trust status group",
+
+  "field.heldintrusts_common.agreementGroup.name": "Group",
+
+  "field.heldintrusts_common.agreementIndividual.fullName": "Held-in-Trust status individual",
+
+  "field.heldintrusts_common.agreementIndividual.name": "Individual",
+
+  "field.heldintrusts_common.agreementNote.fullName": "Held-in-Trust status note",
+
+  "field.heldintrusts_common.agreementNote.name": "Note",
+
+  "field.heldintrusts_common.agreementRenewalDate.name": "Agreement renewal date",
+
+  "field.heldintrusts_common.agreementStatus.fullName": "Held-in-Trust status",
+
+  "field.heldintrusts_common.agreementStatus.name": "Status",
+
+  "field.heldintrusts_common.correspondenceDate.fullName": "Correspondence date",
+
+  "field.heldintrusts_common.correspondenceDate.name": "Date",
+
+  "field.heldintrusts_common.correspondenceGroup.name": "Correspondence",
+
+  "field.heldintrusts_common.correspondenceRecipient.fullName": "Correspondence recipient",
+
+  "field.heldintrusts_common.correspondenceRecipient.name": "Recipient",
+
+  "field.heldintrusts_common.correspondenceSender.fullName": "Correspondence sender",
+
+  "field.heldintrusts_common.correspondenceSender.name": "Sender",
+
+  "field.heldintrusts_common.correspondenceSummary.fullName": "Correspondence summary",
+
+  "field.heldintrusts_common.correspondenceSummary.name": "Summary",
+
+  "field.heldintrusts_common.correspondenceType.fullName": "Correspondence type",
+
+  "field.heldintrusts_common.correspondenceType.name": "Type",
+
+  "field.heldintrusts_common.culturalCareNote.name": "Cultural care note",
+
+  "field.heldintrusts_common.heldInTrustNumber.inUse": "The Held-in-Trust number {value} is in use by another record.",
+
+  "field.heldintrusts_common.heldInTrustNumber.name": "Held-in-Trust number",
+
+  "field.heldintrusts_common.limitationDetails.fullName": "Access limitation detail",
+
+  "field.heldintrusts_common.limitationDetails.name": "Detail",
+
+  "field.heldintrusts_common.limitationLevel.fullName": "Access limitation level",
+
+  "field.heldintrusts_common.limitationLevel.name": "Level",
+
+  "field.heldintrusts_common.limitationType.fullName": "Access limitation type",
+
+  "field.heldintrusts_common.limitationType.name": "Type",
+
+  "field.heldintrusts_common.owner.name": "Owner",
+
+  "field.heldintrusts_common.plannedReturnDate.fullName": "Planned return date",
+
+  "field.heldintrusts_common.plannedReturnDate.name": "Date",
+
+  "field.heldintrusts_common.plannedReturnGroup.name": "Planned return",
+
+  "field.heldintrusts_common.plannedReturnNote.fullName": "Planned return note",
+
+  "field.heldintrusts_common.plannedReturnNote.name": "Note",
+
+  "field.heldintrusts_common.requestDate.fullName": "Access limitation request date",
+
+  "field.heldintrusts_common.requestDate.name": "Date",
+
+  "field.heldintrusts_common.requester.fullName": "Access limitation requester",
+
+  "field.heldintrusts_common.requester.name": "Requester",
+
+  "field.heldintrusts_common.requestOnBehalfOf.fullName": "Access limitation requested on behalf of",
+
+  "field.heldintrusts_common.requestOnBehalfOf.name": "On behalf of",
+
+  "field.heldintrusts_common.typeOfAgreement.name": "Type of agreement",
 
   "field.insurances_common.insuranceIndemnityAuthorizationDate.fullName": "Authorization date",
 
@@ -3317,6 +3761,8 @@ export default {
 
   "field.locations_common.address.name": "Address",
 
+  "field.locations_common.conditionGroup.name": "Condition note",
+
   "field.locations_common.conditionNote.fullName": "Condition note",
 
   "field.locations_common.conditionNote.name": "Note",
@@ -3493,6 +3939,122 @@ export default {
 
   "field.movements_common.removalDate.name": "Removal date",
 
+  "field.nagprainventories_common.affiliationGroup.name": "Inventory cultural affiliation",
+
+  "field.nagprainventories_common.archaeologicalSite.fullName": "Archaeological site name",
+
+  "field.nagprainventories_common.archaeologicalSite.name": "Name",
+
+  "field.nagprainventories_common.archaeologicalSiteGroup.name": "Archaeological site",
+
+  "field.nagprainventories_common.archaeologicalSiteNote.fullName": "Archaeological site note",
+
+  "field.nagprainventories_common.archaeologicalSiteNote.name": "Note",
+
+  "field.nagprainventories_common.basisOfDetermination.fullName": "Inventory cultural affiliation basis of determination",
+
+  "field.nagprainventories_common.basisOfDetermination.name": "Basis of determination",
+
+  "field.nagprainventories_common.consultationNote.name": "Consultation note",
+
+  "field.nagprainventories_common.culturalGroup.name": "Cultural group",
+
+  "field.nagprainventories_common.culture.fullName": "Cultural group name",
+
+  "field.nagprainventories_common.culture.name": "Name",
+
+  "field.nagprainventories_common.cultureNote.fullName": "Cultural group note",
+
+  "field.nagprainventories_common.cultureNote.name": "Note",
+
+  "field.nagprainventories_common.determinationDate.fullName": "Inventory cultural affiliation determination date",
+
+  "field.nagprainventories_common.determinationDate.name": "Determination date",
+
+  "field.nagprainventories_common.determinationNote.fullName": "Inventory cultural affiliation determination note",
+
+  "field.nagprainventories_common.determinationNote.name": "Determination note",
+
+  "field.nagprainventories_common.determinedBy.fullName": "Inventory cultural affiliation determined by",
+
+  "field.nagprainventories_common.determinedBy.name": "Determined by",
+
+  "field.nagprainventories_common.geographicPlace.fullName": "Place represented name",
+
+  "field.nagprainventories_common.geographicPlace.name": "Name",
+
+  "field.nagprainventories_common.geographicPlaceGroup.name": "Place represented",
+
+  "field.nagprainventories_common.geographicPlaceNote.fullName": "Place represented note",
+
+  "field.nagprainventories_common.geographicPlaceNote.name": "Note",
+
+  "field.nagprainventories_common.includeInNotice.fullName": "Inventory cultural affiliation include in notice",
+
+  "field.nagprainventories_common.includeInNotice.name": "Include in notice",
+
+  "field.nagprainventories_common.inventoryDate.fullName": "Inventory status date",
+
+  "field.nagprainventories_common.inventoryDate.name": "Date",
+
+  "field.nagprainventories_common.inventoryGroup.fullName": "Inventory status group",
+
+  "field.nagprainventories_common.inventoryGroup.name": "Group",
+
+  "field.nagprainventories_common.inventoryIndividual.fullName": "Inventory status individual",
+
+  "field.nagprainventories_common.inventoryIndividual.name": "Individual",
+
+  "field.nagprainventories_common.inventoryNote.fullName": "Inventory status note",
+
+  "field.nagprainventories_common.inventoryNote.name": "Note",
+
+  "field.nagprainventories_common.inventoryNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.nagprainventories_common.inventoryNumber.name": "Inventory/documentation Number",
+
+  "field.nagprainventories_common.inventoryStatus.fullName": "Inventory status",
+
+  "field.nagprainventories_common.inventoryStatus.name": "Status",
+
+  "field.nagprainventories_common.inventoryStatusGroup.name": "Inventory status",
+
+  "field.nagprainventories_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
+
+  "field.nagprainventories_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.nagprainventories_common.involvedParty.fullName": "Parties involved person",
+
+  "field.nagprainventories_common.involvedParty.name": "Person",
+
+  "field.nagprainventories_common.involvedRole.fullName": "Parties involved role",
+
+  "field.nagprainventories_common.involvedRole.name": "Role",
+
+  "field.nagprainventories_common.noticeType.name": "Notice type",
+
+  "field.nagprainventories_common.originationDate.name": "Origination date",
+
+  "field.nagprainventories_common.partiesInvolvedGroup.name": "Parties involved",
+
+  "field.nagprainventories_common.timePeriod.fullName": "Time period era",
+
+  "field.nagprainventories_common.timePeriod.name": "Era",
+
+  "field.nagprainventories_common.timePeriodGroup.name": "Time period",
+
+  "field.nagprainventories_common.timePeriodNote.fullName": "Time period note",
+
+  "field.nagprainventories_common.timePeriodNote.name": "Note",
+
+  "field.nagprainventories_common.title.name": "Title",
+
+  "field.nagprainventories_common.treatmentNote.name": "Treatment note",
+
+  "field.nagprainventories_common.tribeOrNation.fullName": "Inventory cultural affiliation tribe/nation",
+
+  "field.nagprainventories_common.tribeOrNation.name": "Tribe/Nation",
+
   "field.objectexit_common.authorizationDate.name": "Authorization date",
 
   "field.objectexit_common.currentOwner.name": "Current owner",
@@ -3621,6 +4183,8 @@ export default {
 
   "field.organizations_common.mainBodyName.name": "Main body name",
 
+  "field.organizations_common.nameNote.name": "Name note",
+
   "field.organizations_common.organizationRecordType.name": "Organization type",
 
   "field.organizations_common.orgTermGroup.name": "Term",
@@ -3690,8 +4254,6 @@ export default {
   "field.persons_common.birthPlace.name": "Place of birth",
 
   "field.persons_common.birthPlaceGroup.name": "Birth place",
-
-  "field.persons_common.conditionGroup.name": "Condition note",
 
   "field.persons_common.deathDateGroup.name": "Death date",
 
@@ -4115,6 +4677,130 @@ export default {
 
   "field.places_common.vUnitofMeasure.name": "Unit of measure",
 
+  "field.procedure.publishedRelatedLinkGroup.name": "Published related link",
+
+  "field.repatriationrequests_common.alternativeIdentifier.fullName": "Alternative identifier",
+
+  "field.repatriationrequests_common.alternativeIdentifier.name": "Identifier",
+
+  "field.repatriationrequests_common.alternativeIdentifierGroup.name": "Alternative identifier",
+
+  "field.repatriationrequests_common.alternativeIdentifierNote.fullName": "Alternative identifier note",
+
+  "field.repatriationrequests_common.alternativeIdentifierNote.name": "Note",
+
+  "field.repatriationrequests_common.archaeologicalSite.fullName": "Archaeological site name",
+
+  "field.repatriationrequests_common.archaeologicalSite.name": "Name",
+
+  "field.repatriationrequests_common.archaeologicalSiteGroup.name": "Archaeological site",
+
+  "field.repatriationrequests_common.archaeologicalSiteNote.fullName": "Archaeological site note",
+
+  "field.repatriationrequests_common.archaeologicalSiteNote.name": "Note",
+
+  "field.repatriationrequests_common.culturalGroup.name": "Cultural group",
+
+  "field.repatriationrequests_common.culture.fullName": "Cultural group name",
+
+  "field.repatriationrequests_common.culture.name": "Name",
+
+  "field.repatriationrequests_common.cultureNote.fullName": "Cultural group note",
+
+  "field.repatriationrequests_common.cultureNote.name": "Note",
+
+  "field.repatriationrequests_common.documentationDate.fullName": "Repatriation request documentation status date",
+
+  "field.repatriationrequests_common.documentationDate.name": "Date",
+
+  "field.repatriationrequests_common.documentationGroup.fullName": "Repatriation request documentation status",
+
+  "field.repatriationrequests_common.documentationGroupType.fullName": "Repatriation request documentation status group",
+
+  "field.repatriationrequests_common.documentationGroupType.name": "Group",
+
+  "field.repatriationrequests_common.documentationIndividual.fullName": "Repatriation request documentation status individual",
+
+  "field.repatriationrequests_common.documentationIndividual.name": "Individual",
+
+  "field.repatriationrequests_common.documentationNote.fullName": "Repatriation request documentation status note",
+
+  "field.repatriationrequests_common.documentationNote.name": "Note",
+
+  "field.repatriationrequests_common.documentationStatus.fullName": "Repatriation request documentation status",
+
+  "field.repatriationrequests_common.documentationStatus.name": "Status",
+
+  "field.repatriationrequests_common.geographicPlace.fullName": "Place represented name",
+
+  "field.repatriationrequests_common.geographicPlace.name": "Name",
+
+  "field.repatriationrequests_common.geographicPlaceGroup.name": "Place represented",
+
+  "field.repatriationrequests_common.geographicPlaceNote.fullName": "Place represented note",
+
+  "field.repatriationrequests_common.geographicPlaceNote.name": "Note",
+
+  "field.repatriationrequests_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
+
+  "field.repatriationrequests_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.repatriationrequests_common.involvedParty.fullName": "Parties involved person",
+
+  "field.repatriationrequests_common.involvedParty.name": "Person",
+
+  "field.repatriationrequests_common.involvedRole.fullName": "Parties involved role",
+
+  "field.repatriationrequests_common.involvedRole.name": "Role",
+
+  "field.repatriationrequests_common.note.name": "Note",
+
+  "field.repatriationrequests_common.partiesInvolvedGroup.name": "Parties involved",
+
+  "field.repatriationrequests_common.requestDate.name": "Origination date",
+
+  "field.repatriationrequests_common.requestNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.repatriationrequests_common.requestNumber.name": "Repatriation request number",
+
+  "field.repatriationrequests_common.status.fullName": "Repatriation request status",
+
+  "field.repatriationrequests_common.status.name": "Status",
+
+  "field.repatriationrequests_common.statusDate.fullName": "Repatriation request status date",
+
+  "field.repatriationrequests_common.statusDate.name": "Date",
+
+  "field.repatriationrequests_common.statusGroup.fullName": "Repatriation request status",
+
+  "field.repatriationrequests_common.statusGroupType.fullName": "Repatriation request status group",
+
+  "field.repatriationrequests_common.statusGroupType.name": "Group",
+
+  "field.repatriationrequests_common.statusIndividual.fullName": "Repatriation request status individual",
+
+  "field.repatriationrequests_common.statusIndividual.name": "Individual",
+
+  "field.repatriationrequests_common.statusNote.fullName": "Repatriation request status note",
+
+  "field.repatriationrequests_common.statusNote.name": "Note",
+
+  "field.repatriationrequests_common.timePeriod.fullName": "Time period era",
+
+  "field.repatriationrequests_common.timePeriod.name": "Era",
+
+  "field.repatriationrequests_common.timePeriodGroup.name": "Time period",
+
+  "field.repatriationrequests_common.timePeriodNote.fullName": "Time period note",
+
+  "field.repatriationrequests_common.timePeriodNote.name": "Note",
+
+  "field.repatriationrequests_common.title.name": "Title",
+
+  "field.repatriationrequests_common.treatmentNote.name": "Treatment note",
+
+  "field.repatriationrequests_common.type.name": "Type",
+
   "field.report.systematicInventory.endLocation.name": "To location",
 
   "field.report.systematicInventory.startLocation.name": "From location",
@@ -4136,6 +4822,58 @@ export default {
   "field.reports_common.supportsNoContext.name": "All records",
 
   "field.reports_common.supportsSingleDoc.name": "Single record",
+
+  "field.restrictedmedia_common.altText.name": "Alt text",
+
+  "field.restrictedmedia_common.checksumDate.fullName": "Checksum date",
+
+  "field.restrictedmedia_common.checksumDate.name": "Date",
+
+  "field.restrictedmedia_common.checksumGroup.name": "Checksum",
+
+  "field.restrictedmedia_common.checksumType.fullName": "Checksum type",
+
+  "field.restrictedmedia_common.checksumType.name": "Type",
+
+  "field.restrictedmedia_common.checksumValue.fullName": "Checksum value",
+
+  "field.restrictedmedia_common.checksumValue.name": "Value",
+
+  "field.restrictedmedia_common.contributor.name": "Contributor",
+
+  "field.restrictedmedia_common.copyrightStatement.name": "Copyright statement",
+
+  "field.restrictedmedia_common.coverage.name": "Coverage",
+
+  "field.restrictedmedia_common.creator.name": "Creator",
+
+  "field.restrictedmedia_common.dateGroup.name": "Date",
+
+  "field.restrictedmedia_common.description.name": "Description",
+
+  "field.restrictedmedia_common.externalUrl.name": "External URL",
+
+  "field.restrictedmedia_common.identificationNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.restrictedmedia_common.identificationNumber.name": "Identification number",
+
+  "field.restrictedmedia_common.language.name": "Language",
+
+  "field.restrictedmedia_common.publisher.name": "Publisher",
+
+  "field.restrictedmedia_common.publishTo.name": "Publish to",
+
+  "field.restrictedmedia_common.relation.name": "Relation",
+
+  "field.restrictedmedia_common.rightsHolder.name": "Rights holder",
+
+  "field.restrictedmedia_common.source.name": "Source",
+
+  "field.restrictedmedia_common.subject.name": "Subject",
+
+  "field.restrictedmedia_common.title.name": "Title",
+
+  "field.restrictedmedia_common.type.name": "Type",
 
   "field.structuredDate.dateAssociation": "Association",
 
@@ -4162,6 +4900,122 @@ export default {
   "field.structuredDate.earliestSingle": "Earliest/Single",
 
   "field.structuredDate.latest": "Latest",
+
+  "field.summarydocumentations_common.affiliationGroup.name": "Summary affiliation",
+
+  "field.summarydocumentations_common.archaeologicalSite.fullName": "Archaeological site name",
+
+  "field.summarydocumentations_common.archaeologicalSite.name": "Name",
+
+  "field.summarydocumentations_common.archaeologicalSiteGroup.name": "Archaeological site",
+
+  "field.summarydocumentations_common.archaeologicalSiteNote.fullName": "Archaeological site note",
+
+  "field.summarydocumentations_common.archaeologicalSiteNote.name": "Note",
+
+  "field.summarydocumentations_common.basisOfDetermination.fullName": "Summary affiliation basis of determination",
+
+  "field.summarydocumentations_common.basisOfDetermination.name": "Basis of determination",
+
+  "field.summarydocumentations_common.consultationNote.name": "Consultation note",
+
+  "field.summarydocumentations_common.culturalGroup.name": "Cultural group",
+
+  "field.summarydocumentations_common.culture.fullName": "Cultural group name",
+
+  "field.summarydocumentations_common.culture.name": "Name",
+
+  "field.summarydocumentations_common.cultureNote.fullName": "Cultural group note",
+
+  "field.summarydocumentations_common.cultureNote.name": "Note",
+
+  "field.summarydocumentations_common.determinationDate.fullName": "Summary affiliation determination date",
+
+  "field.summarydocumentations_common.determinationDate.name": "Determination date",
+
+  "field.summarydocumentations_common.determinationNote.fullName": "Summary affiliation determination note",
+
+  "field.summarydocumentations_common.determinationNote.name": "Determination note",
+
+  "field.summarydocumentations_common.determinedBy.fullName": "Summary affiliation determined by",
+
+  "field.summarydocumentations_common.determinedBy.name": "Determined by",
+
+  "field.summarydocumentations_common.documentationNumber.inUse": "The identification number {value} is in use by another record.",
+
+  "field.summarydocumentations_common.documentationNumber.name": "Summary/documentation number",
+
+  "field.summarydocumentations_common.geographicPlace.fullName": "Place represented name",
+
+  "field.summarydocumentations_common.geographicPlace.name": "Name",
+
+  "field.summarydocumentations_common.geographicPlaceGroup.name": "Place represented",
+
+  "field.summarydocumentations_common.geographicPlaceNote.fullName": "Place represented note",
+
+  "field.summarydocumentations_common.geographicPlaceNote.name": "Note",
+
+  "field.summarydocumentations_common.includeInNotice.fullName": "Summary affiliation include in notice",
+
+  "field.summarydocumentations_common.includeInNotice.name": "Include in notice",
+
+  "field.summarydocumentations_common.involvedOnBehalfOf.fullName": "Party involved on behalf of",
+
+  "field.summarydocumentations_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.summarydocumentations_common.involvedParty.fullName": "Party involved person",
+
+  "field.summarydocumentations_common.involvedParty.name": "Person",
+
+  "field.summarydocumentations_common.involvedRole.fullName": "Party involved role",
+
+  "field.summarydocumentations_common.involvedRole.name": "Role",
+
+  "field.summarydocumentations_common.originationDate.name": "Origination date",
+
+  "field.summarydocumentations_common.partiesInvolvedGroup.name": "Party involved",
+
+  "field.summarydocumentations_common.status.fullName": "Summary status",
+
+  "field.summarydocumentations_common.status.name": "Status",
+
+  "field.summarydocumentations_common.statusDate.fullName": "Summary status date",
+
+  "field.summarydocumentations_common.statusDate.name": "Date",
+
+  "field.summarydocumentations_common.statusGroup.name": "Summary status",
+
+  "field.summarydocumentations_common.statusGroupType.fullName": "Summary status group",
+
+  "field.summarydocumentations_common.statusGroupType.name": "Group",
+
+  "field.summarydocumentations_common.statusIndividual.fullName": "Summary status individual",
+
+  "field.summarydocumentations_common.statusIndividual.name": "Individual",
+
+  "field.summarydocumentations_common.statusNote.fullName": "Summary status note",
+
+  "field.summarydocumentations_common.statusNote.name": "Note",
+
+  "field.summarydocumentations_common.timePeriod.fullName": "Time period era",
+
+  "field.summarydocumentations_common.timePeriod.name": "Era",
+
+  "field.summarydocumentations_common.timePeriodGroup.name": "Time period",
+
+  "field.summarydocumentations_common.timePeriodNote.fullName": "Time period note",
+
+  "field.summarydocumentations_common.timePeriodNote.name": "Note",
+
+  "field.summarydocumentations_common.title.name": "Title",
+
+  "field.summarydocumentations_common.treatmentNote.name": "Treatment note",
+
+  "field.summarydocumentations_common.tribeOrNation.fullName": "Summary affiliation tribe/nation",
+
+  "field.summarydocumentations_common.tribeOrNation.name": "Tribe/Nation",
+
+  "field.summarydocumentations_common.type.name": "Type",
 
   "field.transports_common.additionalCostsCurrency.fullName": "Additional cost currency",
 
@@ -4634,11 +5488,21 @@ export default {
 
   "form.conservation.default.name": "Standard Template",
 
+  "form.consultation.default.name": "Standard Template",
+
   "form.contact.default.name": "Standard Template",
+
+  "form.deaccession.default.name": "Standard Template",
+
+  "form.dutyofcare.default.name": "Standard Template",
 
   "form.exhibition.default.name": "Standard Template",
 
+  "form.exit.default.name": "Standard Template",
+
   "form.group.default.name": "Standard Template",
+
+  "form.heldintrust.default.name": "Standard Template",
 
   "form.insurance.default.name": "Standard Template",
 
@@ -4660,6 +5524,8 @@ export default {
 
   "form.movement.default.name": "Standard Template",
 
+  "form.nagprainventory.default.name": "Standard Template",
+
   "form.objectexit.default.name": "Standard Template",
 
   "form.organization.default.name": "Standard Template",
@@ -4674,7 +5540,13 @@ export default {
 
   "form.place.mini.name": "Mini Template",
 
+  "form.repatriationrequest.default.name": "Standard Template",
+
   "form.report.default.name": "Standard Template",
+
+  "form.restrictedmedia.default.name": "Standard Template",
+
+  "form.summarydocumentation.default.name": "Standard Template",
 
   "form.transport.default.name": "Standard Template",
 
@@ -4768,9 +5640,19 @@ export default {
 
   "idGenerator.conservation.type": "Conservation",
 
+  "idGenerator.consultation.type": "Consultation",
+
+  "idGenerator.deaccession.type": "Deaccession",
+
+  "idGenerator.dutyofcare.type": "Duty of care",
+
   "idGenerator.evaluation.type": "Evaluation",
 
   "idGenerator.exhibition.type": "Exhibition",
+
+  "idGenerator.exit.type": "Object Exit",
+
+  "idGenerator.heldintrust.type": "Held-in-Trust",
 
   "idGenerator.indemnity.type": "Indemnity",
 
@@ -4794,9 +5676,17 @@ export default {
 
   "idGenerator.movement.type": "Movement",
 
+  "idGenerator.nagprainventory.type": "NAGPRA Inventory",
+
   "idGenerator.objectexit.type": "Object Exit",
 
+  "idGenerator.repatriationrequest.type": "Repatriation Request",
+
+  "idGenerator.restrictedmedia.type": "Restricted Media Resource",
+
   "idGenerator.study.type": "Study",
+
+  "idGenerator.summarydocumentation.type": "Summary documentation",
 
   "idGenerator.transport.type": "Transport",
 
@@ -4965,59 +5855,32 @@ export default {
   // Title of the modal shown to optionally lock a record on save.
   "lockRecordModal.title": "Lock Record?",
 
-  // Label of the login button.
-  "loginButton.label": "Sign in",
-
-  // Error message displayed when incorrect credentials were entered during login.
-  "loginForm.ERR_INVALID_CREDENTIALS": "Sign in failed. Incorrect username/password.",
-
-  // Error message displayed when there is a network error during login.
-  "loginForm.ERR_NETWORK": "Sign in failed. Unable to reach the CollectionSpace server.",
-
-  // Error message displayed when the logged in user belongs to the wrong tenant.
-  "loginForm.ERR_WRONG_TENANT": "Sign in failed. The user is not registered to this CollectionSpace tenant.",
-
-  // Generic login error message. Displayed when a more specific error message is not available.
-  "loginForm.error": "Sign in failed.",
-
   // The prompt displayed on the login form when the login session has expired.
-  "loginForm.expiredPrompt": "Your session has expired. Please sign in again to continue.",
+  "loginForm.expiredPrompt": "Your sign in has expired. Please renew it to continue.",
 
-  // Text of the forgot password link.
-  "loginForm.forgotPassword": "Forgot password",
+  // The message displayed on the login form when a login pop-up is open.
+  "loginForm.loginWindowOpen": "Sign in is in progress in another browser window.",
 
-  // Label for the login password field.
-  "loginForm.password": "Password",
+  // The message displayed on the login form when a login pop-up fails to open.
+  "loginForm.loginWindowOpenFailed": "The sign in window could not be opened. Please allow pop-ups for this site.",
 
-  // Message displayed while login is in progress.
-  "loginForm.pending": "Signing in...",
+  // The content of the logout link displayed when authorization fails.
+  "loginForm.logout": "Sign out to change to another user.",
 
   // The prompt displayed on the login form when the user is not logged in.
   "loginForm.prompt": "Please sign in to continue.",
 
-  // Message displayed when login completes successfully.
-  "loginForm.success": "Sign in complete.",
+  // Label of the link to log in.
+  "loginLink.label": "Sign in",
 
-  // Title displayed above the login form.
-  "loginForm.title": "Sign In",
-
-  // Label for the login username field.
-  "loginForm.username": "Email",
+  // Label of the link to open a login window.
+  "loginLink.openLabel": "Open sign in window",
 
   // The title of the login modal.
   "loginModal.title": "Sign In",
 
-  // The title of the welcome page.
-  "welcomePage.title": "Welcome",
-
   // The title (advisory text) of the application logo image.
   "logo.title": "CollectionSpace",
-
-  // Message displayed while logout is in progress.
-  "logoutIndicator.pending": "Signing out...",
-
-  // Message displayed when logout completes successfully.
-  "logoutIndicator.success": "Success!",
 
   "mediaSnapshotPanel.title": "Media",
 
@@ -6130,11 +6993,21 @@ export default {
 
   "option.mediaTypes.dataset": "dataset",
 
+  "option.mediaTypes.dataset": "dataset",
+
+  "option.mediaTypes.document": "document",
+
   "option.mediaTypes.document": "document",
 
   "option.mediaTypes.moving_image": "moving image",
 
+  "option.mediaTypes.moving_image": "moving image",
+
   "option.mediaTypes.sound": "sound",
+
+  "option.mediaTypes.sound": "sound",
+
+  "option.mediaTypes.still_image": "still image",
 
   "option.mediaTypes.still_image": "still image",
 
@@ -6656,7 +7529,7 @@ export default {
 
   "panel.chronology.altdate": "Alternative Date Information",
 
-  "panel.chronology.associated": "Associated Authorities",
+  "panel.chronology.authorities": "Associated Authorities",
 
   "panel.chronology.hierarchy": "Hierarchy",
 
@@ -6714,7 +7587,15 @@ export default {
 
   "panel.conservation.objectAnalysisInfo": "Object Analysis Information",
 
+  "panel.consultation.info": "Consultation Information",
+
   "panel.contact.info": "Contact Information",
+
+  "panel.deaccession.exit": "Proposed Exit Details",
+
+  "panel.deaccession.info": "Deaccession Information",
+
+  "panel.dutyofcare.info": "Duty of Care Information",
 
   "panel.exhibition.exhibitedObjectInformation": "Exhibited Object Information",
 
@@ -6722,7 +7603,15 @@ export default {
 
   "panel.exhibition.planningInfo": "Exhibition Planning Information",
 
+  "panel.exit.info": "Object Exit Information",
+
+  "panel.exit.sale": "Sale Information",
+
   "panel.group.info": "Group Information",
+
+  "panel.heldintrust.culturalCare": "Cultural Care Information",
+
+  "panel.heldintrust.info": "Held-in-Trust Information",
 
   "panel.insurance.info": "Insurance and Indemnity Information",
 
@@ -6764,6 +7653,10 @@ export default {
 
   "panel.movement.movement": "Movement Information",
 
+  "panel.nagprainventory.context": "Context",
+
+  "panel.nagprainventory.info": "Inventory Documentation Information",
+
   "panel.objectexit.deaccessionDisposalInfo": "Deaccession and Disposal Information",
 
   "panel.objectexit.info": "Object Exit Information",
@@ -6772,11 +7665,15 @@ export default {
 
   "panel.organization.info": "Organization Information",
 
+  "panel.person.authorities": "Associated Authorities",
+
   "panel.person.hierarchy": "Hierarchy",
 
   "panel.person.info": "Person Information",
 
   "panel.person.supplied": "Maker-Supplied Identity Information",
+
+  "panel.place.authorities": "Associated Authorities",
 
   "panel.place.geoRefInfo": "Georeference Information",
 
@@ -6786,7 +7683,23 @@ export default {
 
   "panel.place.localityInfo": "Locality Information",
 
+  "panel.repatriationrequest.context": "Repatriation Request Context",
+
+  "panel.repatriationrequest.documentation": "Repatriation Request Documentation Status",
+
+  "panel.repatriationrequest.info": "Repatriation Request Information",
+
+  "panel.repatriationrequest.status": "Repatriation Request Status",
+
   "panel.report.mode": "Runs on",
+
+  "panel.restrictedmedia.file": "File Information",
+
+  "panel.restrictedmedia.media": "Media Handling Information",
+
+  "panel.summarydocumentation.context": "Context",
+
+  "panel.summarydocumentation.info": "Summary Documentation Information",
 
   "panel.transport.cost": "Cost Information",
 
@@ -6800,68 +7713,77 @@ export default {
 
   "panel.work.info": "Work Information",
 
-  // Label for the confirm password field on the password reset form.
-  "passwordResetForm.confirmPassword": "Confirm password",
+  // Label for the confirm password field on the password reset page.
+  "passwordResetPage.confirmPassword": "Confirm password",
 
   // Generic message to display when a password reset fails, and no more specific message is available.
-  "passwordResetForm.error": "An error occurred while attempting to reset the password: {detail}",
+  "passwordResetPage.error": "An error occurred while attempting to reset the password: {detail}",
 
-  // Message to display when the password is invalid on the password reset form.
-  "passwordResetForm.errorInvalidPassword": "The password must be between 8 and 24 characters.",
+  // Message to display when the password is invalid on the password reset page.
+  "passwordResetPage.errorInvalidPassword": "The password must be between 8 and 24 characters.",
 
-  // Message to display when no password confirmation is entered on the password reset form.
-  "passwordResetForm.errorMissingConfirmation": "Please confirm the new password.",
+  // Message to display when no password is entered on the password reset page.
+  "passwordResetPage.errorMissingPassword": "Please enter a new password.",
 
-  // Message to display when no password is entered on the password reset form.
-  "passwordResetForm.errorMissingPassword": "Please enter a new password.",
+  // Message to display when the password confirmation does not match the password on the password reset page.
+  "passwordResetPage.errorNotConfirmed": "The password was not correctly confirmed. Please re-enter the new password in the confirm password field.",
 
-  // Message to display when the password confirmation does not match the password on the password reset form.
-  "passwordResetForm.errorNotConfirmed": "The password was not correctly confirmed.",
+  // Message to display when the password reset token has expired on the password reset page.
+  "passwordResetPage.errorTokenExpired": "The password reset request has expired. Please {newRequestLink} to reset your password.",
 
-  // Message to display when the password reset token has expired on the password reset form.
-  "passwordResetForm.errorTokenExpired": "The password reset request has expired. Please {newRequestLink} to reset your password.",
-
-  // Message to display when the password reset token is invalid on the password reset form.
-  "passwordResetForm.errorTokenInvalid": "The password reset request could not be validated. Please {newRequestLink} to reset your password.",
+  // Message to display when the password reset token is invalid on the password reset page.
+  "passwordResetPage.errorTokenInvalid": "The password reset request could not be validated. Please {newRequestLink} to reset your password.",
 
   // Text of the link to the login page displayed after a password has been reset.
-  "passwordResetForm.loginLink": "Sign in",
+  "passwordResetPage.loginLink": "Sign in",
 
   // Text of the link to make a new password reset request, displayed in the error message when a token is invalid or has expired.
-  "passwordResetForm.newRequestLink": "make a new request",
+  "passwordResetPage.newRequestLink": "make a new request",
 
-  // Label for the password field on the password reset form.
-  "passwordResetForm.password": "Password",
+  // Label for the password field on the password reset page.
+  "passwordResetPage.password": "Password",
 
-  // The prompt displayed on the password reset form.
-  "passwordResetForm.prompt": "Enter the new password for this account.",
+  // The prompt displayed on the password reset page.
+  "passwordResetPage.prompt": "Enter the new password for this account.",
 
-  // Label for the submit button on the password reset form.
-  "passwordResetForm.submit": "Submit",
+  // Label for the submit button on the password reset page.
+  "passwordResetPage.submit": "Submit",
 
   // Message displayed when a password reset has been successfully completed.
-  "passwordResetForm.success": "Your password has been reset. {loginLink} to continue.",
+  "passwordResetPage.success": "Your password has been reset. {loginLink} to continue.",
+
+  // Title of the password reset page.
+  "passwordResetPage.title": "Reset Password",
+
+  // Label for the email field on the password reset request page.
+  "passwordResetRequestPage.email": "Email",
 
   // Generic message to display when a password reset request fails, and no more specific message is available.
-  "passwordResetRequestForm.error": "An error occurred while attempting to request the password reset: {detail}",
+  "passwordResetRequestPage.error": "An error occurred while attempting to request the password reset: {detail}",
 
-  // Message to display when the email entered on the password reset request form is not a valid email address.
-  "passwordResetRequestForm.errorInvalidEmail": "{email} is not a valid email address.",
+  // Message to display when the email entered on the password reset request page is not a valid email address.
+  "passwordResetRequestPage.errorInvalidEmail": "{email} is not a valid email address.",
 
-  // Message to display when no email is entered on the password reset request form.
-  "passwordResetRequestForm.errorMissingEmail": "Please enter an email address.",
+  // Message to display when no email is entered on the password reset request page.
+  "passwordResetRequestPage.errorMissingEmail": "Please enter an email address.",
 
   // Message to display when the email is not found for a password reset request.
-  "passwordResetRequestForm.errorNotFound": "Could not locate an account associated with the email {email}.",
+  "passwordResetRequestPage.errorNotFound": "Could not find an account with the email {email}.",
 
-  // The prompt displayed on the password reset request form.
-  "passwordResetRequestForm.prompt": "Enter your email address to request a password reset.",
+  // Message to display on the password reset page when the account requires single sign-on.
+  "passwordResetRequestPage.errorSSORequired": "{email} is required to sign in using a single sign-on provider. The CollectionSpace account password cannot be reset.",
 
-  // Label for the submit button on the password reset request form.
-  "passwordResetRequestForm.submit": "Submit",
+  // The prompt displayed on the password reset request page.
+  "passwordResetRequestPage.prompt": "Please enter your email address to request a password reset.",
+
+  // Label for the submit button on the password reset request page.
+  "passwordResetRequestPage.submit": "Submit",
 
   // Message displayed when a password reset has been successfully requested.
-  "passwordResetRequestForm.success": "An email has been sent to {email}. Follow the instructions in the email to finish resetting your password.",
+  "passwordResetRequestPage.success": "An email has been sent to {email}. Follow the instructions in the email to finish resetting your password.",
+
+  // Title of the password reset request page.
+  "passwordResetRequestPage.title": "Reset Password",
 
   // Label of the 'delete' permission level shown when editing permissions.
   "permissionsInput.perm.delete": "Delete",
@@ -6996,16 +7918,40 @@ export default {
   "record.conservation.name": "Conservation",
 
   // The name of a collection of records of the type.
+  "record.consultation.collectionName": "Consultations",
+
+  // The name of the record type
+  "record.consultation.name": "Consultation",
+
+  // The name of a collection of records of the type.
   "record.contact.collectionName": "Contacts",
 
   // The name of the record type.
   "record.contact.name": "Contact",
 
   // The name of a collection of records of the type.
+  "record.deaccession.collectionName": "Deaccessions",
+
+  // The name of the record type
+  "record.deaccession.name": "Deaccession",
+
+  // The name of a collection of records of the type.
+  "record.dutyofcare.collectionName": "Duties of Care",
+
+  // The name of the record type
+  "record.dutyofcare.name": "Duty of Care",
+
+  // The name of a collection of records of the type.
   "record.exhibition.collectionName": "Exhibitions",
 
   // The name of the record type.
   "record.exhibition.name": "Exhibition",
+
+  // The name of a collection of records of the type.
+  "record.exit.collectionName": "Object Exits",
+
+  // The name of the record
+  "record.exit.name": "Object Exit",
 
   // The name of a collection of records of the type.
   "record.export.collectionName": "Exports",
@@ -7018,6 +7964,12 @@ export default {
 
   // The name of the record type.
   "record.group.name": "Group",
+
+  // The name of a collection of records of the type.
+  "record.heldintrust.collectionName": "Held-in-Trust",
+
+  // The name of the record type.
+  "record.heldintrust.name": "Held-in-Trust",
 
   // The name of a collection of records of the type.
   "record.idgenerator.collectionName": "ID Generators",
@@ -7074,16 +8026,22 @@ export default {
   "record.movement.name": "Location/Movement/Inventory",
 
   // The name of a collection of records of the type.
+  "record.nagprainventory.collectionName": "NAGPRA Inventories",
+
+  // The name of the record
+  "record.nagprainventory.name": "NAGPRA Inventory",
+
+  // The name of a collection of records of the type.
   "record.object.collectionName": "Objects",
 
   // The name of the record type.
   "record.object.name": "Object",
 
   // The name of a collection of records of the type.
-  "record.objectexit.collectionName": "Object Exits",
+  "record.objectexit.collectionName": "Object Exits (Legacy)",
 
   // The name of the record type.
-  "record.objectexit.name": "Object Exit",
+  "record.objectexit.name": "Object Exit (Legacy)",
 
   // The name of a collection of records of the type.
   "record.organization.collectionName": "Organizations",
@@ -7116,6 +8074,12 @@ export default {
   "record.relation.name": "Relation",
 
   // The name of a collection of records of the type.
+  "record.repatriationrequest.collectionName": "Repatriation Requests",
+
+  // The name of the record type
+  "record.repatriationrequest.name": "Repatriation Request",
+
+  // The name of a collection of records of the type.
   "record.report.collectionName": "Reports",
 
   // The message shown when a record of the type is invoked, and the invocation target has not been supplied in group mode.
@@ -7140,10 +8104,22 @@ export default {
   "record.reportinvocation.name": "Report Invocation",
 
   // The name of a collection of records of the type.
+  "record.restrictedmedia.collectionName": "Restricted Media Handling",
+
+  // The name of the record type.
+  "record.restrictedmedia.name": "Restricted Media Handling",
+
+  // The name of a collection of records of the type.
   "record.structureddates.collectionName": "Structured Date Parser",
 
   // The name of the record type.
   "record.structureddates.name": "Structured Date Parser",
+
+  // The name of a collection of records of the type.
+  "record.summarydocumentation.collectionName": "Summary Documentations",
+
+  // The name of the record type
+  "record.summarydocumentation.name": "Summary Documentation",
 
   // The name of a collection of records of the type.
   "record.transport.collectionName": "Transports",
@@ -7231,9 +8207,6 @@ export default {
   // Message displayed when a report is loading.
   "reportViewerPage.loading": "Generating report…",
 
-  // Title of the reset password page.
-  "resetPasswordPage.title": "Reset Password",
-
   // Label of the revert button.
   "revertButton.label": "Revert",
 
@@ -7296,6 +8269,9 @@ export default {
 
   "searchResultSummary.error": "Error: {code}",
 
+  // The aria-label for a row
+  "searchResultTable.rowLabel": "{primary} selected row {index} of {total}",
+
   "searchResultTable.searchPending": "⋯",
 
   "searchResultTitleBar.keyword": "containing \"{keyword}\"",
@@ -7347,6 +8323,35 @@ export default {
 
   // Label showing the number of selected items.
   "selectBar.selected": "{selectedItemCount, plural, =0 {0 selected} other {# selected}}",
+
+  "serviceLoginPage.errorBadCredentials": "Sign in failed. Incorrect username/password.",
+
+  // Text of the forgot password link.
+  "serviceLoginPage.forgotPassword": "Forgot password",
+
+  "serviceLoginPage.localLogin": "Continue with email and password",
+
+  "serviceLoginPage.logoutSuccess": "Sign out complete.",
+
+  // Label for the login password field.
+  "serviceLoginPage.password": "Password",
+
+  // Prompt to log in.
+  "serviceLoginPage.prompt": "Please sign in to continue.",
+
+  "serviceLoginPage.ssoLink": "Continue with {name}",
+
+  // Title of the login page.
+  "serviceLoginPage.title": "Sign in",
+
+  // Title of the logout page.
+  "serviceLoginPage.title": "Sign out",
+
+  // Label for the login username field.
+  "serviceLoginPage.username": "Email",
+
+  // Label for the logout button.
+  "serviceLogoutPage.logout": "Sign out",
 
   // Label of the button to hide the sidebar.
   "sidebarToggleButton.hide": "Hide sidebar",
@@ -7446,15 +8451,6 @@ export default {
   "vocab.chronology.event.name": "Event",
 
   // The name of a collection of records from the vocabulary.
-  "vocab.chronology.fieldcollection.collectionName": "Field Collection Chronologies",
-
-  // The name of a record from the vocabulary.
-  "vocab.chronology.fieldcollection.itemName": "Field Collection Chronology",
-
-  // The name of the vocabulary.
-  "vocab.chronology.fieldcollection.name": "Field Collection",
-
-  // The name of a collection of records from the vocabulary.
   "vocab.citation.all.collectionName": "All Citations",
 
   // The name of a record from the vocabulary.
@@ -7500,6 +8496,15 @@ export default {
   "vocab.concept.all.name": "All",
 
   // The name of a collection of records from the vocabulary.
+  "vocab.concept.archculture.collectionName": "Archaeological Cultures",
+
+  // The name of a record from the vocabulary.
+  "vocab.concept.archculture.itemName": "Archaeological Culture",
+
+  // The name of the vocabulary.
+  "vocab.concept.archculture.name": "Archaeological Culture",
+
+  // The name of a collection of records from the vocabulary.
   "vocab.concept.associated.collectionName": "Associated Concepts",
 
   // The name of a record from the vocabulary.
@@ -7507,6 +8512,15 @@ export default {
 
   // The name of the vocabulary.
   "vocab.concept.associated.name": "Associated",
+
+  // The name of a collection of records from the vocabulary.
+  "vocab.concept.ethculture.collectionName": "Cultural Groups",
+
+  // The name of a record from the vocabulary.
+  "vocab.concept.ethculture.itemName": "Cultural Group",
+
+  // The name of the vocabulary.
+  "vocab.concept.ethculture.name": "Cultural Group",
 
   // The name of a collection of records from the vocabulary.
   "vocab.concept.material.collectionName": "Material Concepts",
@@ -7625,6 +8639,15 @@ export default {
   // The name of the vocabulary.
   "vocab.place.all.name": "All",
 
+  // The name of a collection of records from the vocabulary
+  "vocab.place.archaeological.collectionName": "Archaeological Sites",
+
+  // The name of a record from the vocabulary
+  "vocab.place.archaeological.itemName": "Archaeological Site",
+
+  // The name of the vocabulary
+  "vocab.place.archaeological.name": "Archaeological",
+
   // The name of a collection of records from the vocabulary.
   "vocab.place.local.collectionName": "Local Places",
 
@@ -7679,6 +8702,9 @@ export default {
   "vocabularyUsedByPanel.notUsed": "No uses found.",
 
   "vocabularyUsedByPanel.title": "Used By",
+
+  // Title of the welcome page.
+  "welcomePage.title": "Welcome",
 
   "workflowStateIcon.deprecated": "Deprecated",
 
