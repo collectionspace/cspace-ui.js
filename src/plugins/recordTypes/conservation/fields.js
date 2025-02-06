@@ -639,7 +639,7 @@ export default (configContext) => {
                     defaultMessage: 'Destructive analysis sample returned',
                   },
                   name: {
-                    id: 'field.conservation_common.sampleReturned.nadme',
+                    id: 'field.conservation_common.sampleReturned.name',
                     defaultMessage: 'Sample returned',
                   },
                 }),
