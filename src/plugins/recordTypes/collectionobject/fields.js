@@ -5346,11 +5346,11 @@ export default (configContext) => {
               [config]: {
                 messages: defineMessages({
                   fullName: {
-                    id: 'field.collectionobjects_common.compressionstandard.fullName',
+                    id: 'field.collectionobjects_common.compressionStandard.fullName',
                     defaultMessage: 'File codec compression standard',
                   },
                   name: {
-                    id: 'field.collectionobjects_common.compressionstandard.name',
+                    id: 'field.collectionobjects_common.compressionStandard.name',
                     defaultMessage: 'Compression standard',
                   },
                 }),
