@@ -74,7 +74,5 @@ export default () => (dispatch) => {
         type: SERVICE_TAGS_READ_REJECTED,
         payload: error,
       });
-
-      return Promise.reject(error);
     });
 };
