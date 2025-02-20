@@ -74,5 +74,8 @@ export default () => (dispatch) => {
         type: SERVICE_TAGS_READ_REJECTED,
         payload: error,
       });
+
+      const status = get(error, ['response', 'status']);
+      return status === 403 ? undefined : Promise.reject(error);
     });
 };
