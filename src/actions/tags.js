@@ -59,6 +59,12 @@ const readProcedures = (response, dispatch) => {
     .catch((error) => Promise.reject(error));
 };
 
+/**
+ * Action for reading the service tags from the servicegroups resource
+ *
+ * If a user has no read permissions and a 403 is encountered, return
+ * without doing anything
+ */
 export default () => (dispatch) => {
   dispatch({ type: SERVICE_TAGS_READ_STARTED });
 
