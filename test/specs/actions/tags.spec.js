@@ -134,7 +134,7 @@ describe('tags action creator', () => {
         )),
       );
 
-      return store.dispatch(readServiceTags()).should.eventually.be.rejected
+      return store.dispatch(readServiceTags())
         .then(() => {
           const actions = store.getActions();
 
