@@ -783,6 +783,22 @@ export default (configContext) => {
             },
           },
         },
+        note: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.nagprainventories_common.note.name',
+                defaultMessage: 'Note',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
       },
     },
   };
