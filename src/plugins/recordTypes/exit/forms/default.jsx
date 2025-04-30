@@ -38,10 +38,11 @@ const template = (configContext) => {
                 <Field name="role" />
               </Field>
             </Field>
-            <Field name="exitCountNote" />
           </Col>
         </Cols>
 
+        <Field name="exitCountNote" />
+        <Field name="note" />
         <Field name="approvalStatusGroupList">
           <Field name="approvalStatusGroup">
             <Panel>

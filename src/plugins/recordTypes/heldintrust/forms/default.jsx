@@ -43,6 +43,7 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
+        <Field name="note" />
         <Field name="agreementApprovalGroupList">
           <Field name="agreementApprovalGroup">
             <Panel>
