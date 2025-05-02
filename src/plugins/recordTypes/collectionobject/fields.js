@@ -3889,7 +3889,7 @@ export default (configContext) => {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.procedure.publishedRelatedLinkGroup.name',
+                  id: 'field.collectionobjects_common.publishedRelatedLinkGroup.name',
                   defaultMessage: 'Published related link',
                 },
               }),
