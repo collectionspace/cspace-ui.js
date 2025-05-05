@@ -427,7 +427,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.nagprainventories_common.inventoryStatusGroup.name',
-                  defaultMessage: 'Inventory status',
+                  defaultMessage: 'Inventory documentation status',
                 },
               }),
               repeating: true,
@@ -443,7 +443,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryGroup.fullName',
-                    defaultMessage: 'Inventory status group',
+                    defaultMessage: 'Inventory documentation status group',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryGroup.name',
@@ -463,7 +463,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryIndividual.fullName',
-                    defaultMessage: 'Inventory status individual',
+                    defaultMessage: 'Inventory documentation status individual',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryIndividual.name',
@@ -483,7 +483,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryStatus.fullName',
-                    defaultMessage: 'Inventory status',
+                    defaultMessage: 'Inventory documentation status',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryStatus.name',
@@ -504,7 +504,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryDate.fullName',
-                    defaultMessage: 'Inventory status date',
+                    defaultMessage: 'Inventory documentation status date',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryDate.name',
@@ -521,7 +521,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.nagprainventories_common.inventoryNote.fullName',
-                    defaultMessage: 'Inventory status note',
+                    defaultMessage: 'Inventory documentation status note',
                   },
                   name: {
                     id: 'field.nagprainventories_common.inventoryNote.name',
