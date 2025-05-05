@@ -12,6 +12,12 @@ const isBlocking = (validationError) => {
   return (typeof nonblocking === 'undefined') ? true : !nonblocking;
 };
 
+export const isValidLength = (value, length) => {
+  // use the TextEncoder in case any utf8 characters are present
+  const encoder = new TextEncoder();
+  return encoder.encode(value).length <= length;
+};
+
 export const hasBlockingError = (validationErrors) => {
   if (!validationErrors) {
     return false;

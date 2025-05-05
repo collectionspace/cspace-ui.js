@@ -1,4 +1,9 @@
 import { defineMessages } from 'react-intl';
+import { isValidLength } from '../../../helpers/validationHelpers';
+
+import {
+  ERR_VALIDATION,
+} from '../../../constants/errorCodes';
 
 export default (configContext) => {
   const {
@@ -58,8 +63,25 @@ export default (configContext) => {
               id: 'field.authrole.displayName.name',
               defaultMessage: 'Name',
             },
+            errorInvalidDisplayName: {
+              id: 'field.accounts_common.errorInvalidDisplayName',
+              description: 'Message to display when the description is too large',
+              defaultMessage: 'Name must be under {maxLength} characters',
+            },
           }),
           required: true,
+          validate: ({ data, fieldDescriptor }) => {
+            const maxLength = 200;
+            if (!isValidLength(data, maxLength)) {
+              return {
+                code: ERR_VALIDATION,
+                message: fieldDescriptor[config].messages.errorInvalidDisplayName,
+                maxLength,
+              };
+            }
+
+            return undefined;
+          },
           view: {
             type: TextInput,
           },
@@ -72,7 +94,24 @@ export default (configContext) => {
               id: 'field.authrole.description.name',
               defaultMessage: 'Description',
             },
+            errorInvalidDescription: {
+              id: 'field.accounts_common.errorInvalidDescription',
+              description: 'Message to display when the description is too large',
+              defaultMessage: 'Description must be under {maxLength} characters',
+            },
           }),
+          validate: ({ data, fieldDescriptor }) => {
+            const maxLength = 255;
+            if (!isValidLength(data, maxLength)) {
+              return {
+                code: ERR_VALIDATION,
+                message: fieldDescriptor[config].messages.errorInvalidDescription,
+                maxLength,
+              };
+            }
+
+            return undefined;
+          },
           view: {
             type: TextInput,
             props: {
