@@ -40,6 +40,7 @@ const template = (configContext) => {
           </Col>
         </Cols>
 
+        <Field name="note" />
         <Field name="partiesInvolvedGroupList">
           <Field name="partiesInvolvedGroup">
             <Field name="involvedParty" />
