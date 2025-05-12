@@ -7,6 +7,10 @@ import { formatExtensionFieldName } from '../../helpers/formatHelpers';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import styles from '../../../styles/cspace-ui/VocabularyUsedByPanel.css';
 
+import {
+  TermPickerInput,
+} from '../../helpers/configContextInputs';
+
 const messages = defineMessages({
   title: {
     id: 'vocabularyUsedByPanel.title',
@@ -91,7 +95,7 @@ export default function VocabularyUsedByPanel(props, context) {
   }
 
   const shortId = data.getIn(['document', 'ns2:vocabularies_common', 'shortIdentifier']);
-  const uses = findVocabularyUses(config, shortId);
+  const uses = findVocabularyUses(config, shortId, TermPickerInput);
   const title = <h3><FormattedMessage {...messages.title} /></h3>;
 
   return (
