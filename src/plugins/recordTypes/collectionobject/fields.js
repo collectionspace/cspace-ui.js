@@ -2630,6 +2630,27 @@ export default (configContext) => {
             },
           },
         },
+        objectProductionAgents: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          objectProductionAgent: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.objectProductionAgent.name',
+                  defaultMessage: 'Production agent (verbatim)',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TextInput,
+              },
+            },
+          },
+        },
         assocActivityGroupList: {
           [config]: {
             view: {
