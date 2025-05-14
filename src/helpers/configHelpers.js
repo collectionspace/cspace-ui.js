@@ -826,10 +826,11 @@ const findFieldsWithSource = (fieldDescriptor, shortId, viewType) => {
     (childFieldName) => findFieldsWithSource(fieldDescriptor[childFieldName], shortId, viewType));
 
   const fieldConfig = fieldDescriptor[configKey];
-  const fieldViewType = get(fieldConfig, ['view', 'type']);
   const source = get(fieldConfig, ['view', 'props', 'source']);
 
   if (source === shortId) {
+    const fieldViewType = get(fieldConfig, ['view', 'type']);
+    // allow undefined viewType to accept all
     if (!viewType || (viewType === fieldViewType)) {
       fieldsWithSource.push(fieldConfig);
     }
