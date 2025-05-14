@@ -7,6 +7,7 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import VocabularyUsedByPanel from '../../../../src/components/admin/VocabularyUsedByPanel';
 import { configKey } from '../../../../src/helpers/configHelpers';
+import { OptionPickerInput, TermPickerInput } from '../../../../src/helpers/configContextInputs';
 
 const { expect } = chai;
 
@@ -51,6 +52,23 @@ describe('VocabularyUsedByPanel', () => {
                 },
               },
               view: {
+                type: TermPickerInput,
+                props: {
+                  source: shortId,
+                },
+              },
+            },
+          },
+          field2: {
+            [configKey]: {
+              messages: {
+                name: {
+                  id: 'field2.name',
+                  defaultMessage: 'Field 2 - Wrong View Type',
+                },
+              },
+              view: {
+                type: OptionPickerInput,
                 props: {
                   source: shortId,
                 },
@@ -100,7 +118,9 @@ describe('VocabularyUsedByPanel', () => {
     list.should.not.equal(null);
 
     list.querySelector('li > div').textContent.should.equal('Group');
-    list.querySelector('li > ul > li').textContent.should.equal('Field 1');
+    const fields = list.querySelectorAll('li > ul > li');
+    fields.length.should.equal(1);
+    fields[0].textContent.should.equal('Field 1');
   });
 
   it('should render a not used message if no uses are found', function test() {

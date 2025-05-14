@@ -821,21 +821,25 @@ export const findFieldConfigInPart = (recordTypeConfig, partName, fieldName) => 
   return (fieldDescriptor ? fieldDescriptor[configKey] : null);
 };
 
-const findFieldsWithSource = (fieldDescriptor, shortId) => {
+const findFieldsWithSource = (fieldDescriptor, shortId, viewType) => {
   const fieldsWithSource = flatMap(Object.keys(fieldDescriptor).filter((key) => key !== configKey),
-    (childFieldName) => findFieldsWithSource(fieldDescriptor[childFieldName], shortId));
+    (childFieldName) => findFieldsWithSource(fieldDescriptor[childFieldName], shortId, viewType));
 
   const fieldConfig = fieldDescriptor[configKey];
   const source = get(fieldConfig, ['view', 'props', 'source']);
 
   if (source === shortId) {
-    fieldsWithSource.push(fieldConfig);
+    const fieldViewType = get(fieldConfig, ['view', 'type']);
+    // allow undefined viewType to accept all
+    if (!viewType || viewType === fieldViewType) {
+      fieldsWithSource.push(fieldConfig);
+    }
   }
 
   return fieldsWithSource;
 };
 
-export const findVocabularyUses = (config, shortId) => {
+export const findVocabularyUses = (config, shortId, vocabularyType) => {
   if (!shortId) {
     return null;
   }
@@ -846,7 +850,7 @@ export const findVocabularyUses = (config, shortId) => {
     const fieldDescriptor = recordTypeConfig.fields;
 
     if (fieldDescriptor) {
-      const fields = findFieldsWithSource(recordTypeConfig.fields, shortId);
+      const fields = findFieldsWithSource(recordTypeConfig.fields, shortId, vocabularyType);
 
       if (fields.length > 0) {
         uses[recordTypeConfig.name] = fields;
