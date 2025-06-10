@@ -1,5 +1,40 @@
 # Change Log
 
+## v10.1.0
+
+v10.1.0 adds support for CollectionSpace 8.2.
+
+### New Fields
+
+A free text `note` field has been added to the following procedures:
+- Object Exit
+- Held-In-Trust
+- NAGPRA Inventory
+- Summary Documentation
+
+A controlled repeating field `objectProductionAgent` has been added to CollectionObject
+
+### Non-Breaking Changes
+
+Improve form validation for role description and role name
+
+### Bug Fixes
+
+- Remove TermPickerInput views from Vocabulary Used By panel
+- Add `documentation` to status group label
+- Fix typo in label id for `publishedRelatedLinkGroup` in CollectionObject
+
+**Full Changelog**: [`v10.0.2...v10.1.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.0.2...v10.1.0)
+
+## V10.0.2
+
+- Fix document names typos in Deaccession and Duty of Care
+
+## V10.0.1
+
+- Fix bug when logging in without read permissions to the service groups endpoint
+- Fix typos in label ids
+
 ## v10.0.0
 
 v10.0.0 adds support for CollectionSpace 8.1. It can not be used with earlier versions.
