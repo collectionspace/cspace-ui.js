@@ -26,6 +26,15 @@ Improve form validation for role description and role name
 
 **Full Changelog**: [`v10.0.2...v10.1.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.0.2...v10.1.0)
 
+## V10.0.2
+
+- Fix document names typos in Deaccession and Duty of Care
+
+## V10.0.1
+
+- Fix bug when logging in without read permissions to the service groups endpoint
+- Fix typos in label ids
+
 ## v10.0.0
 
 v10.0.0 adds support for CollectionSpace 8.1. It can not be used with earlier versions.
