@@ -3,14 +3,14 @@ import AuthStatus from '../../components/login/AuthStatus';
 
 import {
   getLoginUsername,
-  isLoginPending,
-  isLoginSuccess,
+  getIsLoginPending,
+  getIsLoginSuccess,
   getLoginError,
 } from '../../reducers';
 
 const mapStateToProps = (state) => ({
-  isPending: isLoginPending(state),
-  isSuccess: isLoginSuccess(state),
+  isPending: getIsLoginPending(state),
+  isSuccess: getIsLoginSuccess(state),
   username: getLoginUsername(state),
   error: getLoginError(state),
 });

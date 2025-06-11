@@ -6,9 +6,7 @@ import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
-import AdminPageContainer from '../../containers/pages/AdminPageContainer';
 import AuthorizePageContainer from '../../containers/pages/AuthorizePageContainer';
-import AuthorizedPageContainer from '../../containers/pages/AuthorizedPageContainer';
 import ConfigPage from './ConfigPage';
 import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
 import CreatePageContainer from '../../containers/pages/CreatePageContainer';
@@ -24,6 +22,8 @@ import SearchResultPageContainer from '../../containers/pages/SearchResultPageCo
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
 import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
+import AdminPage from './AdminPage';
+import AuthorizedPage from './AuthorizedPage';
 
 const messages = defineMessages({
   title: {
@@ -67,12 +67,12 @@ function RootPage(props) {
         <PublicRoute path="/logout" component={LogoutPageContainer} decorated={false} />
         <PublicRoute path="/config" component={ConfigPage} />
         <PublicRoute path="/authorize" component={AuthorizePageContainer} decorated={false} />
-        <PublicRoute path="/authorized" component={AuthorizedPageContainer} decorated={false} />
+        <PublicRoute path="/authorized" component={AuthorizedPage} decorated={false} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
         <ProtectedRouteContainer path="/tool" component={ToolPageContainer} />
-        <ProtectedRouteContainer path="/admin" component={AdminPageContainer} />
+        <ProtectedRouteContainer path="/admin" component={AdminPage} />
 
         <ProtectedRouteContainer
           path="/search/:recordType?/:vocabulary?"

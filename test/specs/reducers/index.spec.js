@@ -12,8 +12,8 @@ import reducer, {
   getUserUsername,
   getUserPerms,
   getLoginUsername,
-  isLoginPending,
-  isLoginSuccess,
+  getIsLoginPending,
+  getIsLoginSuccess,
   getLoginError,
   isLogoutPending,
   getLogoutResponse,
@@ -234,7 +234,7 @@ describe('reducer', () => {
 
   describe('isLoginPending selector', () => {
     it('should select from the login key', () => {
-      isLoginPending({
+      getIsLoginPending({
         login: Immutable.Map({
           isPending: true,
         }),
@@ -256,7 +256,7 @@ describe('reducer', () => {
 
   describe('isLoginSuccess selector', () => {
     it('should select from the login key', () => {
-      isLoginSuccess({
+      getIsLoginSuccess({
         login: Immutable.Map({
           isSuccess: true,
         }),

@@ -4,15 +4,15 @@ import { openLoginWindow } from '../../actions/login';
 
 import {
   getLoginError,
-  isLoginPending,
-  isLoginSuccess,
+  getIsLoginPending,
+  getIsLoginSuccess,
   isLoginWindowOpen,
   isLoginWindowOpenFailed,
 } from '../../reducers';
 
 const mapStateToProps = (state) => ({
-  isLoginPending: isLoginPending(state),
-  isLoginSuccess: isLoginSuccess(state),
+  isLoginPending: getIsLoginPending(state),
+  isLoginSuccess: getIsLoginSuccess(state),
   isLoginWindowOpen: isLoginWindowOpen(state),
   isLoginWindowOpenFailed: isLoginWindowOpenFailed(state),
   loginError: getLoginError(state),
