@@ -131,5 +131,11 @@ export default (uiConfig) => {
     Modal.setAppElement(mountNode);
 
     render(<AppContainer {...props} />, mountNode);
+
+    if (module.hot) {
+      module.hot.accept('./containers/AppContainer', () => {
+        render(<AppContainer {...props} />, mountNode);
+      });
+    }
   }
 };
