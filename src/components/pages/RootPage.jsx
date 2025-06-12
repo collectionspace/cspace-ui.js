@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
-import AuthorizePageContainer from '../../containers/pages/AuthorizePageContainer';
 import ConfigPage from './ConfigPage';
 import ContentViewerPageContainer from '../../containers/pages/ContentViewerPageContainer';
 import CreatePageContainer from '../../containers/pages/CreatePageContainer';
@@ -24,6 +23,7 @@ import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
 import AdminPage from './AdminPage';
 import AuthorizedPage from './AuthorizedPage';
+import AuthorizePage from './AuthorizePage';
 
 const messages = defineMessages({
   title: {
@@ -66,7 +66,7 @@ function RootPage(props) {
         <PublicRoute path="/welcome" component={WelcomePage} />
         <PublicRoute path="/logout" component={LogoutPageContainer} decorated={false} />
         <PublicRoute path="/config" component={ConfigPage} />
-        <PublicRoute path="/authorize" component={AuthorizePageContainer} decorated={false} />
+        <PublicRoute path="/authorize" component={AuthorizePage} decorated={false} />
         <PublicRoute path="/authorized" component={AuthorizedPage} decorated={false} />
 
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
