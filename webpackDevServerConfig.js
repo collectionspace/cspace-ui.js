@@ -123,7 +123,10 @@ module.exports = async ({
     console.info();
 
     return {
-      historyApiFallback: true,
+      historyApiFallback: {
+        index: publicPath,
+      },
+      hot: 'only',
     };
   }
 
