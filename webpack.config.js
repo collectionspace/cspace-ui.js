@@ -4,6 +4,7 @@
 const { execSync } = require('child_process');
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpackDevServerConfig = require('./webpackDevServerConfig');
 
 /**
@@ -90,6 +91,10 @@ module.exports = async () => ({
       [`${library}.packageVersion`]: JSON.stringify(process.env.npm_package_version),
       [`${library}.buildNum`]: JSON.stringify(buildNum),
       [`${library}.repositoryUrl`]: JSON.stringify(repositoryUrl),
+    }),
+    !process.env.npm_config_back_end && new HtmlWebpackPlugin({
+      template: 'index.html',
+      inject: false,
     }),
   ],
   resolve: {
