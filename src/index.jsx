@@ -131,5 +131,12 @@ export default (uiConfig) => {
     Modal.setAppElement(mountNode);
 
     render(<AppContainer {...props} />, mountNode);
+
+    // HMR related: https://webpack.js.org/concepts/hot-module-replacement/
+    if (module.hot) {
+      module.hot.accept('./containers/AppContainer', () => {
+        render(<AppContainer {...props} />, mountNode);
+      });
+    }
   }
 };
