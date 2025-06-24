@@ -1,0 +1,17 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.innerdetail {
+  display: flex;
+  flex-direction: row;
+}
+
+.detailimg {
+  width: 128px;
+  height: 128px;
+  margin-right: 5px;
+  background:rgb(220, 220, 220);
+}
