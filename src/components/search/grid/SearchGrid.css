@@ -1,0 +1,17 @@
+.grid {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 5px;
+}
+
+.card {
+
+}
+
+.image {
+  width: 250px;
+  height: 250px;
+  background:rgb(220, 220, 220);
+  background-image: url(../../../../images/deactivate.svg);
+}
