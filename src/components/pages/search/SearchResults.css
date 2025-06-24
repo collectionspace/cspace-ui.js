@@ -1,0 +1,98 @@
+.results > table {
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* todo: flex col sizing */
+.results > table > thead {
+  border: 1px solid rgb(220, 220, 220);
+  border-width: 1px 0;
+  background: rgb(240, 240, 240);
+  box-sizing: border-box;
+  text-transform: none;
+  font-size: 12px;
+  font-weight: inherit;
+}
+
+.results > table > thead > tr {
+  height: 23px;
+  overflow: hidden;
+  padding-right: 0px;
+}
+
+.results > table > thead > tr > th {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: inherit;
+  text-decoration: underline;
+}
+
+/* todo: flex col sizing */
+.results > table > tbody > td {
+  height: 23px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 1856px;
+  padding-right: 0px;
+}
+
+.checkbox {
+  width: 1%;
+}
+
+.even {
+  background: white;
+}
+
+.odd {
+  background: #f0f5fb;
+}
+
+.table {
+  background-image: url(../../../../images/unselect.svg);
+}
+
+.grid {
+  background-image: url(../../../../images/imageFullscreen.svg);
+}
+
+.list {
+  background-image: url(../../../../images/resultLink.svg);
+}
+
+.resultgrid {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 5px;
+}
+
+.resultcard {
+  width: 250px;
+  height: 250px;
+  background:rgb(220, 220, 220);
+  background-image: url(../../../../images/deactivate.svg);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.innerdetail {
+  display: flex;
+  flex-direction: row;
+}
+
+.detailimg {
+  width: 128px;
+  height: 128px;
+  margin-right: 5px;
+  background:rgb(220, 220, 220);
+}
