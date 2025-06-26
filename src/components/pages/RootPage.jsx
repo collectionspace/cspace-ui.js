@@ -16,6 +16,7 @@ import DashboardPage from './DashboardPage';
 import ExportViewerPageContainer from '../../containers/pages/ExportViewerPageContainer';
 import ToolPageContainer from '../../containers/pages/ToolPageContainer';
 import WelcomePage from './WelcomePage';
+import SearchResults from './search/SearchResults';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
 import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
@@ -91,7 +92,8 @@ function RootPage(props) {
 
         <ProtectedRouteContainer
           path="/list/:recordType/:vocabulary?"
-          component={SearchResultPageContainer}
+          component={SearchResults}
+          // component={SearchResultPageContainer}
         />
 
         <ProtectedRouteContainer

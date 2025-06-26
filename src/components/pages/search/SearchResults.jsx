@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable'; // todo: avoid Immutable
@@ -17,7 +17,9 @@ import summaryStyles from '../../../../styles/cspace-ui/SearchResultSummary.css'
 import tableStyles from '../../../../styles/cspace-ui/SearchResultTable.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 import newStyles from './SearchResults.css';
-import deactivate from '../../../../images/deactivate.svg';
+import SearchResultGrid from '../../search/grid/SearchGrid';
+import SearchDetailList from '../../search/list/SearchList';
+import SearchResultTable from '../../search/table/SearchTable';
 
 const { Button } = inputComponents;
 
@@ -85,7 +87,7 @@ export function SimpleFooter() {
   );
 }
 
-export function SimpleSelectBar() {
+export function SimpleSelectBar({ toggleBar }) {
   // button bar (relate/export)
   const exportButton = (
     <ExportButton
@@ -102,13 +104,14 @@ export function SimpleSelectBar() {
   );
 
   const buttonBar = (
-    <div className={buttonBarStyles.common} style={{ 'flex-basis': 'calc(1/3 * 100%)' }}>
+    <div className={buttonBarStyles.common} style={{ flexBasis: 'calc(1/3 * 100%)' }}>
       {exportButton}
       {relateButton}
     </div>
   );
 
   // toggle bar (grid/table/etc)
+  /*
   const tableLabel = <span>Table</span>;
   const tableButton = (
     <ToggleButton
@@ -154,6 +157,7 @@ export function SimpleSelectBar() {
       {detailButton}
     </div>
   );
+  */
 
   return (
     <div className={selectStyles.common}>
@@ -173,115 +177,67 @@ export function SimpleSelectBar() {
   );
 }
 
-export function SimpleTable() {
+function renderToggleButton(type, style, setDisplay) {
+  const tableLabel = (
+    <span>
+      {type}
+    </span>
+  );
+
   return (
-    <div className={newStyles.results}>
-      <table>
-        <thead>
-          <tr>
-            <th className={newStyles.checkbox} />
-            <th style={{ textAlign: 'left' }}>Identification number</th>
-            <th style={{ textAlign: 'left' }}>Title</th>
-            <th style={{ textAlign: 'left' }}>Updated at</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr key="obj-1" className={newStyles.even}>
-            {/* CheckboxInput */}
-            <td><input type="checkbox" /></td>
-            <td>2025.1.12</td>
-            <td>Published Item New Line Test</td>
-            <td>6/6/2025, 12:41 PM</td>
-          </tr>
-          <tr key="obj-2" className={newStyles.odd}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.11</td>
-            <td />
-            <td>5/13/2025, 10:11 AM</td>
-          </tr>
-          <tr key="obj-3" className={newStyles.even}>
-            <td><input type="checkbox" /></td>
-            <td>IN2025.5</td>
-            <td>intake</td>
-            <td>5/5/2025, 10:40 AM</td>
-          </tr>
-          <tr key="obj-4" className={newStyles.odd}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.7</td>
-            <td />
-            <td>4/28/2025, 7:23 AM</td>
-          </tr>
-          <tr key="obj-5" className={newStyles.even}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.8</td>
-            <td />
-            <td>4/25/2025, 7:07 AM</td>
-          </tr>
-          <tr key="obj-6" className={newStyles.odd}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.5</td>
-            <td />
-            <td>4/25/2025, 7:11 AM</td>
-          </tr>
-        </tbody>
-      </table>
+    <ToggleButton
+      diabled="true"
+      key={type}
+      style={style}
+      name={type}
+      label={tableLabel}
+      onClick={() => setDisplay(type)}
+    />
+  );
+}
+
+function renderToggleBar(setDisplay) {
+  const tableButton = renderToggleButton('table', newStyles.table, setDisplay);
+  const gridButton = renderToggleButton('grid', newStyles.grid, setDisplay);
+  const listButton = renderToggleButton('list', newStyles.list, setDisplay);
+
+  const toggleStyles = {
+    flexBasis: 'calc(3/5 * 100%)',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  };
+
+  return (
+    <div className={buttonBarStyles.common} style={toggleStyles}>
+      {tableButton}
+      {gridButton}
+      {listButton}
     </div>
   );
 }
 
-export function SimpleCard() {
-  return (
-    <div>
-      <img src={deactivate} className={newStyles.resultcard} />
-      <div>
-        <div className={newStyles.cardsummary}>
-          <input type="checkbox" />
-          <span>2025.1.2: Object Test</span>
-        </div>
-        <span>6/6/2025, 12:41 PM</span>
-      </div>
-    </div>
-  );
-}
+function TBWP({ items, renderButton }) {
+  const toggleStyles = {
+    flexBasis: 'calc(3/5 * 100%)',
+    display: 'flex',
+    justifyContent: 'flex-end',
+  };
 
-export function SimpleGrid() {
   return (
-    <div className={newStyles.resultgrid}>
-      <SimpleCard />
-      <SimpleCard />
-      <SimpleCard />
-      <SimpleCard />
-      <SimpleCard />
-      <SimpleCard />
-    </div>
-  );
-}
-
-export function DetailItem() {
-  return (
-    <div className={newStyles.innerdetail}>
-      <img src={deactivate} className={newStyles.detailimg} />
-      <input style={{ alignSelf: 'flex-start' }} type="checkbox" />
-      <ol>
-        <li>ID: 2025.1.2</li>
-        <li>Title: Published Item Title Test</li>
-        <li>Responsible Department: Departmentalized</li>
-        <li>Current Location: Storage Site A</li>
-        <li>Brief Description: Some information about this item...</li>
-      </ol>
-    </div>
-  );
-}
-
-export function DetailList() {
-  return (
-    <div className={newStyles.detail}>
-      <DetailItem />
+    <div className={buttonBarStyles.common} style={toggleStyles}>
+      {items.map((item) => renderButton(item))}
     </div>
   );
 }
 
 export default function SearchResults(props, context) {
+  const [display, setDisplay] = useState('table');
+
+  function handleSetDisplay(type) {
+    console.log(`setting display type = ${type}`);
+    setDisplay(type);
+  }
+
   const {
     config,
   } = context;
@@ -318,7 +274,39 @@ export default function SearchResults(props, context) {
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
   console.log(`config=${JSON.stringify(recordTypeConfig)}`);
 
+  const toggles = [
+    { key: 'table', label: 'table' },
+    { key: 'grid', label: 'grid' },
+    { key: 'list', label: 'list' },
+  ];
+
+  const tbwp = (
+    <TBWP
+      items={toggles}
+      renderButton={(item) => (
+        <ToggleButton
+          diabled="true"
+          key={item.key}
+          name={item.key}
+          label={item.label}
+          style={newStyles[item.key]}
+          onClick={() => setDisplay(item.key)}
+        />
+      )}
+    />
+  );
+
   // const listType = getListType(config, searchDescriptor);
+  const toggleBar = renderToggleBar(handleSetDisplay);
+
+  let searchDisplay;
+  if (display === 'table') {
+    searchDisplay = <SearchResultTable />;
+  } else if (display === 'grid') {
+    searchDisplay = <SearchResultGrid />;
+  } else if (display === 'list') {
+    searchDisplay = <SearchDetailList />;
+  }
 
   // why does the SRTB have the searchDescriptor?? It's the TitleBar lol
   return (
@@ -335,9 +323,9 @@ export default function SearchResults(props, context) {
         <div className={tableStyles.common}>
           <header>
             <SimpleSummary searchDescriptor={searchDescriptorProp} />
-            <SimpleSelectBar />
+            <SimpleSelectBar toggleBar={tbwp} />
           </header>
-          <DetailList />
+          {searchDisplay}
           <SimpleFooter />
         </div>
       </div>
