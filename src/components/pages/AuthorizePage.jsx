@@ -3,12 +3,13 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import { useDispatch } from 'react-redux';
+import { createAuthCodeUrl } from '../../actions/login';
 
 const propTypes = {
   config: PropTypes.shape({
     serverUrl: PropTypes.string,
   }),
-  createAuthCodeUrl: PropTypes.func.isRequired,
   location: PropTypes.shape({
     state: PropTypes.object,
   }).isRequired,
@@ -21,8 +22,8 @@ const contextTypes = {
 };
 
 export default function AuthorizePage(props, context) {
+  const dispatch = useDispatch();
   const {
-    createAuthCodeUrl,
     location,
   } = props;
 
@@ -33,7 +34,7 @@ export default function AuthorizePage(props, context) {
   const landingPath = get(location, ['state', 'continuation']) || '';
 
   useEffect(() => {
-    createAuthCodeUrl(config, landingPath).then((url) => {
+    dispatch(createAuthCodeUrl(config, landingPath)).then((url) => {
       window.location.replace(url);
     });
   }, []);
