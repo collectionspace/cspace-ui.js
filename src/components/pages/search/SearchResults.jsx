@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import Immutable from 'immutable'; // todo: avoid Immutable
 import get from 'lodash/get';
+import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
-import { components as inputComponents } from 'cspace-input';
-import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
+import { NEW_SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import ExportButton from '../../search/ExportButton';
 import RelateButton from '../../record/RelateButton';
@@ -20,34 +20,12 @@ import newStyles from './SearchResults.css';
 import SearchResultGrid from '../../search/grid/SearchGrid';
 import SearchDetailList from '../../search/list/SearchList';
 import SearchResultTable from '../../search/table/SearchTable';
+import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
+import { useConfig } from '../../config/ConfigProvider';
 
-const { Button } = inputComponents;
-
-const contextTypes = {
-  config: PropTypes.shape({
-    recordTypes: PropTypes.object,
-  }).isRequired,
-};
-
-export function ToggleButton(props) {
-  const {
-    label,
-    style,
-    name,
-    ...remainingProps
-  } = props;
-
-  return (
-    <Button
-      className={style}
-      icon
-      name={name}
-      {...remainingProps}
-    >
-      {label}
-    </Button>
-  );
-}
+import {
+  getSearchResult,
+} from '../../../reducers';
 
 /*
 * SearchResultSummary
@@ -111,53 +89,6 @@ export function SimpleSelectBar({ toggleBar }) {
   );
 
   // toggle bar (grid/table/etc)
-  /*
-  const tableLabel = <span>Table</span>;
-  const tableButton = (
-    <ToggleButton
-      diabled="true"
-      key="table"
-      style={newStyles.table}
-      name="table"
-      label={tableLabel}
-    />
-  );
-
-  const gridLabel = <span>Grid</span>;
-  const gridButton = (
-    <ToggleButton
-      diabled="true"
-      key="grid"
-      style={newStyles.grid}
-      name="grid"
-      label={gridLabel}
-    />
-  );
-
-  const detailLabel = <span>List</span>;
-  const detailButton = (
-    <ToggleButton
-      diabled="true"
-      key="detail"
-      style={newStyles.list}
-      name="detail"
-      label={detailLabel}
-    />
-  );
-
-  const toggleStyles = {
-    flexBasis: 'calc(3/5 * 100%)',
-    display: 'flex',
-    justifyContent: 'flex-end',
-  };
-  const toggleBar = (
-    <div className={buttonBarStyles.common} style={toggleStyles}>
-      {tableButton}
-      {gridButton}
-      {detailButton}
-    </div>
-  );
-  */
 
   return (
     <div className={selectStyles.common}>
@@ -177,83 +108,35 @@ export function SimpleSelectBar({ toggleBar }) {
   );
 }
 
-function renderToggleButton(type, style, setDisplay) {
-  const tableLabel = (
-    <span>
-      {type}
-    </span>
-  );
-
-  return (
-    <ToggleButton
-      diabled="true"
-      key={type}
-      style={style}
-      name={type}
-      label={tableLabel}
-      onClick={() => setDisplay(type)}
-    />
-  );
-}
-
-function renderToggleBar(setDisplay) {
-  const tableButton = renderToggleButton('table', newStyles.table, setDisplay);
-  const gridButton = renderToggleButton('grid', newStyles.grid, setDisplay);
-  const listButton = renderToggleButton('list', newStyles.list, setDisplay);
-
-  const toggleStyles = {
-    flexBasis: 'calc(3/5 * 100%)',
-    display: 'flex',
-    justifyContent: 'flex-end',
-  };
-
-  return (
-    <div className={buttonBarStyles.common} style={toggleStyles}>
-      {tableButton}
-      {gridButton}
-      {listButton}
-    </div>
-  );
-}
-
-function TBWP({ items, renderButton }) {
-  const toggleStyles = {
-    flexBasis: 'calc(3/5 * 100%)',
-    display: 'flex',
-    justifyContent: 'flex-end',
-  };
-
-  return (
-    <div className={buttonBarStyles.common} style={toggleStyles}>
-      {items.map((item) => renderButton(item))}
-    </div>
-  );
-}
-
-export default function SearchResults(props, context) {
-  const [display, setDisplay] = useState('table');
-
-  function handleSetDisplay(type) {
-    console.log(`setting display type = ${type}`);
-    setDisplay(type);
-  }
-
+// todo: memoize?
+const getSearchDescriptor = (props) => {
   const {
-    config,
-  } = context;
-
-  const {
-    match, // todo: this is outdated for newer react-router versions
+    location,
+    match,
   } = props;
 
   const {
     params,
   } = match;
 
+  const {
+    search,
+  } = location;
+
+  const query = qs.parse(search.substring(1));
+
   const searchQuery = {
-    p: 0,
-    size: 10,
+    ...query,
+    p: parseInt(query.p, 10) - 1,
+    size: parseInt(query.size, 10),
   };
+
+  const advancedSearchCondition = query.as;
+
+  if (advancedSearchCondition) {
+    searchQuery.as = JSON.parse(advancedSearchCondition);
+  }
+
   const searchDescriptor = {
     searchQuery,
   };
@@ -266,11 +149,18 @@ export default function SearchResults(props, context) {
     }
   });
 
-  const searchDescriptorProp = Immutable.fromJS(searchDescriptor);
+  return Immutable.fromJS(searchDescriptor);
+};
+
+export default function SearchResults(props) {
+  const [display, setDisplay] = useState('table');
+  const config = useConfig();
+
+  const searchDescriptor = getSearchDescriptor(props);
 
   console.log(`${JSON.stringify(searchDescriptor)}`);
 
-  const recordType = searchDescriptorProp.get('recordType');
+  const recordType = searchDescriptor.get('recordType');
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
   console.log(`config=${JSON.stringify(recordTypeConfig)}`);
 
@@ -280,12 +170,12 @@ export default function SearchResults(props, context) {
     { key: 'list', label: 'list' },
   ];
 
-  const tbwp = (
-    <TBWP
+  const displayToggles = (
+    <ToggleButtonContainer
       items={toggles}
       renderButton={(item) => (
         <ToggleButton
-          diabled="true"
+          disabled={false}
           key={item.key}
           name={item.key}
           label={item.label}
@@ -296,16 +186,13 @@ export default function SearchResults(props, context) {
     />
   );
 
-  // const listType = getListType(config, searchDescriptor);
-  const toggleBar = renderToggleBar(handleSetDisplay);
-
   let searchDisplay;
   if (display === 'table') {
-    searchDisplay = <SearchResultTable />;
+    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} />;
   } else if (display === 'grid') {
-    searchDisplay = <SearchResultGrid />;
+    searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
   } else if (display === 'list') {
-    searchDisplay = <SearchDetailList />;
+    searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
   }
 
   // why does the SRTB have the searchDescriptor?? It's the TitleBar lol
@@ -313,8 +200,8 @@ export default function SearchResults(props, context) {
     <div className={styles.common}>
       <SearchResultTitleBar
         config={config}
-        searchDescriptor={searchDescriptorProp}
-        searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
+        searchDescriptor={searchDescriptor}
+        searchName={NEW_SEARCH_RESULT_PAGE_SEARCH_NAME}
         updateDocumentTitle
       />
       <div className={pageBodyStyles.full}>
@@ -322,8 +209,8 @@ export default function SearchResults(props, context) {
         {/* SearchResultHeader */}
         <div className={tableStyles.common}>
           <header>
-            <SimpleSummary searchDescriptor={searchDescriptorProp} />
-            <SimpleSelectBar toggleBar={tbwp} />
+            <SimpleSummary searchDescriptor={searchDescriptor} />
+            <SimpleSelectBar toggleBar={displayToggles} />
           </header>
           {searchDisplay}
           <SimpleFooter />
@@ -332,5 +219,3 @@ export default function SearchResults(props, context) {
     </div>
   );
 }
-
-SearchResults.contextTypes = contextTypes;
