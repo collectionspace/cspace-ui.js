@@ -6,8 +6,8 @@ import styles from '../../../styles/cspace-ui/AuthorizedPage.css';
 import {
   getLoginError,
   getLoginLandingPath,
-  getIsLoginPending,
-  getIsLoginSuccess,
+  isLoginPending as isLoginPendingSelector,
+  isLoginSuccess as isLoginSuccessSelector,
 } from '../../reducers';
 import { receiveAuthCode } from '../../actions/login';
 
@@ -35,8 +35,8 @@ export default function AuthorizedPage(props, context = {}) {
     location,
   } = props;
 
-  const isLoginPending = useSelector(getIsLoginPending);
-  const isLoginSuccess = useSelector(getIsLoginSuccess);
+  const isLoginPending = useSelector(isLoginPendingSelector);
+  const isLoginSuccess = useSelector(isLoginSuccessSelector);
   const landingPath = useSelector(getLoginLandingPath);
   const loginError = useSelector(getLoginError);
 

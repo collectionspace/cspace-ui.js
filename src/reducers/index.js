@@ -81,9 +81,9 @@ export const getLoginLandingPath = (state) => fromLogin.getLandingPath(state.log
 
 export const getLoginUsername = (state) => fromLogin.getUsername(state.login);
 
-export const getIsLoginPending = (state) => fromLogin.isPending(state.login);
+export const isLoginPending = (state) => fromLogin.isPending(state.login);
 
-export const getIsLoginSuccess = (state) => fromLogin.isSuccess(state.login);
+export const isLoginSuccess = (state) => fromLogin.isSuccess(state.login);
 
 export const getLoginError = (state) => fromLogin.getError(state.login);
 
