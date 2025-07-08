@@ -6,6 +6,8 @@ export default {
   objectName: 'CollectionObject',
   documentName: 'collectionobjects',
 
+  useUpdatedSearch: true,
+
   quickAddData: (values) => ({
     document: {
       'ns2:collectionobjects_common': {
