@@ -1,7 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from './SearchTable.css';
+import { getSearchResult } from '../../../reducers';
+import { NEW_SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 
-export default function SearchResultTable() {
+export default function SearchResultTable({ searchDescriptor }) {
+  const results = useSelector((state) => getSearchResult(state,
+    NEW_SEARCH_RESULT_PAGE_SEARCH_NAME,
+    searchDescriptor));
+
+  // read headers
+  // read data
+
   // todo: read columns from record config
   return (
     <div className={styles.results}>
@@ -15,43 +25,15 @@ export default function SearchResultTable() {
           </tr>
         </thead>
         <tbody>
-          <tr key="obj-1" className={styles.even}>
-            {/* CheckboxInput */}
-            <td><input type="checkbox" /></td>
-            <td>2025.1.12</td>
-            <td>Published Item New Line Test</td>
-            <td>6/6/2025, 12:41 PM</td>
-          </tr>
-          <tr key="obj-2" className={styles.odd}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.11</td>
-            <td />
-            <td>5/13/2025, 10:11 AM</td>
-          </tr>
-          <tr key="obj-3" className={styles.even}>
-            <td><input type="checkbox" /></td>
-            <td>IN2025.5</td>
-            <td>intake</td>
-            <td>5/5/2025, 10:40 AM</td>
-          </tr>
-          <tr key="obj-4" className={styles.odd}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.7</td>
-            <td />
-            <td>4/28/2025, 7:23 AM</td>
-          </tr>
-          <tr key="obj-5" className={styles.even}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.8</td>
-            <td />
-            <td>4/25/2025, 7:07 AM</td>
-          </tr>
-          <tr key="obj-6" className={styles.odd}>
-            <td><input type="checkbox" /></td>
-            <td>2025.1.5</td>
-            <td />
-            <td>4/25/2025, 7:11 AM</td>
-          </tr>
+          {results.map((item, index) => (
+            <tr key={item.csid} className={index % 2 === 0 ? styles.even : styles.odd}>
+              {/* CheckboxInput */}
+              <td><input type="checkbox" /></td>
+              <td>{item.objectNumber}</td>
+              <td>{item.title}</td>
+              <td>{item.updatedAt}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
