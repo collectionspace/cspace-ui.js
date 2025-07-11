@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Immutable from 'immutable'; // todo: avoid Immutable
 import get from 'lodash/get';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
-import { NEW_SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
+import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import ExportButton from '../../search/ExportButton';
 import RelateButton from '../../record/RelateButton';
@@ -24,8 +24,12 @@ import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleB
 import { useConfig } from '../../config/ConfigProvider';
 
 import {
-  getSearchResult,
-} from '../../../reducers';
+  setSearchResultPagePageSize,
+} from '../../../actions/prefs';
+
+import {
+  search,
+} from '../../../actions/search';
 
 /*
 * SearchResultSummary
@@ -120,10 +124,10 @@ const getSearchDescriptor = (props) => {
   } = match;
 
   const {
-    search,
+    search: searchFromLoc,
   } = location;
 
-  const query = qs.parse(search.substring(1));
+  const query = qs.parse(searchFromLoc.substring(1));
 
   const searchQuery = {
     ...query,
@@ -152,17 +156,88 @@ const getSearchDescriptor = (props) => {
   return Immutable.fromJS(searchDescriptor);
 };
 
+function setPreferredPageSize(props, dispatch) {
+  const {
+    location,
+  } = props;
+
+  const {
+    search: searchFromLoc,
+  } = location;
+
+  const query = qs.parse(searchFromLoc.substring(1));
+  console.log(`query == ${JSON.stringify(query)}`);
+
+  dispatch(setSearchResultPagePageSize(parseInt(query.size, 10)));
+}
+
+function normalizeQuery(props, config) {
+  const {
+    history,
+    location,
+    preferredPageSize,
+  } = props;
+
+  const {
+    search: searchFromLoc,
+  } = location;
+
+  const query = qs.parse(searchFromLoc.substring(1));
+
+  if (history) {
+    console.log('have history; normalize query params');
+    const normalizedQueryParams = {};
+
+    const pageSize = parseInt(query.size, 10);
+
+    if (Number.isNaN(pageSize) || pageSize < 1) {
+      const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
+
+      normalizedQueryParams.size = normalizedPageSize.toString();
+    } else if (pageSize > 2500) {
+      // Services layer max is 2500
+      normalizedQueryParams.size = '2500';
+    } else if (pageSize.toString() !== query.size) {
+      normalizedQueryParams.size = pageSize.toString();
+    }
+
+    const pageNum = parseInt(query.p, 10);
+
+    if (Number.isNaN(pageNum) || pageNum < 1) {
+      normalizedQueryParams.p = '1';
+    } else if (pageNum.toString() !== query.p) {
+      normalizedQueryParams.p = pageNum.toString();
+    }
+
+    if (Object.keys(normalizedQueryParams).length > 0) {
+      const newQuery = { ...query, ...normalizedQueryParams };
+      const queryString = qs.stringify(newQuery);
+
+      history.replace({
+        pathname: location.pathname,
+        search: `?${queryString}`,
+        state: location.state,
+      });
+    }
+  }
+}
+
 export default function SearchResults(props) {
   const [display, setDisplay] = useState('table');
   const config = useConfig();
+  const dispatch = useDispatch();
+
+  // memoize these?
+  normalizeQuery(props, config);
+  setPreferredPageSize(props, dispatch);
 
   const searchDescriptor = getSearchDescriptor(props);
+  dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common'));
 
   console.log(`${JSON.stringify(searchDescriptor)}`);
 
   const recordType = searchDescriptor.get('recordType');
   const recordTypeConfig = get(config, ['recordTypes', recordType]);
-  console.log(`config=${JSON.stringify(recordTypeConfig)}`);
 
   const toggles = [
     { key: 'table', label: 'table' },
@@ -195,13 +270,18 @@ export default function SearchResults(props) {
     searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
   }
 
+  // todo: these are needed in the Title/Footer/Pager
+  // const pageSize = parseInt(list.get('pageSize'), 10);
+  // const totalItems = parseInt(list.get('totalItems'), 10);
+  // const itemsInPage = parseInt(list.get('itemsInPage'), 10);
+
   // why does the SRTB have the searchDescriptor?? It's the TitleBar lol
   return (
     <div className={styles.common}>
       <SearchResultTitleBar
         config={config}
         searchDescriptor={searchDescriptor}
-        searchName={NEW_SEARCH_RESULT_PAGE_SEARCH_NAME}
+        searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
         updateDocumentTitle
       />
       <div className={pageBodyStyles.full}>
