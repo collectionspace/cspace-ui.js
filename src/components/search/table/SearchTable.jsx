@@ -1,37 +1,93 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import get from 'lodash/get';
+import Immutable from 'immutable';
 import styles from './SearchTable.css';
+import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult } from '../../../reducers';
-import { NEW_SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
+import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
+import { useConfig } from '../../config/ConfigProvider';
 
+const propTypes = {
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+};
+
+/**
+ * Displays search results as a table. This uses the search descriptor to get the
+ * record type in order to read the configuration for what headers and fields need
+ * to be displayed.
+ *
+ * todo: parity with other search result table
+ *   - row data formatting
+ *   - sorting
+ *   - checkboxes actually working
+ *   - aria-labels + general wcag compliance
+ *   - ???
+ */
 export default function SearchResultTable({ searchDescriptor }) {
+  // const intl = useIntl();
   const results = useSelector((state) => getSearchResult(state,
-    NEW_SEARCH_RESULT_PAGE_SEARCH_NAME,
+    SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
+  const config = useConfig();
+
+  if (!results) {
+    return null;
+  }
+
+  // Note: The items returned is an Immutable.Map, so we need to use get
+  // in order to retrieve the data
+  // todo: read into the search results based on the list type
+  // todo: why do we need to do !results AND !items?
+  const items = readListItems(config, 'common', results);
+  if (!items) {
+    return null;
+  }
 
   // read headers
-  // read data
+  const columnConfig = getColumnConfig(config, searchDescriptor, 'default');
 
-  // todo: read columns from record config
+  // console.log(`column config: ${JSON.stringify(columnConfig)}`);
+  // todo: dataKey is for ucb support. basically it allows multiple fields to be used
+  // in the event one is missing. See cspace-ui-plugin-profile-pahma.js
+  const columns = Object.keys(columnConfig)
+    .filter((name) => !columnConfig[name].disabled)
+    .sort((nameA, nameB) => {
+      const orderA = columnConfig[nameA].order;
+      const orderB = columnConfig[nameB].order;
+
+      return orderA - orderB;
+    }).map((name) => {
+      const column = columnConfig[name];
+      return {
+        dataKey: column.dataKey || name,
+        cellDataGetter: ({ dataKey, rowData }) => rowData,
+        label: () => {
+          const message = get(column, ['messages', 'label']);
+          return message; // ? intl.formatMessage(message) : '';
+        },
+      };
+    });
+  // console.log(`columns: ${JSON.stringify(columns)}`);
+
+  // todo: formatting for row data
   return (
     <div className={styles.results}>
       <table>
         <thead>
           <tr>
             <th className={styles.checkbox} />
-            <th style={{ textAlign: 'left' }}>Identification number</th>
-            <th style={{ textAlign: 'left' }}>Title</th>
-            <th style={{ textAlign: 'left' }}>Updated at</th>
+            {columns.map((column) => (
+              <th key={column.dataKey} style={{ textAlign: 'left' }}>{column.dataKey}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {results.map((item, index) => (
+          {items.map((item, index) => (
             <tr key={item.csid} className={index % 2 === 0 ? styles.even : styles.odd}>
-              {/* CheckboxInput */}
               <td><input type="checkbox" /></td>
-              <td>{item.objectNumber}</td>
-              <td>{item.title}</td>
-              <td>{item.updatedAt}</td>
+              {columns.map((column) => (<td>{item.get(column.dataKey)}</td>))}
             </tr>
           ))}
         </tbody>
@@ -39,3 +95,5 @@ export default function SearchResultTable({ searchDescriptor }) {
     </div>
   );
 }
+
+SearchResultTable.propTypes = propTypes;
