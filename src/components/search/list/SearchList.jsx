@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
+import { injectIntl } from 'react-intl';
 import styles from './SearchList.css';
 import deactivate from '../../../../images/deactivate.svg';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
@@ -31,7 +32,7 @@ export function DetailItem({ item, listItems }) {
   );
 }
 
-export default function SearchDetailList({ searchDescriptor }) {
+function SearchDetailList({ searchDescriptor }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -87,3 +88,5 @@ export default function SearchDetailList({ searchDescriptor }) {
     </div>
   );
 }
+
+export default injectIntl(SearchDetailList);
