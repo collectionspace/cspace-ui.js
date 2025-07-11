@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
+import { injectIntl } from 'react-intl';
 import styles from './SearchTable.css';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult } from '../../../reducers';
@@ -25,7 +26,7 @@ const propTypes = {
  *   - aria-labels + general wcag compliance
  *   - ???
  */
-export default function SearchResultTable({ searchDescriptor }) {
+function SearchResultTable({ searchDescriptor }) {
   // const intl = useIntl();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
@@ -97,3 +98,5 @@ export default function SearchResultTable({ searchDescriptor }) {
 }
 
 SearchResultTable.propTypes = propTypes;
+
+export default injectIntl(SearchResultTable);
