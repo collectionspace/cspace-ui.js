@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { useSelector } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import styles from './SearchGrid.css';
 import deactivate from '../../../../images/deactivate.svg';
 import { readListItems, getColumnConfig } from '../searchResultHelpers';
@@ -53,7 +54,7 @@ export function SearchResultCard({ result, cardConfig }) {
 
 SearchResultCard.propTypes = cardPropTypes;
 
-export default function SearchResultGrid({ searchDescriptor }) {
+function SearchResultGrid({ searchDescriptor }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -84,3 +85,5 @@ export default function SearchResultGrid({ searchDescriptor }) {
     </div>
   );
 }
+
+export default injectIntl(SearchResultCard);
