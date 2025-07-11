@@ -127,5 +127,13 @@ export default (configContext) => {
         sortBy: 'collectionobjects_common:briefDescriptions/0',
       },
     },
+    grid: {
+      title: {
+        fields: ['objectName', 'title'],
+      },
+      subtitle: {
+        fields: ['updatedAt'],
+      },
+    },
   };
 };
