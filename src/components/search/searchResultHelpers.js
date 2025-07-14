@@ -1,4 +1,6 @@
+import Immutable from 'immutable';
 import get from 'lodash/get';
+
 // todo: where should this live?
 
 /**
@@ -43,11 +45,21 @@ export function getColumnConfig(config, searchDescriptor, columnSetName) {
  * @returns An Immutable.List containing the items for a search
  */
 export function readListItems(config, listType, searchResult) {
-  // todo: read into the search results based on the list type
+  // console.log(`searchResult == ${JSON.stringify(searchResult)}`);
   const listTypeConfig = config.listTypes[listType];
   const { listNodeName, itemNodeName } = listTypeConfig;
 
   const list = searchResult.get(listNodeName);
 
-  return list.get(itemNodeName);
+  let items = list.get(itemNodeName);
+  if (!items) {
+    items = Immutable.List();
+  }
+
+  if (!Immutable.List.isList(items)) {
+    // If there's only one result, it won't be returned as a list.
+    items = Immutable.List.of(items);
+  }
+
+  return items;
 }
