@@ -12,6 +12,7 @@ import { useConfig } from '../../config/ConfigProvider';
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  listType: PropTypes.string,
 };
 
 /**
@@ -26,8 +27,7 @@ const propTypes = {
  *   - aria-labels + general wcag compliance
  *   - ???
  */
-function SearchResultTable({ searchDescriptor }) {
-  // const intl = useIntl();
+function SearchResultTable({ searchDescriptor, listType = 'common' }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -41,7 +41,7 @@ function SearchResultTable({ searchDescriptor }) {
   // in order to retrieve the data
   // todo: read into the search results based on the list type
   // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, 'common', results);
+  const items = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
