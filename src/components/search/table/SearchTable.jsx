@@ -13,6 +13,7 @@ import { useConfig } from '../../config/ConfigProvider';
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
+  intl: PropTypes.object,
 };
 
 /**
@@ -27,7 +28,7 @@ const propTypes = {
  *   - aria-labels + general wcag compliance
  *   - ???
  */
-function SearchResultTable({ searchDescriptor, listType = 'common' }) {
+function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -63,10 +64,21 @@ function SearchResultTable({ searchDescriptor, listType = 'common' }) {
       const column = columnConfig[name];
       return {
         dataKey: column.dataKey || name,
-        cellDataGetter: ({ dataKey, rowData }) => rowData,
+        formatValue: (data) => {
+          if (column.formatValue) {
+            const formatterContext = {
+              intl,
+              config,
+              data,
+            };
+
+            return column.formatValue(data, formatterContext);
+          }
+          return data;
+        },
         label: () => {
           const message = get(column, ['messages', 'label']);
-          return message; // ? intl.formatMessage(message) : '';
+          return message ? intl.formatMessage(message) : '';
         },
       };
     });
@@ -80,7 +92,7 @@ function SearchResultTable({ searchDescriptor, listType = 'common' }) {
           <tr>
             <th className={styles.checkbox} />
             {columns.map((column) => (
-              <th key={column.dataKey} style={{ textAlign: 'left' }}>{column.dataKey}</th>
+              <th key={column.dataKey} style={{ textAlign: 'left' }}>{column.label()}</th>
             ))}
           </tr>
         </thead>
@@ -88,7 +100,11 @@ function SearchResultTable({ searchDescriptor, listType = 'common' }) {
           {items.map((item, index) => (
             <tr key={item.csid} className={index % 2 === 0 ? styles.even : styles.odd}>
               <td><input type="checkbox" /></td>
-              {columns.map((column) => (<td>{item.get(column.dataKey)}</td>))}
+              {columns.map((column) => {
+                const data = item.get(column.dataKey);
+                const formatted = data ? column.formatValue(data) : null;
+                return <td>{formatted}</td>;
+              })}
             </tr>
           ))}
         </tbody>
