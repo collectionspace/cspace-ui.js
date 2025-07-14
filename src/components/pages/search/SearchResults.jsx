@@ -166,8 +166,6 @@ function setPreferredPageSize(props, dispatch) {
   } = location;
 
   const query = qs.parse(searchFromLoc.substring(1));
-  console.log(`query == ${JSON.stringify(query)}`);
-
   dispatch(setSearchResultPagePageSize(parseInt(query.size, 10)));
 }
 
@@ -213,6 +211,7 @@ function normalizeQuery(props, config) {
       const newQuery = { ...query, ...normalizedQueryParams };
       const queryString = qs.stringify(newQuery);
 
+      // todo: this doesn't work because of where we're executing this
       history.replace({
         pathname: location.pathname,
         search: `?${queryString}`,
@@ -232,12 +231,8 @@ export default function SearchResults(props) {
   setPreferredPageSize(props, dispatch);
 
   const searchDescriptor = getSearchDescriptor(props);
-  dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common'));
-
-  console.log(`${JSON.stringify(searchDescriptor)}`);
-
-  const recordType = searchDescriptor.get('recordType');
-  const recordTypeConfig = get(config, ['recordTypes', recordType]);
+  // hook in the new search page
+  dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'search', 'common', true));
 
   const toggles = [
     { key: 'table', label: 'table' },
@@ -263,7 +258,7 @@ export default function SearchResults(props) {
 
   let searchDisplay;
   if (display === 'table') {
-    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} />;
+    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="search" />;
   } else if (display === 'grid') {
     searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
   } else if (display === 'list') {
