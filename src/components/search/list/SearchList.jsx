@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
@@ -11,10 +13,13 @@ import { useConfig } from '../../config/ConfigProvider';
 
 const DETAIL_COLUMN_SET = 'list';
 
-export function DetailItem({ item, listItems }) {
-  // todo: read fields from record config
+const itemPropTypes = {
+  item: PropTypes.instanceOf(Immutable.Map),
+  // exact shape tbd
+  listItems: PropTypes.array,
+};
 
-  console.log(`${JSON.stringify(item)}`);
+export function DetailItem({ item, listItems }) {
   return (
     <div className={styles.innerdetail}>
       <img src={deactivate} className={styles.detailimg} />
@@ -32,6 +37,12 @@ export function DetailItem({ item, listItems }) {
   );
 }
 
+DetailItem.propTypes = itemPropTypes;
+
+const propTypes = {
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+};
+
 function SearchDetailList({ searchDescriptor }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
@@ -44,9 +55,10 @@ function SearchDetailList({ searchDescriptor }) {
 
   // Note: The items returned is an Immutable.Map, so we need to use get
   // in order to retrieve the data
+  // Note x2: This is only available for 'new' searches, so we don't need a list type prop
   // todo: read into the search results based on the list type
   // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, 'common', results);
+  const items = readListItems(config, 'search', results);
   if (!items) {
     return null;
   }
@@ -88,5 +100,7 @@ function SearchDetailList({ searchDescriptor }) {
     </div>
   );
 }
+
+SearchDetailList.propTypes = propTypes;
 
 export default injectIntl(SearchDetailList);
