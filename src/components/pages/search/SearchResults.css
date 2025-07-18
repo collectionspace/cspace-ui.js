@@ -54,15 +54,15 @@
 }
 
 .table {
-  background-image: url(../../../../images/unselect.svg);
+  /* background-image: url(../../../../images/unselect.svg); */
 }
 
 .grid {
-  background-image: url(../../../../images/imageFullscreen.svg);
+  /* background-image: url(../../../../images/imageFullscreen.svg); */
 }
 
 .list {
-  background-image: url(../../../../images/resultLink.svg);
+  /* background-image: url(../../../../images/resultLink.svg); */
 }
 
 .resultgrid {

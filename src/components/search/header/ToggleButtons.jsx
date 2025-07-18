@@ -22,7 +22,6 @@ export function ToggleButton(props) {
   return (
     <Button
       className={style}
-      icon
       name={name}
       {...remainingProps}
     >
