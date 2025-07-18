@@ -17,8 +17,6 @@ import summaryStyles from '../../../../styles/cspace-ui/SearchResultSummary.css'
 import tableStyles from '../../../../styles/cspace-ui/SearchResultTable.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 import newStyles from './SearchResults.css';
-import SearchResultGrid from '../../search/grid/SearchGrid';
-import SearchDetailList from '../../search/list/SearchList';
 import SearchResultTable from '../../search/table/SearchTable';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
@@ -236,8 +234,8 @@ export default function SearchResults(props) {
 
   const toggles = [
     { key: 'table', label: 'table' },
-    { key: 'grid', label: 'grid' },
-    { key: 'list', label: 'list' },
+    // { key: 'grid', label: 'grid' },
+    // { key: 'list', label: 'list' },
   ];
 
   const displayToggles = (
@@ -256,15 +254,7 @@ export default function SearchResults(props) {
     />
   );
 
-  let searchDisplay;
-  if (display === 'table') {
-    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="search" />;
-  } else if (display === 'grid') {
-    searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
-  } else if (display === 'list') {
-    searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
-  }
-
+  const searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="common" />;
   // todo: these are needed in the Title/Footer/Pager
   // const pageSize = parseInt(list.get('pageSize'), 10);
   // const totalItems = parseInt(list.get('totalItems'), 10);
