@@ -16,7 +16,9 @@ export default function SearchResultRoute(props) {
   const { recordType } = useParams();
   const config = useConfig();
 
-  const isNewSearch = get(config, ['recordTypes', recordType, 'serviceConfig', 'useUpdatedSearch']);
+  // todo: this should use the feature flag. At the moment it's hard coded for collectionobjects
+  // const isNewSearch = get(config, ['recordTypes', recordType, 'serviceConfig', 'useUpdatedSearch']);
+  const isNewSearch = recordType === 'collectionobject';
 
   return isNewSearch
     ? <SearchResults {...props} />
