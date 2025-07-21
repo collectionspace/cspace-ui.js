@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Immutable from 'immutable'; // todo: avoid Immutable
-import get from 'lodash/get';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
@@ -55,7 +54,7 @@ export function SimpleSummary({ searchDescriptor }) {
   );
 }
 
-export function SimpleFooter() {
+export function SearchResultFooter() {
   return (
     <footer>
       <Pager
@@ -110,22 +109,15 @@ export function SimpleSelectBar({ toggleBar }) {
   );
 }
 
-// todo: memoize?
-const getSearchDescriptor = (props) => {
+// memoize?
+const getSearchDescriptor = (query, props) => {
   const {
-    location,
     match,
   } = props;
 
   const {
     params,
   } = match;
-
-  const {
-    search: searchFromLoc,
-  } = location;
-
-  const query = qs.parse(searchFromLoc.substring(1));
 
   const searchQuery = {
     ...query,
@@ -181,7 +173,6 @@ function normalizeQuery(props, config) {
   const query = qs.parse(searchFromLoc.substring(1));
 
   if (history) {
-    console.log('have history; normalize query params');
     const normalizedQueryParams = {};
 
     const pageSize = parseInt(query.size, 10);
@@ -209,14 +200,17 @@ function normalizeQuery(props, config) {
       const newQuery = { ...query, ...normalizedQueryParams };
       const queryString = qs.stringify(newQuery);
 
-      // todo: this doesn't work because of where we're executing this
       history.replace({
         pathname: location.pathname,
         search: `?${queryString}`,
         state: location.state,
       });
+
+      return newQuery;
     }
   }
+
+  return query;
 }
 
 export default function SearchResults(props) {
@@ -224,13 +218,11 @@ export default function SearchResults(props) {
   const config = useConfig();
   const dispatch = useDispatch();
 
-  // memoize these?
-  normalizeQuery(props, config);
+  const normalizedQuery = normalizeQuery(props, config);
   setPreferredPageSize(props, dispatch);
 
-  const searchDescriptor = getSearchDescriptor(props);
-  // hook in the new search page
-  dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'search', 'common', true));
+  const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
+  dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common')); // , 'common', true));
 
   const toggles = [
     { key: 'table', label: 'table' },
@@ -278,7 +270,7 @@ export default function SearchResults(props) {
             <SimpleSelectBar toggleBar={displayToggles} />
           </header>
           {searchDisplay}
-          <SimpleFooter />
+          <SearchResultFooter searchDescriptor={searchDescriptor} />
         </div>
       </div>
     </div>
