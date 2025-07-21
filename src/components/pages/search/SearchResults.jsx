@@ -6,9 +6,9 @@ import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
+import SearchResultFooter from '../../search/SearchResultFooter';
 import ExportButton from '../../search/ExportButton';
 import RelateButton from '../../record/RelateButton';
-import Pager from '../../search/Pager';
 import styles from '../../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../../styles/cspace-ui/PageBody.css';
 import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
@@ -51,18 +51,6 @@ export function SimpleSummary({ searchDescriptor }) {
         {editLink}
       </div>
     </div>
-  );
-}
-
-export function SearchResultFooter() {
-  return (
-    <footer>
-      <Pager
-        currentPage={0}
-        lastPage={0}
-        pageSize={20}
-      />
-    </footer>
   );
 }
 
