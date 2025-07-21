@@ -6,7 +6,9 @@ export default {
   objectName: 'CollectionObject',
   documentName: 'collectionobjects',
 
-  useUpdatedSearch: true,
+  features: {
+    updatedSearch: true,
+  },
 
   quickAddData: (values) => ({
     document: {
