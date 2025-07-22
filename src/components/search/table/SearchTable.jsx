@@ -1,20 +1,71 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import { injectIntl } from 'react-intl';
+import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import styles from './SearchTable.css';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
-import { getSearchResult } from '../../../reducers';
+import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
+import { setResultItemSelected } from '../../../actions/search';
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
   intl: PropTypes.object,
 };
+
+function renderColumn(column, item, location) {
+  const data = item.get(column.dataKey);
+  const formatted = data ? column.formatValue(data) : null;
+  return location
+    ? <td><Link to={location}>{formatted}</Link></td>
+    : <td>{formatted}</td>;
+}
+
+function renderRow(item, index, renderContext) {
+  const {
+    config,
+    dispatch,
+    listType,
+    searchDescriptor,
+    columns,
+    selectedItems,
+  } = renderContext;
+
+  const csid = item.get('csid');
+  const listTypeConfig = config.listTypes[listType];
+  const { getItemLocationPath } = listTypeConfig;
+  let location;
+  if (getItemLocationPath) {
+    location = getItemLocationPath(item, { config, searchDescriptor });
+  }
+
+  const selected = selectedItems ? selectedItems.has(csid) : false;
+  return (
+    <tr key={item.csid} className={index % 2 === 0 ? styles.even : styles.odd}>
+      <td>
+        <CheckboxInput
+          embedded
+          name={`${index}`}
+          value={selected}
+          onCommit={(path, value) => dispatch(setResultItemSelected(config,
+            SEARCH_RESULT_PAGE_SEARCH_NAME,
+            searchDescriptor,
+            listType,
+            parseInt(path[0], 10),
+            value))}
+          onClick={(event) => event.stopPropagation()}
+        />
+      </td>
+      {columns.map((column) => renderColumn(column, item, location))}
+    </tr>
+  );
+}
 
 /**
  * Displays search results as a table. This uses the search descriptor to get the
@@ -29,10 +80,14 @@ const propTypes = {
  *   - ???
  */
 function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
+  const dispatch = useDispatch();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
   const config = useConfig();
+  const history = useHistory();
 
   if (!results) {
     return null;
@@ -82,9 +137,19 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
         },
       };
     });
-  // console.log(`columns: ${JSON.stringify(columns)}`);
+
+  const renderContext = {
+    config,
+    dispatch,
+    listType,
+    searchDescriptor,
+    selectedItems,
+    columns,
+    history,
+  };
 
   // todo: formatting for row data
+  // todo: showCheckbox
   return (
     <div className={styles.results}>
       <table>
@@ -97,16 +162,7 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
           </tr>
         </thead>
         <tbody>
-          {items.map((item, index) => (
-            <tr key={item.csid} className={index % 2 === 0 ? styles.even : styles.odd}>
-              <td><input type="checkbox" /></td>
-              {columns.map((column) => {
-                const data = item.get(column.dataKey);
-                const formatted = data ? column.formatValue(data) : null;
-                return <td>{formatted}</td>;
-              })}
-            </tr>
-          ))}
+          {items.map((item, index) => renderRow(item, index, renderContext))}
         </tbody>
       </table>
     </div>
