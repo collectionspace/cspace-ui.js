@@ -6,13 +6,13 @@ import get from 'lodash/get';
 import Immutable from 'immutable';
 import { injectIntl } from 'react-intl';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
-import styles from './SearchTable.css';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import { setResultItemSelected } from '../../../actions/search';
 
+import styles from '../../../../styles/cspace-ui/SearchTable.css';
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
