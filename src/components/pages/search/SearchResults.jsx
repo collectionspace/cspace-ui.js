@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import Immutable from 'immutable'; // todo: avoid Immutable
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
@@ -12,11 +12,11 @@ import RelateButton from '../../record/RelateButton';
 import styles from '../../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../../styles/cspace-ui/PageBody.css';
 import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
-import summaryStyles from '../../../../styles/cspace-ui/SearchResultSummary.css';
 import tableStyles from '../../../../styles/cspace-ui/SearchResultTable.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 import newStyles from './SearchResults.css';
 import SearchResultTable from '../../search/table/SearchTable';
+import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
 
@@ -27,32 +27,11 @@ import {
 import {
   search,
 } from '../../../actions/search';
+import { getSearchError, getSearchResult } from '../../../reducers';
 
-/*
-* SearchResultSummary
-*/
-export function SimpleSummary({ searchDescriptor }) {
-  const recordType = searchDescriptor.get('recordType');
-  const vocabulary = searchDescriptor.get('vocabulary');
-  const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
-  const path = `/search/${recordType}${vocabularyPath}`;
-  const editLink = (
-    <Link to={path}>
-      <span>Revise search</span>
-    </Link>
-  );
-
-  const message = (<span>1–10 of 10 records found</span>);
-  return (
-    <div className={summaryStyles.normal}>
-      <div>
-        {message}
-        {(message && editLink) ? ' | ' : ''}
-        {editLink}
-      </div>
-    </div>
-  );
-}
+const selectBarPropTypes = {
+  toggleBar: PropTypes.object,
+};
 
 export function SimpleSelectBar({ toggleBar }) {
   // button bar (relate/export)
@@ -212,6 +191,15 @@ export default function SearchResults(props) {
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
   dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common')); // , 'common', true));
 
+  // todo: should these be called in each component? they're at the top level for now
+  // as to not make too many changes at once
+  const searchResults = useSelector((state) => getSearchResult(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME,
+    searchDescriptor));
+  const searchErrors = useSelector((state) => getSearchError(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME,
+    searchDescriptor));
+
   const toggles = [
     { key: 'table', label: 'table' },
     // { key: 'grid', label: 'grid' },
@@ -240,7 +228,6 @@ export default function SearchResults(props) {
   // const totalItems = parseInt(list.get('totalItems'), 10);
   // const itemsInPage = parseInt(list.get('itemsInPage'), 10);
 
-  // why does the SRTB have the searchDescriptor?? It's the TitleBar lol
   return (
     <div className={styles.common}>
       <SearchResultTitleBar
@@ -250,11 +237,15 @@ export default function SearchResults(props) {
         updateDocumentTitle
       />
       <div className={pageBodyStyles.full}>
-        {/* todo replace html with components */}
-        {/* SearchResultHeader */}
+        {/* SearchResultHeader? */}
         <div className={tableStyles.common}>
           <header>
-            <SimpleSummary searchDescriptor={searchDescriptor} />
+            <SearchResultSummary
+              listType="common"
+              searchResults={searchResults}
+              searchErrors={searchErrors}
+              searchDescriptor={searchDescriptor}
+            />
             <SimpleSelectBar toggleBar={displayToggles} />
           </header>
           {searchDisplay}
