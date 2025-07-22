@@ -181,7 +181,7 @@ function normalizeQuery(props, config) {
 }
 
 export default function SearchResults(props) {
-  const [display, setDisplay] = useState('table');
+  // const [display, setDisplay] = useState('table');
   const config = useConfig();
   const dispatch = useDispatch();
 
@@ -216,7 +216,7 @@ export default function SearchResults(props) {
           name={item.key}
           label={item.label}
           style={newStyles[item.key]}
-          onClick={() => setDisplay(item.key)}
+          // onClick={() => setDisplay(item.key)}
         />
       )}
     />
@@ -255,3 +255,5 @@ export default function SearchResults(props) {
     </div>
   );
 }
+
+SimpleSelectBar.propTypes = selectBarPropTypes;
