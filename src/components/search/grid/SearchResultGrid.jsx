@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { useSelector } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import styles from './SearchGrid.css';
-import deactivate from '../../../../images/deactivate.svg';
 import { readListItems, getColumnConfig } from '../searchResultHelpers';
 import { getSearchResult } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
+import deactivate from '../../../../images/deactivate.svg';
+import styles from '../../../../styles/cspace-ui/SearchGrid.css';
 
 const GRID_COLUMN_SET = 'grid';
 
