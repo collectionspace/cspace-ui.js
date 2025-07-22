@@ -155,6 +155,7 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
       <table>
         <thead>
           <tr>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} />
             {columns.map((column) => (
               <th key={column.dataKey} style={{ textAlign: 'left' }}>{column.label()}</th>
