@@ -645,9 +645,9 @@ export default class SearchResultPage extends Component {
         // DRYD-252: Elaborate workaround for Firefox, part II. Use this onClick instead of the
         // onCommit and onClick below.
         onClick={this.handleCheckboxClick}
-      // onCommit={this.handleCheckboxCommit}
-      // Prevent clicking on the checkbox from selecting the record.
-      // onClick={stopPropagation}
+        // onCommit={this.handleCheckboxCommit}
+        // Prevent clicking on the checkbox from selecting the record.
+        // onClick={stopPropagation}
       />
     );
   }
