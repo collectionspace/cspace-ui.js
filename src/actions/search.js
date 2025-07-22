@@ -57,7 +57,44 @@ export const clearSearchResults = (searchName) => ({
   },
 });
 
-export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default') => (dispatch, getState) => {
+/**
+ * The search path for each individual service
+ * @param {*} csid the csid of the resource, if it exists
+ * @param {*} subresource the subresource, if it exists
+ * @param {*} config the cspace config
+ * @param {*} recordServicePath the service path of the record type
+ * @param {*} vocabularyServicePath the service path of vocabulary type
+ * @returns
+ */
+const buildSearchPath = (csid, subresource, config, recordServicePath, vocabularyServicePath) => {
+  const pathParts = [recordServicePath];
+
+  if (vocabularyServicePath) {
+    pathParts.push(vocabularyServicePath);
+    pathParts.push('items');
+  }
+
+  if (csid) {
+    pathParts.push(csid);
+  }
+
+  if (subresource) {
+    const subresourceConfig = config.subresources[subresource];
+    const subresourceServicePath = subresourceConfig.serviceConfig.servicePath;
+
+    pathParts.push(subresourceServicePath);
+  }
+
+  return pathParts.join('/');
+};
+
+/**
+ * The search path for the 'advanced search' service
+ * @returns
+ */
+const buildAdvancedSearchPath = () => '/advancedsearch';
+
+export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default', isNewSearch = false) => (dispatch, getState) => {
   const recordType = searchDescriptor.get('recordType');
   const vocabulary = searchDescriptor.get('vocabulary');
   const csid = searchDescriptor.get('csid');
@@ -232,7 +269,9 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     pathParts.push(subresourceServicePath);
   }
 
-  const path = pathParts.join('/');
+  const path = isNewSearch
+    ? buildAdvancedSearchPath()
+    : buildSearchPath(csid, subresource, config, recordTypeServicePath, vocabularyServicePath);
 
   return getSession().read(path, requestConfig)
   // Insert an artificial delay for testing.
