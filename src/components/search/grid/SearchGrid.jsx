@@ -32,6 +32,7 @@ export function SearchResultCard({ result, cardConfig }) {
   // todo: loading image
   return (
     <div>
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <img src={deactivate} className={styles.card} />
       <div>
         <div className={styles.summary}>
@@ -53,6 +54,10 @@ export function SearchResultCard({ result, cardConfig }) {
 }
 
 SearchResultCard.propTypes = cardPropTypes;
+
+const propTypes = {
+  searchDescriptor: PropTypes.object,
+};
 
 function SearchResultGrid({ searchDescriptor }) {
   const results = useSelector((state) => getSearchResult(state,
@@ -81,9 +86,17 @@ function SearchResultGrid({ searchDescriptor }) {
 
   return (
     <div className={styles.grid}>
-      {items.map((item) => <SearchResultCard key={item.csid} result={item} cardConfig={cardConfig} />)}
+      {items.map((item) => (
+        <SearchResultCard
+          key={item.csid}
+          result={item}
+          cardConfig={cardConfig}
+        />
+      ))}
     </div>
   );
 }
 
-export default injectIntl(SearchResultCard);
+SearchResultGrid.propTypes = propTypes;
+
+export default injectIntl(SearchResultGrid);
