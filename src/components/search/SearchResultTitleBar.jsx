@@ -39,7 +39,6 @@ export default function SearchResultTitleBar(props) {
   } = props;
 
   const recordType = searchDescriptor.get('recordType');
-  console.log(`record type is ${recordType}`);
   const vocabulary = searchDescriptor.get('vocabulary');
   const csid = searchDescriptor.get('csid');
   const subresource = searchDescriptor.get('subresource');
