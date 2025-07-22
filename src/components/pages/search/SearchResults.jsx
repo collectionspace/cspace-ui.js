@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import Immutable from 'immutable'; // todo: avoid Immutable
+import Immutable from 'immutable';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
@@ -9,16 +9,14 @@ import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
 import ExportButton from '../../search/ExportButton';
 import RelateButton from '../../record/RelateButton';
-import styles from '../../../../styles/cspace-ui/SearchResultPage.css';
-import pageBodyStyles from '../../../../styles/cspace-ui/PageBody.css';
-import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
-import tableStyles from '../../../../styles/cspace-ui/SearchResultTable.css';
-import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
-import newStyles from './SearchResults.css';
 import SearchResultTable from '../../search/table/SearchTable';
 import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
+import styles from '../../../../styles/cspace-ui/SearchResults.css';
+import pageBodyStyles from '../../../../styles/cspace-ui/PageBody.css';
+import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
+import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 
 import {
   setSearchResultPagePageSize,
@@ -215,7 +213,7 @@ export default function SearchResults(props) {
           key={item.key}
           name={item.key}
           label={item.label}
-          style={newStyles[item.key]}
+          style={styles[item.key]}
           // onClick={() => setDisplay(item.key)}
         />
       )}
@@ -238,7 +236,7 @@ export default function SearchResults(props) {
       />
       <div className={pageBodyStyles.full}>
         {/* SearchResultHeader? */}
-        <div className={tableStyles.common}>
+        <div>
           <header>
             <SearchResultSummary
               listType="common"
