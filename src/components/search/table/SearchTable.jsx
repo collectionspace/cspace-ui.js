@@ -11,8 +11,8 @@ import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import { setResultItemSelected } from '../../../actions/search';
-
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
+
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   listType: PropTypes.string,
@@ -22,9 +22,10 @@ const propTypes = {
 function renderColumn(column, item, location) {
   const data = item.get(column.dataKey);
   const formatted = data ? column.formatValue(data) : null;
+  const key = `${item.get('csid')}-${column.dataKey}`;
   return location
-    ? <td><Link to={location}>{formatted}</Link></td>
-    : <td>{formatted}</td>;
+    ? <td key={key}><Link to={location}>{formatted}</Link></td>
+    : <td key={key}>{formatted}</td>;
 }
 
 function renderRow(item, index, renderContext) {
