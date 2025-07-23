@@ -41,9 +41,10 @@ DetailItem.propTypes = itemPropTypes;
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  listType: PropTypes.string,
 };
 
-function SearchDetailList({ searchDescriptor }) {
+function SearchDetailList({ searchDescriptor, listType = 'common' }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -58,7 +59,7 @@ function SearchDetailList({ searchDescriptor }) {
   // Note x2: This is only available for 'new' searches, so we don't need a list type prop
   // todo: read into the search results based on the list type
   // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, 'search', results);
+  const items = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
