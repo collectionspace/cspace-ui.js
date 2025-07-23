@@ -43,6 +43,7 @@ export function DetailItem({
       <img src={deactivate} className={styles.detailimg} />
       <CheckboxInput
         embedded
+        className={styles['detail-checkbox']}
         name={`${index}`}
         value={selected}
         onCommit={(path, value) => dispatch(setResultItemSelected(config,
