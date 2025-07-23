@@ -10,6 +10,7 @@ import SearchResultFooter from '../../search/SearchResultFooter';
 import ExportButton from '../../search/ExportButton';
 import RelateButton from '../../record/RelateButton';
 import SearchResultTable from '../../search/table/SearchTable';
+import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
 import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
@@ -201,7 +202,7 @@ export default function SearchResults(props) {
 
   const toggles = [
     { key: 'table', label: 'table' },
-    // { key: 'grid', label: 'grid' },
+    { key: 'grid', label: 'grid' },
     { key: 'list', label: 'list' },
   ];
 
@@ -224,8 +225,10 @@ export default function SearchResults(props) {
   let searchDisplay;
   if (display === 'table') {
     searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="common" />;
-  } else {
+  } else if (display === 'list') {
     searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
+  } else {
+    searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
   }
 
   // todo: these are needed in the Title/Footer/Pager
