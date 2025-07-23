@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +34,13 @@ export function SearchResultCard({
     SEARCH_RESULT_PAGE_SEARCH_NAME));
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
+  const listTypeConfig = config.listTypes.common;
+  const { getItemLocationPath } = listTypeConfig;
+  let location;
+  if (getItemLocationPath) {
+    location = getItemLocationPath(result, { config, searchDescriptor });
+  }
+
   // todo: read fields from record config
   // todo: loading image
   return (
@@ -54,17 +62,21 @@ export function SearchResultCard({
               value))}
             onClick={(event) => event.stopPropagation()}
           />
+          <Link to={location}>
+            <span>
+              {titleFields.map((field) => field.formatValue(result.get(field.dataKey)))
+                .filter((resultData) => !!resultData)
+                .join(': ')}
+            </span>
+          </Link>
+        </div>
+        <Link to={location}>
           <span>
-            {titleFields.map((field) => field.formatValue(result.get(field.dataKey)))
+            {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
               .filter((resultData) => !!resultData)
               .join(': ')}
           </span>
-        </div>
-        <span>
-          {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
-            .filter((resultData) => !!resultData)
-            .join(': ')}
-        </span>
+        </Link>
       </div>
     </div>
   );
