@@ -47,7 +47,7 @@ export function DetailItem({
   const list = location
     ? (
       <Link to={location}>
-        <ol className={styles['detail-list']}>
+        <ol className={styles.detailList}>
           {listItems.map((listItem) => (
             <li key={`${csid}-${listItem.dataKey}`}>
               {listItem.label()}
@@ -60,7 +60,7 @@ export function DetailItem({
       </Link>
     )
     : (
-      <ol className={styles['detail-list']}>
+      <ol className={styles.detailList}>
         {listItems.map((listItem) => (
           <li key={`${csid}-${listItem.dataKey}`}>
             {listItem.label()}
@@ -73,12 +73,12 @@ export function DetailItem({
 
   // omit fields when no data is returned?
   return (
-    <div className={styles.innerdetail}>
+    <div className={styles.innerDetail}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img src={deactivate} className={styles.detailimg} />
+      <img src={deactivate} className={styles.detailImg} />
       <CheckboxInput
         embedded
-        className={styles['detail-checkbox']}
+        className={styles.detailCheckbox}
         name={`${index}`}
         value={selected}
         onCommit={(path, value) => dispatch(setResultItemSelected(config,

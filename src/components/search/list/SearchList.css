@@ -4,24 +4,24 @@
   padding: 5px;
 }
 
-.innerdetail {
+.innerDetail {
   display: flex;
   flex-direction: row;
   margin: 2px;
 }
 
-.detailimg {
+.detailImg {
   width: 128px;
   height: 128px;
   margin-right: 5px;
   background:rgb(220, 220, 220);
 }
 
-.detail-checkbox {
+.detailCheckbox {
   margin-right: 5px;
 }
 
-.detail-list {
+.detailList {
   list-style: none;
   padding-left: 0;
   margin-top: 0;
