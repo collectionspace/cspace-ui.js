@@ -13,7 +13,7 @@ import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import { setResultItemSelected } from '../../../actions/search';
 
-import styles from './SearchList.css';
+import styles from '../../../../styles/cspace-ui/SearchList.css';
 
 const DETAIL_COLUMN_SET = 'list';
 
