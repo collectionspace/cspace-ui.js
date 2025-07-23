@@ -56,7 +56,7 @@ export function DetailItem({
       />
       <ol>
         {listItems.map((listItem) => (
-          <li key={item.csid}>
+          <li key={`${csid}-${listItem.dataKey}`}>
             {listItem.label()}
             {': '}
             {item.get(listItem.dataKey)}
