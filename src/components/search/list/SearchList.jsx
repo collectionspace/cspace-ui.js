@@ -111,15 +111,11 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
       const column = listConfig[name];
       return {
         dataKey: column.dataKey || name,
-        cellDataGetter: ({ dataKey, rowData }) => rowData,
         label: () => {
           const message = get(column, ['messages', 'label']);
           return message ? intl.formatMessage(message) : '';
         },
-        // I kind of like this - a render prop which can be used to render arbitrary rows
-        // the one thing is, it would be nice to have a formatter provided alongside so it
-        // could be like format(label, data) or something. Maybe that could be variadic to support
-        // the grid too? Probably not worth tho.
+        // Just an idea - a render 'prop' passed along with the listItems
         renderRow: ({ dataKey, rowData }) => {
           const label = get(column, ['message', 'label']);
           const data = rowData.get(dataKey);
