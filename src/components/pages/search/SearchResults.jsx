@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Immutable from 'immutable';
@@ -10,6 +10,7 @@ import SearchResultFooter from '../../search/SearchResultFooter';
 import ExportButton from '../../search/ExportButton';
 import RelateButton from '../../record/RelateButton';
 import SearchResultTable from '../../search/table/SearchTable';
+import SearchDetailList from '../../search/list/SearchList';
 import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
@@ -179,7 +180,7 @@ function normalizeQuery(props, config) {
 }
 
 export default function SearchResults(props) {
-  // const [display, setDisplay] = useState('table');
+  const [display, setDisplay] = useState('table');
   const config = useConfig();
   const dispatch = useDispatch();
 
@@ -201,7 +202,7 @@ export default function SearchResults(props) {
   const toggles = [
     { key: 'table', label: 'table' },
     // { key: 'grid', label: 'grid' },
-    // { key: 'list', label: 'list' },
+    { key: 'list', label: 'list' },
   ];
 
   const displayToggles = (
@@ -214,13 +215,19 @@ export default function SearchResults(props) {
           name={item.key}
           label={item.label}
           style={styles[item.key]}
-          // onClick={() => setDisplay(item.key)}
+          onClick={() => setDisplay(item.key)}
         />
       )}
     />
   );
 
-  const searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="common" />;
+  let searchDisplay;
+  if (display === 'table') {
+    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="common" />;
+  } else {
+    searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
+  }
+
   // todo: these are needed in the Title/Footer/Pager
   // const pageSize = parseInt(list.get('pageSize'), 10);
   // const totalItems = parseInt(list.get('totalItems'), 10);
