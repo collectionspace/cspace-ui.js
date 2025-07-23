@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +37,40 @@ export function DetailItem({
   const csid = item.get('csid');
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
+  const listTypeConfig = config.listTypes[listType];
+  const { getItemLocationPath } = listTypeConfig;
+  let location;
+  if (getItemLocationPath) {
+    location = getItemLocationPath(item, { config, searchDescriptor });
+  }
+
+  const list = location
+    ? (
+      <Link to={location}>
+        <ol className={styles['detail-list']}>
+          {listItems.map((listItem) => (
+            <li key={`${csid}-${listItem.dataKey}`}>
+              {listItem.label()}
+              {': '}
+              {item.get(listItem.dataKey)}
+            </li>
+          ))}
+        </ol>
+
+      </Link>
+    )
+    : (
+      <ol className={styles['detail-list']}>
+        {listItems.map((listItem) => (
+          <li key={`${csid}-${listItem.dataKey}`}>
+            {listItem.label()}
+            {': '}
+            {item.get(listItem.dataKey)}
+          </li>
+        ))}
+      </ol>
+    );
+
   // omit fields when no data is returned?
   return (
     <div className={styles.innerdetail}>
@@ -54,15 +89,7 @@ export function DetailItem({
           value))}
         onClick={(event) => event.stopPropagation()}
       />
-      <ol>
-        {listItems.map((listItem) => (
-          <li key={`${csid}-${listItem.dataKey}`}>
-            {listItem.label()}
-            {': '}
-            {item.get(listItem.dataKey)}
-          </li>
-        ))}
-      </ol>
+      {list}
     </div>
   );
 }
