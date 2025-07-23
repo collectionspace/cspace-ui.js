@@ -17,24 +17,16 @@ const GRID_COLUMN_SET = 'grid';
 const cardPropTypes = {
   result: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
-  cardConfig: PropTypes.shape({
-    title: PropTypes.shape({
-      fields: PropTypes.array,
-    }),
-    subtitle: PropTypes.shape({
-      fields: PropTypes.array,
-    }),
-  }),
+  titleFields: PropTypes.array,
+  subtitleFields: PropTypes.array,
   searchDescriptor: PropTypes.object,
 };
 
 export function SearchResultCard({
-  result, index, cardConfig, searchDescriptor,
+  result, index, titleFields, subtitleFields, searchDescriptor,
 }) {
   const config = useConfig();
   const dispatch = useDispatch();
-  const titleFields = cardConfig.title.fields;
-  const subtitleFields = cardConfig.subtitle.fields;
 
   const csid = result.get('csid');
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
@@ -63,13 +55,13 @@ export function SearchResultCard({
             onClick={(event) => event.stopPropagation()}
           />
           <span>
-            {titleFields.map((field) => result.get(field))
+            {titleFields.map((field) => field.formatValue(result.get(field.dataKey)))
               .filter((resultData) => !!resultData)
               .join(': ')}
           </span>
         </div>
         <span>
-          {subtitleFields.map((field) => result.get(field))
+          {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
             .filter((resultData) => !!resultData)
             .join(': ')}
         </span>
@@ -82,9 +74,10 @@ SearchResultCard.propTypes = cardPropTypes;
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
+  intl: PropTypes.object,
 };
 
-function SearchResultGrid({ searchDescriptor }) {
+function SearchResultGrid({ searchDescriptor, intl }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -103,12 +96,42 @@ function SearchResultGrid({ searchDescriptor }) {
     return null;
   }
 
+  function createFieldConfig(fieldConfig) {
+    return Object.keys(fieldConfig)
+      .filter((name) => !fieldConfig[name].disabled)
+      .sort((nameA, nameB) => {
+        const orderA = fieldConfig[nameA].order;
+        const orderB = fieldConfig[nameB].order;
+        return orderA - orderB;
+      }).map((name) => {
+        const field = fieldConfig[name];
+        return {
+          dataKey: field.dataKey || name,
+          formatValue: (data) => {
+            if (field.formatValue) {
+              const formatterContext = {
+                intl,
+                config,
+                data,
+              };
+
+              return field.formatValue(data, formatterContext);
+            }
+            return data;
+          },
+        };
+      });
+  }
+
   // read headers
   const cardConfig = getColumnConfig(config, searchDescriptor, GRID_COLUMN_SET);
+  const titleConfig = cardConfig.title.fields;
+  const titleFields = createFieldConfig(titleConfig);
+  const subtitleConfig = cardConfig.subtitle.fields;
+  const subtitleFields = createFieldConfig(subtitleConfig);
 
   // todo: sidebar is open prop to control grid size?
   // or could try flexbox
-
   return (
     <div className={styles.grid}>
       {items.map((item, index) => (
@@ -116,7 +139,8 @@ function SearchResultGrid({ searchDescriptor }) {
           key={item.get('csid')}
           index={index}
           result={item}
-          cardConfig={cardConfig}
+          titleFields={titleFields}
+          subtitleFields={subtitleFields}
           searchDescriptor={searchDescriptor}
         />
       ))}
