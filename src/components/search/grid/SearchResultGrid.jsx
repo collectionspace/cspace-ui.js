@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { readListItems, getColumnConfig } from '../searchResultHelpers';
-import { getSearchResult } from '../../../reducers';
+import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import deactivate from '../../../../images/deactivate.svg';
+import { CheckboxInput } from '../../../helpers/configContextInputs';
 import styles from '../../../../styles/cspace-ui/SearchGrid.css';
+import { setResultItemSelected } from '../../../actions/search';
 
 const GRID_COLUMN_SET = 'grid';
 
 const cardPropTypes = {
   result: PropTypes.instanceOf(Immutable.Map),
+  index: PropTypes.number,
   cardConfig: PropTypes.shape({
     title: PropTypes.shape({
       fields: PropTypes.array,
@@ -22,11 +25,21 @@ const cardPropTypes = {
       fields: PropTypes.array,
     }),
   }),
+  searchDescriptor: PropTypes.object,
 };
 
-export function SearchResultCard({ result, cardConfig }) {
+export function SearchResultCard({
+  result, index, cardConfig, searchDescriptor,
+}) {
+  const config = useConfig();
+  const dispatch = useDispatch();
   const titleFields = cardConfig.title.fields;
   const subtitleFields = cardConfig.subtitle.fields;
+
+  const csid = result.get('csid');
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
+  const selected = selectedItems ? selectedItems.has(csid) : false;
 
   // todo: read fields from record config
   // todo: loading image
@@ -36,7 +49,19 @@ export function SearchResultCard({ result, cardConfig }) {
       <img src={deactivate} className={styles.card} />
       <div>
         <div className={styles.summary}>
-          <input type="checkbox" />
+          <CheckboxInput
+            embedded
+            className={styles.detailCheckbox}
+            name={`${index}`}
+            value={selected}
+            onCommit={(path, value) => dispatch(setResultItemSelected(config,
+              SEARCH_RESULT_PAGE_SEARCH_NAME,
+              searchDescriptor,
+              'common',
+              parseInt(path[0], 10),
+              value))}
+            onClick={(event) => event.stopPropagation()}
+          />
           <span>
             {titleFields.map((field) => result.get(field))
               .filter((resultData) => !!resultData)
@@ -86,11 +111,13 @@ function SearchResultGrid({ searchDescriptor }) {
 
   return (
     <div className={styles.grid}>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <SearchResultCard
           key={item.csid}
+          index={index}
           result={item}
           cardConfig={cardConfig}
+          searchDescriptor={searchDescriptor}
         />
       ))}
     </div>
