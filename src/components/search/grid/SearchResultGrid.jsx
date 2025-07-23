@@ -113,7 +113,7 @@ function SearchResultGrid({ searchDescriptor }) {
     <div className={styles.grid}>
       {items.map((item, index) => (
         <SearchResultCard
-          key={item.csid}
+          key={item.get('csid')}
           index={index}
           result={item}
           cardConfig={cardConfig}
