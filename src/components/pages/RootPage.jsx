@@ -16,11 +16,11 @@ import DashboardPage from './DashboardPage';
 import ExportViewerPageContainer from '../../containers/pages/ExportViewerPageContainer';
 import ToolPageContainer from '../../containers/pages/ToolPageContainer';
 import WelcomePage from './WelcomePage';
+import SearchResultRoute from './search/SearchResultRoute';
 import LogoutPageContainer from '../../containers/pages/LogoutPageContainer';
 import RecordPageContainer from '../../containers/pages/RecordPageContainer';
 import ReportViewerPageContainer from '../../containers/pages/ReportViewerPageContainer';
 import SearchPageContainer from '../../containers/pages/SearchPageContainer';
-import SearchResultPageContainer from '../../containers/pages/SearchResultPageContainer';
 import NotificationBarContainer from '../../containers/notification/NotificationBarContainer';
 import styles from '../../../styles/cspace-ui/RootPage.css';
 import favicon from '../../../images/favicon.png';
@@ -81,17 +81,17 @@ function RootPage(props) {
 
         <ProtectedRouteContainer
           path="/list/:recordType/:vocabulary/:csid/:subresource"
-          component={SearchResultPageContainer}
+          component={SearchResultRoute}
         />
 
         <ProtectedRouteContainer
           path="/list/:recordType/:csid/:subresource"
-          component={SearchResultPageContainer}
+          component={SearchResultRoute}
         />
 
         <ProtectedRouteContainer
           path="/list/:recordType/:vocabulary?"
-          component={SearchResultPageContainer}
+          component={SearchResultRoute}
         />
 
         <ProtectedRouteContainer
