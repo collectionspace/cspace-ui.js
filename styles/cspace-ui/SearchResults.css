@@ -1,0 +1,43 @@
+.common {
+  background: rgb(250, 250, 250);
+}
+
+.table {
+  box-sizing: border-box;
+}
+
+.checkbox {
+  width: 1%;
+}
+
+.resultgrid {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 5px;
+}
+
+.resultcard {
+  width: 250px;
+  height: 250px;
+  background:rgb(220, 220, 220);
+  background-image: url(../../images/deactivate.svg);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.innerdetail {
+  display: flex;
+  flex-direction: row;
+}
+
+.detailimg {
+  width: 128px;
+  height: 128px;
+  margin-right: 5px;
+  background:rgb(220, 220, 220);
+}
