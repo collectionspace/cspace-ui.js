@@ -247,8 +247,9 @@ export default function SearchResults(props) {
           <header>
             <SearchResultSummary
               listType="common"
-              searchResults={searchResults}
-              searchErrors={searchErrors}
+              config={config}
+              searchResult={searchResults}
+              searchError={searchErrors}
               searchDescriptor={searchDescriptor}
             />
             <SimpleSelectBar toggleBar={displayToggles} />
