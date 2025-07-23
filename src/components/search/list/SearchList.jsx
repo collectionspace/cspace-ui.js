@@ -1,34 +1,63 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
-import styles from './SearchList.css';
+import { CheckboxInput } from '../../../helpers/configContextInputs';
 import deactivate from '../../../../images/deactivate.svg';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
-import { getSearchResult } from '../../../reducers';
+import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
+import { setResultItemSelected } from '../../../actions/search';
+
+import styles from './SearchList.css';
 
 const DETAIL_COLUMN_SET = 'list';
 
 const itemPropTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
   // exact shape tbd
+  index: PropTypes.number,
   listItems: PropTypes.array,
+  // render context like search table? or a better way to handle all this?
+  searchDescriptor: PropTypes.object,
+  listType: PropTypes.string,
+  selectedItems: PropTypes.instanceOf(Immutable.Map),
 };
 
-export function DetailItem({ item, listItems }) {
+export function DetailItem({
+  item, index, listItems, searchDescriptor, listType, selectedItems,
+}) {
+  const config = useConfig();
+  const dispatch = useDispatch();
+
+  const csid = item.get('csid');
+  const selected = selectedItems ? selectedItems.has(csid) : false;
+
+  // omit fields when no data is returned?
   return (
     <div className={styles.innerdetail}>
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <img src={deactivate} className={styles.detailimg} />
-      <input style={{ alignSelf: 'flex-start' }} type="checkbox" />
+      <CheckboxInput
+        embedded
+        name={`${index}`}
+        value={selected}
+        onCommit={(path, value) => dispatch(setResultItemSelected(config,
+          SEARCH_RESULT_PAGE_SEARCH_NAME,
+          searchDescriptor,
+          listType,
+          parseInt(path[0], 10),
+          value))}
+        onClick={(event) => event.stopPropagation()}
+      />
       <ol>
         {listItems.map((listItem) => (
           <li key={item.csid}>
-            {listItem.dataKey}
-            :
+            {listItem.label()}
+            {': '}
             {item.get(listItem.dataKey)}
           </li>
         ))}
@@ -41,10 +70,11 @@ DetailItem.propTypes = itemPropTypes;
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
+  intl: PropTypes.object,
   listType: PropTypes.string,
 };
 
-function SearchDetailList({ searchDescriptor, listType = 'common' }) {
+function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -64,6 +94,9 @@ function SearchDetailList({ searchDescriptor, listType = 'common' }) {
     return null;
   }
 
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
+
   // read headers
   const listConfig = getColumnConfig(config, searchDescriptor, DETAIL_COLUMN_SET);
   const listItems = Object.keys(listConfig)
@@ -80,7 +113,7 @@ function SearchDetailList({ searchDescriptor, listType = 'common' }) {
         cellDataGetter: ({ dataKey, rowData }) => rowData,
         label: () => {
           const message = get(column, ['messages', 'label']);
-          return message; // ? intl.formatMessage(message) : '';
+          return message ? intl.formatMessage(message) : '';
         },
         // I kind of like this - a render prop which can be used to render arbitrary rows
         // the one thing is, it would be nice to have a formatter provided alongside so it
@@ -97,7 +130,16 @@ function SearchDetailList({ searchDescriptor, listType = 'common' }) {
 
   return (
     <div className={styles.detail}>
-      {items.map((item) => <DetailItem item={item} listItems={listItems} />)}
+      {items.map((item, index) => (
+        <DetailItem
+          item={item}
+          index={index}
+          listItems={listItems}
+          searchDescriptor={searchDescriptor}
+          listType={listType}
+          selectedItems={selectedItems}
+        />
+      ))}
     </div>
   );
 }
