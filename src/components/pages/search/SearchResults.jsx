@@ -165,13 +165,15 @@ function normalizeQuery(props, config) {
 
     if (Object.keys(normalizedQueryParams).length > 0) {
       const newQuery = { ...query, ...normalizedQueryParams };
-      const queryString = qs.stringify(newQuery);
 
+      /*
+      const queryString = qs.stringify(newQuery);
       history.replace({
         pathname: location.pathname,
         search: `?${queryString}`,
         state: location.state,
       });
+      */
 
       return newQuery;
     }
