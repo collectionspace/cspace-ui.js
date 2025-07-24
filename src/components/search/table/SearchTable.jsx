@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import { injectIntl } from 'react-intl';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
+import SearchResultTableHeader from './SearchResultTableHeader';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
@@ -68,6 +69,23 @@ function renderRow(item, index, renderContext) {
   );
 }
 
+function getSortDir(searchDescriptor) {
+  const searchQuery = searchDescriptor.get('searchQuery');
+
+  const sortSpec = searchQuery.get('sort');
+
+  let sortDir;
+  let sortColumnName;
+  if (sortSpec) {
+    [sortColumnName, sortDir] = sortSpec.split(' ');
+    if (!sortDir) {
+      sortDir = 'asc';
+    }
+  }
+
+  return { sortColumnName, sortDir };
+}
+
 /**
  * Displays search results as a table. This uses the search descriptor to get the
  * record type in order to read the configuration for what headers and fields need
@@ -81,14 +99,13 @@ function renderRow(item, index, renderContext) {
  *   - ???
  */
 function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
+  const config = useConfig();
   const dispatch = useDispatch();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
-  const config = useConfig();
-  const history = useHistory();
 
   if (!results) {
     return null;
@@ -102,6 +119,12 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   if (!items) {
     return null;
   }
+
+  // Might move this into the SearchResultTableHeader
+  const {
+    sortColumnName,
+    sortDir,
+  } = getSortDir(searchDescriptor);
 
   // read headers
   const columnConfig = getColumnConfig(config, searchDescriptor, 'default');
@@ -146,7 +169,6 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
     searchDescriptor,
     selectedItems,
     columns,
-    history,
   };
 
   // todo: formatting for row data
@@ -158,8 +180,9 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
           <tr>
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} />
-            {columns.map((column) => (
-              <th key={column.dataKey} style={{ textAlign: 'left' }}>{column.label()}</th>
+            {columns.map((column) => (sortColumnName === column.dataKey
+              ? <SearchResultTableHeader column={column} sort={sortDir} />
+              : <SearchResultTableHeader column={column} />
             ))}
           </tr>
         </thead>
