@@ -49,7 +49,7 @@ function renderRow(item, index, renderContext) {
 
   const selected = selectedItems ? selectedItems.has(csid) : false;
   return (
-    <tr key={item.csid} className={index % 2 === 0 ? styles.even : styles.odd}>
+    <tr key={`${item.csid}-${index}`} className={index % 2 === 0 ? styles.even : styles.odd}>
       <td>
         <CheckboxInput
           embedded
@@ -181,8 +181,8 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} />
             {columns.map((column) => (sortColumnName === column.dataKey
-              ? <SearchResultTableHeader column={column} sort={sortDir} />
-              : <SearchResultTableHeader column={column} />
+              ? <SearchResultTableHeader key={column.dataKey} column={column} sort={sortDir} />
+              : <SearchResultTableHeader key={column.dataKey} column={column} />
             ))}
           </tr>
         </thead>

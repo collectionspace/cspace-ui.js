@@ -56,7 +56,7 @@ export default function SearchResultTableHeader({ column, sort }) {
   }
 
   return (
-    <th key={column.dataKey} style={{ textAlign: 'left' }} onClick={() => handleSortChange()}>
+    <th style={{ textAlign: 'left' }} onClick={() => handleSortChange()}>
       {column.label()}
       {arrow}
     </th>
