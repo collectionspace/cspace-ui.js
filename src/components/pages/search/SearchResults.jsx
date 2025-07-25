@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Immutable from 'immutable';
@@ -188,10 +188,11 @@ export default function SearchResults(props) {
   const dispatch = useDispatch();
 
   const normalizedQuery = normalizeQuery(props, config);
-  setPreferredPageSize(props, dispatch);
-
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
-  dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common')); // , 'common', true));
+  useEffect(() => {
+    setPreferredPageSize(props, dispatch);
+    dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common')); // , 'common', true));
+  }, [normalizedQuery, searchDescriptor]);
 
   // todo: should these be called in each component? they're at the top level for now
   // as to not make too many changes at once

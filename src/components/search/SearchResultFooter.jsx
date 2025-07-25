@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import qs from 'qs';
 import Pager from './Pager';
 import { useConfig } from '../config/ConfigProvider';
 import { getListType } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 import { getSearchResult } from '../../reducers';
+import { setSearchResultPagePageSize } from '../../actions/prefs';
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
@@ -20,11 +23,53 @@ export default function SearchResultFooter({ searchDescriptor }) {
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const config = useConfig();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
 
   if (!results) {
     return (
       <footer />
     );
+  }
+
+  function onPageChange(page) {
+    const {
+      search,
+    } = location;
+
+    const query = qs.parse(search.substring(1));
+
+    query.p = (page + 1).toString();
+
+    const queryString = qs.stringify(query);
+
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
+
+  function onPageSizeChange(pageSize) {
+    const {
+      search,
+    } = location;
+
+    dispatch(() => setSearchResultPagePageSize(pageSize));
+
+    const query = qs.parse(search.substring(1));
+
+    query.p = '1';
+    query.size = pageSize.toString();
+
+    const queryString = qs.stringify(query);
+
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
   }
 
   const listType = getListType(searchDescriptor);
@@ -49,8 +94,10 @@ export default function SearchResultFooter({ searchDescriptor }) {
         currentPage={pageNum}
         lastPage={lastPage}
         pageSize={pageSize}
-        // onPageChange={handlePageChange}
-        // onPageSizeChange={handlePageSizeChange}
+        // eslint-disable-next-line react/jsx-no-bind
+        onPageChange={onPageChange}
+        // eslint-disable-next-line react/jsx-no-bind
+        onPageSizeChange={onPageSizeChange}
       />
     </footer>
   );
