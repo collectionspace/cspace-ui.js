@@ -48,7 +48,7 @@ const propTypes = {
  */
 export function ToggleButtonContainer({ items, renderButton }) {
   const toggleStyles = {
-    flexBasis: 'calc(3/5 * 100%)',
+    flex: '1',
     display: 'flex',
     justifyContent: 'flex-end',
   };

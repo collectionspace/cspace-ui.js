@@ -44,7 +44,7 @@ export function SearchResultCard({
   // todo: read fields from record config
   // todo: loading image
   return (
-    <div>
+    <div style={{ paddingBottom: '10px' }}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <img src={deactivate} className={styles.card} />
       <div>
