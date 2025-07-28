@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { defineMessages, injectIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import Immutable from 'immutable';
-import { injectIntl } from 'react-intl';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, readListItems } from '../searchResultHelpers';
+import { getColumnConfig, readSearchResultList, readSearchResultListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
@@ -20,6 +20,18 @@ const propTypes = {
   intl: PropTypes.object,
 };
 
+const messages = defineMessages({
+  searchPending: {
+    id: 'searchResultTable.searchPending',
+    defaultMessage: '⋯',
+  },
+  rowAriaLabel: {
+    id: 'searchResultTable.rowAriaLabel',
+    description: 'The aria-label for a row',
+    defaultMessage: '{primary} selected row {index} of {total}',
+  },
+});
+
 function renderColumn(column, item, location) {
   const data = item.get(column.dataKey);
   const formatted = data ? column.formatValue(data) : null;
@@ -27,6 +39,25 @@ function renderColumn(column, item, location) {
   return location
     ? <td key={key}><Link to={location}>{formatted}</Link></td>
     : <td key={key}>{formatted}</td>;
+}
+
+function renderRowLabel(params, totalItems, intl, columnConfig) {
+  const {
+    index,
+    rowData,
+  } = params;
+
+  const primaryCol = Object.keys(columnConfig)
+    .filter((col) => col !== 'workflowState')
+    .at(0);
+
+  const primaryData = rowData.get(primaryCol);
+  const label = primaryData
+    ? intl.formatMessage(messages.rowLabel,
+      { primary: primaryData, index: index + 1, total: totalItems })
+    : 'row';
+
+  return label;
 }
 
 function renderRow(item, index, renderContext) {
@@ -107,15 +138,9 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
 
-  if (!results) {
-    return null;
-  }
+  const list = readSearchResultList(config, listType, results);
+  const items = readSearchResultListItems(config, listType, list);
 
-  // Note: The items returned is an Immutable.Map, so we need to use get
-  // in order to retrieve the data
-  // todo: read into the search results based on the list type
-  // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
@@ -161,6 +186,8 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
         },
       };
     });
+
+  // const totalItems = parseInt(list.get('totalItems'), 10);
 
   const renderContext = {
     config,

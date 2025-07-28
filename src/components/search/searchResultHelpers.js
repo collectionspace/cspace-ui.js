@@ -36,6 +36,37 @@ export function getColumnConfig(config, searchDescriptor, columnSetName) {
   return columnConfig;
 }
 
+export function readSearchResultList(config, listType, searchResult) {
+  if (!searchResult) {
+    return null;
+  }
+
+  const listTypeConfig = config.listTypes[listType];
+  const { listNodeName } = listTypeConfig;
+  return searchResult.get(listNodeName);
+}
+
+export function readSearchResultListItems(config, listType, list) {
+  if (!list) {
+    return null;
+  }
+
+  const listTypeConfig = config.listTypes[listType];
+  const { itemNodeName } = listTypeConfig;
+
+  let items = list.get(itemNodeName);
+  if (!items) {
+    items = Immutable.List();
+  }
+
+  if (!Immutable.List.isList(items)) {
+    // If there's only one result, it won't be returned as a list.
+    items = Immutable.List.of(items);
+  }
+
+  return items;
+}
+
 /**
  * Extract the search result list items from a given search result.
  *
@@ -45,7 +76,6 @@ export function getColumnConfig(config, searchDescriptor, columnSetName) {
  * @returns An Immutable.List containing the items for a search
  */
 export function readListItems(config, listType, searchResult) {
-  // console.log(`searchResult == ${JSON.stringify(searchResult)}`);
   const listTypeConfig = config.listTypes[listType];
   const { listNodeName, itemNodeName } = listTypeConfig;
 
