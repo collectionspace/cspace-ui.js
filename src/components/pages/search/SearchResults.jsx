@@ -254,10 +254,10 @@ export default function SearchResults(props) {
         searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
         updateDocumentTitle
       />
-      <div className={styles.body}>
+      <div className={isSidebarOpen ? styles.body : styles.full}>
         {/* SearchResultHeader? */}
         <div className={styles.results}>
-          <header className={styles.header}>
+          <header>
             <SearchResultSummary
               listType="common"
               config={config}

@@ -6,10 +6,20 @@
   display: flex;
 }
 
-.results {
-  flex: 1 1 auto;
+.full {
+  composes: body;
 }
 
-.header {
+.results {
+  flex: 1 1 auto;
   background-color: white;
+}
+
+.body > .results {
+  padding: 0 10px 10px 0;
+  width: 70%;
+}
+
+.full > .results {
+  padding: 0 0 10px 0;
 }
