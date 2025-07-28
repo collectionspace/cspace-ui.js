@@ -51,7 +51,7 @@ export function SimpleSelectBar({ toggleBar }) {
   );
 
   const buttonBar = (
-    <div className={buttonBarStyles.common} style={{ flexBasis: 'calc(1/3 * 100%)' }}>
+    <div className={buttonBarStyles.common}>
       {exportButton}
       {relateButton}
     </div>
@@ -241,7 +241,7 @@ export default function SearchResults(props) {
     <SearchResultSidebar
       config={config}
       history={history}
-      isOpen={false}
+      isOpen={isSidebarOpen}
       recordType={searchDescriptor.recordType}
     />
   );
