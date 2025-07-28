@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
@@ -12,11 +13,11 @@ import RelateButton from '../../record/RelateButton';
 import SearchResultTable from '../../search/table/SearchTable';
 import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
+import SearchResultSidebar from '../../search/SearchResultSidebar';
 import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchResults.css';
-import pageBodyStyles from '../../../../styles/cspace-ui/PageBody.css';
 import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 
@@ -27,7 +28,7 @@ import {
 import {
   search,
 } from '../../../actions/search';
-import { getSearchError, getSearchResult } from '../../../reducers';
+import { getSearchError, getSearchResult, isSearchResultSidebarOpen } from '../../../reducers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -186,6 +187,7 @@ export default function SearchResults(props) {
   const [display, setDisplay] = useState('table');
   const config = useConfig();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const normalizedQuery = normalizeQuery(props, config);
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
@@ -202,6 +204,7 @@ export default function SearchResults(props) {
   const searchErrors = useSelector((state) => getSearchError(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
+  const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
 
   const toggles = [
     { key: 'table', label: 'table' },
@@ -234,10 +237,14 @@ export default function SearchResults(props) {
     searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
   }
 
-  // todo: these are needed in the Title/Footer/Pager
-  // const pageSize = parseInt(list.get('pageSize'), 10);
-  // const totalItems = parseInt(list.get('totalItems'), 10);
-  // const itemsInPage = parseInt(list.get('itemsInPage'), 10);
+  const sidebar = (
+    <SearchResultSidebar
+      config={config}
+      history={history}
+      isOpen={false}
+      recordType={searchDescriptor.recordType}
+    />
+  );
 
   return (
     <div className={styles.common}>
@@ -247,10 +254,10 @@ export default function SearchResults(props) {
         searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
         updateDocumentTitle
       />
-      <div className={pageBodyStyles.full}>
+      <div className={styles.body}>
         {/* SearchResultHeader? */}
-        <div>
-          <header>
+        <div className={styles.results}>
+          <header className={styles.header}>
             <SearchResultSummary
               listType="common"
               config={config}
@@ -263,6 +270,7 @@ export default function SearchResults(props) {
           {searchDisplay}
           <SearchResultFooter searchDescriptor={searchDescriptor} />
         </div>
+        {sidebar}
       </div>
     </div>
   );
