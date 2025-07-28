@@ -1,4 +1,11 @@
-.grid {
+:global(.cspace-ui-SearchResults--body) > * > .grid {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 5px;
+}
+
+:global(.cspace-ui-SearchResults--full) > * > .grid {
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(5, minmax(0, 1fr));
