@@ -206,16 +206,6 @@ export default function SearchResults(props) {
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, 'common', isNewSearch));
   }, [normalizedQuery, searchDescriptor]);
 
-  // todo: should these be called in each component? they're at the top level for now
-  // as to not make too many changes at once
-  /*
-  const searchResults = useSelector((state) => getSearchResult(state,
-    SEARCH_RESULT_PAGE_SEARCH_NAME,
-    searchDescriptor));
-  const searchErrors = useSelector((state) => getSearchError(state,
-    SEARCH_RESULT_PAGE_SEARCH_NAME,
-    searchDescriptor));
-  */
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
 
   const toggles = [
