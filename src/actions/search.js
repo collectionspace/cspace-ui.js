@@ -94,6 +94,17 @@ const buildSearchPath = (csid, subresource, config, recordServicePath, vocabular
  */
 const buildAdvancedSearchPath = () => '/advancedsearch';
 
+/**
+ * Build and dispatch a search
+ *
+ * @param {*} config The cspace configuration
+ * @param {*} searchName The search being executed (e.g. SEARCH_RESULT_PAGE_SEARCH_NAME)
+ * @param {*} searchDescriptor The search descriptor (record type, query params, etc)
+ * @param {*} listType The type of list being returned by the API (common, advancedsearch, etc)
+ * @param {*} columnSetName The columns for the view being returned, used for sort fields
+ * @param {*} isNewSearch If the search should use the new API
+ * @returns
+ */
 export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default', isNewSearch = false) => (dispatch, getState) => {
   const recordType = searchDescriptor.get('recordType');
   const vocabulary = searchDescriptor.get('vocabulary');
