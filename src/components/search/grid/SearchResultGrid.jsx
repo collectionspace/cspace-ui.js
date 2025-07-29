@@ -143,8 +143,6 @@ function SearchResultGrid({ searchDescriptor, listType = 'search', intl }) {
   const subtitleConfig = cardConfig.subtitle.fields;
   const subtitleFields = createFieldConfig(subtitleConfig);
 
-  // todo: sidebar is open prop to control grid size?
-  // or could try flexbox
   return (
     <div className={styles.grid}>
       {items.map((item, index) => (
