@@ -4,12 +4,13 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
-import { batch, useDispatch } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import PageSizeChooser from './PageSizeChooser';
 import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
 import { setSearchPageRecordType, setSearchPageVocabulary } from '../../actions/prefs';
 import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
+import { getSearchError, getSearchResult } from '../../reducers';
 
 const messages = defineMessages({
   error: {
@@ -33,6 +34,7 @@ const propTypes = {
   listType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
+  searchName: PropTypes.string,
   searchResult: PropTypes.instanceOf(Immutable.Map),
   renderEditLink: PropTypes.func,
   onEditSearchLinkClick: PropTypes.func,
@@ -91,12 +93,22 @@ export default function SearchResultSummary(props) {
     config,
     listType,
     searchDescriptor,
-    searchError,
-    searchResult,
+    searchName,
     renderEditLink,
     onEditSearchLinkClick,
     onPageSizeChange,
   } = props;
+
+  let {
+    searchError,
+    searchResult,
+  } = props;
+
+  // support both workflows for the time being (prop/hook based)
+  searchError = useSelector((state) => searchError
+    || getSearchError(state, searchName, searchDescriptor));
+  searchResult = useSelector((state) => searchResult
+    || getSearchResult(state, searchName, searchDescriptor));
 
   if (searchError) {
     const error = searchError.toJS();

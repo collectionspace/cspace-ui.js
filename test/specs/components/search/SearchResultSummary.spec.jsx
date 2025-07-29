@@ -21,6 +21,7 @@ const store = mockStore({
       { value: '40' },
     ],
   }),
+  search: Immutable.Map({}),
 });
 
 const searchDescriptor = Immutable.fromJS({
