@@ -13,10 +13,10 @@ import { useConfig } from '../../config/ConfigProvider';
  * @returns the component to render
  */
 export default function SearchResultRoute(props) {
-  const { recordType } = useParams();
+  const { recordType, subresource } = useParams();
   const config = useConfig();
 
-  const isNewSearch = get(config,
+  const isNewSearch = !subresource && get(config,
     ['recordTypes', recordType, 'serviceConfig', 'features', 'updatedSearch']);
 
   return isNewSearch
