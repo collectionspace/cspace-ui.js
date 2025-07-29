@@ -21,14 +21,9 @@ import styles from '../../../../styles/cspace-ui/SearchResults.css';
 import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 
-import {
-  setSearchResultPagePageSize,
-} from '../../../actions/prefs';
-
-import {
-  search,
-} from '../../../actions/search';
-import { getSearchError, getSearchResult, isSearchResultSidebarOpen } from '../../../reducers';
+import { setSearchResultPagePageSize } from '../../../actions/prefs';
+import { search } from '../../../actions/search';
+import { isSearchResultSidebarOpen } from '../../../reducers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
