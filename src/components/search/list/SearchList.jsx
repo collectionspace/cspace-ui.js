@@ -102,10 +102,12 @@ const propTypes = {
   listType: PropTypes.string,
 };
 
-function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
+function SearchDetailList({ searchDescriptor, intl, listType = 'search' }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
   const config = useConfig();
 
   if (!results) {
@@ -121,9 +123,6 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
   if (!items) {
     return null;
   }
-
-  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
-    SEARCH_RESULT_PAGE_SEARCH_NAME));
 
   // read headers
   const listConfig = getColumnConfig(config, searchDescriptor, DETAIL_COLUMN_SET);

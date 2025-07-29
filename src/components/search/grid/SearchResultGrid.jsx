@@ -24,7 +24,7 @@ const cardPropTypes = {
 };
 
 export function SearchResultCard({
-  result, index, titleFields, subtitleFields, searchDescriptor,
+  result, index, titleFields, subtitleFields, searchDescriptor, listType,
 }) {
   const config = useConfig();
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export function SearchResultCard({
     SEARCH_RESULT_PAGE_SEARCH_NAME));
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
-  const listTypeConfig = config.listTypes.common;
+  const listTypeConfig = config.listTypes[listType];
   const { getItemLocationPath } = listTypeConfig;
   let location;
   if (getItemLocationPath) {
@@ -57,7 +57,7 @@ export function SearchResultCard({
             onCommit={(path, value) => dispatch(setResultItemSelected(config,
               SEARCH_RESULT_PAGE_SEARCH_NAME,
               searchDescriptor,
-              'common',
+              listType,
               parseInt(path[0], 10),
               value))}
             onClick={(event) => event.stopPropagation()}
@@ -86,10 +86,11 @@ SearchResultCard.propTypes = cardPropTypes;
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
+  listType: PropTypes.string,
   intl: PropTypes.object,
 };
 
-function SearchResultGrid({ searchDescriptor, intl }) {
+function SearchResultGrid({ searchDescriptor, listType = 'search', intl }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -103,7 +104,7 @@ function SearchResultGrid({ searchDescriptor, intl }) {
   // in order to retrieve the data
   // todo: read into the search results based on the list type
   // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, 'common', results);
+  const items = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
@@ -151,6 +152,7 @@ function SearchResultGrid({ searchDescriptor, intl }) {
           key={item.get('csid')}
           index={index}
           result={item}
+          listType={listType}
           titleFields={titleFields}
           subtitleFields={subtitleFields}
           searchDescriptor={searchDescriptor}
