@@ -19,7 +19,6 @@ const DETAIL_COLUMN_SET = 'list';
 
 const itemPropTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
-  // exact shape tbd
   index: PropTypes.number,
   listItems: PropTypes.array,
   // render context like search table? or a better way to handle all this?
@@ -116,8 +115,6 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'search' }) {
 
   // Note: The items returned is an Immutable.Map, so we need to use get
   // in order to retrieve the data
-  // Note x2: This is only available for 'new' searches, so we don't need a list type prop
-  // todo: read into the search results based on the list type
   // todo: why do we need to do !results AND !items?
   const items = readListItems(config, listType, results);
   if (!items) {

@@ -49,10 +49,8 @@ function getSortDir(searchDescriptor) {
  * to be displayed.
  *
  * todo: parity with other search result table
- *   - row data formatting
- *   - sorting
- *   - checkboxes actually working
  *   - aria-labels + general wcag compliance
+ *   - figure out hrefs
  *   - ???
  */
 function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {

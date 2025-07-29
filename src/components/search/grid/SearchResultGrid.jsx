@@ -18,6 +18,7 @@ const GRID_COLUMN_SET = 'grid';
 const cardPropTypes = {
   result: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
+  listType: PropTypes.string,
   titleFields: PropTypes.array,
   subtitleFields: PropTypes.array,
   searchDescriptor: PropTypes.object,
@@ -41,7 +42,6 @@ export function SearchResultCard({
     location = getItemLocationPath(result, { config, searchDescriptor });
   }
 
-  // todo: read fields from record config
   // todo: loading image
   return (
     <div style={{ paddingBottom: '10px' }}>
