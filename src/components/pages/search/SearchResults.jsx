@@ -34,6 +34,10 @@ const selectBarPropTypes = {
   toggleBar: PropTypes.object,
 };
 
+const propTypes = {
+  isNewSearch: PropTypes.bool,
+};
+
 export function SimpleSelectBar({ toggleBar }) {
   // button bar (relate/export)
   const exportButton = (
@@ -190,21 +194,28 @@ export default function SearchResults(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const {
+    isNewSearch,
+  } = props;
+
+  const listType = isNewSearch ? 'search' : 'common';
   const normalizedQuery = normalizeQuery(props, config);
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
-    dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common')); // , 'common', true));
+    dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, 'common', isNewSearch));
   }, [normalizedQuery, searchDescriptor]);
 
   // todo: should these be called in each component? they're at the top level for now
   // as to not make too many changes at once
+  /*
   const searchResults = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const searchErrors = useSelector((state) => getSearchError(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
+  */
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
 
   const toggles = [
@@ -241,7 +252,7 @@ export default function SearchResults(props) {
 
   let searchDisplay;
   if (display === 'table') {
-    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="common" />;
+    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType={listType} />;
   } else if (display === 'list') {
     searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
   } else {
@@ -272,16 +283,17 @@ export default function SearchResults(props) {
         <div className={styles.results}>
           <header>
             <SearchResultSummary
-              listType="common"
+              listType={listType}
               config={config}
-              searchResult={searchResults}
-              searchError={searchErrors}
+              searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
+              // searchResult={searchResults}
+              // searchError={searchErrors}
               searchDescriptor={searchDescriptor}
             />
             <SimpleSelectBar toggleBar={displayToggles} />
           </header>
           {searchDisplay}
-          <SearchResultFooter searchDescriptor={searchDescriptor} />
+          <SearchResultFooter searchDescriptor={searchDescriptor} listType={listType} />
         </div>
         {sidebarPosition === 'right' ? sidebar : null}
       </div>
@@ -289,4 +301,5 @@ export default function SearchResults(props) {
   );
 }
 
+SearchResults.propTypes = propTypes;
 SimpleSelectBar.propTypes = selectBarPropTypes;

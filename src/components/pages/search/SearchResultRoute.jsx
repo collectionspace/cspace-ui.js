@@ -20,6 +20,6 @@ export default function SearchResultRoute(props) {
     ['recordTypes', recordType, 'serviceConfig', 'features', 'updatedSearch']);
 
   return isNewSearch
-    ? <SearchResults {...props} />
+    ? <SearchResults {...props} isNewSearch />
     : <SearchResultPageContainer {...props} />;
 }
