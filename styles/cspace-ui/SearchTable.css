@@ -50,6 +50,10 @@
   cursor: pointer;
 }
 
+.results > table > tbody > tr:focus {
+  outline: 1px dotted black;
+}
+
 .results > table > tbody > tr > a {
   width: 100%;
   display: inline-block;
