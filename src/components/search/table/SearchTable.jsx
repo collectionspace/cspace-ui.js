@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
-import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import SearchResultTableHeader from './SearchResultTableHeader';
 import { getColumnConfig, readSearchResultList, readSearchResultListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
-import { setResultItemSelected } from '../../../actions/search';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
+import SearchResultTableRow from './SearchResultTableRow';
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -25,84 +23,7 @@ const messages = defineMessages({
     id: 'searchResultTable.searchPending',
     defaultMessage: '⋯',
   },
-  rowAriaLabel: {
-    id: 'searchResultTable.rowAriaLabel',
-    description: 'The aria-label for a row',
-    defaultMessage: '{primary} selected row {index} of {total}',
-  },
 });
-
-function renderColumn(column, item, location) {
-  const data = item.get(column.dataKey);
-  const formatted = data ? column.formatValue(data) : null;
-  const key = `${item.get('csid')}-${column.dataKey}`;
-  return location
-    ? <td key={key}><Link to={location}>{formatted}</Link></td>
-    : <td key={key}>{formatted}</td>;
-}
-
-function renderRowLabel(params, totalItems, intl, columnConfig) {
-  const {
-    index,
-    rowData,
-  } = params;
-
-  const primaryCol = Object.keys(columnConfig)
-    .filter((col) => col !== 'workflowState')
-    .at(0);
-
-  const primaryData = rowData.get(primaryCol);
-  const label = primaryData
-    ? intl.formatMessage(messages.rowLabel,
-      { primary: primaryData, index: index + 1, total: totalItems })
-    : 'row';
-
-  return label;
-}
-
-function renderRow(item, index, renderContext) {
-  const {
-    config,
-    dispatch,
-    listType,
-    searchDescriptor,
-    columns,
-    selectedItems,
-  } = renderContext;
-
-  const csid = item.get('csid');
-  const listTypeConfig = config.listTypes[listType];
-  const { getItemLocationPath } = listTypeConfig;
-  let location;
-  if (getItemLocationPath) {
-    location = getItemLocationPath(item, { config, searchDescriptor });
-  }
-
-  const a11yProps = {};
-  a11yProps['aria-label'] = `Select row ${index}`;
-
-  const selected = selectedItems ? selectedItems.has(csid) : false;
-  return (
-    <tr key={`${item.csid}-${index}`} className={index % 2 === 0 ? styles.even : styles.odd}>
-      <td>
-        <CheckboxInput
-          {...a11yProps}
-          embedded
-          name={`${index}`}
-          value={selected}
-          onCommit={(path, value) => dispatch(setResultItemSelected(config,
-            SEARCH_RESULT_PAGE_SEARCH_NAME,
-            searchDescriptor,
-            listType,
-            parseInt(path[0], 10),
-            value))}
-          onClick={(event) => event.stopPropagation()}
-        />
-      </td>
-      {columns.map((column) => renderColumn(column, item, location))}
-    </tr>
-  );
-}
 
 function getSortDir(searchDescriptor) {
   const searchQuery = searchDescriptor.get('searchQuery');
@@ -135,7 +56,6 @@ function getSortDir(searchDescriptor) {
  */
 function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   const config = useConfig();
-  const dispatch = useDispatch();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -158,7 +78,6 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   // read headers
   const columnConfig = getColumnConfig(config, searchDescriptor, 'default');
 
-  // console.log(`column config: ${JSON.stringify(columnConfig)}`);
   // todo: dataKey is for ucb support. basically it allows multiple fields to be used
   // in the event one is missing. See cspace-ui-plugin-profile-pahma.js
   const columns = Object.keys(columnConfig)
@@ -191,18 +110,13 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
       };
     });
 
-  // const totalItems = parseInt(list.get('totalItems'), 10);
-
   const renderContext = {
-    config,
-    dispatch,
     listType,
     searchDescriptor,
     selectedItems,
     columns,
   };
 
-  // todo: formatting for row data
   // todo: showCheckbox
   return (
     <div className={styles.results}>
@@ -218,7 +132,14 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
           </tr>
         </thead>
         <tbody>
-          {items.map((item, index) => renderRow(item, index, renderContext))}
+          {items.map((item, index) => (
+            <SearchResultTableRow
+              key={item.get('csid')}
+              item={item}
+              index={index}
+              renderContext={renderContext}
+            />
+          ))}
         </tbody>
       </table>
     </div>
