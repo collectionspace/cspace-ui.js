@@ -78,11 +78,15 @@ function renderRow(item, index, renderContext) {
     location = getItemLocationPath(item, { config, searchDescriptor });
   }
 
+  const a11yProps = {};
+  a11yProps['aria-label'] = `Select row ${index}`;
+
   const selected = selectedItems ? selectedItems.has(csid) : false;
   return (
     <tr key={`${item.csid}-${index}`} className={index % 2 === 0 ? styles.even : styles.odd}>
       <td>
         <CheckboxInput
+          {...a11yProps}
           embedded
           name={`${index}`}
           value={selected}
@@ -206,7 +210,7 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
         <thead>
           <tr>
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-            <th className={styles.checkbox} />
+            <th className={styles.checkbox} aria-label="Select" />
             {columns.map((column) => (sortColumnName === column.dataKey
               ? <SearchResultTableHeader key={column.dataKey} column={column} sort={sortDir} />
               : <SearchResultTableHeader key={column.dataKey} column={column} />
