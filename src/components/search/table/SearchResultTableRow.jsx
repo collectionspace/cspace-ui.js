@@ -13,6 +13,8 @@ import styles from '../../../../styles/cspace-ui/SearchTable.css';
 const propTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
+  totalItems: PropTypes.number,
+  intl: PropTypes.object,
   renderContext: PropTypes.shape({
     listType: PropTypes.string,
     searchDescriptor: PropTypes.object,
@@ -22,15 +24,15 @@ const propTypes = {
 };
 
 const messages = defineMessages({
-  checkboxLabel: {
-    id: 'searchResultTableRow.checkboxLabel',
+  checkboxLabelSelect: {
+    id: 'searchResultTableRow.checkboxLabelSelect',
     description: 'The aria-label for a checkbox input',
-    defaultMessage: 'Selected row {index}',
+    defaultMessage: 'Select row {index}',
   },
   rowAriaLabel: {
     id: 'searchResultTableRow.rowAriaLabel',
     description: 'The aria-label for a row',
-    defaultMessage: '{primary} selected row {index} of {total}',
+    defaultMessage: 'Row {index} of {total} - {primary}',
   },
 });
 
@@ -41,7 +43,17 @@ function renderColumn(column, item) {
   return <td key={key}>{formatted}</td>;
 }
 
-function SearchResultTableRow({ item, index, renderContext }) {
+function createRowLabel(column, item, index, total, intl) {
+  const data = item.get(column.dataKey);
+  return data
+    ? intl.formatMessage(messages.rowAriaLabel,
+      { primary: data, index: index + 1, total })
+    : 'row';
+}
+
+function SearchResultTableRow({
+  item, index, totalItems, renderContext, intl,
+}) {
   const config = useConfig();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -62,19 +74,21 @@ function SearchResultTableRow({ item, index, renderContext }) {
     location = getItemLocationPath(item, { config, searchDescriptor });
   }
 
-  const a11yProps = {};
-  a11yProps['aria-label'] = `Select row ${index}`;
-
   const selected = selectedItems ? selectedItems.has(csid) : false;
+
+  const rowAriaLabel = createRowLabel(columns[0], item, index, totalItems, intl);
+  const checkboxAriaLabel = intl.formatMessage(messages.checkboxLabelSelect, { index: index + 1 });
+
   return (
     <tr
+      aria-label={rowAriaLabel}
       tabIndex={0}
       className={index % 2 === 0 ? styles.even : styles.odd}
       onClick={() => history.push(location)}
     >
       <td>
         <CheckboxInput
-          {...a11yProps}
+          aria-label={checkboxAriaLabel}
           embedded
           name={`${index}`}
           value={selected}

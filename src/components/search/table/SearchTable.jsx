@@ -117,7 +117,8 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
     columns,
   };
 
-  // todo: showCheckbox
+  const totalItems = parseInt(list.get('totalItems'), 10);
+  // todo: showCheckbox prop
   return (
     <div className={styles.results}>
       <table>
@@ -137,6 +138,7 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
               key={item.get('csid')}
               item={item}
               index={index}
+              totalItems={totalItems}
               renderContext={renderContext}
             />
           ))}
