@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
+import { defineMessages, injectIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
@@ -17,6 +17,14 @@ const propTypes = {
   listType: PropTypes.string,
   intl: PropTypes.object,
 };
+
+const messages = defineMessages({
+  selectHeader: {
+    id: 'searchTable.selectHeaderAll',
+    description: 'Label for select table header',
+    defaultMessage: 'Selected',
+  },
+});
 
 function getSortDir(searchDescriptor) {
   const searchQuery = searchDescriptor.get('searchQuery');
@@ -111,14 +119,17 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   };
 
   const totalItems = parseInt(list.get('totalItems'), 10);
+  const selectLabel = intl.formatMessage(messages.selectHeader);
+
   // todo: showCheckbox prop
   return (
     <div className={styles.results}>
       <table>
         <thead>
           <tr>
+            {/* todo: I think it probably make this visible if it exists */}
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-            <th className={styles.checkbox} aria-label="Select" />
+            <th className={styles.checkbox} aria-label={selectLabel} />
             {columns.map((column) => (sortColumnName === column.dataKey
               ? <SearchResultTableHeader key={column.dataKey} column={column} sort={sortDir} />
               : <SearchResultTableHeader key={column.dataKey} column={column} />
