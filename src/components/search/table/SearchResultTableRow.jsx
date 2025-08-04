@@ -82,6 +82,7 @@ function SearchResultTableRow({
   return (
     <tr
       aria-label={rowAriaLabel}
+      role="link"
       tabIndex={0}
       className={index % 2 === 0 ? styles.even : styles.odd}
       onClick={() => history.push(location)}
