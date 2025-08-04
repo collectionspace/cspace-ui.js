@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { defineMessages, injectIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
-import { injectIntl } from 'react-intl';
-import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, readListItems } from '../searchResultHelpers';
+import { getColumnConfig, readSearchResultList, readSearchResultListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
-import { setResultItemSelected } from '../../../actions/search';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
+import SearchResultTableRow from './SearchResultTableRow';
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
@@ -20,54 +18,13 @@ const propTypes = {
   intl: PropTypes.object,
 };
 
-function renderColumn(column, item, location) {
-  const data = item.get(column.dataKey);
-  const formatted = data ? column.formatValue(data) : null;
-  const key = `${item.get('csid')}-${column.dataKey}`;
-  return location
-    ? <td key={key}><Link to={location}>{formatted}</Link></td>
-    : <td key={key}>{formatted}</td>;
-}
-
-function renderRow(item, index, renderContext) {
-  const {
-    config,
-    dispatch,
-    listType,
-    searchDescriptor,
-    columns,
-    selectedItems,
-  } = renderContext;
-
-  const csid = item.get('csid');
-  const listTypeConfig = config.listTypes[listType];
-  const { getItemLocationPath } = listTypeConfig;
-  let location;
-  if (getItemLocationPath) {
-    location = getItemLocationPath(item, { config, searchDescriptor });
-  }
-
-  const selected = selectedItems ? selectedItems.has(csid) : false;
-  return (
-    <tr key={`${item.csid}-${index}`} className={index % 2 === 0 ? styles.even : styles.odd}>
-      <td>
-        <CheckboxInput
-          embedded
-          name={`${index}`}
-          value={selected}
-          onCommit={(path, value) => dispatch(setResultItemSelected(config,
-            SEARCH_RESULT_PAGE_SEARCH_NAME,
-            searchDescriptor,
-            listType,
-            parseInt(path[0], 10),
-            value))}
-          onClick={(event) => event.stopPropagation()}
-        />
-      </td>
-      {columns.map((column) => renderColumn(column, item, location))}
-    </tr>
-  );
-}
+const messages = defineMessages({
+  selectHeader: {
+    id: 'searchTable.selectHeaderAll',
+    description: 'Label for select table header',
+    defaultMessage: 'Selected',
+  },
+});
 
 function getSortDir(searchDescriptor) {
   const searchQuery = searchDescriptor.get('searchQuery');
@@ -100,22 +57,15 @@ function getSortDir(searchDescriptor) {
  */
 function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   const config = useConfig();
-  const dispatch = useDispatch();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
 
-  if (!results) {
-    return null;
-  }
+  const list = readSearchResultList(config, listType, results);
+  const items = readSearchResultListItems(config, listType, list);
 
-  // Note: The items returned is an Immutable.Map, so we need to use get
-  // in order to retrieve the data
-  // todo: read into the search results based on the list type
-  // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
@@ -129,7 +79,6 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   // read headers
   const columnConfig = getColumnConfig(config, searchDescriptor, 'default');
 
-  // console.log(`column config: ${JSON.stringify(columnConfig)}`);
   // todo: dataKey is for ucb support. basically it allows multiple fields to be used
   // in the event one is missing. See cspace-ui-plugin-profile-pahma.js
   const columns = Object.keys(columnConfig)
@@ -163,23 +112,24 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
     });
 
   const renderContext = {
-    config,
-    dispatch,
     listType,
     searchDescriptor,
     selectedItems,
     columns,
   };
 
-  // todo: formatting for row data
-  // todo: showCheckbox
+  const totalItems = parseInt(list.get('totalItems'), 10);
+  const selectLabel = intl.formatMessage(messages.selectHeader);
+
+  // todo: showCheckbox prop
   return (
     <div className={styles.results}>
       <table>
         <thead>
           <tr>
+            {/* todo: I think it probably make this visible if it exists */}
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-            <th className={styles.checkbox} />
+            <th className={styles.checkbox} aria-label={selectLabel} />
             {columns.map((column) => (sortColumnName === column.dataKey
               ? <SearchResultTableHeader key={column.dataKey} column={column} sort={sortDir} />
               : <SearchResultTableHeader key={column.dataKey} column={column} />
@@ -187,7 +137,15 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
           </tr>
         </thead>
         <tbody>
-          {items.map((item, index) => renderRow(item, index, renderContext))}
+          {items.map((item, index) => (
+            <SearchResultTableRow
+              key={item.get('csid')}
+              item={item}
+              index={index}
+              totalItems={totalItems}
+              renderContext={renderContext}
+            />
+          ))}
         </tbody>
       </table>
     </div>
