@@ -31,6 +31,10 @@
   text-decoration: underline;
 }
 
+.results > table > thead > tr > th:focus {
+  outline: 1px dotted black;
+}
+
 /* todo: flex col sizing */
 .results > table > tbody > td {
   height: 23px;
@@ -44,6 +48,10 @@
 .results > table > tbody > tr:hover {
   background-color: #ACC9EB;
   cursor: pointer;
+}
+
+.results > table > tbody > tr:focus {
+  outline: 1px dotted black;
 }
 
 .results > table > tbody > tr > a {
