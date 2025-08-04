@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
@@ -17,13 +17,6 @@ const propTypes = {
   listType: PropTypes.string,
   intl: PropTypes.object,
 };
-
-const messages = defineMessages({
-  searchPending: {
-    id: 'searchResultTable.searchPending',
-    defaultMessage: '⋯',
-  },
-});
 
 function getSortDir(searchDescriptor) {
   const searchQuery = searchDescriptor.get('searchQuery');
