@@ -18,17 +18,19 @@ const propTypes = {
   }),
   recordType: PropTypes.string,
   isOpen: PropTypes.bool,
+  position: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
 };
 
 const defaultProps = {
   isOpen: true,
+  position: 'right',
 };
 
-function renderSidebarToggle() {
+function renderSidebarToggle(position) {
   return (
     <div className={sidebarToggleBarStyles.common}>
-      <SearchResultSidebarToggleButtonContainer />
+      <SearchResultSidebarToggleButtonContainer position={position} />
     </div>
   );
 }
@@ -40,9 +42,10 @@ export default function SearchResultSidebar(props) {
     recordType,
     isOpen,
     selectedItems,
+    position,
   } = props;
 
-  const toggle = renderSidebarToggle();
+  const toggle = renderSidebarToggle(position);
 
   if (!isOpen) {
     return (
