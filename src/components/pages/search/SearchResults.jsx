@@ -185,6 +185,7 @@ function normalizeQuery(props, config) {
 
 export default function SearchResults(props) {
   const [display, setDisplay] = useState('table');
+  const [sidebarPosition, setSidebarPosition] = useState('right');
   const config = useConfig();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -212,6 +213,7 @@ export default function SearchResults(props) {
     { key: 'list', label: 'list' },
   ];
 
+  const nextPosition = sidebarPosition === 'right' ? 'left' : 'right';
   const displayToggles = (
     <ToggleButtonContainer
       items={toggles}
@@ -223,6 +225,15 @@ export default function SearchResults(props) {
           label={item.label}
           style={styles[item.key]}
           onClick={() => setDisplay(item.key)}
+        />
+      )}
+      renderSidebarToggle={() => (
+        <ToggleButton
+          disabled={false}
+          key="sidebar"
+          name="sidebar"
+          label={`Move sidebar ${nextPosition}`}
+          onClick={() => setSidebarPosition(nextPosition)}
         />
       )}
     />
@@ -243,6 +254,7 @@ export default function SearchResults(props) {
       history={history}
       isOpen={isSidebarOpen}
       recordType={searchDescriptor.recordType}
+      position={sidebarPosition}
     />
   );
 
@@ -256,6 +268,7 @@ export default function SearchResults(props) {
       />
       <div className={isSidebarOpen ? styles.body : styles.full}>
         {/* SearchResultHeader? */}
+        {sidebarPosition === 'left' ? sidebar : null}
         <div className={styles.results}>
           <header>
             <SearchResultSummary
@@ -270,7 +283,7 @@ export default function SearchResults(props) {
           {searchDisplay}
           <SearchResultFooter searchDescriptor={searchDescriptor} />
         </div>
-        {sidebar}
+        {sidebarPosition === 'right' ? sidebar : null}
       </div>
     </div>
   );
