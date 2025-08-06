@@ -79,13 +79,29 @@ function SearchResultTableRow({
   const rowAriaLabel = createRowLabel(columns[0], item, index, totalItems, intl);
   const checkboxAriaLabel = intl.formatMessage(messages.checkboxLabelSelect, { index: index + 1 });
 
+  function handleRowClick() {
+    // from SearchResultTable:
+    // Create a location with the item location path, along with enough state to reproduce this
+    // search. The search descriptor is converted to an object in order to reliably store it in
+    // location state. Also merge in any object that was passed in via the linkState prop.
+    const state = {
+      searchDescriptor: searchDescriptor.toJS(),
+      // The search traverser on records will always link to the search result page, so use
+      // its search name.
+      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
+      // ...linkState,
+    };
+
+    history.push(location, state);
+  }
+
   return (
     <tr
       aria-label={rowAriaLabel}
       role="link"
       tabIndex={0}
       className={index % 2 === 0 ? styles.even : styles.odd}
-      onClick={() => history.push(location)}
+      onClick={handleRowClick}
     >
       <td>
         <CheckboxInput

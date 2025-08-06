@@ -4,9 +4,12 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
+import { batch, useDispatch } from 'react-redux';
 import PageSizeChooser from './PageSizeChooser';
 import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
+import { setSearchPageRecordType, setSearchPageVocabulary } from '../../actions/prefs';
+import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
 
 const messages = defineMessages({
   error: {
@@ -38,6 +41,7 @@ const propTypes = {
 
 const defaultProps = {
   renderEditLink: (searchDescriptor, onEditSearchLinkClick) => {
+    const dispatch = useDispatch();
     const recordType = searchDescriptor.get('recordType');
     const vocabulary = searchDescriptor.get('vocabulary');
     const subresource = searchDescriptor.get('subresource');
@@ -54,8 +58,28 @@ const defaultProps = {
     const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
     const path = `/search/${recordType}${vocabularyPath}`;
 
+    function defaultOnClick() {
+      batch(() => {
+        if (setSearchPageRecordType) {
+          dispatch(setSearchPageRecordType(searchDescriptor.get('recordType')));
+        }
+
+        if (setSearchPageVocabulary) {
+          dispatch(setSearchPageVocabulary(searchDescriptor.get('vocabulary')));
+        }
+
+        if (setSearchPageKeyword) {
+          dispatch(setSearchPageKeyword(searchQuery.get('kw')));
+        }
+
+        if (setSearchPageAdvanced) {
+          dispatch(setSearchPageAdvanced(searchQuery.get('as')));
+        }
+      });
+    }
+
     return (
-      <Link to={path} onClick={onEditSearchLinkClick}>
+      <Link to={path} onClick={onEditSearchLinkClick || defaultOnClick}>
         <FormattedMessage {...messages.editSearch} />
       </Link>
     );
