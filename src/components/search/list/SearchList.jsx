@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 import { CheckboxInput } from '../../../helpers/configContextInputs';
-import deactivate from '../../../../images/deactivate.svg';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import { setResultItemSelected } from '../../../actions/search';
+import BlobImage from '../../media/BlobImage';
 
 import styles from '../../../../styles/cspace-ui/SearchList.css';
 
@@ -34,6 +34,7 @@ export function DetailItem({
   const dispatch = useDispatch();
 
   const csid = item.get('csid');
+  const blobCsid = item.get('blobCsid');
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const listTypeConfig = config.listTypes[listType];
@@ -71,10 +72,13 @@ export function DetailItem({
     );
 
   // omit fields when no data is returned?
+  // todo: NoBlobFound image
+  const blob = blobCsid ? <BlobImage csid={blobCsid} derivative="Thumbnail" className={styles.detailImg} /> : null;
   return (
     <div className={styles.innerDetail}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img src={deactivate} className={styles.detailImg} />
+      {blob}
+      {list}
       <CheckboxInput
         embedded
         className={styles.detailCheckbox}
@@ -88,7 +92,6 @@ export function DetailItem({
           value))}
         onClick={(event) => event.stopPropagation()}
       />
-      {list}
     </div>
   );
 }
@@ -121,6 +124,7 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'search' }) {
     return null;
   }
 
+  console.log('yo');
   // read headers
   const listConfig = getColumnConfig(config, searchDescriptor, DETAIL_COLUMN_SET);
   const listItems = Object.keys(listConfig)

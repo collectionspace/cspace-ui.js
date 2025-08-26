@@ -8,10 +8,10 @@ import { readListItems, getColumnConfig } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
-import deactivate from '../../../../images/deactivate.svg';
 import { CheckboxInput } from '../../../helpers/configContextInputs';
 import styles from '../../../../styles/cspace-ui/SearchGrid.css';
 import { setResultItemSelected } from '../../../actions/search';
+import { derivativeImage } from '../../../helpers/formatHelpers';
 
 const GRID_COLUMN_SET = 'grid';
 
@@ -31,6 +31,7 @@ export function SearchResultCard({
   const dispatch = useDispatch();
 
   const csid = result.get('csid');
+  const blobCsid = result.get('blobCsid');
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
   const selected = selectedItems ? selectedItems.has(csid) : false;
@@ -42,11 +43,12 @@ export function SearchResultCard({
     location = getItemLocationPath(result, { config, searchDescriptor });
   }
 
-  // todo: loading image
+  // todo: image not found thumbnail
+  console.log(`csid:${csid} => blob:${blobCsid}`);
+  const blob = derivativeImage(blobCsid, 'Thumbnail');
   return (
-    <div style={{ paddingBottom: '10px' }}>
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img src={deactivate} className={styles.card} />
+    <div className={styles.card}>
+      {blob}
       <div>
         <div className={styles.summary}>
           <CheckboxInput
@@ -69,14 +71,14 @@ export function SearchResultCard({
                 .join(': ')}
             </span>
           </Link>
+          <Link to={location}>
+            <span>
+              {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
+                .filter((resultData) => !!resultData)
+                .join(': ')}
+            </span>
+          </Link>
         </div>
-        <Link to={location}>
-          <span>
-            {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
-              .filter((resultData) => !!resultData)
-              .join(': ')}
-          </span>
-        </Link>
       </div>
     </div>
   );
