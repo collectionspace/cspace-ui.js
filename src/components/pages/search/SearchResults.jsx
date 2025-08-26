@@ -271,8 +271,6 @@ export default function SearchResults(props) {
               listType={listType}
               config={config}
               searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
-              // searchResult={searchResults}
-              // searchError={searchErrors}
               searchDescriptor={searchDescriptor}
             />
             <SimpleSelectBar toggleBar={displayToggles} />

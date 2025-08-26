@@ -715,9 +715,8 @@ export default class SearchResultPage extends Component {
         <SearchResultSummary
           config={config}
           listType={listType}
+          searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
           searchDescriptor={searchDescriptor}
-          searchError={searchError}
-          searchResult={searchResult}
           onEditSearchLinkClick={this.handleEditSearchLinkClick}
           onPageSizeChange={this.handlePageSizeChange}
         />

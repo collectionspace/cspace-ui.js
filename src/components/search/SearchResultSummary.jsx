@@ -99,16 +99,14 @@ export default function SearchResultSummary(props) {
     onPageSizeChange,
   } = props;
 
-  let {
-    searchError,
-    searchResult,
-  } = props;
+  // let {
+  // searchError,
+  // searchResult,
+  // } = props;
 
   // support both workflows for the time being (prop/hook based)
-  searchError = useSelector((state) => searchError
-    || getSearchError(state, searchName, searchDescriptor));
-  searchResult = useSelector((state) => searchResult
-    || getSearchResult(state, searchName, searchDescriptor));
+  const searchError = useSelector((state) => getSearchError(state, searchName, searchDescriptor));
+  const searchResult = useSelector((state) => getSearchResult(state, searchName, searchDescriptor));
 
   if (searchError) {
     const error = searchError.toJS();
