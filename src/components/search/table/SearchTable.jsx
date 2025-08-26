@@ -125,7 +125,6 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
       <table>
         <thead>
           <tr>
-            {/* todo: I think it probably make this visible if it exists */}
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} aria-label={selectLabel} />
             {columns.map((column) => (sortColumnName === column.dataKey
