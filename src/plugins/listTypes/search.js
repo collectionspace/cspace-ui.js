@@ -19,7 +19,7 @@ export default () => ({
           defaultMessage: 'Finding records...',
         },
       }),
-      getItemLocationPath: (item) => item.get('uri'),
+      getItemLocationPath: (item) => `/record/collectionobject/${item.get('csid')}`,
     },
   },
 });
