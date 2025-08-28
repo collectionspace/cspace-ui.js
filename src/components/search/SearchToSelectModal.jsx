@@ -19,7 +19,7 @@ import SearchResultSummary from './SearchResultSummary';
 import SearchToSelectTitleBar from './SearchToSelectTitleBar';
 import SelectBar from './SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
-import { normalizeCondition } from '../../helpers/searchHelpers';
+import { deriveSearchType, getListTypeForResult, normalizeCondition } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/SearchToSelectModal.css';
 
 export const searchName = 'searchToSelect';
@@ -35,7 +35,6 @@ const messages = defineMessages({
   },
 });
 
-const listType = 'common';
 // FIXME: Make default page size configurable
 const defaultPageSize = 20;
 
@@ -421,6 +420,7 @@ export class BaseSearchToSelectModal extends Component {
 
     if (onItemSelectChange) {
       const searchDescriptor = this.getSearchDescriptor();
+      const { listType } = deriveSearchType(config, searchName, searchDescriptor);
 
       if (singleSelect && selected) {
         setAllItemsSelected(config, searchName, searchDescriptor, listType, false);
@@ -557,6 +557,7 @@ export class BaseSearchToSelectModal extends Component {
       return null;
     }
 
+    const listType = getListTypeForResult(config, searchResult);
     const searchDescriptor = this.getSearchDescriptor();
 
     let selectBar;
@@ -601,6 +602,7 @@ export class BaseSearchToSelectModal extends Component {
     } = this.props;
 
     if (searchResult) {
+      const listType = getListTypeForResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const list = searchResult.get(listTypeConfig.listNodeName);
 
@@ -641,7 +643,6 @@ export class BaseSearchToSelectModal extends Component {
       <SearchResultTableContainer
         config={config}
         linkItems={false}
-        listType={listType}
         recordType={recordTypeValue}
         searchName={searchName}
         searchDescriptor={searchDescriptor}

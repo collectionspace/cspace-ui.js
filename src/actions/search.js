@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import { getSearchResult, isSearchDirty, isSearchPending } from '../reducers';
 import getSession from '../helpers/session';
-import { convertAdvancedSearchConditionToNXQL } from '../helpers/searchHelpers';
+import { convertAdvancedSearchConditionToNXQL, deriveSearchType } from '../helpers/searchHelpers';
 
 import {
   ERR_UNKNOWN_RECORD_TYPE,
@@ -100,12 +100,10 @@ const buildAdvancedSearchPath = () => '/advancedsearch';
  * @param {*} config The cspace configuration
  * @param {*} searchName The search being executed (e.g. SEARCH_RESULT_PAGE_SEARCH_NAME)
  * @param {*} searchDescriptor The search descriptor (record type, query params, etc)
- * @param {*} listType The type of list being returned by the API (common, advancedsearch, etc)
  * @param {*} columnSetName The columns for the view being returned, used for sort fields
- * @param {*} isNewSearch If the search should use the new API
  * @returns
  */
-export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default', isNewSearch = false) => (dispatch, getState) => {
+export const search = (config, searchName, searchDescriptor, columnSetName = 'default') => (dispatch, getState) => {
   const recordType = searchDescriptor.get('recordType');
   const vocabulary = searchDescriptor.get('vocabulary');
   const csid = searchDescriptor.get('csid');
@@ -131,6 +129,11 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
 
     return Promise.resolve();
   }
+
+  const {
+    listType,
+    searchType,
+  } = deriveSearchType(config, searchName, searchDescriptor);
 
   const listTypeConfig = config.listTypes[listType];
 
@@ -280,7 +283,7 @@ export const search = (config, searchName, searchDescriptor, listType = 'common'
     pathParts.push(subresourceServicePath);
   }
 
-  const path = isNewSearch
+  const path = searchType === 'advanced'
     ? buildAdvancedSearchPath()
     : buildSearchPath(csid, subresource, config, recordTypeServicePath, vocabularyServicePath);
 

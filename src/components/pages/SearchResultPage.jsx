@@ -19,7 +19,7 @@ import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
-import { getListType } from '../../helpers/searchHelpers';
+import { deriveSearchType, getListType, getListTypeForResult } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
@@ -206,8 +206,11 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     if (onItemSelectChange) {
+      // certainly we could use the search result at this point
       const searchDescriptor = this.getSearchDescriptor();
-      const listType = this.getListType(searchDescriptor);
+      const {
+        listType,
+      } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
 
       onItemSelectChange(
         config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, index, selected,
@@ -574,9 +577,7 @@ export default class SearchResultPage extends Component {
     // has set them to the defaults.
 
     if (!Number.isNaN(searchQuery.get('p')) && !Number.isNaN(searchQuery.get('size')) && search) {
-      const listType = this.getListType(searchDescriptor);
-
-      search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType);
+      search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
     }
   }
 
@@ -663,7 +664,7 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
-    const listType = this.getListType(searchDescriptor);
+    const { listType } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
 
     let selectBar;
 
@@ -731,8 +732,7 @@ export default class SearchResultPage extends Component {
         config,
       } = this.context;
 
-      const searchDescriptor = this.getSearchDescriptor();
-      const listType = this.getListType(searchDescriptor);
+      const listType = getListTypeForResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 
@@ -783,7 +783,7 @@ export default class SearchResultPage extends Component {
 
     const searchDescriptor = this.getSearchDescriptor();
 
-    const listType = this.getListType(searchDescriptor);
+    const { listType } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
 
     const recordType = searchDescriptor.get('recordType');
     const vocabulary = searchDescriptor.get('vocabulary');

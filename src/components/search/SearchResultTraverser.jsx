@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 import SearchResultItemLink from './SearchResultItemLink';
 
 import {
-  getListType,
+  deriveSearchType,
   searchDescriptorToLocation,
 } from '../../helpers/searchHelpers';
 
@@ -66,7 +66,6 @@ export default class SearchResultTraverser extends Component {
     const {
       config,
       csid,
-      listType: listTypeProp,
       searchDescriptor,
       searchState,
       nextPageSearchDescriptor,
@@ -77,7 +76,7 @@ export default class SearchResultTraverser extends Component {
       search,
     } = this.props;
 
-    const listType = listTypeProp || getListType(config, searchDescriptor);
+    const { listType } = deriveSearchType(config, searchName, searchDescriptor);
     if (search) {
       if (searchDescriptor && !searchState) {
         // We have a search descriptor, but it's not associated with any state. This happens when
@@ -85,7 +84,7 @@ export default class SearchResultTraverser extends Component {
         // maintained in history state, but the search state is gone, since the app has been
         // reloaded. Initiate the search.
 
-        search(config, searchName, searchDescriptor, listType);
+        search(config, searchName, searchDescriptor);
       }
 
       if (searchState && !searchState.get('isPending') && searchState.get('result')) {
@@ -127,7 +126,6 @@ export default class SearchResultTraverser extends Component {
             config,
             searchName,
             prevPageSearchDescriptor,
-            listType,
           );
         }
 
@@ -144,17 +142,15 @@ export default class SearchResultTraverser extends Component {
             config,
             searchName,
             nextPageSearchDescriptor,
-            listType,
           );
         }
       }
     }
   }
 
-  renderPrevLink(items, index, currentNum, totalItems, locationState) {
+  renderPrevLink(items, index, currentNum, totalItems, locationState, listType) {
     const {
       config,
-      listType: listTypeProp,
       searchName,
       prevPageSearchState,
       prevPageSearchDescriptor,
@@ -178,7 +174,6 @@ export default class SearchResultTraverser extends Component {
       // We're at the beginning of the current page, but we have data for the previous page. Link
       // to the last item in its results.
 
-      const listType = listTypeProp || getListType(config, prevPageSearchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -213,10 +208,9 @@ export default class SearchResultTraverser extends Component {
     return <FormattedMessage {...messages.prev} />;
   }
 
-  renderNextLink(items, index, currentNum, totalItems, locationState) {
+  renderNextLink(items, index, currentNum, totalItems, locationState, listType) {
     const {
       config,
-      listType: listTypeProp,
       searchName,
       nextPageSearchState,
       nextPageSearchDescriptor,
@@ -240,7 +234,6 @@ export default class SearchResultTraverser extends Component {
       // We're at the end of the current page, but we have data for the next page. Link to the
       // first item in its results.
 
-      const listType = listTypeProp || getListType(config, nextPageSearchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -279,7 +272,6 @@ export default class SearchResultTraverser extends Component {
     const {
       config,
       csid,
-      listType: listTypeProp,
       searchDescriptor,
       searchName,
       searchState,
@@ -301,7 +293,7 @@ export default class SearchResultTraverser extends Component {
     ) {
       resultMessage = <FormattedMessage {...messages.resultPending} />;
     } else {
-      const listType = listTypeProp || getListType(config, searchDescriptor);
+      const { listType } = deriveSearchType(config, searchName, searchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -337,20 +329,16 @@ export default class SearchResultTraverser extends Component {
         originSearchPage: originSearchPageState,
       };
 
-      console.log('renderprev');
-      prevLink = this.renderPrevLink(items, index, currentNum, totalItems, locationState);
-      console.log('rendernext');
-      nextLink = this.renderNextLink(items, index, currentNum, totalItems, locationState);
+      prevLink = this.renderPrevLink(items, index, currentNum, totalItems, locationState, listType);
+      nextLink = this.renderNextLink(items, index, currentNum, totalItems, locationState, listType);
     }
 
-    console.log('searchloc');
     const searchLocation = Object.assign(searchDescriptorToLocation(searchDescriptor), {
       state: {
         originSearchPage: originSearchPageState,
       },
     });
 
-    console.log('return');
     return (
       <nav className={styles.common}>
         <div>
