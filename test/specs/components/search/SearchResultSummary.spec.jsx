@@ -8,6 +8,7 @@ import { ERR_API } from '../../../../src/constants/errorCodes';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import SearchResultSummary from '../../../../src/components/search/SearchResultSummary';
+import { searchKey } from '../../../../src/reducers/search';
 
 chai.should();
 
@@ -51,6 +52,7 @@ describe('SearchResultSummary', () => {
   });
 
   it('should render a not allowed message if a 401 search error is supplied', function test() {
+    const searchName = 'search-summary-test';
     const searchError = Immutable.fromJS({
       code: ERR_API,
       error: {
@@ -60,11 +62,24 @@ describe('SearchResultSummary', () => {
       },
     });
 
+    const storeWithError = mockStore({
+      search: Immutable.fromJS({
+        [searchName]: {
+          byKey: {
+            [searchKey(searchDescriptor)]: {
+              error: searchError,
+            },
+          },
+        },
+      }),
+    });
+
     render(
       <IntlProvider locale="en">
-        <StoreProvider store={store}>
+        <StoreProvider store={storeWithError}>
           <Router>
             <SearchResultSummary
+              searchName={searchName}
               searchDescriptor={searchDescriptor}
               searchError={searchError}
             />

@@ -84,7 +84,6 @@ export default function RecordTitleBar(props, context) {
       <SearchResultTraverserContainer
         config={config}
         csid={csid}
-        listType={listType}
         searchName={searchName}
         searchDescriptor={searchDescriptor}
         originSearchPageState={originSearchPageState}

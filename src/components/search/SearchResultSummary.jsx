@@ -11,6 +11,7 @@ import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
 import { setSearchPageRecordType, setSearchPageVocabulary } from '../../actions/prefs';
 import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
 import { getSearchError, getSearchResult } from '../../reducers';
+import { getListTypeForResult } from '../../helpers/searchHelpers';
 
 const messages = defineMessages({
   error: {
@@ -91,7 +92,6 @@ const defaultProps = {
 export default function SearchResultSummary(props) {
   const {
     config,
-    listType,
     searchDescriptor,
     searchName,
     renderEditLink,
@@ -99,12 +99,6 @@ export default function SearchResultSummary(props) {
     onPageSizeChange,
   } = props;
 
-  // let {
-  // searchError,
-  // searchResult,
-  // } = props;
-
-  // support both workflows for the time being (prop/hook based)
   const searchError = useSelector((state) => getSearchError(state, searchName, searchDescriptor));
   const searchResult = useSelector((state) => getSearchResult(state, searchName, searchDescriptor));
 
@@ -137,6 +131,7 @@ export default function SearchResultSummary(props) {
   let pageSize = null;
 
   if (searchResult) {
+    const listType = getListTypeForResult(config, searchResult);
     const listTypeConfig = config.listTypes[listType];
     const { listNodeName } = listTypeConfig;
 

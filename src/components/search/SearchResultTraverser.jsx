@@ -40,7 +40,6 @@ const propTypes = {
     listTypes: PropTypes.object,
   }),
   csid: PropTypes.string,
-  listType: PropTypes.string,
   searchName: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchState: PropTypes.instanceOf(Immutable.Map),
@@ -76,7 +75,6 @@ export default class SearchResultTraverser extends Component {
       search,
     } = this.props;
 
-    const { listType } = deriveSearchType(config, searchName, searchDescriptor);
     if (search) {
       if (searchDescriptor && !searchState) {
         // We have a search descriptor, but it's not associated with any state. This happens when
@@ -88,6 +86,7 @@ export default class SearchResultTraverser extends Component {
       }
 
       if (searchState && !searchState.get('isPending') && searchState.get('result')) {
+        const { listType } = deriveSearchType(config, searchName, searchDescriptor);
         const listTypeConfig = config.listTypes[listType];
         const { listNodeName, itemNodeName } = listTypeConfig;
 
