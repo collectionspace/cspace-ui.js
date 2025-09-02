@@ -14,6 +14,7 @@ import { setResultItemSelected } from '../../../actions/search';
 import BlobImage from '../../media/BlobImage';
 
 import styles from '../../../../styles/cspace-ui/SearchList.css';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const DETAIL_COLUMN_SET = 'list';
 
@@ -141,6 +142,7 @@ function SearchDetailList({ searchDescriptor, intl }) {
       {items.map((item, index) => (
         <DetailItem
           item={item}
+          key={item.get('csid')}
           index={index}
           listItems={listItems}
           searchDescriptor={searchDescriptor}
