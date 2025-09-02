@@ -19,7 +19,7 @@ import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
-import { deriveSearchType, getListType, getListTypeForResult } from '../../helpers/searchHelpers';
+import { deriveSearchType, getListType, getListTypeFromResult } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
@@ -732,7 +732,7 @@ export default class SearchResultPage extends Component {
         config,
       } = this.context;
 
-      const listType = getListTypeForResult(config, searchResult);
+      const listType = getListTypeFromResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 

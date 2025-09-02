@@ -69,7 +69,7 @@ import {
   getFirstItem,
   getSubrecordSearchName,
   deriveSearchType,
-  getListTypeForResult,
+  getListTypeFromResult,
 } from '../../../src/helpers/searchHelpers';
 import { SEARCH_RESULT_ACCOUNT_PAGE, SEARCH_RESULT_AUTH_ROLE_PAGE } from '../../../src/constants/searchNames';
 
@@ -1726,7 +1726,7 @@ describe('searchHelpers', () => {
     });
   });
 
-  describe('getListTypeForResults', () => {
+  describe('getListTypeFromResults', () => {
     const config = {
       listTypes: {
         common: {
@@ -1745,7 +1745,7 @@ describe('searchHelpers', () => {
         },
       });
 
-      getListTypeForResult(config, searchResult).should.equal('account');
+      getListTypeFromResult(config, searchResult).should.equal('account');
     });
 
     it('should default to common when no match is found', () => {
@@ -1756,11 +1756,11 @@ describe('searchHelpers', () => {
         },
       });
 
-      getListTypeForResult(config, searchResult).should.equal('common');
+      getListTypeFromResult(config, searchResult).should.equal('common');
     });
 
     it('should default to common when result is undefined', () => {
-      getListTypeForResult(config, undefined).should.equal('common');
+      getListTypeFromResult(config, undefined).should.equal('common');
     });
   });
 

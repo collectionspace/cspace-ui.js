@@ -8,7 +8,7 @@ import { baseComponents as inputComponents } from 'cspace-input';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
-import { getListTypeForResult, searchDescriptorToLocation } from '../../helpers/searchHelpers';
+import { getListTypeFromResult, searchDescriptorToLocation } from '../../helpers/searchHelpers';
 import Pager from './Pager';
 import styles from '../../../styles/cspace-ui/SearchPanel.css';
 
@@ -289,7 +289,7 @@ export default class SearchPanel extends Component {
     } = this.props;
 
     // can the search result ever be null here?
-    const listType = getListTypeForResult(config, searchResult);
+    const listType = getListTypeFromResult(config, searchResult);
 
     const listTypeConfig = config.listTypes[listType];
 
@@ -327,7 +327,7 @@ export default class SearchPanel extends Component {
     } = this.props;
 
     if (searchResult) {
-      const listType = getListTypeForResult(config, searchResult);
+      const listType = getListTypeFromResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const list = searchResult.get(listTypeConfig.listNodeName);
 

@@ -11,7 +11,7 @@ import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
 import { setSearchPageRecordType, setSearchPageVocabulary } from '../../actions/prefs';
 import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
 import { getSearchError, getSearchResult } from '../../reducers';
-import { getListTypeForResult } from '../../helpers/searchHelpers';
+import { getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const messages = defineMessages({
   error: {
@@ -131,7 +131,7 @@ export default function SearchResultSummary(props) {
   let pageSize = null;
 
   if (searchResult) {
-    const listType = getListTypeForResult(config, searchResult);
+    const listType = getListTypeFromResult(config, searchResult);
     const listTypeConfig = config.listTypes[listType];
     const { listNodeName } = listTypeConfig;
 

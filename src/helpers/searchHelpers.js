@@ -1028,7 +1028,7 @@ export const deriveSearchType = (config, searchName, searchDescriptor) => {
   };
 };
 
-export const getListTypeForResult = (config, searchResult) => {
+export const getListTypeFromResult = (config, searchResult) => {
   let listType;
   if (searchResult) {
     listType = Object.keys(get(config, ['listTypes'])).find((key) => {

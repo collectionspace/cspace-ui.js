@@ -19,7 +19,7 @@ import SearchResultSummary from './SearchResultSummary';
 import SearchToSelectTitleBar from './SearchToSelectTitleBar';
 import SelectBar from './SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
-import { deriveSearchType, getListTypeForResult, normalizeCondition } from '../../helpers/searchHelpers';
+import { deriveSearchType, getListTypeFromResult, normalizeCondition } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/SearchToSelectModal.css';
 
 export const searchName = 'searchToSelect';
@@ -557,7 +557,7 @@ export class BaseSearchToSelectModal extends Component {
       return null;
     }
 
-    const listType = getListTypeForResult(config, searchResult);
+    const listType = getListTypeFromResult(config, searchResult);
     const searchDescriptor = this.getSearchDescriptor();
 
     let selectBar;
@@ -602,7 +602,7 @@ export class BaseSearchToSelectModal extends Component {
     } = this.props;
 
     if (searchResult) {
-      const listType = getListTypeForResult(config, searchResult);
+      const listType = getListTypeFromResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const list = searchResult.get(listTypeConfig.listNodeName);
 
