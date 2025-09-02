@@ -178,6 +178,19 @@ function normalizeQuery(props, config) {
   return query;
 }
 
+/**
+ * The page for displaying Search Results. Before rendering it first executes the search based on
+ * the query parameters provided by encapsulating them in a search descriptor and calling the search
+ * action in redux.
+ *
+ * Currently this is more for the new search views on CollectionObjects which includes a grid and
+ * detail based view compared to the older table based view. Ideally this be the only component for
+ * displaying search results but we first would need to make sure we only display the views which
+ * are supported for a given procedure or authority.
+ *
+ * @param {*} props
+ * @returns the SearchResults page component
+ */
 export default function SearchResults(props) {
   const [display, setDisplay] = useState('table');
   const [sidebarPosition, setSidebarPosition] = useState('right');

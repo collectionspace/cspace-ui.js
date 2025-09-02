@@ -48,6 +48,8 @@ function getSortDir(searchDescriptor) {
  * record type in order to read the configuration for what headers and fields need
  * to be displayed.
  *
+ * Once complete this should replace the older SearchResultTable component
+ *
  * todo: parity with other search result table
  *   - aria-labels + general wcag compliance
  *   - figure out hrefs
