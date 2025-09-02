@@ -11,10 +11,10 @@ import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
 import SearchResultTableRow from './SearchResultTableRow';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
-  listType: PropTypes.string,
   intl: PropTypes.object,
 };
 
@@ -53,7 +53,7 @@ function getSortDir(searchDescriptor) {
  *   - figure out hrefs
  *   - ???
  */
-function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
+function SearchResultTable({ searchDescriptor, intl }) {
   const config = useConfig();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
@@ -61,6 +61,7 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
 
+  const listType = getListTypeFromResult(config, results);
   const list = readSearchResultList(config, listType, results);
   const items = readSearchResultListItems(config, listType, list);
 

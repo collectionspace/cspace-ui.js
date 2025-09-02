@@ -8,17 +8,17 @@ import { useConfig } from '../config/ConfigProvider';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 import { getSearchResult } from '../../reducers';
 import { setSearchResultPagePageSize } from '../../actions/prefs';
+import { getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
-  listType: PropTypes.string,
 };
 
 /**
  * A wrapper around a Pager to query for search results and populate the pagination info
  * @returns A <Pager /> wrapped in a <footer />
  */
-export default function SearchResultFooter({ searchDescriptor, listType }) {
+export default function SearchResultFooter({ searchDescriptor }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -72,6 +72,7 @@ export default function SearchResultFooter({ searchDescriptor, listType }) {
     });
   }
 
+  const listType = getListTypeFromResult(config, results);
   const listTypeConfig = config.listTypes[listType];
   const { listNodeName } = listTypeConfig;
 

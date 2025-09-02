@@ -32,7 +32,6 @@ const propTypes = {
   config: PropTypes.shape({
     listTypes: PropTypes.object,
   }),
-  listType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchName: PropTypes.string,

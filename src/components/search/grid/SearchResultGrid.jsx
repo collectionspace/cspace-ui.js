@@ -12,6 +12,7 @@ import { CheckboxInput } from '../../../helpers/configContextInputs';
 import styles from '../../../../styles/cspace-ui/SearchGrid.css';
 import { setResultItemSelected } from '../../../actions/search';
 import { derivativeImage } from '../../../helpers/formatHelpers';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const GRID_COLUMN_SET = 'grid';
 
@@ -87,11 +88,10 @@ SearchResultCard.propTypes = cardPropTypes;
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
-  listType: PropTypes.string,
   intl: PropTypes.object,
 };
 
-function SearchResultGrid({ searchDescriptor, listType = 'search', intl }) {
+function SearchResultGrid({ searchDescriptor, intl }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -103,8 +103,7 @@ function SearchResultGrid({ searchDescriptor, listType = 'search', intl }) {
 
   // Note: The items returned is an Immutable.Map, so we need to use get
   // in order to retrieve the data
-  // todo: read into the search results based on the list type
-  // todo: why do we need to do !results AND !items?
+  const listType = getListTypeFromResult(config, results);
   const items = readListItems(config, listType, results);
   if (!items) {
     return null;

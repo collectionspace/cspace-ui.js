@@ -101,10 +101,9 @@ DetailItem.propTypes = itemPropTypes;
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   intl: PropTypes.object,
-  listType: PropTypes.string,
 };
 
-function SearchDetailList({ searchDescriptor, intl, listType = 'search' }) {
+function SearchDetailList({ searchDescriptor, intl }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -112,13 +111,7 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'search' }) {
     SEARCH_RESULT_PAGE_SEARCH_NAME));
   const config = useConfig();
 
-  if (!results) {
-    return null;
-  }
-
-  // Note: The items returned is an Immutable.Map, so we need to use get
-  // in order to retrieve the data
-  // todo: why do we need to do !results AND !items?
+  const listType = getListTypeFromResult(config, results);
   const items = readListItems(config, listType, results);
   if (!items) {
     return null;
