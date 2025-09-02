@@ -22,8 +22,6 @@ import {
 import {
   SEARCH_RESULT_ACCOUNT_PAGE,
   SEARCH_RESULT_AUTH_ROLE_PAGE,
-  SEARCH_RESULT_TERMS_USED_PANEL,
-  SEARCH_RESULT_USED_BY_PANEL,
 } from '../constants/searchNames';
 
 import {
@@ -993,7 +991,7 @@ export const searchDescriptorToLocation = (searchDescriptor) => {
 };
 
 /**
- * Attempt to derive list type and search type from a search's name and descriptor
+ * Attempt to derive list type and search type from a search's name and descriptor.
  *
  * @param {*} config the cspace configuration
  * @param {*} searchName the name of the search
@@ -1001,37 +999,27 @@ export const searchDescriptorToLocation = (searchDescriptor) => {
  * @returns an object with the listType and searchType set
  */
 export const deriveSearchType = (config, searchName, searchDescriptor) => {
-  // todo: for searches with a relation, make sure to use the legacy api
-  const recordType = searchDescriptor.get('recordType');
-  const subresource = searchDescriptor.get('subresource');
   let listType = 'common';
-  let searchType = 'legacy';
+  let searchType = 'default';
 
-  // there are a few search apis which return different lists, so we account for them first
-  // because they're easy and should only need the listType set. Note that we use the name of the
-  // key for the listType (role, account, etc).
-  // we should probably update the backend to send a single paginated list type instead
-  switch (searchName) {
-    case SEARCH_RESULT_AUTH_ROLE_PAGE:
-      listType = 'role';
-      break;
-    case SEARCH_RESULT_ACCOUNT_PAGE:
+  if (searchDescriptor) {
+    const recordType = searchDescriptor.get('recordType');
+    const subresource = searchDescriptor.get('subresource');
+
+    // there are a few search apis which return different lists, so we account for them first
+    // because they should only need the listType.
+    // Note that we use the name of the key for the listType (role, account, etc).
+    // todo: it would be nice to update the backend to send a single paginated list type instead
+    if (SEARCH_RESULT_ACCOUNT_PAGE === searchName) {
       listType = 'account';
-      break;
-    case SEARCH_RESULT_TERMS_USED_PANEL:
-      listType = 'authRef';
-      break;
-    case SEARCH_RESULT_USED_BY_PANEL:
-      listType = 'refDoc';
-      break;
-    default:
-      if (subresource) {
-        listType = get(config, ['subresources', subresource, 'listType']);
-      } else if (get(config, ['recordTypes', recordType, 'serviceConfig', 'features', 'updatedSearch'])) {
-        listType = 'search';
-        searchType = 'advanced';
-      }
-      break;
+    } else if (SEARCH_RESULT_AUTH_ROLE_PAGE === searchName) {
+      listType = 'role';
+    } else if (subresource) {
+      listType = get(config, ['subresources', subresource, 'listType']) || 'common';
+    } else if (get(config, ['recordTypes', recordType, 'serviceConfig', 'features', 'updatedSearch'])) {
+      listType = 'search';
+      searchType = 'advanced';
+    }
   }
 
   return {
@@ -1052,7 +1040,7 @@ export const getListTypeForResult = (config, searchResult) => {
   return listType || 'common';
 };
 
-export const getListType = (config, searchDescriptor, result = undefined) => {
+export const getListType = (config, searchDescriptor) => {
   if (searchDescriptor) {
     const subresource = searchDescriptor.get('subresource');
 
@@ -1061,15 +1049,7 @@ export const getListType = (config, searchDescriptor, result = undefined) => {
     }
   }
 
-  let listType;
-  if (result) {
-    listType = Object.keys(get(config, ['listTypes'])).find((key) => {
-      const listNodeName = get(config, ['listTypes', key, 'listNodeName']);
-      return result.has(listNodeName);
-    });
-  }
-
-  return listType || 'common';
+  return 'common';
 };
 
 /**
