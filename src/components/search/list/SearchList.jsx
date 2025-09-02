@@ -21,7 +21,6 @@ const itemPropTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
   listItems: PropTypes.array,
-  // render context like search table? or a better way to handle all this?
   searchDescriptor: PropTypes.object,
   listType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
@@ -133,13 +132,6 @@ function SearchDetailList({ searchDescriptor, intl }) {
         label: () => {
           const message = get(column, ['messages', 'label']);
           return message ? intl.formatMessage(message) : '';
-        },
-        // Just an idea - a render 'prop' passed along with the listItems
-        renderRow: ({ dataKey, rowData }) => {
-          const label = get(column, ['message', 'label']);
-          const data = rowData.get(dataKey);
-          const formatted = `${label}: ${data}`;
-          return <li>{formatted}</li>;
         },
       };
     });
