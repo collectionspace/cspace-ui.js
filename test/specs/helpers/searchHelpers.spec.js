@@ -68,7 +68,10 @@ import {
   getPreviousPageSearchDescriptor,
   getFirstItem,
   getSubrecordSearchName,
+  deriveSearchType,
+  getListTypeForResult,
 } from '../../../src/helpers/searchHelpers';
+import { SEARCH_RESULT_ACCOUNT_PAGE, SEARCH_RESULT_AUTH_ROLE_PAGE } from '../../../src/constants/searchNames';
 
 const { expect } = chai;
 
@@ -1578,7 +1581,7 @@ describe('searchHelpers', () => {
       getListType(config, searchDescriptor).should.equal('refDoc');
     });
 
-    it('should return \'common\' if the given search desriptor does not have a subresource', () => {
+    it('should return \'common\' if the given search descriptor does not have a subresource', () => {
       const config = {
         subresources: {
           refs: {
@@ -1592,6 +1595,172 @@ describe('searchHelpers', () => {
       });
 
       getListType(config, searchDescriptor).should.equal('common');
+    });
+  });
+
+  describe('deriveListType', () => {
+    it('should get the list type from a subresource', () => {
+      const config = {
+        subresources: {
+          refs: {
+            listType: 'refDoc',
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'person',
+        vocabulary: 'local',
+        subresource: 'refs',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, undefined, searchDescriptor);
+
+      listType.should.equal('refDoc');
+      searchType.should.equal('default');
+    });
+
+    it('should get the account list type when the account page is used', () => {
+      const config = {
+        recordTypes: {
+          account: {
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'account',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, SEARCH_RESULT_ACCOUNT_PAGE, searchDescriptor);
+
+      listType.should.equal('account');
+      searchType.should.equal('default');
+    });
+
+    it('should get the role list type when the auth role page is used', () => {
+      const config = {
+        recordTypes: {
+          authRole: {
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'authRole',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, SEARCH_RESULT_AUTH_ROLE_PAGE, searchDescriptor);
+
+      listType.should.equal('role');
+      searchType.should.equal('default');
+    });
+
+    it('should get the advanced search type when present', () => {
+      const config = {
+        recordTypes: {
+          acquisition: {
+            serviceConfig: {
+              features: {
+                updatedSearch: true,
+              },
+            },
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'acquisition',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, 'searchpage', searchDescriptor);
+
+      listType.should.equal('search');
+      searchType.should.equal('advanced');
+    });
+
+    it('should default to common when no search descriptor is present', () => {
+      const config = {
+      };
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, '', undefined);
+      listType.should.equal('common');
+      searchType.should.equal('default');
+    });
+
+    it('should default to common when a subresource doesn\'t specify a listType', () => {
+      const config = {
+        subresources: {
+          refs: {
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        subresource: 'refs',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, undefined, searchDescriptor);
+
+      listType.should.equal('common');
+      searchType.should.equal('default');
+    });
+  });
+
+  describe('getListTypeForResults', () => {
+    const config = {
+      listTypes: {
+        common: {
+          listNodeName: 'ns2:abstract-common-list',
+        },
+        account: {
+          listNodeName: 'ns2:accounts-common-list',
+        },
+      },
+    };
+    it('should return the list type based on the search result', () => {
+      const searchResult = Immutable.fromJS({
+        'ns2:accounts-common-list': {
+          itemsInPage: 0,
+          size: 0,
+        },
+      });
+
+      getListTypeForResult(config, searchResult).should.equal('account');
+    });
+
+    it('should default to common when no match is found', () => {
+      const searchResult = Immutable.fromJS({
+        unnamedlist: {
+          itemsInPage: 0,
+          size: 0,
+        },
+      });
+
+      getListTypeForResult(config, searchResult).should.equal('common');
+    });
+
+    it('should default to common when result is undefined', () => {
+      getListTypeForResult(config, undefined).should.equal('common');
     });
   });
 
