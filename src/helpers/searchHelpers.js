@@ -20,6 +20,13 @@ import {
 } from '../constants/dataTypes';
 
 import {
+  SEARCH_RESULT_ACCOUNT_PAGE,
+  SEARCH_RESULT_AUTH_ROLE_PAGE,
+  SEARCH_RESULT_TERMS_USED_PANEL,
+  SEARCH_RESULT_USED_BY_PANEL,
+} from '../constants/searchNames';
+
+import {
   OP_AND,
   OP_OR,
   OP_COMPLETE,
@@ -46,9 +53,6 @@ import {
 import {
   NS_PREFIX,
 } from '../constants/xmlNames';
-import {
-  SEARCH_RESULT_ACCOUNT_PAGE, SEARCH_RESULT_AUTH_ROLE_PAGE, SEARCH_RESULT_TERMS_USED_PANEL, SEARCH_RESULT_USED_BY_PANEL,
-} from '../constants/searchNames';
 
 const opsByDataType = {
   [DATA_TYPE_STRING]: [

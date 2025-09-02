@@ -124,7 +124,6 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'search' }) {
     return null;
   }
 
-  console.log('yo');
   // read headers
   const listConfig = getColumnConfig(config, searchDescriptor, DETAIL_COLUMN_SET);
   const listItems = Object.keys(listConfig)

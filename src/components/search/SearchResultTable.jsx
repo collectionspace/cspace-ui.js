@@ -8,7 +8,7 @@ import { Table } from 'cspace-layout';
 import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
-import { deriveSearchType, getListTypeForResult } from '../../helpers/searchHelpers';
+import { getListTypeForResult } from '../../helpers/searchHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 

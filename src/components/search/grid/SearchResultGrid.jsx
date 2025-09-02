@@ -44,7 +44,6 @@ export function SearchResultCard({
   }
 
   // todo: image not found thumbnail
-  console.log(`csid:${csid} => blob:${blobCsid}`);
   const blob = derivativeImage(blobCsid, 'Thumbnail');
   return (
     <div className={styles.card}>
