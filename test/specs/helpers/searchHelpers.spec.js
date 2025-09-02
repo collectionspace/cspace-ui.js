@@ -63,7 +63,6 @@ import {
   structuredDateFieldConditionToNXQL,
   advancedSearchConditionToNXQL,
   searchDescriptorToLocation,
-  getListType,
   getNextPageSearchDescriptor,
   getPreviousPageSearchDescriptor,
   getFirstItem,
@@ -1559,42 +1558,6 @@ describe('searchHelpers', () => {
         pathname: '/list/collectionobject',
         search: '?p=1&size=10',
       });
-    });
-  });
-
-  describe('getListType', () => {
-    it('should return the list type of the given search descriptor\'s subresource, if it has one', () => {
-      const config = {
-        subresources: {
-          refs: {
-            listType: 'refDoc',
-          },
-        },
-      };
-
-      const searchDescriptor = Immutable.fromJS({
-        recordType: 'person',
-        vocabulary: 'local',
-        subresource: 'refs',
-      });
-
-      getListType(config, searchDescriptor).should.equal('refDoc');
-    });
-
-    it('should return \'common\' if the given search descriptor does not have a subresource', () => {
-      const config = {
-        subresources: {
-          refs: {
-            listType: 'refDoc',
-          },
-        },
-      };
-
-      const searchDescriptor = Immutable.fromJS({
-        recordType: 'group',
-      });
-
-      getListType(config, searchDescriptor).should.equal('common');
     });
   });
 

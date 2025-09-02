@@ -1040,18 +1040,6 @@ export const getListTypeFromResult = (config, searchResult) => {
   return listType || 'common';
 };
 
-export const getListType = (config, searchDescriptor) => {
-  if (searchDescriptor) {
-    const subresource = searchDescriptor.get('subresource');
-
-    if (subresource) {
-      return get(config, ['subresources', subresource, 'listType']);
-    }
-  }
-
-  return 'common';
-};
-
 /**
  * Returns a search descriptor that describes the next page of the search described by a given
  * descriptor.
