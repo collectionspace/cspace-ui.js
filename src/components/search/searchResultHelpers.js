@@ -70,17 +70,23 @@ export function readSearchResultListItems(config, listType, list) {
 /**
  * Extract the search result list items from a given search result.
  *
+ * todo: decide on what pattern to use to extract search results - this or the two functions above
+ * note that we could return both the list and the list-items from this, might be a nice alternative
+ *
  * @param {*} config       The cspace config
  * @param {*} listType     The listType, e.g. abstract-common-list
  * @param {*} searchResult The response object from the search
  * @returns An Immutable.List containing the items for a search
  */
 export function readListItems(config, listType, searchResult) {
+  if (!searchResult) {
+    return null;
+  }
+
   const listTypeConfig = config.listTypes[listType];
   const { listNodeName, itemNodeName } = listTypeConfig;
 
-  const list = searchResult.get(listNodeName);
-
+  const list = searchResult.get(listNodeName) || Immutable.Map();
   let items = list.get(itemNodeName);
   if (!items) {
     items = Immutable.List();
