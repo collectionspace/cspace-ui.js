@@ -280,7 +280,6 @@ export default class RecordPage extends Component {
     }
 
     const searchName = get(location, ['state', 'searchName']);
-    const listType = Immutable.fromJS(get(location, ['state', 'listType']));
     const searchDescriptor = Immutable.fromJS(get(location, ['state', 'searchDescriptor']));
     const originSearchPageState = get(location, ['state', 'originSearchPage']);
 
@@ -298,7 +297,6 @@ export default class RecordPage extends Component {
           csid={normalizedCsid}
           recordType={recordType}
           vocabulary={vocabulary}
-          listType={listType}
           searchName={searchName}
           searchDescriptor={searchDescriptor}
           originSearchPageState={originSearchPageState}

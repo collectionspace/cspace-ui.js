@@ -19,7 +19,6 @@ const messages = defineMessages({
 const propTypes = {
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
-  listType: PropTypes.string,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   searchName: PropTypes.string,
@@ -42,7 +41,6 @@ export default function RecordTitleBar(props, context) {
     data,
     recordType,
     vocabulary,
-    listType,
     searchName,
     searchDescriptor,
     originSearchPageState,
