@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
@@ -28,13 +29,26 @@ import {
 import {
   search,
 } from '../../../actions/search';
-import { getSearchError, getSearchResult, isSearchResultSidebarOpen } from '../../../reducers';
+import { getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems } from '../../../reducers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
 };
 
+const messages = defineMessages({
+  selected: {
+    id: 'selectBar.selected',
+    description: 'Label showing the number of selected items.',
+    defaultMessage: `{selectedItemCount, plural,
+      =0 {0 selected}
+      other {# selected}
+    }`,
+  },
+});
+
 export function SimpleSelectBar({ toggleBar }) {
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
   // button bar (relate/export)
   const exportButton = (
     <ExportButton
@@ -70,7 +84,8 @@ export function SimpleSelectBar({ toggleBar }) {
           false: true,
         }}
       />
-      <span>0 Selected</span>
+      {/* TODO fix eslint to support optional chaining */}
+      <FormattedMessage {...messages.selected} values={{ selectedItemCount: selectedItems?.size || 0 }} />
       {buttonBar}
       {toggleBar}
     </div>
