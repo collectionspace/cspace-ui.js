@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, readSearchResultList, readSearchResultListItems } from '../searchResultHelpers';
+import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
@@ -64,8 +64,10 @@ function SearchResultTable({ searchDescriptor, intl }) {
     SEARCH_RESULT_PAGE_SEARCH_NAME));
 
   const listType = getListTypeFromResult(config, results);
-  const list = readSearchResultList(config, listType, results);
-  const items = readSearchResultListItems(config, listType, list);
+  const {
+    list,
+    items,
+  } = readListItems(config, listType, results);
 
   if (!items) {
     return null;

@@ -112,7 +112,7 @@ function SearchDetailList({ searchDescriptor, intl }) {
   const config = useConfig();
 
   const listType = getListTypeFromResult(config, results);
-  const items = readListItems(config, listType, results);
+  const { items } = readListItems(config, listType, results);
   if (!items) {
     return null;
   }

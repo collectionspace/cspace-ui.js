@@ -100,7 +100,7 @@ function SearchResultGrid({ searchDescriptor, intl }) {
   // Note: The items returned is an Immutable.Map, so we need to use get
   // in order to retrieve the data
   const listType = getListTypeFromResult(config, results);
-  const items = readListItems(config, listType, results);
+  const { items } = readListItems(config, listType, results);
   if (!items) {
     return null;
   }

@@ -36,42 +36,8 @@ export function getColumnConfig(config, searchDescriptor, columnSetName) {
   return columnConfig;
 }
 
-export function readSearchResultList(config, listType, searchResult) {
-  if (!searchResult) {
-    return null;
-  }
-
-  const listTypeConfig = config.listTypes[listType];
-  const { listNodeName } = listTypeConfig;
-  return searchResult.get(listNodeName);
-}
-
-export function readSearchResultListItems(config, listType, list) {
-  if (!list) {
-    return null;
-  }
-
-  const listTypeConfig = config.listTypes[listType];
-  const { itemNodeName } = listTypeConfig;
-
-  let items = list.get(itemNodeName);
-  if (!items) {
-    items = Immutable.List();
-  }
-
-  if (!Immutable.List.isList(items)) {
-    // If there's only one result, it won't be returned as a list.
-    items = Immutable.List.of(items);
-  }
-
-  return items;
-}
-
 /**
  * Extract the search result list items from a given search result.
- *
- * todo: decide on what pattern to use to extract search results - this or the two functions above
- * note that we could return both the list and the list-items from this, might be a nice alternative
  *
  * @param {*} config       The cspace config
  * @param {*} listType     The listType, e.g. abstract-common-list
@@ -80,7 +46,10 @@ export function readSearchResultListItems(config, listType, list) {
  */
 export function readListItems(config, listType, searchResult) {
   if (!searchResult) {
-    return null;
+    return {
+      list: null,
+      items: null,
+    };
   }
 
   const listTypeConfig = config.listTypes[listType];
@@ -97,5 +66,8 @@ export function readListItems(config, listType, searchResult) {
     items = Immutable.List.of(items);
   }
 
-  return items;
+  return {
+    list,
+    items,
+  };
 }
