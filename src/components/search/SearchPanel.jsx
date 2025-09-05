@@ -288,14 +288,13 @@ export default class SearchPanel extends Component {
       title,
     } = this.props;
 
-    // can the search result ever be null here?
-    const listType = getListTypeFromResult(config, searchResult);
+    let totalItems = null;
+    if (searchResult) {
+      const listType = getListTypeFromResult(config, searchResult);
+      const listTypeConfig = config.listTypes[listType];
 
-    const listTypeConfig = config.listTypes[listType];
-
-    const totalItems = searchResult
-      ? searchResult.getIn([listTypeConfig.listNodeName, 'totalItems'])
-      : null;
+      totalItems = searchResult.getIn([listTypeConfig.listNodeName, 'totalItems']);
+    }
 
     let headerContent;
 
