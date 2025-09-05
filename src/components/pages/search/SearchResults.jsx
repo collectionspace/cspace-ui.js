@@ -8,7 +8,6 @@ import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
 import ExportButton from '../../search/ExportButton';
-import RelateButton from '../../record/RelateButton';
 import SearchResultTable from '../../search/table/SearchTable';
 import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
@@ -27,12 +26,16 @@ import {
   search, setAllResultItemsSelected,
 } from '../../../actions/search';
 import {
-  getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems,
+  getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
 } from '../../../reducers';
 import SelectBar from '../../search/SelectBar';
+import RelateObjects from '../../search/RelateObjects';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
+  searchResult: PropTypes.instanceOf(Immutable.Map),
+  config: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
 };
 
 // TODO: check lint error
@@ -45,6 +48,7 @@ export function SimpleSelectBar({
 
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
+  const perms = useSelector((state) => getUserPerms(state));
 
   const dispatch = useDispatch();
 
@@ -61,7 +65,11 @@ export function SimpleSelectBar({
   );
 
   const relateButton = (
-    <RelateButton
+    <RelateObjects
+      config={config}
+      selectedItems={selectedItems}
+      searchDescriptor={searchDescriptor}
+      perms={perms}
       disabled={false}
       key="relate"
     />

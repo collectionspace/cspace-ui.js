@@ -2,14 +2,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import ErrorPage from './ErrorPage';
 import ExportButton from '../search/ExportButton';
-import RelateButton from '../record/RelateButton';
 import Pager from '../search/Pager';
 import SearchResultSidebar from '../search/SearchResultSidebar';
 import SearchResultSummary from '../search/SearchResultSummary';
@@ -17,32 +15,20 @@ import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import SelectBar from '../search/SelectBar';
 import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
-import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
-import { canRelate } from '../../helpers/permissionHelpers';
 import { getListType } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
-  getFirstColumnName,
-  getRecordTypeNameByServiceObjectName,
-  getRecordTypeNameByUri,
   validateLocation,
 } from '../../helpers/configHelpers';
 
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import RelateObjects from '../search/RelateObjects';
 
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
 // };
-
-const messages = defineMessages({
-  relate: {
-    id: 'searchResultPage.relate',
-    description: 'Label of the relate button on the search result page.',
-    defaultMessage: 'Relate…',
-  },
-});
 
 const propTypes = {
   isSidebarOpen: PropTypes.bool,
@@ -58,7 +44,6 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object,
   }),
-  openExport: PropTypes.func,
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
@@ -86,7 +71,6 @@ export default class SearchResultPage extends Component {
   constructor() {
     super();
 
-    this.getSearchToRelateSubjects = this.getSearchToRelateSubjects.bind(this);
     this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
     this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
@@ -96,8 +80,6 @@ export default class SearchResultPage extends Component {
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-    this.handleRelateButtonClick = this.handleRelateButtonClick.bind(this);
-    this.handleRelationsCreated = this.handleRelationsCreated.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
@@ -106,7 +88,6 @@ export default class SearchResultPage extends Component {
 
     this.state = {
       isExportModalOpen: false,
-      isSearchToRelateModalOpen: false,
     };
   }
 
@@ -330,17 +311,6 @@ export default class SearchResultPage extends Component {
     }
   }
 
-  handleRelateButtonClick() {
-    this.setState({
-      isSearchToRelateModalOpen: true,
-      selectionValidationError: this.validateSelectedItemsRelatable(),
-    });
-  }
-
-  handleRelationsCreated() {
-    this.closeModal();
-  }
-
   handleSortChange(sort) {
     const {
       history,
@@ -421,34 +391,6 @@ export default class SearchResultPage extends Component {
     return Immutable.fromJS(searchDescriptor);
   }
 
-  getSearchToRelateSubjects() {
-    const {
-      selectedItems,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (!selectedItems) {
-      return null;
-    }
-
-    const searchDescriptor = this.getSearchDescriptor();
-
-    const recordType = searchDescriptor.get('recordType');
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-    const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
-
-    const titleColumnName = getFirstColumnName(config, recordType);
-
-    return selectedItems.valueSeq().map((item) => ({
-      csid: item.get('csid'),
-      recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
-      title: item.get(titleColumnName),
-    })).toJS();
-  }
-
   isResultExportable(searchDescriptor) {
     const {
       config,
@@ -470,32 +412,9 @@ export default class SearchResultPage extends Component {
     );
   }
 
-  isResultRelatable(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    const recordType = searchDescriptor.get('recordType');
-    const subresource = searchDescriptor.get('subresource');
-
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-    return (
-      subresource !== 'terms'
-      && (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || recordType === 'procedure'
-        || recordType === 'object'
-      )
-    );
-  }
-
   closeModal() {
     this.setState({
       isExportModalOpen: false,
-      isSearchToRelateModalOpen: false,
-      selectionValidationError: undefined,
     });
   }
 
@@ -580,55 +499,6 @@ export default class SearchResultPage extends Component {
     }
   }
 
-  validateSelectedItemsRelatable() {
-    const {
-      perms,
-      selectedItems,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (selectedItems) {
-      let err;
-
-      selectedItems.valueSeq().find((item) => {
-        if (item.get('workflowState') === 'locked') {
-          err = {
-            code: 'locked',
-          };
-
-          return true;
-        }
-
-        const recordType = getRecordTypeNameByUri(config, item.get('uri'));
-
-        if (!canRelate(recordType, perms, config)) {
-          const recordMessages = get(config, ['recordTypes', recordType, 'messages', 'record']);
-
-          err = {
-            code: 'notPermitted',
-            values: {
-              name: <FormattedMessage {...recordMessages.name} />,
-              collectionName: <FormattedMessage {...recordMessages.collectionName} />,
-            },
-          };
-
-          return true;
-        }
-
-        return false;
-      });
-
-      if (err) {
-        return err;
-      }
-    }
-
-    return undefined;
-  }
-
   renderCheckbox({ rowData, rowIndex }) {
     const {
       selectedItems,
@@ -656,6 +526,7 @@ export default class SearchResultPage extends Component {
     const {
       selectedItems,
       setAllItemsSelected,
+      perms,
     } = this.props;
 
     const {
@@ -670,19 +541,16 @@ export default class SearchResultPage extends Component {
     if (!searchError) {
       const selectedCount = selectedItems ? selectedItems.size : 0;
 
-      let relateButton;
-
-      if (this.isResultRelatable(searchDescriptor)) {
-        relateButton = (
-          <RelateButton
-            disabled={selectedCount < 1}
-            key="relate"
-            label={<FormattedMessage {...messages.relate} />}
-            name="relate"
-            onClick={this.handleRelateButtonClick}
-          />
-        );
-      }
+      const relateButton = (
+        <RelateObjects
+          config={config}
+          selectedItems={selectedItems}
+          searchDescriptor={searchDescriptor}
+          perms={perms}
+          disabled={false}
+          key="relate"
+        />
+      );
 
       let exportButton;
 
@@ -778,8 +646,6 @@ export default class SearchResultPage extends Component {
 
     const {
       isExportModalOpen,
-      isSearchToRelateModalOpen,
-      selectionValidationError,
     } = this.state;
 
     const searchDescriptor = this.getSearchDescriptor();
@@ -798,24 +664,6 @@ export default class SearchResultPage extends Component {
     if (validation.error) {
       return (
         <ErrorPage error={validation.error} />
-      );
-    }
-
-    let searchToRelateModal;
-
-    if (this.isResultRelatable(searchDescriptor)) {
-      searchToRelateModal = (
-        <SearchToRelateModalContainer
-          allowedServiceTypes={['object', 'procedure']}
-          subjects={this.getSearchToRelateSubjects}
-          config={config}
-          isOpen={isSearchToRelateModalOpen}
-          defaultRecordTypeValue="collectionobject"
-          error={selectionValidationError}
-          onCancelButtonClick={this.handleModalCancelButtonClick}
-          onCloseButtonClick={this.handleModalCloseButtonClick}
-          onRelationsCreated={this.handleRelationsCreated}
-        />
       );
     }
 
@@ -870,7 +718,6 @@ export default class SearchResultPage extends Component {
           />
         </div>
 
-        {searchToRelateModal}
         {exportModal}
       </div>
     );
