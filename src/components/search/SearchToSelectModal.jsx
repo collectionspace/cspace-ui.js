@@ -586,8 +586,6 @@ export class BaseSearchToSelectModal extends Component {
           config={config}
           listType={listType}
           searchDescriptor={searchDescriptor}
-          searchError={searchError}
-          searchResult={searchResult}
           renderEditLink={this.renderEditSearchLink}
           onPageSizeChange={this.handlePageSizeChange}
         />

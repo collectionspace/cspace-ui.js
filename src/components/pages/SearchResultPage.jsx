@@ -369,15 +369,6 @@ export default class SearchResultPage extends Component {
     }
   }
 
-  getListType(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    const { listType } = deriveSearchType(config, searchDescriptor);
-    return listType;
-  }
-
   getSearchDescriptor() {
     // FIXME: Refactor this into a wrapper component that calculates the search descriptor from
     // location and params, and passes it into a child. This will eliminate the multiple calls to

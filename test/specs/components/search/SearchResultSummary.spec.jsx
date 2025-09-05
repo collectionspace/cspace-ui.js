@@ -81,7 +81,6 @@ describe('SearchResultSummary', () => {
             <SearchResultSummary
               searchName={searchName}
               searchDescriptor={searchDescriptor}
-              searchError={searchError}
             />
           </Router>
         </StoreProvider>
