@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
-import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
-import { defineMessages, FormattedMessage } from 'react-intl';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
@@ -19,7 +17,6 @@ import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchResults.css';
-import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 
 import {
@@ -27,28 +24,34 @@ import {
 } from '../../../actions/prefs';
 
 import {
-  search,
+  search, setAllResultItemsSelected,
 } from '../../../actions/search';
-import { getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems } from '../../../reducers';
+import {
+  getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems,
+} from '../../../reducers';
+import SelectBar from '../../search/SelectBar';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
 };
 
-const messages = defineMessages({
-  selected: {
-    id: 'selectBar.selected',
-    description: 'Label showing the number of selected items.',
-    defaultMessage: `{selectedItemCount, plural,
-      =0 {0 selected}
-      other {# selected}
-    }`,
-  },
-});
+// TODO: check lint error
+export function SimpleSelectBar({
+  toggleBar, searchResult, config, searchDescriptor,
+}) {
+  if (!searchResult) {
+    return null;
+  }
 
-export function SimpleSelectBar({ toggleBar }) {
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
+
+  const dispatch = useDispatch();
+
+  // if (showCheckboxFilter) {
+  //   items = items.filter(showCheckboxFilter);
+  // }
+
   // button bar (relate/export)
   const exportButton = (
     <ExportButton
@@ -74,21 +77,20 @@ export function SimpleSelectBar({ toggleBar }) {
   // toggle bar (grid/table/etc)
 
   return (
-    <div className={selectStyles.common}>
-      <CheckboxInput
-        embedded
-        readOnly={false}
-        transition={{
-          null: false,
-          true: false,
-          false: true,
-        }}
-      />
-      {/* TODO fix eslint to support optional chaining */}
-      <FormattedMessage {...messages.selected} values={{ selectedItemCount: selectedItems?.size || 0 }} />
+    <SelectBar
+      config={config}
+      listType="common"
+      searchDescriptor={searchDescriptor}
+      searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
+      searchResult={searchResult}
+      selectedItems={selectedItems}
+      setAllItemsSelected={
+      (...args) => dispatch(setAllResultItemsSelected(...args))
+    }
+    >
       {buttonBar}
       {toggleBar}
-    </div>
+    </SelectBar>
   );
 }
 
@@ -293,7 +295,12 @@ export default function SearchResults(props) {
               searchError={searchErrors}
               searchDescriptor={searchDescriptor}
             />
-            <SimpleSelectBar toggleBar={displayToggles} />
+            <SimpleSelectBar
+              toggleBar={displayToggles}
+              searchResult={searchResults}
+              config={config}
+              searchDescriptor={searchDescriptor}
+            />
           </header>
           {searchDisplay}
           <SearchResultFooter searchDescriptor={searchDescriptor} />

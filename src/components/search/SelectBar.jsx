@@ -55,6 +55,7 @@ const propTypes = {
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   setAllItemsSelected: PropTypes.func,
   showCheckboxFilter: PropTypes.func,
+  children: PropTypes.node,
 };
 
 export default class SelectBar extends Component {
@@ -89,6 +90,7 @@ export default class SelectBar extends Component {
       selectedItems,
       buttons,
       showCheckboxFilter,
+      children,
     } = this.props;
 
     if (!searchResult) {
@@ -139,6 +141,7 @@ export default class SelectBar extends Component {
         />
         <FormattedMessage {...messages.selected} values={{ selectedItemCount }} />
         {buttonBar}
+        {children}
       </div>
     );
   }
