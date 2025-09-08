@@ -7,7 +7,6 @@ import qs from 'qs';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
-import ExportButton from '../../search/ExportButton';
 import SearchResultTable from '../../search/table/SearchTable';
 import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
@@ -30,6 +29,7 @@ import {
 } from '../../../reducers';
 import SelectBar from '../../search/SelectBar';
 import RelateObjects from '../../search/RelateObjects';
+import ExportObjects from '../../search/ExportObjects';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -55,12 +55,13 @@ export function SimpleSelectBar({
   // if (showCheckboxFilter) {
   //   items = items.filter(showCheckboxFilter);
   // }
-
+  // TODO isResultExportable
   // button bar (relate/export)
   const exportButton = (
-    <ExportButton
-      disabled={false}
-      key="export"
+    <ExportObjects
+      config={config}
+      selectedItems={selectedItems}
+      searchDescriptor={searchDescriptor}
     />
   );
 
