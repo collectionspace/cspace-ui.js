@@ -39,12 +39,12 @@ const isResultRelatable = (searchDescriptor, config) => {
   );
 }
 
-const RelateObjects = ({
+export default function RelateObjects({
   config,
   selectedItems,
   searchDescriptor,
   perms,
-}) => {
+}) {
   if (!isResultRelatable(searchDescriptor, config)) {
     return null;
   }
@@ -146,5 +146,3 @@ RelateObjects.propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map).isRequired,
   perms: PropTypes.instanceOf(Immutable.Map).isRequired,
 };
-
-export default RelateObjects;
