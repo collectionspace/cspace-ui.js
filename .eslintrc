@@ -2,6 +2,9 @@
   "extends": [
     "airbnb"
   ],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "rules": {
     // TODO: Rationalize prop definitions -- add isRequired where needed, and add defaults
     // elsewhere. For now turn off this rule.

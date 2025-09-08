@@ -4,15 +4,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
+import get from 'lodash/get';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canRelate } from '../../helpers/permissionHelpers';
 import {
   getFirstColumnName,
   getRecordTypeNameByServiceObjectName,
-  getRecordTypeNameByUri
+  getRecordTypeNameByUri,
 } from '../../helpers/configHelpers';
 import RelateButton from '../record/RelateButton';
-import get from 'lodash/get';
 
 const messages = defineMessages({
   relate: {
@@ -37,7 +37,7 @@ const isResultRelatable = (searchDescriptor, config) => {
       || recordType === 'object'
     )
   );
-}
+};
 
 export default function RelateObjects({
   config,
@@ -51,16 +51,6 @@ export default function RelateObjects({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [validationError, setValidationError] = useState(undefined);
-
-  const handleRelateButtonClick = () => {
-    setValidationError(validateSelectedItemsRelatable());
-    setIsModalOpen(true);
-  };
-
-  const handleRelationsCreated = () => {
-    setIsModalOpen(false);
-    setValidationError(undefined);
-  };
 
   const validateSelectedItemsRelatable = () => {
     if (selectedItems) {
@@ -97,6 +87,16 @@ export default function RelateObjects({
     }
 
     return undefined;
+  };
+
+  const handleRelateButtonClick = () => {
+    setValidationError(validateSelectedItemsRelatable());
+    setIsModalOpen(true);
+  };
+
+  const handleRelationsCreated = () => {
+    setIsModalOpen(false);
+    setValidationError(undefined);
   };
 
   const getSearchToRelateSubjects = () => {
@@ -138,7 +138,7 @@ export default function RelateObjects({
       />
     </>
   );
-};
+}
 
 RelateObjects.propTypes = {
   config: PropTypes.object.isRequired,
