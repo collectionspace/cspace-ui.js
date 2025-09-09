@@ -28,8 +28,8 @@ import {
   getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
 } from '../../../reducers';
 import SelectBar from '../../search/SelectBar';
-import RelateObjects from '../../search/RelateObjects';
-import ExportObjects from '../../search/ExportObjects';
+import RelateResults from '../../search/RelateResults';
+import ExportResults from '../../search/ExportResults';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -38,7 +38,6 @@ const selectBarPropTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
 };
 
-// TODO: check lint error
 export function SimpleSelectBar({
   toggleBar, searchResult, config, searchDescriptor,
 }) {
@@ -58,7 +57,7 @@ export function SimpleSelectBar({
   // TODO isResultExportable
   // button bar (relate/export)
   const exportButton = (
-    <ExportObjects
+    <ExportResults
       config={config}
       selectedItems={selectedItems}
       searchDescriptor={searchDescriptor}
@@ -66,7 +65,7 @@ export function SimpleSelectBar({
   );
 
   const relateButton = (
-    <RelateObjects
+    <RelateResults
       config={config}
       selectedItems={selectedItems}
       searchDescriptor={searchDescriptor}

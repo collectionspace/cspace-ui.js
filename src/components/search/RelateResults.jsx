@@ -39,7 +39,7 @@ const isResultRelatable = (searchDescriptor, config) => {
   );
 };
 
-export default function RelateObjects({
+export default function RelateResults({
   config,
   selectedItems,
   searchDescriptor,
@@ -140,7 +140,7 @@ export default function RelateObjects({
   );
 }
 
-RelateObjects.propTypes = {
+RelateResults.propTypes = {
   config: PropTypes.object.isRequired,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   searchDescriptor: PropTypes.instanceOf(Immutable.Map).isRequired,

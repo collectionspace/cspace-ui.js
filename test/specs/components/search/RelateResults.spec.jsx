@@ -3,7 +3,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import RelateObjects from '../../../../src/components/search/RelateObjects';
+import RelateResults from '../../../../src/components/search/RelateResults';
 import RelateButton from '../../../../src/components/record/RelateButton';
 import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
 
@@ -34,12 +34,12 @@ const searchDescriptor = Immutable.fromJS({
   recordType: 'collectionobject',
 });
 
-describe('RelateObjects', () => {
+describe('RelateResults', () => {
   it('should render null if the result is not relatable', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RelateObjects
+      <RelateResults
         config={{}}
         selectedItems={Immutable.Map()}
         searchDescriptor={Immutable.fromJS({ recordType: 'nonRelatableType' })}
@@ -55,7 +55,7 @@ describe('RelateObjects', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RelateObjects
+      <RelateResults
         config={config}
         selectedItems={Immutable.Map()}
         searchDescriptor={searchDescriptor}
@@ -73,7 +73,7 @@ describe('RelateObjects', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RelateObjects
+      <RelateResults
         config={config}
         selectedItems={Immutable.Map()}
         searchDescriptor={searchDescriptor}
@@ -107,7 +107,7 @@ describe('RelateObjects', () => {
     });
 
     shallowRenderer.render(
-      <RelateObjects
+      <RelateResults
         config={config}
         selectedItems={selectedItems}
         searchDescriptor={searchDescriptor}

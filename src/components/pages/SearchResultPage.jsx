@@ -22,8 +22,8 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
-import ExportObjects from '../search/ExportObjects';
-import RelateObjects from '../search/RelateObjects';
+import ExportResults from '../search/ExportResults';
+import RelateResults from '../search/RelateResults';
 
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
@@ -496,7 +496,7 @@ export default class SearchResultPage extends Component {
 
     if (!searchError) {
       const relateButton = (
-        <RelateObjects
+        <RelateResults
           config={config}
           selectedItems={selectedItems}
           searchDescriptor={searchDescriptor}
@@ -507,7 +507,7 @@ export default class SearchResultPage extends Component {
       );
 
       const exportButton = (
-        <ExportObjects
+        <ExportResults
           config={config}
           selectedItems={selectedItems}
           searchDescriptor={searchDescriptor}

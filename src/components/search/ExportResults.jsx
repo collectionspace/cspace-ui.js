@@ -22,7 +22,7 @@ const isResultExportable = (searchDescriptor, config) => {
   );
 };
 
-export default function ExportObjects({
+export default function ExportResults({
   config,
   selectedItems,
   searchDescriptor,
@@ -64,7 +64,7 @@ export default function ExportObjects({
   );
 }
 
-ExportObjects.propTypes = {
+ExportResults.propTypes = {
   config: PropTypes.shape({
     recordTypes: PropTypes.object,
   }),

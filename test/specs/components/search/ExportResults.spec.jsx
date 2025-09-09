@@ -3,7 +3,7 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import ExportObjects from '../../../../src/components/search/ExportObjects';
+import ExportResults from '../../../../src/components/search/ExportResults';
 import ExportButton from '../../../../src/components/search/ExportButton';
 import ExportModalContainer from '../../../../src/containers/search/ExportModalContainer';
 
@@ -24,12 +24,12 @@ const searchDescriptor = Immutable.fromJS({
   recordType: 'collectionobject',
 });
 
-describe('ExportObjects', () => {
+describe('ExportResults', () => {
   it('should render null if the result is not exportable', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ExportObjects
+      <ExportResults
         config={{}}
         selectedItems={Immutable.Map()}
         searchDescriptor={Immutable.fromJS({ recordType: 'nonExportableType' })}
@@ -44,7 +44,7 @@ describe('ExportObjects', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <ExportObjects
+      <ExportResults
         config={config}
         selectedItems={Immutable.Map()}
         searchDescriptor={searchDescriptor}
@@ -65,7 +65,7 @@ describe('ExportObjects', () => {
     });
 
     shallowRenderer.render(
-      <ExportObjects
+      <ExportResults
         config={config}
         selectedItems={selectedItems}
         searchDescriptor={searchDescriptor}
@@ -91,7 +91,7 @@ describe('ExportObjects', () => {
     });
 
     shallowRenderer.render(
-      <ExportObjects
+      <ExportResults
         config={config}
         selectedItems={selectedItems}
         searchDescriptor={searchDescriptor}
@@ -124,7 +124,7 @@ describe('ExportObjects', () => {
     });
 
     shallowRenderer.render(
-      <ExportObjects
+      <ExportResults
         config={config}
         selectedItems={selectedItems}
         searchDescriptor={searchDescriptor}
