@@ -1,5 +1,3 @@
-// `src/components/search/RelateObjects.jsx`
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';

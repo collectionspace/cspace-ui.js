@@ -38,7 +38,7 @@ const selectBarPropTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
 };
 
-export function SimpleSelectBar({
+export function SelectExportRelateToggleBar({
   toggleBar, searchResult, config, searchDescriptor,
 }) {
   if (!searchResult) {
@@ -51,10 +51,6 @@ export function SimpleSelectBar({
 
   const dispatch = useDispatch();
 
-  // if (showCheckboxFilter) {
-  //   items = items.filter(showCheckboxFilter);
-  // }
-  // TODO isResultExportable
   // button bar (relate/export)
   const exportButton = (
     <ExportResults
@@ -303,7 +299,7 @@ export default function SearchResults(props) {
               searchError={searchErrors}
               searchDescriptor={searchDescriptor}
             />
-            <SimpleSelectBar
+            <SelectExportRelateToggleBar
               toggleBar={displayToggles}
               searchResult={searchResults}
               config={config}
@@ -319,4 +315,4 @@ export default function SearchResults(props) {
   );
 }
 
-SimpleSelectBar.propTypes = selectBarPropTypes;
+SelectExportRelateToggleBar.propTypes = selectBarPropTypes;
