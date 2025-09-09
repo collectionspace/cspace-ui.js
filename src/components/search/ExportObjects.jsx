@@ -5,11 +5,31 @@ import get from 'lodash/get';
 import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import ExportButton from './ExportButton';
 
+const isResultExportable = (searchDescriptor, config) => {
+  const recordType = searchDescriptor.get('recordType');
+  const subresource = searchDescriptor.get('subresource');
+
+  const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
+
+  return (
+    subresource !== 'terms'
+    && subresource !== 'refs'
+    && (
+      serviceType === 'procedure'
+      || serviceType === 'object'
+      || serviceType === 'authority'
+    )
+  );
+};
+
 export default function ExportObjects({
   config,
   selectedItems,
   searchDescriptor,
 }) {
+  if (!isResultExportable(searchDescriptor, config)) {
+    return null;
+  }
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const recordType = searchDescriptor.get('recordType');
@@ -23,43 +43,23 @@ export default function ExportObjects({
     setIsModalOpen(false);
   };
 
-  const isResultExportable = () => {
-    const subresource = searchDescriptor.get('subresource');
-
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-    return (
-      subresource !== 'terms'
-      && subresource !== 'refs'
-      && (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || serviceType === 'authority'
-      )
-    );
-  };
-
   return (
     <>
-      {isResultExportable() && (
-        <>
-          <ExportButton
-            disabled={!selectedItems || selectedItems.size < 1}
-            key="export"
-            onClick={handleExportButtonClick}
-          />
-          <ExportModalContainer
-            config={config}
-            isOpen={isModalOpen}
-            recordType={recordType}
-            vocabulary={vocabulary}
-            selectedItems={selectedItems}
-            onCancelButtonClick={handleModalClose}
-            onCloseButtonClick={handleModalClose}
-            onExportOpened={handleModalClose}
-          />
-        </>
-      )}
+      <ExportButton
+        disabled={!selectedItems || selectedItems.size < 1}
+        key="export"
+        onClick={handleExportButtonClick}
+      />
+      <ExportModalContainer
+        config={config}
+        isOpen={isModalOpen}
+        recordType={recordType}
+        vocabulary={vocabulary}
+        selectedItems={selectedItems}
+        onCancelButtonClick={handleModalClose}
+        onCloseButtonClick={handleModalClose}
+        onExportOpened={handleModalClose}
+      />
     </>
   );
 }
