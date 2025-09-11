@@ -73,8 +73,8 @@ export function SelectExportRelateToggleBar({
 
   const buttonBar = (
     <div className={buttonBarStyles.common}>
-      {exportButton}
       {relateButton}
+      {exportButton}
     </div>
   );
 
