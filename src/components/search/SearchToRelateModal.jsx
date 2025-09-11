@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { Modal } from 'cspace-layout';
+import pLimit from 'p-limit';
 import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
 import { canRelate } from '../../helpers/permissionHelpers';
 import SearchToSelectModalContainer from '../../containers/search/SearchToSelectModalContainer';
 import relateButtonStyles from '../../../styles/cspace-ui/RelateButton.css';
+import { CONCURRENCY_LIMIT } from '../../actions/relation';
 
 const isSingleSubject = (subjects) => (Array.isArray(subjects) && subjects.length === 1);
 
@@ -116,6 +118,8 @@ export default class SearchToRelateModal extends Component {
       onRelationsCreated,
     } = this.props;
 
+    const limit = pLimit(CONCURRENCY_LIMIT);
+
     if (createRelations) {
       let {
         subjects,
@@ -131,7 +135,7 @@ export default class SearchToRelateModal extends Component {
           recordType: searchDescriptor.get('recordType'),
         })).toJS();
 
-        return Promise.all(subjects.map((subject) => createRelations(subject, objects, 'affects')))
+        return Promise.all(subjects.map((subject) => limit(() => createRelations(subject, objects, 'affects'))))
           .then(() => {
             if (subjects.length > 1) {
               const { showRelationNotification } = this.props;

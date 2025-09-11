@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
+import pLimit from 'p-limit';
 import getSession from '../helpers/session';
 import { showNotification } from './notification';
 import getErrorDescription from '../helpers/getErrorDescription';
@@ -56,6 +57,22 @@ const messages = defineMessages({
 });
 
 const notificationID = 'action.relation';
+
+const relatePayload = ({ csid: subjectCsid }, { csid: objectCsid }, relationshipType) => ({
+  data: {
+    document: {
+      'rel:relations_common': {
+        '@xmlns:rel': 'http://collectionspace.org/services/relation',
+        subjectCsid,
+        objectCsid,
+        relationshipType,
+      },
+    },
+  },
+});
+
+// TODO: we need to find out what this number should be
+export const CONCURRENCY_LIMIT = 5;
 
 export const showRelationNotification = (message, values) => showNotification({
   items: [{
@@ -332,20 +349,7 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
     },
   });
 
-  const config = {
-    data: {
-      document: {
-        'rel:relations_common': {
-          '@xmlns:rel': 'http://collectionspace.org/services/relation',
-          subjectCsid: subject.csid,
-          objectCsid: object.csid,
-          relationshipType: predicate,
-        },
-      },
-    },
-  };
-
-  return getSession().create('/relations', config)
+  return getSession().create('/relations', relatePayload(subject, object, predicate))
     .then((response) => dispatch({
       type: RELATION_SAVE_FULFILLED,
       payload: response,
@@ -404,18 +408,30 @@ export const batchCreate = (subject, objects, predicate) => (dispatch) => (
     })
 );
 
-export const batchCreateBidirectional = (subject, objects, predicate) => (dispatch) => (
-  // Send these requests one at a time, to avoid DOSing the server.
-  objects.reduce((promise, object) => promise
-    .then(() => dispatch(checkForRelations(subject.csid, predicate, object.csid)))
-    .then((relationExists) => {
-      if (relationExists) {
-        return Promise.resolve();
-      }
+export const batchCreateBidirectional = (subject, objects, predicate) => (dispatch) => {
+  dispatch({
+    type: RELATION_SAVE_STARTED,
+    meta: {
+      subject,
+      objects,
+      predicate,
+    },
+  });
 
-      return dispatch(doCreate(subject, object, predicate))
-        .then(() => dispatch(doCreate(object, subject, predicate)));
-    }), Promise.resolve())
+  const limit = pLimit(CONCURRENCY_LIMIT);
+
+  const promises = objects.map((object) => limit(() => dispatch(
+    checkForRelations(subject.csid, predicate, object.csid),
+  ).then((relationExists) => {
+    if (relationExists) {
+      return Promise.resolve();
+    }
+
+    return getSession().create('/relations', relatePayload(subject, object, predicate))
+      .then(() => getSession().create('/relations', relatePayload(object, subject, predicate)));
+  })));
+
+  return Promise.all(promises)
     .then(() => {
       dispatch(showRelationNotification(messages.related, {
         objectCount: objects.length,
@@ -441,8 +457,8 @@ export const batchCreateBidirectional = (subject, objects, predicate) => (dispat
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
-    })
-);
+    });
+};
 
 export const create = (subject, object, predicate) => (dispatch) => (
   dispatch(doCreate(subject, object, predicate))
