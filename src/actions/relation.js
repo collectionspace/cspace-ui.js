@@ -454,6 +454,18 @@ export const batchCreateBidirectional = (subjects, objects, predicate) => (dispa
       });
     })
     .catch((error) => {
+      dispatch({
+        type: RELATION_SAVE_REJECTED,
+        payload: {
+          code: ERR_API,
+          error,
+        },
+        meta: {
+          subjects,
+          objects,
+          predicate,
+        },
+      });
       dispatch(showNotification({
         items: [{
           message: messages.batchCreateError,

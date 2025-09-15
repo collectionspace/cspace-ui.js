@@ -157,17 +157,17 @@ describe('SearchToRelateModal', () => {
   it('should call createRelations followed by onRelationsCreated when the selection is accepted', () => {
     const recordType = 'collectionobject';
 
-    const subject = {
+    const subjects = [{
       csid: '1234',
       recordType: 'group',
-    };
+    }];
 
-    let createdSubject = null;
+    let createdSubjects = null;
     let createdObjects = null;
     let createdPredicate = null;
 
-    const createRelations = (subjectArg, objectsArg, predicateArg) => {
-      createdSubject = subjectArg;
+    const createRelations = (subjectsArg, objectsArg, predicateArg) => {
+      createdSubjects = subjectsArg;
       createdObjects = objectsArg;
       createdPredicate = predicateArg;
 
@@ -184,7 +184,7 @@ describe('SearchToRelateModal', () => {
 
     shallowRenderer.render(
       <SearchToRelateModal
-        subjects={[subject]}
+        subjects={subjects}
         createRelations={createRelations}
         onRelationsCreated={handleRelationsCreated}
       />,
@@ -199,7 +199,7 @@ describe('SearchToRelateModal', () => {
 
     result.props.onAccept(selectedItems, Immutable.Map({ recordType }));
 
-    createdSubject.should.deep.equal(subject);
+    createdSubjects.should.deep.equal(subjects);
 
     createdObjects.should.deep.equal([
       { recordType, csid: '1111' },
@@ -262,7 +262,7 @@ describe('SearchToRelateModal', () => {
       },
     ];
 
-    const createRelations = () => {};
+    const createRelations = () => Promise.resolve();
 
     let notificationValues = null;
 
@@ -304,17 +304,17 @@ describe('SearchToRelateModal', () => {
   it('should call subjects to retrieve subjects if it is a function', () => {
     const recordType = 'collectionobject';
 
-    const subject = {
+    const subjects = [{
       csid: '1234',
       recordType: 'group',
-    };
+    }];
 
-    const getSubjects = () => [subject];
+    const getSubjects = () => subjects;
 
-    let createdSubject = null;
+    let createdSubjects = null;
 
-    const createRelations = (subjectArg) => {
-      createdSubject = subjectArg;
+    const createRelations = (subjectsArg) => {
+      createdSubjects = subjectsArg;
 
       return Promise.resolve();
     };
@@ -337,7 +337,7 @@ describe('SearchToRelateModal', () => {
 
     result.props.onAccept(selectedItems, Immutable.Map({ recordType }));
 
-    createdSubject.should.deep.equal(subject);
+    createdSubjects.should.deep.equal(subjects);
   });
 
   it('should not show a checkbox on items that are locked, already related to, or the same as the subject', () => {
