@@ -408,11 +408,11 @@ export const batchCreate = (subject, objects, predicate) => (dispatch) => (
     })
 );
 
-export const batchCreateBidirectional = (subject, objects, predicate) => (dispatch) => {
+export const batchCreateBidirectional = (subjects, objects, predicate) => (dispatch) => {
   dispatch({
     type: RELATION_SAVE_STARTED,
     meta: {
-      subject,
+      subjects,
       objects,
       predicate,
     },
@@ -420,30 +420,37 @@ export const batchCreateBidirectional = (subject, objects, predicate) => (dispat
 
   const limit = pLimit(CONCURRENCY_LIMIT);
 
-  const promises = objects.map((object) => limit(() => dispatch(
-    checkForRelations(subject.csid, predicate, object.csid),
-  ).then((relationExists) => {
-    if (relationExists) {
-      return Promise.resolve();
-    }
-
-    return getSession().create('/relations', relatePayload(subject, object, predicate))
-      .then(() => getSession().create('/relations', relatePayload(object, subject, predicate)));
-  })));
+  const promises = subjects.flatMap(
+    (subject) => objects.map(
+      (object) => limit(() => dispatch(checkForRelations(subject.csid, predicate, object.csid))
+        .then((relationExists) => {
+          if (relationExists) {
+            return Promise.resolve();
+          }
+          return getSession().create('/relations', relatePayload(subject, object, predicate))
+            .then(() => getSession().create('/relations', relatePayload(object, subject, predicate)));
+        })),
+    ),
+  );
 
   return Promise.all(promises)
     .then(() => {
-      dispatch(showRelationNotification(messages.related, {
-        objectCount: objects.length,
-        subjectTitle: subject.title,
-      }));
+      const shorterArray = objects.length < subjects.length ? objects : subjects;
+      const longerArray = objects.length >= subjects.length ? objects : subjects;
 
-      dispatch({
-        type: SUBJECT_RELATIONS_UPDATED,
-        meta: {
-          subject,
-          updatedTime: (new Date()).toISOString(),
-        },
+      shorterArray.forEach((item) => {
+        dispatch(showRelationNotification(messages.related, {
+          objectCount: longerArray.length,
+          subjectTitle: item.title,
+        }));
+
+        dispatch({
+          type: SUBJECT_RELATIONS_UPDATED,
+          meta: {
+            subject: item,
+            updatedTime: (new Date()).toISOString(),
+          },
+        });
       });
     })
     .catch((error) => {
