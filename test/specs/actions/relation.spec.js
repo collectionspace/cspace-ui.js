@@ -751,7 +751,7 @@ describe('relation action creator', () => {
         });
     });
 
-    it('should dispatch rejected action for each object that is already related to the subject', () => {
+    it('should dispatch RELATION_SAVE_REJECTED for each object that is already related to the subject', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -804,7 +804,7 @@ describe('relation action creator', () => {
             type: RELATION_SAVE_REJECTED,
           });
 
-          actions[2].payload.should.contain({
+          actions[2].should.contain({
             type: SHOW_NOTIFICATION,
           });
         });
