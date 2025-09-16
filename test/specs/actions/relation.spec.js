@@ -615,7 +615,6 @@ describe('relation action creator', () => {
       worker.resetHandlers();
     });
 
-    // TODO: check if we really need dispatching saved
     it('should dispatch RELATION_SAVE_STARTED and SUBJECT_RELATIONS_UPDATED once for all objects', () => {
       const store = mockStore({
         relation: Immutable.Map(),
