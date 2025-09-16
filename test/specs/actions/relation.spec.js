@@ -751,7 +751,7 @@ describe('relation action creator', () => {
         });
     });
 
-    it('should dispatch nothing for each object that is already related to the subject', () => {
+    it('should dispatch rejected action for each object that is already related to the subject', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -790,22 +790,22 @@ describe('relation action creator', () => {
         },
       ];
 
-      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+      return store.dispatch(batchCreateBidirectional([subject], objects, predicate))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.contain({
-            type: SHOW_NOTIFICATION,
+            type: RELATION_SAVE_STARTED,
           });
 
           actions[1].should.contain({
-            type: SUBJECT_RELATIONS_UPDATED,
+            type: RELATION_SAVE_REJECTED,
           });
 
-          actions[1].meta.should.contain({
-            subject,
+          actions[2].payload.should.contain({
+            type: SHOW_NOTIFICATION,
           });
         });
     });

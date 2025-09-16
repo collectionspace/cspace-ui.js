@@ -425,7 +425,7 @@ export const batchCreateBidirectional = (subjects, objects, predicate) => (dispa
       (object) => limit(() => dispatch(checkForRelations(subject.csid, predicate, object.csid))
         .then((relationExists) => {
           if (relationExists) {
-            return Promise.resolve();
+            return Promise.reject(new Error('Relation already exists'));
           }
           return getSession().create('/relations', relatePayload(subject, object, predicate))
             .then(() => getSession().create('/relations', relatePayload(object, subject, predicate)));
