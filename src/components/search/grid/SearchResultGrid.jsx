@@ -37,8 +37,15 @@ export function SearchResultCard({
   const listTypeConfig = config.listTypes.common;
   const { getItemLocationPath } = listTypeConfig;
   let location;
+  let state;
   if (getItemLocationPath) {
     location = getItemLocationPath(result, { config, searchDescriptor });
+    state = {
+      searchDescriptor: searchDescriptor.toJS(),
+      // The search traverser on records will always link to the search result page, so use
+      // its search name.
+      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
+    };
   }
 
   // todo: read fields from record config
@@ -62,7 +69,7 @@ export function SearchResultCard({
               value))}
             onClick={(event) => event.stopPropagation()}
           />
-          <Link to={location}>
+          <Link to={{ pathname: location, state }}>
             <span>
               {titleFields.map((field) => field.formatValue(result.get(field.dataKey)))
                 .filter((resultData) => !!resultData)
@@ -70,7 +77,7 @@ export function SearchResultCard({
             </span>
           </Link>
         </div>
-        <Link to={location}>
+        <Link to={{ pathname: location, state }}>
           <span>
             {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
               .filter((resultData) => !!resultData)
