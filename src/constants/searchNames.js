@@ -3,3 +3,7 @@ export const RECORD_BATCH_PANEL_SEARCH_NAME = 'recordBatchPanel';
 export const RECORD_REPORT_PANEL_SEARCH_NAME = 'recordReportPanel';
 export const SEARCH_RESULT_BATCH_PANEL_SEARCH_NAME = 'searchResultBatchPanel';
 export const SEARCH_RESULT_REPORT_PANEL_SEARCH_NAME = 'searchResultReportPanel';
+export const SEARCH_RESULT_TERMS_USED_PANEL = 'termsUsedPanel';
+export const SEARCH_RESULT_USED_BY_PANEL = 'usedByPanel';
+export const SEARCH_RESULT_AUTH_ROLE_PAGE = 'authRolePage';
+export const SEARCH_RESULT_ACCOUNT_PAGE = 'accountPage';

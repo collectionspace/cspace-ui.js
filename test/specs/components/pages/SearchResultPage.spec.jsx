@@ -181,14 +181,16 @@ const searchDescriptor = Immutable.fromJS({
   },
 });
 
+const optionList = Immutable.Map({
+  searchResultPagePageSizes: [
+    { value: '10' },
+    { value: '20' },
+    { value: '40' },
+  ],
+});
+
 const store = mockStore({
-  optionList: Immutable.Map({
-    searchResultPagePageSizes: [
-      { value: '10' },
-      { value: '20' },
-      { value: '40' },
-    ],
-  }),
+  optionList,
   prefs: Immutable.Map(),
   search: Immutable.fromJS({
     [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
@@ -637,9 +639,25 @@ describe('SearchResultPage', () => {
         'ns2:abstract-common-list': {},
       });
 
+      const updatedStore = mockStore({
+        optionList,
+        prefs: Immutable.Map(),
+        search: Immutable.fromJS({
+          [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
+            byKey: {
+              [searchKey(searchDescriptor)]: {
+                result: noTotalItemsSearchResult,
+              },
+            },
+          },
+        }),
+        searchToSelect: Immutable.Map(),
+        user: Immutable.Map(),
+      });
+
       render(
         <IntlProvider locale="en">
-          <StoreProvider store={store}>
+          <StoreProvider store={updatedStore}>
             <ConfigProvider config={config}>
               <Router>
                 {searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult })}
@@ -656,10 +674,6 @@ describe('SearchResultPage', () => {
     });
 
     it('should render an error message if the search has an error', () => {
-      const searchError = Immutable.Map({
-        code: 'ERROR_CODE',
-      });
-
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -686,9 +700,29 @@ describe('SearchResultPage', () => {
 
       document.body.appendChild(headerContainer);
 
+      const searchError = Immutable.Map({
+        code: 'ERROR_CODE',
+      });
+
+      const updatedStore = mockStore({
+        optionList,
+        prefs: Immutable.Map(),
+        search: Immutable.fromJS({
+          [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
+            byKey: {
+              [searchKey(searchDescriptor)]: {
+                error: searchError,
+              },
+            },
+          },
+        }),
+        searchToSelect: Immutable.Map(),
+        user: Immutable.Map(),
+      });
+
       render(
         <IntlProvider locale="en">
-          <StoreProvider store={store}>
+          <StoreProvider store={updatedStore}>
             <ConfigProvider config={config}>
               <Router>
                 {searchResultPage.renderHeader({ searchError })}

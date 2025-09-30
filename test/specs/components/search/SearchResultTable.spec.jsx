@@ -35,11 +35,11 @@ const config = {
       getItemLocationPath: (item) => `itemLocation: ${item.get('csid')}`,
     },
     foo: {
-      listNodeName: 'ns2:abstract-common-list',
+      listNodeName: 'ns2:foo-common-list',
       itemNodeName: 'list-item',
     },
     bar: {
-      listNodeName: 'ns2:abstract-common-list',
+      listNodeName: 'ns2:bar-common-list',
       itemNodeName: 'list-item',
       getItemLocationPath: () => null,
     },
@@ -108,41 +108,52 @@ const config = {
   },
 };
 
+const baseResult = {
+  pageNum: '0',
+  pageSize: '40',
+  itemsInPage: '5',
+  totalItems: '5',
+  'list-item': [
+    {
+      csid: 'ea399d7a-7ea3-4670-930b',
+      updatedAt: '2017-01-06T02:28:53.269Z',
+      objectNumber: '4',
+      title: 'Title',
+    },
+    {
+      csid: '0abd85b5-46be-4a6c-aa14',
+      updatedAt: '2017-01-04T05:29:41.963Z',
+      objectNumber: '3',
+    },
+    {
+      csid: '325b3337-9db5-45ae-a0a9',
+      updatedAt: '2017-01-04T05:27:50.225Z',
+      objectNumber: '32',
+    },
+    {
+      csid: '12a6be7f-4ea8-49c1-b41c',
+      updatedAt: '2017-01-04T05:22:21.581Z',
+      objectNumber: '6.0221415',
+    },
+    {
+      csid: '080b1ce2-598b-4340-b23a',
+      updatedAt: '2017-01-04T05:22:21.288Z',
+      objectNumber: '6.0221415',
+    },
+  ],
+
+};
+
 const searchResult = Immutable.fromJS({
-  'ns2:abstract-common-list': {
-    pageNum: '0',
-    pageSize: '40',
-    itemsInPage: '5',
-    totalItems: '5',
-    'list-item': [
-      {
-        csid: 'ea399d7a-7ea3-4670-930b',
-        updatedAt: '2017-01-06T02:28:53.269Z',
-        objectNumber: '4',
-        title: 'Title',
-      },
-      {
-        csid: '0abd85b5-46be-4a6c-aa14',
-        updatedAt: '2017-01-04T05:29:41.963Z',
-        objectNumber: '3',
-      },
-      {
-        csid: '325b3337-9db5-45ae-a0a9',
-        updatedAt: '2017-01-04T05:27:50.225Z',
-        objectNumber: '32',
-      },
-      {
-        csid: '12a6be7f-4ea8-49c1-b41c',
-        updatedAt: '2017-01-04T05:22:21.581Z',
-        objectNumber: '6.0221415',
-      },
-      {
-        csid: '080b1ce2-598b-4340-b23a',
-        updatedAt: '2017-01-04T05:22:21.288Z',
-        objectNumber: '6.0221415',
-      },
-    ],
-  },
+  'ns2:abstract-common-list': baseResult,
+});
+
+const fooResult = Immutable.fromJS({
+  'ns2:foo-common-list': baseResult,
+});
+
+const barResult = Immutable.fromJS({
+  'ns2:bar-common-list': baseResult,
 });
 
 const intl = {
@@ -275,7 +286,7 @@ describe('SearchResultTable', () => {
           intl={intl}
           listType="foo"
           searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
+          searchResult={fooResult}
         />
       </Router>, this.container,
     );
@@ -291,7 +302,7 @@ describe('SearchResultTable', () => {
           intl={intl}
           listType="bar"
           searchDescriptor={searchDescriptor}
-          searchResult={searchResult}
+          searchResult={barResult}
         />
       </Router>, this.container,
     );

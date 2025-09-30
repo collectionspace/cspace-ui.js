@@ -20,6 +20,11 @@ import {
 } from '../constants/dataTypes';
 
 import {
+  SEARCH_RESULT_ACCOUNT_PAGE,
+  SEARCH_RESULT_AUTH_ROLE_PAGE,
+} from '../constants/searchNames';
+
+import {
   OP_AND,
   OP_OR,
   OP_COMPLETE,
@@ -985,16 +990,54 @@ export const searchDescriptorToLocation = (searchDescriptor) => {
   };
 };
 
-export const getListType = (config, searchDescriptor) => {
+/**
+ * Attempt to derive list type and search type from a search's name and descriptor.
+ *
+ * @param {*} config the cspace configuration
+ * @param {*} searchName the name of the search
+ * @param {*} searchDescriptor the search descriptor
+ * @returns an object with the listType and searchType set
+ */
+export const deriveSearchType = (config, searchName, searchDescriptor) => {
+  let listType = 'common';
+  let searchType = 'default';
+
   if (searchDescriptor) {
+    const recordType = searchDescriptor.get('recordType');
     const subresource = searchDescriptor.get('subresource');
 
-    if (subresource) {
-      return get(config, ['subresources', subresource, 'listType']);
+    // there are a few search apis which return different lists, so we account for them first
+    // because they should only need the listType.
+    // Note that we use the name of the key for the listType (role, account, etc).
+    // todo: it would be nice to update the backend to send a single paginated list type instead
+    if (SEARCH_RESULT_ACCOUNT_PAGE === searchName) {
+      listType = 'account';
+    } else if (SEARCH_RESULT_AUTH_ROLE_PAGE === searchName) {
+      listType = 'role';
+    } else if (subresource) {
+      listType = get(config, ['subresources', subresource, 'listType']) || 'common';
+    } else if (get(config, ['recordTypes', recordType, 'serviceConfig', 'features', 'updatedSearch'])) {
+      listType = 'search';
+      searchType = 'advanced';
     }
   }
 
-  return 'common';
+  return {
+    listType,
+    searchType,
+  };
+};
+
+export const getListTypeFromResult = (config, searchResult) => {
+  let listType;
+  if (searchResult) {
+    listType = Object.keys(get(config, ['listTypes'])).find((key) => {
+      const listNodeName = get(config, ['listTypes', key, 'listNodeName']);
+      return searchResult.has(listNodeName);
+    });
+  }
+
+  return listType || 'common';
 };
 
 /**

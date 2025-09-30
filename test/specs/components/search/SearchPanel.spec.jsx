@@ -172,16 +172,14 @@ describe('SearchPanel', () => {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
-    let searchedListType = null;
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
+      configArg, searchNameArg, searchDescriptorArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
-      searchedListType = listTypeArg;
       searchedColumnSetName = columnSetNameArg;
     };
 
@@ -212,7 +210,6 @@ describe('SearchPanel', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(searchDescriptor);
-    searchedListType.should.equal('common');
     searchedColumnSetName.should.equal('default');
 
     changedToSearchDescriptor.should.equal(searchDescriptor);
@@ -222,16 +219,14 @@ describe('SearchPanel', () => {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
-    let searchedListType = null;
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
+      configArg, searchNameArg, searchDescriptorArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
-      searchedListType = listTypeArg;
       searchedColumnSetName = columnSetNameArg;
     };
 
@@ -286,7 +281,6 @@ describe('SearchPanel', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(newSearchDescriptor);
-    searchedListType.should.equal('common');
     searchedColumnSetName.should.equal('default');
 
     changedToSearchDescriptor.should.equal(newSearchDescriptor);

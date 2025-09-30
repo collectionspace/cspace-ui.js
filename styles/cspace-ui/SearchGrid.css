@@ -13,8 +13,17 @@
 }
 
 .card {
-  width: 250px;
+  background:rgb(255, 255, 255);
+  width: 100%;
+}
+
+.card img {
+  padding: 10px;
+  max-width: 100%;
   height: 250px;
-  background:rgb(220, 220, 220);
-  background-image: url(../../images/deactivate.svg);
+  object-fit: cover;
+}
+
+.summary {
+  padding: 5px 10px;
 }

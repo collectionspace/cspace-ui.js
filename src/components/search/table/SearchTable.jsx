@@ -5,16 +5,16 @@ import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, readSearchResultList, readSearchResultListItems } from '../searchResultHelpers';
+import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
 import SearchResultTableRow from './SearchResultTableRow';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
-  listType: PropTypes.string,
   intl: PropTypes.object,
 };
 
@@ -48,14 +48,14 @@ function getSortDir(searchDescriptor) {
  * record type in order to read the configuration for what headers and fields need
  * to be displayed.
  *
+ * Once complete this should replace the older SearchResultTable component
+ *
  * todo: parity with other search result table
- *   - row data formatting
- *   - sorting
- *   - checkboxes actually working
  *   - aria-labels + general wcag compliance
+ *   - figure out hrefs
  *   - ???
  */
-function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
+function SearchResultTable({ searchDescriptor, intl }) {
   const config = useConfig();
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
@@ -63,8 +63,11 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
 
-  const list = readSearchResultList(config, listType, results);
-  const items = readSearchResultListItems(config, listType, list);
+  const listType = getListTypeFromResult(config, results);
+  const {
+    list,
+    items,
+  } = readListItems(config, listType, results);
 
   if (!items) {
     return null;
@@ -127,7 +130,6 @@ function SearchResultTable({ searchDescriptor, listType = 'common', intl }) {
       <table>
         <thead>
           <tr>
-            {/* todo: I think it probably make this visible if it exists */}
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} aria-label={selectLabel} />
             {columns.map((column) => (sortColumnName === column.dataKey
