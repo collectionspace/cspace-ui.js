@@ -78,13 +78,6 @@ export function SearchResultCard({
                 .join(': ')}
             </span>
           </Link>
-          <Link to={location}>
-            <span>
-              {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
-                .filter((resultData) => !!resultData)
-                .join(': ')}
-            </span>
-          </Link>
         </div>
         <Link to={{ pathname: location, state }}>
           <span>
