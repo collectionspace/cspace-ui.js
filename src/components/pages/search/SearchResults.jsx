@@ -25,7 +25,7 @@ import {
   search, setAllResultItemsSelected,
 } from '../../../actions/search';
 import {
-  getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
+  getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
 } from '../../../reducers';
 import SelectBar from '../../search/SelectBar';
 import RelateResults from '../../search/RelateResults';
@@ -231,6 +231,9 @@ export default function SearchResults(props) {
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
   }, [normalizedQuery, searchDescriptor]);
 
+  const searchResults = useSelector((state) => getSearchResult(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME,
+    searchDescriptor));
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
 
   const toggles = [
