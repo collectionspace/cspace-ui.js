@@ -180,7 +180,6 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     if (onItemSelectChange) {
-      // certainly we could use the search result at this point
       const searchDescriptor = this.getSearchDescriptor();
       const {
         listType,
