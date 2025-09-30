@@ -4,12 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
-import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
-import ExportButton from '../../search/ExportButton';
-import RelateButton from '../../record/RelateButton';
 import SearchResultTable from '../../search/table/SearchTable';
 import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
@@ -18,28 +15,57 @@ import SearchResultSummary from '../../search/SearchResultSummary';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchResults.css';
-import selectStyles from '../../../../styles/cspace-ui/SelectBar.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 
-import { setSearchResultPagePageSize } from '../../../actions/prefs';
-import { search } from '../../../actions/search';
-import { isSearchResultSidebarOpen } from '../../../reducers';
+import {
+  setSearchResultPagePageSize,
+} from '../../../actions/prefs';
+
+import {
+  search, setAllResultItemsSelected,
+} from '../../../actions/search';
+import {
+  getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
+} from '../../../reducers';
+import SelectBar from '../../search/SelectBar';
+import RelateResults from '../../search/RelateResults';
+import ExportResults from '../../search/ExportResults';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
+  searchResult: PropTypes.instanceOf(Immutable.Map),
+  config: PropTypes.object,
+  searchDescriptor: PropTypes.instanceOf(Immutable.Map),
 };
 
-export function SimpleSelectBar({ toggleBar }) {
+export function SelectExportRelateToggleBar({
+  toggleBar, searchResult, config, searchDescriptor,
+}) {
+  if (!searchResult) {
+    return null;
+  }
+
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
+  const perms = useSelector((state) => getUserPerms(state));
+
+  const dispatch = useDispatch();
+
   // button bar (relate/export)
   const exportButton = (
-    <ExportButton
-      disabled={false}
-      key="export"
+    <ExportResults
+      config={config}
+      selectedItems={selectedItems}
+      searchDescriptor={searchDescriptor}
     />
   );
 
   const relateButton = (
-    <RelateButton
+    <RelateResults
+      config={config}
+      selectedItems={selectedItems}
+      searchDescriptor={searchDescriptor}
+      perms={perms}
       disabled={false}
       key="relate"
     />
@@ -47,28 +73,28 @@ export function SimpleSelectBar({ toggleBar }) {
 
   const buttonBar = (
     <div className={buttonBarStyles.common}>
-      {exportButton}
       {relateButton}
+      {exportButton}
     </div>
   );
 
   // toggle bar (grid/table/etc)
 
   return (
-    <div className={selectStyles.common}>
-      <CheckboxInput
-        embedded
-        readOnly={false}
-        transition={{
-          null: false,
-          true: false,
-          false: true,
-        }}
-      />
-      <span>0 Selected</span>
+    <SelectBar
+      config={config}
+      listType="common"
+      searchDescriptor={searchDescriptor}
+      searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
+      searchResult={searchResult}
+      selectedItems={selectedItems}
+      setAllItemsSelected={
+      (...args) => dispatch(setAllResultItemsSelected(...args))
+    }
+    >
       {buttonBar}
       {toggleBar}
-    </div>
+    </SelectBar>
   );
 }
 
@@ -276,7 +302,12 @@ export default function SearchResults(props) {
               searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
               searchDescriptor={searchDescriptor}
             />
-            <SimpleSelectBar toggleBar={displayToggles} />
+            <SelectExportRelateToggleBar
+              toggleBar={displayToggles}
+              searchResult={searchResults}
+              config={config}
+              searchDescriptor={searchDescriptor}
+            />
           </header>
           {searchDisplay}
           <SearchResultFooter searchDescriptor={searchDescriptor} />
@@ -287,4 +318,4 @@ export default function SearchResults(props) {
   );
 }
 
-SimpleSelectBar.propTypes = selectBarPropTypes;
+SelectExportRelateToggleBar.propTypes = selectBarPropTypes;

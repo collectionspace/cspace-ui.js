@@ -40,8 +40,15 @@ export function SearchResultCard({
   const listTypeConfig = config.listTypes[listType];
   const { getItemLocationPath } = listTypeConfig;
   let location;
+  let state;
   if (getItemLocationPath) {
     location = getItemLocationPath(result, { config, searchDescriptor });
+    state = {
+      searchDescriptor: searchDescriptor.toJS(),
+      // The search traverser on records will always link to the search result page, so use
+      // its search name.
+      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
+    };
   }
 
   // todo: image not found thumbnail
@@ -64,7 +71,7 @@ export function SearchResultCard({
               value))}
             onClick={(event) => event.stopPropagation()}
           />
-          <Link to={location}>
+          <Link to={{ pathname: location, state }}>
             <span>
               {titleFields.map((field) => field.formatValue(result.get(field.dataKey)))
                 .filter((resultData) => !!resultData)
@@ -79,6 +86,13 @@ export function SearchResultCard({
             </span>
           </Link>
         </div>
+        <Link to={{ pathname: location, state }}>
+          <span>
+            {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
+              .filter((resultData) => !!resultData)
+              .join(': ')}
+          </span>
+        </Link>
       </div>
     </div>
   );

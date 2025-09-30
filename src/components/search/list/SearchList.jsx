@@ -40,13 +40,20 @@ export function DetailItem({
   const listTypeConfig = config.listTypes[listType];
   const { getItemLocationPath } = listTypeConfig;
   let location;
+  let state;
   if (getItemLocationPath) {
     location = getItemLocationPath(item, { config, searchDescriptor });
+    state = {
+      searchDescriptor: searchDescriptor.toJS(),
+      // The search traverser on records will always link to the search result page, so use
+      // its search name.
+      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
+    };
   }
 
   const list = location
     ? (
-      <Link to={location}>
+      <Link to={{ pathname: location, state }}>
         <ol className={styles.detailList}>
           {listItems.map((listItem) => (
             <li key={`${csid}-${listItem.dataKey}`}>
