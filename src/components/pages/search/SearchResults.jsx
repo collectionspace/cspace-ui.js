@@ -30,6 +30,7 @@ import {
 import SelectBar from '../../search/SelectBar';
 import RelateResults from '../../search/RelateResults';
 import ExportResults from '../../search/ExportResults';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -78,12 +79,11 @@ export function SelectExportRelateToggleBar({
     </div>
   );
 
-  // toggle bar (grid/table/etc)
-
+  const listType = getListTypeFromResult(config, searchResult);
   return (
     <SelectBar
       config={config}
-      listType="common"
+      listType={listType}
       searchDescriptor={searchDescriptor}
       searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
       searchResult={searchResult}
