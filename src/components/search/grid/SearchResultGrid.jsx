@@ -8,33 +8,36 @@ import { readListItems, getColumnConfig } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
-import deactivate from '../../../../images/deactivate.svg';
 import { CheckboxInput } from '../../../helpers/configContextInputs';
 import styles from '../../../../styles/cspace-ui/SearchGrid.css';
 import { setResultItemSelected } from '../../../actions/search';
+import { derivativeImage } from '../../../helpers/formatHelpers';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const GRID_COLUMN_SET = 'grid';
 
 const cardPropTypes = {
   result: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
+  listType: PropTypes.string,
   titleFields: PropTypes.array,
   subtitleFields: PropTypes.array,
   searchDescriptor: PropTypes.object,
 };
 
 export function SearchResultCard({
-  result, index, titleFields, subtitleFields, searchDescriptor,
+  result, index, titleFields, subtitleFields, searchDescriptor, listType,
 }) {
   const config = useConfig();
   const dispatch = useDispatch();
 
   const csid = result.get('csid');
+  const blobCsid = result.get('blobCsid');
   const selectedItems = useSelector((state) => getSearchSelectedItems(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME));
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
-  const listTypeConfig = config.listTypes.common;
+  const listTypeConfig = config.listTypes[listType];
   const { getItemLocationPath } = listTypeConfig;
   let location;
   let state;
@@ -48,12 +51,11 @@ export function SearchResultCard({
     };
   }
 
-  // todo: read fields from record config
-  // todo: loading image
+  // todo: image not found thumbnail
+  const blob = derivativeImage(blobCsid, 'Thumbnail');
   return (
-    <div style={{ paddingBottom: '10px' }}>
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img src={deactivate} className={styles.card} />
+    <div className={styles.card}>
+      {blob}
       <div>
         <div className={styles.summary}>
           <CheckboxInput
@@ -64,7 +66,7 @@ export function SearchResultCard({
             onCommit={(path, value) => dispatch(setResultItemSelected(config,
               SEARCH_RESULT_PAGE_SEARCH_NAME,
               searchDescriptor,
-              'common',
+              listType,
               parseInt(path[0], 10),
               value))}
             onClick={(event) => event.stopPropagation()}
@@ -102,15 +104,10 @@ function SearchResultGrid({ searchDescriptor, intl }) {
     searchDescriptor));
   const config = useConfig();
 
-  if (!results) {
-    return null;
-  }
-
   // Note: The items returned is an Immutable.Map, so we need to use get
   // in order to retrieve the data
-  // todo: read into the search results based on the list type
-  // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, 'common', results);
+  const listType = getListTypeFromResult(config, results);
+  const { items } = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
@@ -149,8 +146,6 @@ function SearchResultGrid({ searchDescriptor, intl }) {
   const subtitleConfig = cardConfig.subtitle.fields;
   const subtitleFields = createFieldConfig(subtitleConfig);
 
-  // todo: sidebar is open prop to control grid size?
-  // or could try flexbox
   return (
     <div className={styles.grid}>
       {items.map((item, index) => (
@@ -158,6 +153,7 @@ function SearchResultGrid({ searchDescriptor, intl }) {
           key={item.get('csid')}
           index={index}
           result={item}
+          listType={listType}
           titleFields={titleFields}
           subtitleFields={subtitleFields}
           searchDescriptor={searchDescriptor}

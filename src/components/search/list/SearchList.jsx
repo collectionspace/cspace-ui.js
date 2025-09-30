@@ -6,23 +6,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import { injectIntl } from 'react-intl';
 import { CheckboxInput } from '../../../helpers/configContextInputs';
-import deactivate from '../../../../images/deactivate.svg';
 import { getColumnConfig, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import { setResultItemSelected } from '../../../actions/search';
+import BlobImage from '../../media/BlobImage';
 
 import styles from '../../../../styles/cspace-ui/SearchList.css';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const DETAIL_COLUMN_SET = 'list';
 
 const itemPropTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
-  // exact shape tbd
   index: PropTypes.number,
   listItems: PropTypes.array,
-  // render context like search table? or a better way to handle all this?
   searchDescriptor: PropTypes.object,
   listType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
@@ -35,6 +34,7 @@ export function DetailItem({
   const dispatch = useDispatch();
 
   const csid = item.get('csid');
+  const blobCsid = item.get('blobCsid');
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const listTypeConfig = config.listTypes[listType];
@@ -79,10 +79,13 @@ export function DetailItem({
     );
 
   // omit fields when no data is returned?
+  // todo: NoBlobFound image
+  const blob = blobCsid ? <BlobImage csid={blobCsid} derivative="Thumbnail" className={styles.detailImg} /> : null;
   return (
     <div className={styles.innerDetail}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <img src={deactivate} className={styles.detailImg} />
+      {blob}
+      {list}
       <CheckboxInput
         embedded
         className={styles.detailCheckbox}
@@ -96,7 +99,6 @@ export function DetailItem({
           value))}
         onClick={(event) => event.stopPropagation()}
       />
-      {list}
     </div>
   );
 }
@@ -106,31 +108,21 @@ DetailItem.propTypes = itemPropTypes;
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   intl: PropTypes.object,
-  listType: PropTypes.string,
 };
 
-function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
+function SearchDetailList({ searchDescriptor, intl }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
   const config = useConfig();
 
-  if (!results) {
-    return null;
-  }
-
-  // Note: The items returned is an Immutable.Map, so we need to use get
-  // in order to retrieve the data
-  // Note x2: This is only available for 'new' searches, so we don't need a list type prop
-  // todo: read into the search results based on the list type
-  // todo: why do we need to do !results AND !items?
-  const items = readListItems(config, listType, results);
+  const listType = getListTypeFromResult(config, results);
+  const { items } = readListItems(config, listType, results);
   if (!items) {
     return null;
   }
-
-  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
-    SEARCH_RESULT_PAGE_SEARCH_NAME));
 
   // read headers
   const listConfig = getColumnConfig(config, searchDescriptor, DETAIL_COLUMN_SET);
@@ -149,13 +141,6 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
           const message = get(column, ['messages', 'label']);
           return message ? intl.formatMessage(message) : '';
         },
-        // Just an idea - a render 'prop' passed along with the listItems
-        renderRow: ({ dataKey, rowData }) => {
-          const label = get(column, ['message', 'label']);
-          const data = rowData.get(dataKey);
-          const formatted = `${label}: ${data}`;
-          return <li>{formatted}</li>;
-        },
       };
     });
 
@@ -164,6 +149,7 @@ function SearchDetailList({ searchDescriptor, intl, listType = 'common' }) {
       {items.map((item, index) => (
         <DetailItem
           item={item}
+          key={item.get('csid')}
           index={index}
           listItems={listItems}
           searchDescriptor={searchDescriptor}

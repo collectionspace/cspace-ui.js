@@ -49,9 +49,7 @@ const propTypes = {
  */
 export function ToggleButtonContainer({ items, renderButton, renderSidebarToggle }) {
   const toggleStyles = {
-    flex: '1',
-    display: 'flex',
-    justifyContent: 'flex-end',
+    marginLeft: 'auto',
   };
 
   return (

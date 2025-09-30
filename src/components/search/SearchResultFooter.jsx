@@ -5,10 +5,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import qs from 'qs';
 import Pager from './Pager';
 import { useConfig } from '../config/ConfigProvider';
-import { getListType } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 import { getSearchResult } from '../../reducers';
 import { setSearchResultPagePageSize } from '../../actions/prefs';
+import { getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
@@ -72,7 +72,7 @@ export default function SearchResultFooter({ searchDescriptor }) {
     });
   }
 
-  const listType = getListType(searchDescriptor);
+  const listType = getListTypeFromResult(config, results);
   const listTypeConfig = config.listTypes[listType];
   const { listNodeName } = listTypeConfig;
 

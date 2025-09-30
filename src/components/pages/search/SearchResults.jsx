@@ -25,11 +25,12 @@ import {
   search, setAllResultItemsSelected,
 } from '../../../actions/search';
 import {
-  getSearchError, getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
+  getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
 } from '../../../reducers';
 import SelectBar from '../../search/SelectBar';
 import RelateResults from '../../search/RelateResults';
 import ExportResults from '../../search/ExportResults';
+import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -78,12 +79,11 @@ export function SelectExportRelateToggleBar({
     </div>
   );
 
-  // toggle bar (grid/table/etc)
-
+  const listType = getListTypeFromResult(config, searchResult);
   return (
     <SelectBar
       config={config}
-      listType="common"
+      listType={listType}
       searchDescriptor={searchDescriptor}
       searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
       searchResult={searchResult}
@@ -204,6 +204,19 @@ function normalizeQuery(props, config) {
   return query;
 }
 
+/**
+ * The page for displaying Search Results. Before rendering it first executes the search based on
+ * the query parameters provided by encapsulating them in a search descriptor and calling the search
+ * action in redux.
+ *
+ * Currently this is more for the new search views on CollectionObjects which includes a grid and
+ * detail based view compared to the older table based view. Ideally this be the only component for
+ * displaying search results but we first would need to make sure we only display the views which
+ * are supported for a given procedure or authority.
+ *
+ * @param {*} props
+ * @returns the SearchResults page component
+ */
 export default function SearchResults(props) {
   const [display, setDisplay] = useState('table');
   const [sidebarPosition, setSidebarPosition] = useState('right');
@@ -215,15 +228,10 @@ export default function SearchResults(props) {
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
-    dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, 'common')); // , 'common', true));
+    dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
   }, [normalizedQuery, searchDescriptor]);
 
-  // todo: should these be called in each component? they're at the top level for now
-  // as to not make too many changes at once
   const searchResults = useSelector((state) => getSearchResult(state,
-    SEARCH_RESULT_PAGE_SEARCH_NAME,
-    searchDescriptor));
-  const searchErrors = useSelector((state) => getSearchError(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
@@ -262,7 +270,7 @@ export default function SearchResults(props) {
 
   let searchDisplay;
   if (display === 'table') {
-    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} listType="common" />;
+    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} />;
   } else if (display === 'list') {
     searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
   } else {
@@ -293,10 +301,8 @@ export default function SearchResults(props) {
         <div className={styles.results}>
           <header>
             <SearchResultSummary
-              listType="common"
               config={config}
-              searchResult={searchResults}
-              searchError={searchErrors}
+              searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
               searchDescriptor={searchDescriptor}
             />
             <SelectExportRelateToggleBar

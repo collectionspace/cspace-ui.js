@@ -89,6 +89,7 @@ function SearchResultTableRow({
       // The search traverser on records will always link to the search result page, so use
       // its search name.
       searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
+      listType,
       // ...linkState,
     };
 

@@ -12,6 +12,7 @@ import { canCreate, canRead } from '../../helpers/permissionHelpers';
 import AdminTabButtonBar from '../admin/AdminTabButtonBar';
 import AuthRoleSearchBar from '../admin/AuthRoleSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
+import { SEARCH_RESULT_AUTH_ROLE_PAGE } from '../../constants/searchNames';
 
 const propTypes = {
   history: PropTypes.shape({
@@ -282,7 +283,7 @@ export default class AuthRolePage extends Component {
             isFiltered={!!filterValue}
             linkItems={false}
             listType="role"
-            name="authRolePage"
+            name={SEARCH_RESULT_AUTH_ROLE_PAGE}
             pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
             title={title}
