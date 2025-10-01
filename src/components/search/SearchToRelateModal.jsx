@@ -24,15 +24,6 @@ const messages = defineMessages({
     id: 'searchToRelateModal.relating',
     defaultMessage: 'Relating…',
   },
-  multipleSubjectsRelated: {
-    id: 'searchToRelateModal.multipleSubjectsRelated',
-    description: 'Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.',
-    defaultMessage: `{objectCount, plural,
-      =0 {No records}
-      one {# record}
-      other {# records}
-    } related to each of {subjectCount, number} search results.`,
-  },
   title: {
     id: 'searchToRelateModal.title',
     defaultMessage: 'Relate {typeName} {query}',

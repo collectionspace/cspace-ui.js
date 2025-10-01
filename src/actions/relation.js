@@ -54,6 +54,15 @@ const messages = defineMessages({
     description: 'Message shown when unrelating multiple records fails.',
     defaultMessage: 'Some records could not be unrelated: {error}',
   },
+  multipleSubjectsRelated: {
+    id: 'searchToRelateModal.multipleSubjectsRelated',
+    description: 'Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.',
+    defaultMessage: `{objectCount, plural,
+      =0 {No records}
+      one {# record}
+      other {# records}
+    } related to each of {subjectCount, number} search results.`,
+  },
 });
 
 const notificationID = 'action.relation';
@@ -438,20 +447,30 @@ export const batchCreateBidirectional = (subjects, objects, predicate) => (dispa
       const shorterArray = objects.length < subjects.length ? objects : subjects;
       const longerArray = objects.length >= subjects.length ? objects : subjects;
 
-      shorterArray.forEach((item) => {
-        dispatch(showRelationNotification(messages.related, {
-          objectCount: longerArray.length,
-          subjectTitle: item.title,
+      if (shorterArray.length > 5) {
+        // when the shorterArray length is more than 5,
+        // a single multipleSubjectsRelated notification is shown
+        dispatch(showRelationNotification(messages.multipleSubjectsRelated, {
+          objectCount: objects.length,
+          subjectCount: subjects.length,
         }));
+      } else {
+        // otherwise for each subject, a notification is shown
+        shorterArray.forEach((item) => {
+          dispatch(showRelationNotification(messages.related, {
+            objectCount: longerArray.length,
+            subjectTitle: item.title,
+          }));
 
-        dispatch({
-          type: SUBJECT_RELATIONS_UPDATED,
-          meta: {
-            subject: item,
-            updatedTime: (new Date()).toISOString(),
-          },
+          dispatch({
+            type: SUBJECT_RELATIONS_UPDATED,
+            meta: {
+              subject: item,
+              updatedTime: (new Date()).toISOString(),
+            },
+          });
         });
-      });
+      }
     })
     .catch((error) => {
       dispatch({
