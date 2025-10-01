@@ -82,7 +82,7 @@ export const showRelationNotification = (message, values) => showNotification({
   date: new Date(),
   status: STATUS_SUCCESS,
   autoClose: true,
-}, notificationID);
+});
 
 /*
  * Find a relation, given at least the subject csid and object csid, and optionally the subject

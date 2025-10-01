@@ -79,7 +79,6 @@ const propTypes = {
     PropTypes.func,
   ]),
   createRelations: PropTypes.func,
-  showRelationNotification: PropTypes.func,
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onRelationsCreated: PropTypes.func,
@@ -133,17 +132,6 @@ export default class SearchToRelateModal extends Component {
 
         return createRelations(subjects, objects, 'affects')
           .then(() => {
-            if (subjects.length > 1) {
-              const { showRelationNotification } = this.props;
-
-              if (showRelationNotification) {
-                showRelationNotification(messages.multipleSubjectsRelated, {
-                  objectCount: objects.length,
-                  subjectCount: subjects.length,
-                });
-              }
-            }
-
             if (onRelationsCreated) {
               onRelationsCreated();
             }
@@ -181,7 +169,6 @@ export default class SearchToRelateModal extends Component {
       error,
       subjects,
       createRelations,
-      showRelationNotification,
       onRelationsCreated,
       ...remainingProps
     } = this.props;
