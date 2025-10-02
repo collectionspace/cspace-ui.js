@@ -808,6 +808,61 @@ describe('relation action creator', () => {
           });
         });
     });
+
+    it('should dispatch one SHOW_NOTIFICATION when relating more than 5 subjects', async () => {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => res(ctx.status(200))),
+
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
+
+      const subjects = Array.from({ length: 6 }, (_, i) => ({ csid: `subject${i}`, title: `Subject ${i}` }));
+      const objects = Array.from({ length: 6 }, (_, i) => ({ csid: `object${i}`, title: `Object ${i}` }));
+
+      await store.dispatch(batchCreateBidirectional(subjects, objects, predicate));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(2);
+      actions[0].should.contain({
+        type: RELATION_SAVE_STARTED,
+      });
+      actions[1].should.contain({
+        type: SHOW_NOTIFICATION,
+      });
+    });
+
+    it('should dispatch n SHOW_NOTIFICATION when relating n subjects, where n less than 6', async () => {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => res(ctx.status(200))),
+
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
+
+      const subjects = Array.from({ length: 5 }, (_, i) => ({ csid: `subject${i}`, title: `Subject ${i}` }));
+      const objects = Array.from({ length: 5 }, (_, i) => ({ csid: `object${i}`, title: `Object ${i}` }));
+
+      await store.dispatch(batchCreateBidirectional(subjects, objects, predicate));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(11);
+      actions.filter((a) => a.type === 'SHOW_NOTIFICATION').should.have.lengthOf(5);
+    });
   });
 
   describe('deleteRelation', () => {
