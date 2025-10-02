@@ -461,16 +461,18 @@ export const batchCreateBidirectional = (subjects, objects, predicate) => (dispa
             objectCount: longerArray.length,
             subjectTitle: item.title,
           }));
-
-          dispatch({
-            type: SUBJECT_RELATIONS_UPDATED,
-            meta: {
-              subject: item,
-              updatedTime: (new Date()).toISOString(),
-            },
-          });
         });
       }
+
+      shorterArray.forEach((item) => {
+        dispatch({
+          type: SUBJECT_RELATIONS_UPDATED,
+          meta: {
+            subject: item,
+            updatedTime: (new Date()).toISOString(),
+          },
+        });
+      });
     })
     .catch((error) => {
       dispatch({
