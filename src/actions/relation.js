@@ -80,8 +80,7 @@ const relatePayload = ({ csid: subjectCsid }, { csid: objectCsid }, relationship
   },
 });
 
-// TODO: we need to find out what this number should be
-export const CONCURRENCY_LIMIT = 5;
+export const CONCURRENCY_LIMIT = 6;
 
 export const showRelationNotification = (message, values) => showNotification({
   items: [{
