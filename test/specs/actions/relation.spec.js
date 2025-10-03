@@ -28,7 +28,6 @@ import {
   clearState,
   find,
   create,
-  createBidirectional,
   batchCreate,
   batchCreateBidirectional,
   deleteRelation,
@@ -333,72 +332,6 @@ describe('relation action creator', () => {
     afterEach(() => {
       worker.resetHandlers();
     });
-
-    it('should dispatch RELATION_SAVE_FULFILLED twice, once in each direction', () => {
-      const store = mockStore({
-        relation: Immutable.Map(),
-      });
-
-      worker.use(
-        rest.post(createUrl, (req, res, ctx) => res(
-          ctx.status(201),
-          ctx.set('location', 'some/new/url'),
-        )),
-      );
-
-      return store.dispatch(createBidirectional(subject, object, predicate))
-        .then(() => {
-          const actions = store.getActions();
-
-          actions.should.have.lengthOf(5);
-
-          actions[0].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject,
-              object,
-              predicate,
-            },
-          });
-
-          actions[1].type.should.equal(RELATION_SAVE_FULFILLED);
-          actions[1].payload.status.should.equal(201);
-          actions[1].payload.headers.location.should.equal('some/new/url');
-
-          actions[1].meta.should.deep.equal({
-            subject,
-            object,
-            predicate,
-          });
-
-          actions[2].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject: object,
-              object: subject,
-              predicate,
-            },
-          });
-
-          actions[3].type.should.equal(RELATION_SAVE_FULFILLED);
-          actions[3].payload.status.should.equal(201);
-          actions[3].payload.headers.location.should.equal('some/new/url');
-
-          actions[3].meta.should.deep.equal({
-            subject: object,
-            object: subject,
-            predicate,
-          });
-
-          actions[4].should.contain({
-            type: SUBJECT_RELATIONS_UPDATED,
-          });
-
-          actions[4].meta.should.contain({
-            subject,
-          });
-        });
-    });
   });
 
   describe('batchCreate', () => {
@@ -682,7 +615,7 @@ describe('relation action creator', () => {
       worker.resetHandlers();
     });
 
-    it('should dispatch RELATION_SAVE_FULFILLED twice for each object', () => {
+    it('should dispatch RELATION_SAVE_STARTED and SUBJECT_RELATIONS_UPDATED once for all objects', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -726,98 +659,27 @@ describe('relation action creator', () => {
         },
       ];
 
-      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+      return store.dispatch(batchCreateBidirectional([subject], objects, predicate))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(10);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.deep.equal({
             type: RELATION_SAVE_STARTED,
             meta: {
-              subject,
-              object: objects[0],
+              subjects: [subject],
+              objects,
               predicate,
             },
           });
 
-          actions[1].type.should.equal(RELATION_SAVE_FULFILLED);
-          actions[1].payload.status.should.equal(201);
-          actions[1].payload.headers.location.should.equal('some/new/url');
-
-          actions[1].meta.should.deep.equal({
-            subject,
-            object: objects[0],
-            predicate,
-          });
-
-          actions[2].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject: objects[0],
-              object: subject,
-              predicate,
-            },
-          });
-
-          actions[3].type.should.equal(RELATION_SAVE_FULFILLED);
-          actions[3].payload.status.should.equal(201);
-          actions[3].payload.headers.location.should.equal('some/new/url');
-
-          actions[3].meta.should.deep.equal({
-            subject: objects[0],
-            object: subject,
-            predicate,
-          });
-
-          actions[4].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject,
-              object: objects[1],
-              predicate,
-            },
-          });
-
-          actions[5].type.should.equal(RELATION_SAVE_FULFILLED);
-          actions[5].payload.status.should.equal(201);
-          actions[5].payload.headers.location.should.equal('some/new/url');
-
-          actions[5].meta.should.deep.equal({
-            subject,
-            object: objects[1],
-            predicate,
-          });
-
-          actions[6].should.deep.equal({
-            type: RELATION_SAVE_STARTED,
-            meta: {
-              subject: objects[1],
-              object: subject,
-              predicate,
-            },
-          });
-
-          actions[7].type.should.equal(RELATION_SAVE_FULFILLED);
-          actions[7].payload.status.should.equal(201);
-          actions[7].payload.headers.location.should.equal('some/new/url');
-
-          actions[7].meta.should.deep.equal({
-            subject: objects[1],
-            object: subject,
-            predicate,
-          });
-
-          actions[8].should.contain({
+          actions[1].should.contain({
             type: SHOW_NOTIFICATION,
           });
 
-          actions[9].should.contain({
+          actions[2].should.contain({
             type: SUBJECT_RELATIONS_UPDATED,
-          });
-
-          actions[9].meta.should.contain({
-            subject,
           });
         });
     });
@@ -863,7 +725,7 @@ describe('relation action creator', () => {
         },
       ];
 
-      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+      return store.dispatch(batchCreateBidirectional([subject], objects, predicate))
         .then(() => {
           const actions = store.getActions();
 
@@ -872,8 +734,8 @@ describe('relation action creator', () => {
           actions[0].should.deep.equal({
             type: RELATION_SAVE_STARTED,
             meta: {
-              subject,
-              object: objects[0],
+              subjects: [subject],
+              objects,
               predicate,
             },
           });
@@ -888,7 +750,7 @@ describe('relation action creator', () => {
         });
     });
 
-    it('should dispatch nothing for each object that is already related to the subject', () => {
+    it('should dispatch RELATION_SAVE_REJECTED for each object that is already related to the subject', () => {
       const store = mockStore({
         relation: Immutable.Map(),
       });
@@ -927,24 +789,74 @@ describe('relation action creator', () => {
         },
       ];
 
-      return store.dispatch(batchCreateBidirectional(subject, objects, predicate))
+      return store.dispatch(batchCreateBidirectional([subject], objects, predicate))
         .then(() => {
           const actions = store.getActions();
 
-          actions.should.have.lengthOf(2);
+          actions.should.have.lengthOf(3);
 
           actions[0].should.contain({
-            type: SHOW_NOTIFICATION,
+            type: RELATION_SAVE_STARTED,
           });
 
           actions[1].should.contain({
-            type: SUBJECT_RELATIONS_UPDATED,
+            type: RELATION_SAVE_REJECTED,
           });
 
-          actions[1].meta.should.contain({
-            subject,
+          actions[2].should.contain({
+            type: SHOW_NOTIFICATION,
           });
         });
+    });
+
+    it('should dispatch one SHOW_NOTIFICATION when relating more than 5 subjects', async () => {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => res(ctx.status(200))),
+
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
+
+      const subjects = Array.from({ length: 6 }, (_, i) => ({ csid: `subject${i}`, title: `Subject ${i}` }));
+      const objects = Array.from({ length: 6 }, (_, i) => ({ csid: `object${i}`, title: `Object ${i}` }));
+
+      await store.dispatch(batchCreateBidirectional(subjects, objects, predicate));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(8);
+      actions.filter((a) => a.type === 'SHOW_NOTIFICATION').should.have.lengthOf(1);
+    });
+
+    it('should dispatch n SHOW_NOTIFICATION when relating n subjects, where n less than 6', async () => {
+      const store = mockStore({
+        relation: Immutable.Map(),
+      });
+
+      worker.use(
+        rest.get(checkUrl, (req, res, ctx) => res(ctx.status(200))),
+
+        rest.post(createUrl, (req, res, ctx) => res(
+          ctx.status(201),
+          ctx.set('location', 'some/new/url'),
+        )),
+      );
+
+      const subjects = Array.from({ length: 5 }, (_, i) => ({ csid: `subject${i}`, title: `Subject ${i}` }));
+      const objects = Array.from({ length: 5 }, (_, i) => ({ csid: `object${i}`, title: `Object ${i}` }));
+
+      await store.dispatch(batchCreateBidirectional(subjects, objects, predicate));
+
+      const actions = store.getActions();
+
+      actions.should.have.lengthOf(11);
+      actions.filter((a) => a.type === 'SHOW_NOTIFICATION').should.have.lengthOf(5);
     });
   });
 
