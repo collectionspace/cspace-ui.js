@@ -30,7 +30,7 @@ import {
 import SelectBar from '../../search/SelectBar';
 import RelateResults from '../../search/RelateResults';
 import ExportResults from '../../search/ExportResults';
-import { getListTypeFromResult } from '../../../helpers/searchHelpers';
+import { getListTypeFromResult, createPageSizeChangeHandler } from '../../../helpers/searchHelpers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -223,6 +223,7 @@ export default function SearchResults(props) {
   const config = useConfig();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { location } = props;
 
   const normalizedQuery = normalizeQuery(props, config);
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
@@ -230,6 +231,13 @@ export default function SearchResults(props) {
     setPreferredPageSize(props, dispatch);
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
   }, [searchDescriptor.toString()]);
+
+  const handlePageSizeChange = createPageSizeChangeHandler({
+    history,
+    location,
+    dispatch,
+    setPreferredPageSize: setSearchResultPagePageSize,
+  });
 
   const searchResults = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
@@ -304,6 +312,7 @@ export default function SearchResults(props) {
               config={config}
               searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
               searchDescriptor={searchDescriptor}
+              onPageSizeChange={handlePageSizeChange}
             />
             <SelectExportRelateToggleBar
               toggleBar={displayToggles}
@@ -321,4 +330,9 @@ export default function SearchResults(props) {
   );
 }
 
+const searchResultsPropTypes = {
+  location: PropTypes.object.isRequired,
+};
+
+SearchResults.propTypes = searchResultsPropTypes;
 SelectExportRelateToggleBar.propTypes = selectBarPropTypes;

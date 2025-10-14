@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import qs from 'qs';
 import Pager from './Pager';
 import { useConfig } from '../config/ConfigProvider';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 import { getSearchResult } from '../../reducers';
 import { setSearchResultPagePageSize } from '../../actions/prefs';
-import { getListTypeFromResult } from '../../helpers/searchHelpers';
+import { getListTypeFromResult, createPageSizeChangeHandler, createPageChangeHandler } from '../../helpers/searchHelpers';
 
 const propTypes = {
   searchDescriptor: PropTypes.object,
@@ -33,44 +32,18 @@ export default function SearchResultFooter({ searchDescriptor }) {
     );
   }
 
-  function onPageChange(page) {
-    const {
-      search,
-    } = location;
+  const onPageChange = createPageChangeHandler({
+    history,
+    location,
+    zeroIndexed: true,
+  });
 
-    const query = qs.parse(search.substring(1));
-
-    query.p = (page + 1).toString();
-
-    const queryString = qs.stringify(query);
-
-    history.push({
-      pathname: location.pathname,
-      search: `?${queryString}`,
-      state: location.state,
-    });
-  }
-
-  function onPageSizeChange(pageSize) {
-    const {
-      search,
-    } = location;
-
-    dispatch(() => setSearchResultPagePageSize(pageSize));
-
-    const query = qs.parse(search.substring(1));
-
-    query.p = '1';
-    query.size = pageSize.toString();
-
-    const queryString = qs.stringify(query);
-
-    history.push({
-      pathname: location.pathname,
-      search: `?${queryString}`,
-      state: location.state,
-    });
-  }
+  const onPageSizeChange = createPageSizeChangeHandler({
+    history,
+    location,
+    dispatch,
+    setPreferredPageSize: setSearchResultPagePageSize,
+  });
 
   const listType = getListTypeFromResult(config, results);
   const listTypeConfig = config.listTypes[listType];
