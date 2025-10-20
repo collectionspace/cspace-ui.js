@@ -13,7 +13,12 @@ import SearchResultSummary from '../search/SearchResultSummary';
 import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import SelectBar from '../search/SelectBar';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
-import { deriveSearchType, getListTypeFromResult } from '../../helpers/searchHelpers';
+import {
+  deriveSearchType,
+  getListTypeFromResult,
+  createPageSizeChangeHandler,
+  createPageChangeHandler,
+} from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
@@ -246,23 +251,11 @@ export default class SearchResultPage extends Component {
       location,
     } = this.props;
 
-    if (history) {
-      const {
-        search,
-      } = location;
-
-      const query = qs.parse(search.substring(1));
-
-      query.p = (pageNum + 1).toString();
-
-      const queryString = qs.stringify(query);
-
-      history.push({
-        pathname: location.pathname,
-        search: `?${queryString}`,
-        state: location.state,
-      });
-    }
+    const handler = createPageChangeHandler({
+      history,
+      location,
+    });
+    return handler(pageNum);
   }
 
   handlePageSizeChange(pageSize) {
@@ -272,28 +265,17 @@ export default class SearchResultPage extends Component {
       setPreferredPageSize,
     } = this.props;
 
+    // Call setPreferredPageSize directly (not through dispatch)
     if (setPreferredPageSize) {
       setPreferredPageSize(pageSize);
     }
 
-    if (history) {
-      const {
-        search,
-      } = location;
-
-      const query = qs.parse(search.substring(1));
-
-      query.p = '1';
-      query.size = pageSize.toString();
-
-      const queryString = qs.stringify(query);
-
-      history.push({
-        pathname: location.pathname,
-        search: `?${queryString}`,
-        state: location.state,
-      });
-    }
+    // Use helper for URL navigation
+    const handler = createPageSizeChangeHandler({
+      history,
+      location,
+    });
+    return handler(pageSize);
   }
 
   handleSortChange(sort) {
