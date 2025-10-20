@@ -229,7 +229,7 @@ export default function SearchResults(props) {
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
-  }, [normalizedQuery, searchDescriptor]);
+  }, [searchDescriptor.toString()]);
 
   const searchResults = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
