@@ -1184,3 +1184,78 @@ export const clearAdvancedSearchConditionValues = (condition) => {
 
   return condition.delete('value');
 };
+
+/**
+ * Creates a reusable page size change handler that updates URL query parameters and navigation
+ * history. This function handles the common pattern of resetting to page 1 and updating the
+ * page size in the URL.
+ */
+export const createPageSizeChangeHandler = ({
+  history,
+  location,
+  dispatch,
+  setPreferredPageSize,
+  maxPageSize = 2500,
+  minPageSize = 1,
+}) => (pageSize) => {
+  // Normalize page size
+  let normalizedPageSize = parseInt(pageSize, 10);
+
+  if (Number.isNaN(normalizedPageSize) || normalizedPageSize < minPageSize) {
+    normalizedPageSize = minPageSize;
+  } else if (normalizedPageSize > maxPageSize) {
+    normalizedPageSize = maxPageSize;
+  }
+
+  if (dispatch && setPreferredPageSize) {
+    dispatch(() => setPreferredPageSize(normalizedPageSize));
+  }
+
+  if (history && location) {
+    const { search } = location;
+    const query = qs.parse(search.substring(1));
+
+    query.p = '1';
+    query.size = normalizedPageSize.toString();
+
+    const queryString = qs.stringify(query);
+
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
+
+  return normalizedPageSize;
+};
+
+/**
+ * Creates a reusable page change handler that updates URL query parameters and navigation
+ * history. This function handles navigation between pages while preserving other query
+ * parameters.
+ */
+export const createPageChangeHandler = ({
+  history,
+  location,
+  zeroIndexed = true,
+}) => (page) => {
+  if (!history || !location) {
+    return;
+  }
+
+  const { search } = location;
+
+  const query = qs.parse(search.substring(1));
+
+  // Convert page number based on indexing (URL uses 1-based, internal logic may use 0-based)
+  query.p = zeroIndexed ? (page + 1).toString() : page.toString();
+
+  const queryString = qs.stringify(query);
+
+  history.push({
+    pathname: location.pathname,
+    search: `?${queryString}`,
+    state: location.state,
+  });
+};
