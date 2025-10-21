@@ -1,7 +1,7 @@
 /* global document, window */
 
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { addLocaleData, IntlProvider } from 'react-intl';
@@ -137,6 +137,15 @@ export default (uiConfig) => {
       module.hot.accept('./containers/AppContainer', () => {
         render(<AppContainer {...props} />, mountNode);
       });
+    }
+
+    // Run accessibility checks in dev and log issues in console
+    if (process.env.NODE_ENV === 'development') {
+      (async () => {
+        // eslint-disable-next-line import/no-extraneous-dependencies
+        const axe = await import('react-axe');
+        axe.default(React, ReactDOM, 1000);
+      })();
     }
   }
 };
