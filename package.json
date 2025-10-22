@@ -117,7 +117,8 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^5.0.4",
     "axe-core": "^4.11.0",
-    "react-axe": "^3.5.4"
+    "react-axe": "^3.5.4",
+    "eslint-plugin-jsx-a11y": "^6.10.2"
   },
   "nyc": {
     "include": [
