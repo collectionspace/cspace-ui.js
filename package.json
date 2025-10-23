@@ -42,6 +42,7 @@
     "test": "cross-env NODE_ENV=test karma start --singleRun=true"
   },
   "dependencies": {
+    "@axe-core/react": "^4.11.0",
     "classnames": "^2.2.5",
     "cspace-client": "^2.0.0",
     "cspace-input": "^2.0.4",
@@ -73,6 +74,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.4.0",
+    "axe-core": "^4.11.0",
     "babel-loader": "^9.1.2",
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-istanbul": "^5.1.2",
@@ -85,7 +87,7 @@
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "file-loader": "^6.2.0",

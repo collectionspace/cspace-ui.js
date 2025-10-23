@@ -1,10 +1,14 @@
 {
   "extends": [
-    "airbnb"
+    "airbnb",
+    "plugin:jsx-a11y/strict"
   ],
   "parserOptions": {
     "ecmaVersion": 2020
   },
+  "plugins": [
+    "jsx-a11y"
+  ],
   "rules": {
     // TODO: Rationalize prop definitions -- add isRequired where needed, and add defaults
     // elsewhere. For now turn off this rule.

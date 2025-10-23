@@ -3,9 +3,11 @@ import { Simulate } from 'react-dom/test-utils';
 import { MemoryRouter as Router } from 'react-router';
 import Immutable from 'immutable';
 import { IntlProvider } from 'react-intl';
+import * as axe from 'axe-core';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import SearchResultTable from '../../../../src/components/search/SearchResultTable';
+import throwAxeViolationsError from '../../../helpers/utils';
 
 const { expect } = chai;
 
@@ -165,7 +167,7 @@ describe('SearchResultTable', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a div without a11y violations', async function test() {
     render(
       <Router>
         <SearchResultTable
@@ -176,6 +178,11 @@ describe('SearchResultTable', () => {
     );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
+    const results = await axe.run(this.container);
+    if (results.violations.length > 0) {
+      throwAxeViolationsError(results.violations);
+    }
+    results.violations.length.should.equal(0);
   });
 
   it('should render the specified column set', function test() {
