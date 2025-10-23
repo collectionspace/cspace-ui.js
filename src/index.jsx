@@ -143,8 +143,8 @@ export default (uiConfig) => {
     if (process.env.NODE_ENV === 'development') {
       (async () => {
         // eslint-disable-next-line import/no-extraneous-dependencies
-        const axe = await import('react-axe');
-        axe.default(React, ReactDOM, 1000);
+        const axe = await import('@axe-core/react');
+        await axe.default(React, ReactDOM, 1000);
       })();
     }
   }
