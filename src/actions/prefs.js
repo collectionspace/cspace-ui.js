@@ -30,6 +30,7 @@ import {
   TOGGLE_SEARCH_RESULT_SIDEBAR,
   SET_STICKY_FIELDS,
   TOGGLE_USE_NEW_SEARCH,
+  SET_NEW_SEARCH_SHOWN,
 } from '../constants/actionCodes';
 
 export const storageKey = 'cspace-ui';
@@ -143,6 +144,10 @@ export const setStickyFields = (recordTypeConfig, csid) => (dispatch, getState) 
 
 export const toggleUseNewSearch = () => ({
   type: TOGGLE_USE_NEW_SEARCH,
+});
+
+export const setNewSearchShown = () => ({
+  type: SET_NEW_SEARCH_SHOWN,
 });
 
 export const loadPrefs = (config, username) => (dispatch) => {

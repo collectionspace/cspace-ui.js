@@ -17,6 +17,7 @@ import {
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import { Button } from '../../helpers/configContextInputs';
+import SearchFormNew from '../search/SearchFormNew';
 
 const SearchForm = injectIntl(BaseSearchForm);
 
@@ -329,11 +330,8 @@ export default class SearchPage extends Component {
         />
 
         <div className={pageBodyStyles.common}>
-          {useNewSearch ? (
-            <div>
-              {/* Placeholder for the new SearchForm */}
-              <p>New Search Form Placeholder</p>
-            </div>
+          {useNewSearch || typeof useNewSearch === 'undefined' ? (
+            <SearchFormNew />
           ) : (
             <SearchForm
               advancedSearchCondition={advancedSearchCondition}

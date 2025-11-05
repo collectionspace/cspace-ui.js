@@ -23,6 +23,7 @@ import {
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_TO_SELECT_ADVANCED,
   TOGGLE_USE_NEW_SEARCH,
+  SET_NEW_SEARCH_SHOWN,
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
@@ -129,6 +130,8 @@ export default (state = Immutable.Map(), action) => {
       return setStickyFields(state, action);
     case TOGGLE_USE_NEW_SEARCH:
       return state.set('useNewSearch', !state.get('useNewSearch'));
+    case SET_NEW_SEARCH_SHOWN:
+      return state.set('newSearchShown', true);
     default:
       return state;
   }
