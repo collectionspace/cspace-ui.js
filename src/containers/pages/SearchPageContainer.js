@@ -18,6 +18,7 @@ import {
 import {
   setSearchPageRecordType,
   setSearchPageVocabulary,
+  toggleUseNewSearch,
 } from '../../actions/prefs';
 
 import {
@@ -34,6 +35,7 @@ const mapStateToProps = (state, ownProps) => {
   const searchPageRecordType = getSearchPageRecordType(state);
 
   return {
+    useNewSearch: state.prefs.get('useNewSearch'),
     keywordValue: getSearchPageKeyword(state),
     recordTypeValue: searchPageRecordType,
     vocabularyValue: getSearchPageVocabulary(state, searchPageRecordType),
@@ -53,6 +55,7 @@ const mapDispatchToProps = {
   clearSearchPage,
   deleteOptionList,
   initiateSearch,
+  toggleUseNewSearch,
   onAdvancedSearchConditionCommit: setSearchPageAdvanced,
   onClearButtonClick: clearSearchPage,
   onKeywordCommit: setSearchPageKeyword,

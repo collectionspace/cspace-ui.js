@@ -16,6 +16,7 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import { Button } from '../../helpers/configContextInputs';
 
 const SearchForm = injectIntl(BaseSearchForm);
 
@@ -34,6 +35,7 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   keywordValue: PropTypes.string,
+  useNewSearch: PropTypes.bool,
   advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -57,6 +59,7 @@ const propTypes = {
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
+  toggleUseNewSearch: PropTypes.func,
 };
 
 const contextTypes = {
@@ -73,6 +76,7 @@ export default class SearchPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleVocabularyCommit = this.handleVocabularyCommit.bind(this);
     this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
+    this.handleToggleSearch = this.handleToggleSearch.bind(this);
 
     this.state = ({
       headerDockPosition: null,
@@ -140,6 +144,11 @@ export default class SearchPage extends Component {
     if (clearSearchPage) {
       clearSearchPage();
     }
+  }
+
+  handleToggleSearch() {
+    const { toggleUseNewSearch } = this.props;
+    toggleUseNewSearch();
   }
 
   handleRecordTypeCommit(value) {
@@ -271,6 +280,7 @@ export default class SearchPage extends Component {
       onAdvancedSearchConditionCommit,
       onClearButtonClick,
       onKeywordCommit,
+      useNewSearch,
     } = this.props;
 
     const {
@@ -295,35 +305,58 @@ export default class SearchPage extends Component {
 
     const title = <FormattedMessage {...messages.title} />;
 
+    const toggleButton = (
+      // TODO: fix styling, wordings, mailto address
+      <div>
+        <Button style={{ backgroundColor: 'white', color: 'black', border: '1px solid' }} onClick={this.handleToggleSearch}>
+          {useNewSearch ? 'Switch back to the old search' : 'Try the new search'}
+        </Button>
+        {useNewSearch && (
+          <a style={{ marginLeft: '10px' }} href="mailto:admin@example.com">
+            Provide feedback
+          </a>
+        )}
+      </div>
+    );
+
     return (
       <div className={styles.common}>
         <TitleBar
           title={title}
+          aside={toggleButton}
           updateDocumentTitle
           onDocked={this.handleTitleBarDocked}
         />
 
         <div className={pageBodyStyles.common}>
-          <SearchForm
-            advancedSearchCondition={advancedSearchCondition}
-            config={config}
-            dockTop={headerDockPosition}
-            keywordValue={keywordValue}
-            recordTypeValue={recordType}
-            vocabularyValue={vocabulary}
-            perms={perms}
-            preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
-            showButtons
-            getAuthorityVocabCsid={getAuthorityVocabCsid}
-            buildRecordFieldOptionLists={buildRecordFieldOptionLists}
-            deleteOptionList={deleteOptionList}
-            onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
-            onClearButtonClick={onClearButtonClick}
-            onKeywordCommit={onKeywordCommit}
-            onRecordTypeCommit={this.handleRecordTypeCommit}
-            onVocabularyCommit={this.handleVocabularyCommit}
-            onSearch={this.handleSearch}
-          />
+          {useNewSearch ? (
+            <div>
+              {/* Placeholder for the new SearchForm */}
+              <p>New Search Form Placeholder</p>
+            </div>
+          ) : (
+            <SearchForm
+              advancedSearchCondition={advancedSearchCondition}
+              config={config}
+              dockTop={headerDockPosition}
+              keywordValue={keywordValue}
+              recordTypeValue={recordType}
+              vocabularyValue={vocabulary}
+              perms={perms}
+              preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
+              showButtons
+              getAuthorityVocabCsid={getAuthorityVocabCsid}
+              buildRecordFieldOptionLists={buildRecordFieldOptionLists}
+              deleteOptionList={deleteOptionList}
+              onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+              onClearButtonClick={onClearButtonClick}
+              onKeywordCommit={onKeywordCommit}
+              onRecordTypeCommit={this.handleRecordTypeCommit}
+              onVocabularyCommit={this.handleVocabularyCommit}
+              onSearch={this.handleSearch}
+            />
+
+          )}
         </div>
       </div>
     );

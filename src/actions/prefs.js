@@ -29,6 +29,7 @@ import {
   TOGGLE_RECORD_SIDEBAR,
   TOGGLE_SEARCH_RESULT_SIDEBAR,
   SET_STICKY_FIELDS,
+  TOGGLE_USE_NEW_SEARCH,
 } from '../constants/actionCodes';
 
 export const storageKey = 'cspace-ui';
@@ -139,6 +140,10 @@ export const setStickyFields = (recordTypeConfig, csid) => (dispatch, getState) 
     });
   }
 };
+
+export const toggleUseNewSearch = () => ({
+  type: TOGGLE_USE_NEW_SEARCH,
+});
 
 export const loadPrefs = (config, username) => (dispatch) => {
   // TODO: Load prefs from server (requires adding services layer support).

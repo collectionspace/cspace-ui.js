@@ -186,7 +186,8 @@ export default class TitleBar extends Component {
 
     if (aside !== null && typeof aside !== 'undefined') {
       return (
-        <aside><h2>{aside}</h2></aside>
+        // TODO: add back h2
+        <aside>{aside}</aside>
       );
     }
 
