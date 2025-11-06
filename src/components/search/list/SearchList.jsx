@@ -80,7 +80,7 @@ export function DetailItem({
 
   // omit fields when no data is returned?
   // todo: NoBlobFound image
-  const blob = blobCsid ? <BlobImage csid={blobCsid} derivative="Thumbnail" className={styles.detailImg} /> : null;
+  const blob = blobCsid ? <BlobImage csid={blobCsid} derivative="Small" className={styles.detailImg} /> : null;
   return (
     <div className={styles.innerDetail}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
