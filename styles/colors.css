@@ -4,3 +4,6 @@
 @value textLabel: rgb(80, 80, 80);
 
 @value inputBg: rgb(255, 255, 255);
+
+@value buttonOutlinedBg: rgb(255, 255, 255);
+@value buttonOutlinedBgActive: rgb(220, 220, 220);

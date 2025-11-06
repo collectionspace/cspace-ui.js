@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import Immutable from 'immutable';
+import { components as inputComponents } from 'cspace-input';
 import ErrorPage from './ErrorPage';
 import BaseSearchForm from '../search/SearchForm';
 import TitleBar from '../sections/TitleBar';
@@ -16,8 +17,9 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
-import { Button } from '../../helpers/configContextInputs';
 import SearchFormNew from '../search/SearchFormNew';
+
+const { Button } = inputComponents;
 
 const SearchForm = injectIntl(BaseSearchForm);
 
@@ -307,13 +309,13 @@ export default class SearchPage extends Component {
     const title = <FormattedMessage {...messages.title} />;
 
     const toggleButton = (
-      // TODO: fix styling, wordings, mailto address
-      <div>
-        <Button style={{ backgroundColor: 'white', color: 'black', border: '1px solid' }} onClick={this.handleToggleSearch}>
+      // TODO: wordings, mailto address
+      <div className={styles.toggleButton}>
+        <Button onClick={this.handleToggleSearch}>
           {useNewSearch ? 'Switch back to the old search' : 'Try the new search'}
         </Button>
         {useNewSearch && (
-          <a style={{ marginLeft: '10px' }} href="mailto:admin@example.com">
+          <a href="mailto:admin@example.com">
             Provide feedback
           </a>
         )}
