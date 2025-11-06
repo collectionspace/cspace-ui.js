@@ -7,12 +7,11 @@ import { getNewSearchShown } from '../../reducers';
 
 const SearchFormNew = () => {
   const dispatch = useDispatch();
-  // TODO: move selector to reducer
   const newSearchShown = useSelector((state) => getNewSearchShown(state));
 
   useEffect(() => {
     if (!newSearchShown) {
-      // TODO: dispatch showNotification, call only on render, fix message
+      // TODO: message needs to be specified
       dispatch(showNotification({
         items: [{
           message: {
@@ -35,7 +34,7 @@ const SearchFormNew = () => {
       }));
       dispatch(setNewSearchShown());
     }
-  }, [dispatch, newSearchShown]);
+  }, []);
 
   return (
     <div>

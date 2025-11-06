@@ -345,6 +345,7 @@ class SearchPage extends Component {
         <TitleBar
           title={title}
           aside={toggleButton}
+          isAsidePlainText
           updateDocumentTitle
           onDocked={this.handleTitleBarDocked}
         />
