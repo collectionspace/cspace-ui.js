@@ -28,6 +28,7 @@ import {
   getSearchPageKeyword,
   getSearchPageRecordType,
   getSearchPageVocabulary,
+  getUseNewSearch,
   getUserPerms,
 } from '../../reducers';
 
@@ -35,7 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   const searchPageRecordType = getSearchPageRecordType(state);
 
   return {
-    useNewSearch: state.prefs.get('useNewSearch'),
+    useNewSearch: getUseNewSearch(state),
     keywordValue: getSearchPageKeyword(state),
     recordTypeValue: searchPageRecordType,
     vocabularyValue: getSearchPageVocabulary(state, searchPageRecordType),

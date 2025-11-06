@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNewSearchShown } from '../../actions/prefs';
 import { STATUS_SUCCESS } from '../../constants/notificationStatusCodes';
 import { showNotification } from '../../actions/notification';
+import { getNewSearchShown } from '../../reducers';
 
 const SearchFormNew = () => {
   const dispatch = useDispatch();
   // TODO: move selector to reducer
-  const newSearchShown = useSelector((state) => state.prefs.get('newSearchShown'));
+  const newSearchShown = useSelector((state) => getNewSearchShown(state));
 
   useEffect(() => {
     if (!newSearchShown) {

@@ -167,6 +167,10 @@ export const getAdminTab = (state) => state.get('adminTab');
 
 export const getToolTab = (state) => state.get('toolTab');
 
+export const getNewSearchShown = (state) => state.get('newSearchShown');
+
+export const getUseNewSearch = (state) => state.get('useNewSearch');
+
 export const isRecordSidebarOpen = (state) => state.get('recordSidebarOpen');
 
 export const isSearchResultSidebarOpen = (state) => state.get('searchResultSidebarOpen');
