@@ -15,18 +15,8 @@ const SearchFormNew = () => {
       dispatch(showNotification({
         items: [{
           message: {
-            id: 'batch.running',
-            defaultMessage: (
-              <div>
-                This is an informative notification about the new search form. It includes:
-                <ul>
-                  <li>Feature 1</li>
-                  <li>Feature 2</li>
-                  <li>Feature 3</li>
-                </ul>
-                and some more new cool features!
-              </div>
-            ),
+            id: 'newSearchForm.informative',
+            defaultMessage: 'This is an informative notification about the new search form. It includes:...',
           },
         }],
         date: new Date(),

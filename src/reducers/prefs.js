@@ -129,7 +129,8 @@ export default (state = Immutable.Map(), action) => {
     case SET_STICKY_FIELDS:
       return setStickyFields(state, action);
     case TOGGLE_USE_NEW_SEARCH:
-      return state.set('useNewSearch', !state.get('useNewSearch'));
+      return state.set('useNewSearch', typeof state.get('useNewSearch') === 'undefined' ? false
+        : !state.get('useNewSearch'));
     case SET_NEW_SEARCH_SHOWN:
       return state.set('newSearchShown', true);
     default:

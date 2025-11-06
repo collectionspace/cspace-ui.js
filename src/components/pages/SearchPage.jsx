@@ -328,11 +328,11 @@ class SearchPage extends Component {
     const toggleButton = (
       <div className={styles.toggleButton}>
         <Button onClick={this.handleToggleSearch}>
-          {useNewSearch
+          {useNewSearch || typeof useNewSearch === 'undefined'
             ? intl.formatMessage(messages.toggleButtonOldSearch)
             : intl.formatMessage(messages.toggleButtonNewSearch)}
         </Button>
-        {useNewSearch && (
+        {(useNewSearch || typeof useNewSearch === 'undefined') && (
           <a href="mailto:admin@example.com">
             { intl.formatMessage(messages.provideFeedback) }
           </a>
