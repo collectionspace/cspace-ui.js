@@ -559,7 +559,6 @@ export default class SearchResultPage extends Component {
       location,
       history,
       isSidebarOpen,
-      selectedItems,
     } = this.props;
 
     const {
@@ -615,7 +614,6 @@ export default class SearchResultPage extends Component {
             history={history}
             isOpen={isSidebarOpen}
             recordType={recordType}
-            selectedItems={selectedItems}
           />
         </div>
       </div>
