@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
+import {
+  defineMessages, injectIntl, FormattedMessage, intlShape,
+} from 'react-intl';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
@@ -27,6 +29,18 @@ const messages = defineMessages({
   title: {
     id: 'searchPage.title',
     defaultMessage: 'Search',
+  },
+  toggleButtonOldSearch: {
+    id: 'searchPage.toggleButtonOldSearch',
+    defaultMessage: 'Switch back to the old search',
+  },
+  toggleButtonNewSearch: {
+    id: 'searchPage.toggleButtonNewSearch',
+    defaultMessage: 'Try the new search',
+  },
+  provideFeedback: {
+    id: 'searchPage.provideFeedback',
+    defaultMessage: 'Provide feedback',
   },
 });
 
@@ -63,6 +77,7 @@ const propTypes = {
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
   toggleUseNewSearch: PropTypes.func,
+  intl: intlShape,
 };
 
 const contextTypes = {
@@ -71,7 +86,7 @@ const contextTypes = {
   }).isRequired,
 };
 
-export default class SearchPage extends Component {
+class SearchPage extends Component {
   constructor() {
     super();
 
@@ -284,6 +299,7 @@ export default class SearchPage extends Component {
       onClearButtonClick,
       onKeywordCommit,
       useNewSearch,
+      intl,
     } = this.props;
 
     const {
@@ -308,15 +324,17 @@ export default class SearchPage extends Component {
 
     const title = <FormattedMessage {...messages.title} />;
 
+    // TODO: mailto address needs to be specified
     const toggleButton = (
-      // TODO: wordings, mailto address
       <div className={styles.toggleButton}>
         <Button onClick={this.handleToggleSearch}>
-          {useNewSearch ? 'Switch back to the old search' : 'Try the new search'}
+          {useNewSearch
+            ? intl.formatMessage(messages.toggleButtonOldSearch)
+            : intl.formatMessage(messages.toggleButtonNewSearch)}
         </Button>
         {useNewSearch && (
           <a href="mailto:admin@example.com">
-            Provide feedback
+            { intl.formatMessage(messages.provideFeedback) }
           </a>
         )}
       </div>
@@ -365,3 +383,5 @@ export default class SearchPage extends Component {
 
 SearchPage.propTypes = propTypes;
 SearchPage.contextTypes = contextTypes;
+
+export default injectIntl(SearchPage);
