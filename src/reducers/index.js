@@ -169,6 +169,10 @@ export const getAdminTab = (state) => fromPrefs.getAdminTab(state.prefs);
 
 export const getToolTab = (state) => fromPrefs.getToolTab(state.prefs);
 
+export const getNewSearchShown = (state) => fromPrefs.getNewSearchShown(state.prefs);
+
+export const getUseNewSearch = (state) => fromPrefs.getUseNewSearch(state.prefs);
+
 export const getOptionList = (state, optionListName) => (
   fromOptionList.get(state.optionList, optionListName)
 );

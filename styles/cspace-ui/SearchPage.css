@@ -1,3 +1,20 @@
+@value buttonOutlinedBg, buttonOutlinedBgActive, textDark from '../colors.css';
+
 .common {
   background-color: rgb(250, 250, 250);
+}
+/* TODO: Move this to shared lib */
+.toggleButton button {
+  background-color: buttonOutlinedBg;
+  border: 1px solid;
+  color: textDark;
+}
+.toggleButton button:hover:not(:disabled) {
+  background-color: buttonOutlinedBgActive;
+}
+.toggleButton button:focus {
+  box-shadow: 0 0 0 2px buttonOutlinedBgActive;
+}
+.toggleButton a {
+  margin-left: 10px;
 }
