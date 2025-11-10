@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
-import { Panel } from 'cspace-layout';
 import Dock from '../sections/Dock';
 import SearchButtonBar from './SearchButtonBar';
-import AdvancedSearchBuilderContainer from '../../containers/search/AdvancedSearchBuilderContainer';
-import { ConnectedPanel } from '../../containers/layout/PanelContainer';
-import styles from '../../../styles/cspace-ui/SearchForm.css';
 import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
 import vocabStyles from '../../../styles/cspace-ui/SearchFormVocab.css';
 
@@ -20,11 +16,10 @@ import {
   getRecordFieldOptionListName,
   getRecordGroupOptionListName,
 } from '../../helpers/configHelpers';
+import SearchFormContent from './SearchFormContent';
 
 const {
   Label,
-  LineInput,
-  RecordTypeInput,
   VocabularyInput,
 } = inputComponents;
 
@@ -85,6 +80,7 @@ export default class SearchForm extends Component {
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
+    this.renderVocabularyInput = this.renderVocabularyInput.bind(this);
   }
 
   componentDidMount() {
@@ -293,44 +289,29 @@ export default class SearchForm extends Component {
     }
 
     return (
-      <form autoComplete="off" className={styles.common} onSubmit={this.handleFormSubmit}>
-        {header}
-        <Panel>
-          <div className={recordTypeStyles.common}>
-            <RecordTypeInput
-              label={intl.formatMessage(messages.recordType)}
-              recordTypes={recordTypes}
-              rootType={recordTypeInputRootType}
-              serviceTypes={recordTypeInputServiceTypes}
-              value={recordTypeValue}
-              formatRecordTypeLabel={this.formatRecordTypeLabel}
-              onCommit={this.handleRecordTypeDropdownCommit}
-              readOnly={recordTypeInputReadOnly}
-            />
-            {this.renderVocabularyInput(recordTypes)}
-          </div>
-          <ConnectedPanel
-            collapsible
-            header={fullTextPanelHeader}
-            name="fullTextSearch"
-            recordType={recordTypeValue}
-          >
-            <LineInput
-              label={intl.formatMessage(messages.keyword)}
-              value={keywordValue}
-              onCommit={this.handleKeywordInputCommit}
-            />
-          </ConnectedPanel>
-          <AdvancedSearchBuilderContainer
-            condition={advancedSearchCondition}
-            config={config}
-            preferredBooleanOp={preferredAdvancedSearchBooleanOp}
-            recordType={recordTypeValue}
-            onConditionCommit={onAdvancedSearchConditionCommit}
-          />
-        </Panel>
-        {footer}
-      </form>
+      <SearchFormContent
+        header={header}
+        footer={footer}
+        recordTypeStyles={recordTypeStyles}
+        recordTypes={recordTypes}
+        recordTypeInputRootType={recordTypeInputRootType}
+        recordTypeInputServiceTypes={recordTypeInputServiceTypes}
+        recordTypeValue={recordTypeValue}
+        intl={intl}
+        messages={messages}
+        formatRecordTypeLabel={this.formatRecordTypeLabel}
+        handleRecordTypeDropdownCommit={this.handleRecordTypeDropdownCommit}
+        renderVocabularyInput={this.renderVocabularyInput}
+        fullTextPanelHeader={fullTextPanelHeader}
+        keywordValue={keywordValue}
+        handleKeywordInputCommit={this.handleKeywordInputCommit}
+        advancedSearchCondition={advancedSearchCondition}
+        config={config}
+        preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
+        onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+        handleFormSubmit={this.handleFormSubmit}
+        recordTypeInputReadOnly={recordTypeInputReadOnly}
+      />
     );
   }
 }
