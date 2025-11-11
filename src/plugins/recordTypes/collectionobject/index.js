@@ -1,5 +1,6 @@
 import advancedSearch from './advancedSearch';
 import columns from './columns';
+import detailList from './detailList';
 import fields from './fields';
 import forms from './forms';
 import idGenerators from './idGenerators';
@@ -19,6 +20,7 @@ export default () => (configContext) => ({
       serviceConfig,
       advancedSearch: advancedSearch(configContext),
       columns: columns(configContext),
+      detailList: detailList(configContext),
       defaultForSearch: true, // Is this the default in search dropdowns?
       fields: fields(configContext),
       forms: forms(configContext),
