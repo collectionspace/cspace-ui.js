@@ -13,6 +13,8 @@ import {
   setSearchPageAdvanced,
   setSearchPageKeyword,
   initiateSearch,
+  setSearchPageAdvancedLimitBy,
+  setSearchPageAdvancedSearchTerms,
 } from '../../actions/searchPage';
 
 import {
@@ -25,6 +27,8 @@ import {
   getAdvancedSearchBooleanOp,
   getAuthorityVocabCsid,
   getSearchPageAdvanced,
+  getSearchPageAdvancedLimitBy,
+  getSearchPageAdvancedSearchTerms,
   getSearchPageKeyword,
   getSearchPageRecordType,
   getSearchPageVocabulary,
@@ -41,6 +45,8 @@ const mapStateToProps = (state, ownProps) => {
     recordTypeValue: searchPageRecordType,
     vocabularyValue: getSearchPageVocabulary(state, searchPageRecordType),
     advancedSearchCondition: getSearchPageAdvanced(state),
+    advancedSearchConditionLimitBy: getSearchPageAdvancedLimitBy(state),
+    advancedSearchConditionSearchTerms: getSearchPageAdvancedSearchTerms(state),
     perms: getUserPerms(state),
     preferredAdvancedSearchBooleanOp:
       getAdvancedSearchBooleanOp(state)
@@ -58,6 +64,8 @@ const mapDispatchToProps = {
   initiateSearch,
   toggleUseNewSearch,
   onAdvancedSearchConditionCommit: setSearchPageAdvanced,
+  onAdvancedSearchConditionLimitByCommit: setSearchPageAdvancedLimitBy,
+  onAdvancedSearchConditionSearchTermsCommit: setSearchPageAdvancedSearchTerms,
   onClearButtonClick: clearSearchPage,
   onKeywordCommit: setSearchPageKeyword,
   onRecordTypeCommit: setSearchPageRecordType,

@@ -14,6 +14,8 @@ import {
   CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_KEYWORD,
   SET_SEARCH_PAGE_ADVANCED,
+  SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
+  SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
 } from '../constants/actionCodes';
 
 export const clearSearchPage = () => ({
@@ -30,6 +32,30 @@ export const setSearchPageAdvanced = (condition) => (dispatch, getState) => {
 
   dispatch({
     type: SET_SEARCH_PAGE_ADVANCED,
+    payload: condition,
+    meta: {
+      recordType,
+    },
+  });
+};
+
+export const setSearchPageAdvancedLimitBy = (condition) => (dispatch, getState) => {
+  const recordType = getSearchPageRecordType(getState());
+
+  dispatch({
+    type: SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
+    payload: condition,
+    meta: {
+      recordType,
+    },
+  });
+};
+
+export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getState) => {
+  const recordType = getSearchPageRecordType(getState());
+
+  dispatch({
+    type: SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
     payload: condition,
     meta: {
       recordType,

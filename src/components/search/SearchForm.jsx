@@ -17,6 +17,7 @@ import {
   getRecordGroupOptionListName,
 } from '../../helpers/configHelpers';
 import SearchFormContent from './SearchFormContent';
+import SearchFormContentNew from './SearchFormContentNew';
 
 const {
   Label,
@@ -40,6 +41,18 @@ const messages = defineMessages({
     id: 'searchForm.fullTextSearch',
     defaultMessage: 'Full Text Search',
   },
+  enterSearchTerms: {
+    id: 'searchForm.enterSearchTerms',
+    defaultMessage: 'Enter search terms:',
+  },
+  limitBySpecificFields: {
+    id: 'searchForm.limitBySpecificFields',
+    defaultMessage: 'Limit by specific fields:',
+  },
+  and: {
+    id: 'searchForm.and',
+    defaultMessage: 'And',
+  },
 });
 
 const propTypes = {
@@ -52,6 +65,8 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionLimitBy: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionSearchTerms: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   recordTypeInputReadOnly: PropTypes.bool,
   recordTypeInputRootType: PropTypes.string,
@@ -62,7 +77,10 @@ const propTypes = {
   getAuthorityVocabCsid: PropTypes.func,
   buildRecordFieldOptionLists: PropTypes.func,
   deleteOptionList: PropTypes.func,
+  showNewSearch: PropTypes.bool,
   onAdvancedSearchConditionCommit: PropTypes.func,
+  onAdvancedSearchConditionLimitByCommit: PropTypes.func,
+  onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -221,6 +239,8 @@ export default class SearchForm extends Component {
   render() {
     const {
       advancedSearchCondition,
+      advancedSearchConditionLimitBy,
+      advancedSearchConditionSearchTerms,
       config,
       dockTop,
       intl,
@@ -234,7 +254,10 @@ export default class SearchForm extends Component {
       recordTypeInputServiceTypes,
       showButtons,
       getAuthorityVocabCsid,
+      showNewSearch,
       onAdvancedSearchConditionCommit,
+      onAdvancedSearchConditionLimitByCommit,
+      onAdvancedSearchConditionSearchTermsCommit,
       onClearButtonClick,
     } = this.props;
 
@@ -286,6 +309,32 @@ export default class SearchForm extends Component {
       });
     } else {
       recordTypes = searchableRecordTypes;
+    }
+
+    if (showNewSearch) {
+      return (
+        <SearchFormContentNew
+          header={header}
+          footer={footer}
+          recordTypes={recordTypes}
+          recordTypeInputRootType={recordTypeInputRootType}
+          recordTypeInputServiceTypes={recordTypeInputServiceTypes}
+          recordTypeValue={recordTypeValue}
+          intl={intl}
+          messages={messages}
+          config={config}
+          formatRecordTypeLabel={this.formatRecordTypeLabel}
+          handleRecordTypeDropdownCommit={this.handleRecordTypeDropdownCommit}
+          renderVocabularyInput={this.renderVocabularyInput}
+          keywordValue={keywordValue}
+          handleKeywordInputCommit={this.handleKeywordInputCommit}
+          advancedSearchConditionSearchTerms={advancedSearchConditionSearchTerms}
+          advancedSearchConditionLimitBy={advancedSearchConditionLimitBy}
+          onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
+          onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
+          handleFormSubmit={this.handleFormSubmit}
+        />
+      );
     }
 
     return (

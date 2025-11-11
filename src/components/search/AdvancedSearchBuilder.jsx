@@ -16,6 +16,7 @@ const propTypes = {
   }),
   hasChildGroups: PropTypes.bool,
   inline: PropTypes.bool,
+  withoutPanel: PropTypes.bool,
   preferredBooleanOp: PropTypes.string,
   preferredCondition: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
@@ -146,6 +147,7 @@ export default class AdvancedSearchBuilder extends Component {
       inline,
       readOnly,
       recordType,
+      withoutPanel,
     } = this.props;
 
     if (!condition) {
@@ -170,7 +172,7 @@ export default class AdvancedSearchBuilder extends Component {
       />
     );
 
-    if (inline) {
+    if (inline || withoutPanel) {
       return searchConditionInput;
     }
 

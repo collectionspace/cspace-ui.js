@@ -19,7 +19,6 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
-import SearchFormNew from '../search/SearchFormNew';
 
 const { Button } = inputComponents;
 
@@ -54,6 +53,8 @@ const propTypes = {
   keywordValue: PropTypes.string,
   useNewSearch: PropTypes.bool,
   advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionLimitBy: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionSearchTerms: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.shape({
     push: PropTypes.func,
     replace: PropTypes.func,
@@ -72,6 +73,8 @@ const propTypes = {
   deleteOptionList: PropTypes.func,
   initiateSearch: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
+  onAdvancedSearchConditionLimitByCommit: PropTypes.func,
+  onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -289,6 +292,8 @@ class SearchPage extends Component {
   render() {
     const {
       advancedSearchCondition,
+      advancedSearchConditionLimitBy,
+      advancedSearchConditionSearchTerms,
       keywordValue,
       perms,
       preferredAdvancedSearchBooleanOp,
@@ -296,6 +301,8 @@ class SearchPage extends Component {
       buildRecordFieldOptionLists,
       deleteOptionList,
       onAdvancedSearchConditionCommit,
+      onAdvancedSearchConditionLimitByCommit,
+      onAdvancedSearchConditionSearchTermsCommit,
       onClearButtonClick,
       onKeywordCommit,
       useNewSearch,
@@ -349,33 +356,32 @@ class SearchPage extends Component {
           updateDocumentTitle
           onDocked={this.handleTitleBarDocked}
         />
-
         <div className={pageBodyStyles.common}>
-          {useNewSearch || typeof useNewSearch === 'undefined' ? (
-            <SearchFormNew />
-          ) : (
-            <SearchForm
-              advancedSearchCondition={advancedSearchCondition}
-              config={config}
-              dockTop={headerDockPosition}
-              keywordValue={keywordValue}
-              recordTypeValue={recordType}
-              vocabularyValue={vocabulary}
-              perms={perms}
-              preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
-              showButtons
-              getAuthorityVocabCsid={getAuthorityVocabCsid}
-              buildRecordFieldOptionLists={buildRecordFieldOptionLists}
-              deleteOptionList={deleteOptionList}
-              onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
-              onClearButtonClick={onClearButtonClick}
-              onKeywordCommit={onKeywordCommit}
-              onRecordTypeCommit={this.handleRecordTypeCommit}
-              onVocabularyCommit={this.handleVocabularyCommit}
-              onSearch={this.handleSearch}
-            />
-
-          )}
+          <SearchForm
+            advancedSearchCondition={advancedSearchCondition}
+            advancedSearchConditionLimitBy={advancedSearchConditionLimitBy}
+            advancedSearchConditionSearchTerms={advancedSearchConditionSearchTerms}
+            config={config}
+            dockTop={headerDockPosition}
+            keywordValue={keywordValue}
+            recordTypeValue={recordType}
+            vocabularyValue={vocabulary}
+            perms={perms}
+            preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
+            showButtons
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+            buildRecordFieldOptionLists={buildRecordFieldOptionLists}
+            deleteOptionList={deleteOptionList}
+            showNewSearch={useNewSearch || typeof useNewSearch === 'undefined'}
+            onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+            onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
+            onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
+            onClearButtonClick={onClearButtonClick}
+            onKeywordCommit={onKeywordCommit}
+            onRecordTypeCommit={this.handleRecordTypeCommit}
+            onVocabularyCommit={this.handleVocabularyCommit}
+            onSearch={this.handleSearch}
+          />
         </div>
       </div>
     );

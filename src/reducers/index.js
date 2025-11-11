@@ -190,6 +190,12 @@ export const getIDGenerator = (state, idGeneratorName) => (
 );
 
 export const getSearchPageAdvanced = (state) => fromSearchPage.getAdvanced(state.searchPage);
+export const getSearchPageAdvancedLimitBy = (state) => (
+  fromSearchPage.getAdvancedLimitBy(state.searchPage)
+);
+export const getSearchPageAdvancedSearchTerms = (state) => (
+  fromSearchPage.getAdvancedSearchTerms(state.searchPage)
+);
 
 export const getSearchPageKeyword = (state) => fromSearchPage.getKeyword(state.searchPage);
 
