@@ -1,116 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import get from 'lodash/get';
-import { injectIntl } from 'react-intl';
-import { CheckboxInput } from '../../../helpers/configContextInputs';
-import { getColumnConfig, readListItems } from '../searchResultHelpers';
+import DetailItem from './DetailItem';
+import { readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
-import { setResultItemSelected } from '../../../actions/search';
-import BlobImage from '../../media/BlobImage';
 
 import styles from '../../../../styles/cspace-ui/SearchList.css';
 import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 
-const DETAIL_COLUMN_SET = 'list';
-
-const itemPropTypes = {
-  item: PropTypes.instanceOf(Immutable.Map),
-  index: PropTypes.number,
-  listItems: PropTypes.array,
-  searchDescriptor: PropTypes.object,
-  listType: PropTypes.string,
-  selectedItems: PropTypes.instanceOf(Immutable.Map),
-};
-
-export function DetailItem({
-  item, index, listItems, searchDescriptor, listType, selectedItems,
-}) {
-  const config = useConfig();
-  const dispatch = useDispatch();
-
-  const csid = item.get('csid');
-  const blobCsid = item.get('blobCsid');
-  const selected = selectedItems ? selectedItems.has(csid) : false;
-
-  const listTypeConfig = config.listTypes[listType];
-  const { getItemLocationPath } = listTypeConfig;
-  let location;
-  let state;
-  if (getItemLocationPath) {
-    location = getItemLocationPath(item, { config, searchDescriptor });
-    state = {
-      searchDescriptor: searchDescriptor.toJS(),
-      // The search traverser on records will always link to the search result page, so use
-      // its search name.
-      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
-    };
-  }
-
-  const list = location
-    ? (
-      <Link to={{ pathname: location, state }}>
-        <ol className={styles.detailList}>
-          {listItems.map((listItem) => (
-            <li key={`${csid}-${listItem.dataKey}`}>
-              {listItem.label()}
-              {': '}
-              {item.get(listItem.dataKey)}
-            </li>
-          ))}
-        </ol>
-
-      </Link>
-    )
-    : (
-      <ol className={styles.detailList}>
-        {listItems.map((listItem) => (
-          <li key={`${csid}-${listItem.dataKey}`}>
-            {listItem.label()}
-            {': '}
-            {item.get(listItem.dataKey)}
-          </li>
-        ))}
-      </ol>
-    );
-
-  // omit fields when no data is returned?
-  // todo: NoBlobFound image
-  const blob = blobCsid ? <BlobImage csid={blobCsid} derivative="Small" className={styles.detailImg} /> : null;
-  return (
-    <div className={styles.innerDetail}>
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      {blob}
-      {list}
-      <CheckboxInput
-        embedded
-        className={styles.detailCheckbox}
-        name={`${index}`}
-        value={selected}
-        onCommit={(path, value) => dispatch(setResultItemSelected(config,
-          SEARCH_RESULT_PAGE_SEARCH_NAME,
-          searchDescriptor,
-          listType,
-          parseInt(path[0], 10),
-          value))}
-        onClick={(event) => event.stopPropagation()}
-      />
-    </div>
-  );
-}
-
-DetailItem.propTypes = itemPropTypes;
-
 const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
-  intl: PropTypes.object,
 };
 
-function SearchDetailList({ searchDescriptor, intl }) {
+const getDetailConfig = (config, searchDescriptor) => {
+  const recordType = searchDescriptor.get('recordType');
+  const subresource = searchDescriptor.get('subresource');
+
+  const configurer = subresource
+    ? config.subresources[subresource]
+    : config.recordTypes[recordType];
+
+  return get(configurer, ['detailList']);
+};
+
+export default function SearchDetailList({ searchDescriptor }) {
   const results = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -125,25 +42,7 @@ function SearchDetailList({ searchDescriptor, intl }) {
   }
 
   // read headers
-  const listConfig = getColumnConfig(config, searchDescriptor, DETAIL_COLUMN_SET);
-  const listItems = Object.keys(listConfig)
-    .filter((name) => !listConfig[name].disabled)
-    .sort((nameA, nameB) => {
-      const orderA = listConfig[nameA].order;
-      const orderB = listConfig[nameB].order;
-
-      return orderA - orderB;
-    }).map((name) => {
-      const column = listConfig[name];
-      return {
-        dataKey: column.dataKey || name,
-        label: () => {
-          const message = get(column, ['messages', 'label']);
-          return message ? intl.formatMessage(message) : '';
-        },
-      };
-    });
-
+  const detailConfig = getDetailConfig(config, searchDescriptor);
   return (
     <div className={styles.detail}>
       {items.map((item, index) => (
@@ -151,7 +50,7 @@ function SearchDetailList({ searchDescriptor, intl }) {
           item={item}
           key={item.get('csid')}
           index={index}
-          listItems={listItems}
+          detailConfig={detailConfig}
           searchDescriptor={searchDescriptor}
           listType={listType}
           selectedItems={selectedItems}
@@ -162,5 +61,3 @@ function SearchDetailList({ searchDescriptor, intl }) {
 }
 
 SearchDetailList.propTypes = propTypes;
-
-export default injectIntl(SearchDetailList);
