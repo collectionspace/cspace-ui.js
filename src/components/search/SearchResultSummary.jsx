@@ -16,7 +16,7 @@ import {
   setSearchPageKeyword,
 } from '../../actions/searchPage';
 import { getSearchError, getSearchResult } from '../../reducers';
-import { getListTypeFromResult } from '../../helpers/searchHelpers';
+import { extractAdvancedSearchQuery, getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const messages = defineMessages({
   error: {
@@ -82,11 +82,11 @@ const defaultProps = {
         }
 
         if (setSearchPageAdvancedLimitBy) {
-          dispatch(setSearchPageAdvancedLimitBy(searchQuery.get('as')));
+          dispatch(setSearchPageAdvancedLimitBy(extractAdvancedSearchQuery(searchQuery.get('as')).limitBy));
         }
 
         if (setSearchPageAdvancedSearchTerms) {
-          dispatch(setSearchPageAdvancedSearchTerms(searchQuery.get('as')));
+          dispatch(setSearchPageAdvancedSearchTerms(extractAdvancedSearchQuery(searchQuery.get('as')).searchTerms));
         }
       });
     }

@@ -24,6 +24,8 @@ import {
   SET_SEARCH_TO_SELECT_ADVANCED,
   TOGGLE_USE_NEW_SEARCH,
   SET_NEW_SEARCH_SHOWN,
+  SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
+  SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
@@ -44,6 +46,31 @@ const handleAdvancedSearchConditionChange = (state, action) => {
 
   nextState = nextState.setIn(
     ['searchCond', recordType],
+    clearAdvancedSearchConditionValues(condition),
+  );
+
+  return nextState;
+};
+
+// TODO: check if we can merge with above
+const handleAdvancedSearchNewConditionChange = (state, action) => {
+  const { recordType, searchTermsGroup } = action.meta;
+
+  if (!recordType) {
+    return state;
+  }
+
+  const condition = action.payload;
+  const op = condition ? condition.get('op') : null;
+
+  let nextState = state;
+
+  if (op === OP_AND || op === OP_OR) {
+    nextState = nextState.setIn(['advancedSearchNewBooleanOp', searchTermsGroup], op);
+  }
+
+  nextState = nextState.setIn(
+    ['searchNewCond', recordType, searchTermsGroup],
     clearAdvancedSearchConditionValues(condition),
   );
 
@@ -122,6 +149,9 @@ export default (state = Immutable.Map(), action) => {
     case SET_SEARCH_PAGE_ADVANCED:
     case SET_SEARCH_TO_SELECT_ADVANCED:
       return handleAdvancedSearchConditionChange(state, action);
+    case SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS:
+    case SET_SEARCH_PAGE_ADVANCED_LIMIT_BY:
+      return handleAdvancedSearchNewConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
       return handleToggleRecordSidebar(state, action);
     case TOGGLE_SEARCH_RESULT_SIDEBAR:
@@ -141,6 +171,10 @@ export default (state = Immutable.Map(), action) => {
 export const getAdvancedSearchBooleanOp = (state) => state.get('advancedSearchBooleanOp');
 
 export const getSearchCondition = (state, recordType) => state.getIn(['searchCond', recordType]);
+
+export const getAdvancedSearchNewBooleanOp = (state, searchTermsGroup) => state.getIn(['advancedSearchNewBooleanOp', searchTermsGroup]);
+
+export const getSearchNewCondition = (state, recordType, searchTermsGroup) => state.getIn(['searchNewCond', recordType, searchTermsGroup]);
 
 export const getSearchPageRecordType = (state) => state.getIn(['searchPage', 'recordType']);
 

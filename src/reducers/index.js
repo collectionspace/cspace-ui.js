@@ -141,6 +141,15 @@ export const getAdvancedSearchBooleanOp = (state) => (
   fromPrefs.getAdvancedSearchBooleanOp(state.prefs)
 );
 
+// TODO: check if we really need this
+export const getAdvancedSearchNewBooleanOp = (state, searchTermsGroup) => (
+  fromPrefs.getAdvancedSearchNewBooleanOp(state.prefs, searchTermsGroup)
+);
+
+export const getSearchNewCondition = (state, recordType, searchTermsGroup) => (
+  fromPrefs.getSearchNewCondition(state.prefs, recordType, searchTermsGroup)
+);
+
 export const isPanelCollapsed = (state, recordType, name) => (
   fromPrefs.isPanelCollapsed(state.prefs, recordType, name)
 );

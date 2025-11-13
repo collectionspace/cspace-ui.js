@@ -19,8 +19,10 @@ const propTypes = {
   withoutPanel: PropTypes.bool,
   preferredBooleanOp: PropTypes.string,
   preferredCondition: PropTypes.instanceOf(Immutable.Map),
+  preferredConditionNew: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
+  searchTermsGroup: PropTypes.string,
   onConditionCommit: PropTypes.func,
 };
 
@@ -108,8 +110,10 @@ export default class AdvancedSearchBuilder extends Component {
       config,
       preferredBooleanOp,
       preferredCondition,
+      preferredConditionNew,
       recordType,
       onConditionCommit,
+      searchTermsGroup,
     } = this.props;
 
     if (recordType && onConditionCommit) {
@@ -118,7 +122,8 @@ export default class AdvancedSearchBuilder extends Component {
       if (condition) {
         normalizedCondition = ensureRootBooleanOp(condition, preferredBooleanOp);
       } else {
-        let initialCondition = preferredCondition;
+        // TODO: limit_by should be a constant
+        let initialCondition = searchTermsGroup === 'limit_by' || searchTermsGroup === 'search_terms' ? preferredConditionNew : preferredCondition;
 
         if (!initialCondition) {
           initialCondition = Immutable.fromJS(

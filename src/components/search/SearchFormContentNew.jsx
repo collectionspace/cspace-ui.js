@@ -90,6 +90,7 @@ const SearchFormContentNew = ({
             showInlineParens={false}
             showRemoveButton={false}
             onConditionCommit={onAdvancedSearchConditionSearchTermsCommit}
+            searchTermsGroup="search_terms"
             withoutPanel
           />
         </ConnectedPanel>
@@ -107,6 +108,7 @@ const SearchFormContentNew = ({
             showInlineParens={false}
             showRemoveButton={false}
             onConditionCommit={onAdvancedSearchConditionLimitByCommit}
+            searchTermsGroup="limit_by"
             withoutPanel
           />
         </ConnectedPanel>

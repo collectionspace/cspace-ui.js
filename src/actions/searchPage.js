@@ -51,6 +51,7 @@ export const setSearchPageAdvancedLimitBy = (condition) => (dispatch, getState) 
     type: SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
     payload: condition,
     meta: {
+      searchTermsGroup: 'limit_by',
       recordType,
     },
   });
@@ -63,6 +64,7 @@ export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getSta
     type: SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
     payload: condition,
     meta: {
+      searchTermsGroup: 'search_terms',
       recordType,
     },
   });
