@@ -296,7 +296,7 @@ export default function SearchResults(props) {
   );
 
   return (
-    <div className={styles.common}>
+    <main className={styles.common}>
       <SearchResultTitleBar
         config={config}
         searchDescriptor={searchDescriptor}
@@ -326,7 +326,7 @@ export default function SearchResults(props) {
         </div>
         {sidebarPosition === 'right' ? sidebar : null}
       </div>
-    </div>
+    </main>
   );
 }
 
