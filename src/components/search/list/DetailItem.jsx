@@ -6,10 +6,10 @@ import { FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { useConfig } from '../../config/ConfigProvider';
 import BlobImage from '../../media/BlobImage';
-import { setResultItemSelected } from '../../../actions/search';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
-import { CheckboxInput } from '../../../helpers/configContextInputs';
+
 import styles from '../../../../styles/cspace-ui/SearchList.css';
+import SearchResultCheckbox from '../SearchResultCheckbox';
 
 const { Button } = inputComponents;
 
@@ -43,7 +43,6 @@ export default function DetailItem({
   item, index, detailConfig, searchDescriptor, listType, selectedItems,
 }) {
   const config = useConfig();
-  const dispatch = useDispatch();
 
   const {
     title: {
@@ -101,19 +100,14 @@ export default function DetailItem({
   return (
     <div className={styles.innerDetail}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      {blob}
-      <CheckboxInput
-        embedded
-        className={styles.detailCheckbox}
-        name={`${index}`}
-        value={selected}
-        onCommit={(path, value) => dispatch(setResultItemSelected(config,
-          SEARCH_RESULT_PAGE_SEARCH_NAME,
-          searchDescriptor,
-          listType,
-          parseInt(path[0], 10),
-          value))}
-        onClick={(event) => event.stopPropagation()}
+      <div className={styles.imgContainer}>
+        {blob}
+      </div>
+      <SearchResultCheckbox
+        index={index}
+        listType={listType}
+        searchDescriptor={searchDescriptor}
+        selected={selected}
       />
       {renderDescriptionBlock()}
       <div className={styles.info}>
