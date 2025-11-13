@@ -22,6 +22,10 @@ import {
   SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
 } from '../constants/actionCodes';
 import { OP_AND } from '../constants/searchOperators';
+import {
+  SEARCH_TERMS_GROUP_LIMIT_BY,
+  SEARCH_TERMS_GROUP_SEARCH_TERMS,
+} from '../constants/searchNames';
 
 export const clearSearchPage = () => ({
   type: CLEAR_SEARCH_PAGE,
@@ -51,7 +55,7 @@ export const setSearchPageAdvancedLimitBy = (condition) => (dispatch, getState) 
     type: SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
     payload: condition,
     meta: {
-      searchTermsGroup: 'limit_by',
+      searchTermsGroup: SEARCH_TERMS_GROUP_LIMIT_BY,
       recordType,
     },
   });
@@ -64,7 +68,7 @@ export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getSta
     type: SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
     payload: condition,
     meta: {
-      searchTermsGroup: 'search_terms',
+      searchTermsGroup: SEARCH_TERMS_GROUP_SEARCH_TERMS,
       recordType,
     },
   });

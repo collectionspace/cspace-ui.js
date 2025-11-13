@@ -11,6 +11,10 @@ import { showNotification } from '../../actions/notification';
 import { STATUS_SUCCESS } from '../../constants/notificationStatusCodes';
 import { setNewSearchShown } from '../../actions/prefs';
 import { getNewSearchShown } from '../../reducers';
+import {
+  SEARCH_TERMS_GROUP_LIMIT_BY,
+  SEARCH_TERMS_GROUP_SEARCH_TERMS,
+} from '../../constants/searchNames';
 
 const { LineInput, RecordTypeInput } = inputComponents;
 
@@ -92,7 +96,7 @@ const SearchFormContentNew = ({
             showInlineParens={false}
             showRemoveButton={false}
             onConditionCommit={onAdvancedSearchConditionSearchTermsCommit}
-            searchTermsGroup="search_terms"
+            searchTermsGroup={SEARCH_TERMS_GROUP_SEARCH_TERMS}
             withoutPanel
           />
         </ConnectedPanel>
@@ -112,7 +116,7 @@ const SearchFormContentNew = ({
             showInlineParens={false}
             showRemoveButton={false}
             onConditionCommit={onAdvancedSearchConditionLimitByCommit}
-            searchTermsGroup="limit_by"
+            searchTermsGroup={SEARCH_TERMS_GROUP_LIMIT_BY}
             withoutPanel
           />
         </ConnectedPanel>

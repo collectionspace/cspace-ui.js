@@ -8,6 +8,10 @@ import { OP_AND, OP_OR, OP_GROUP } from '../../constants/searchOperators';
 import GroupConditionInputContainer from '../../containers/search/input/GroupConditionInputContainer';
 import BooleanConditionInput from './input/BooleanConditionInput';
 import FieldConditionInput from './input/FieldConditionInput';
+import {
+  SEARCH_TERMS_GROUP_LIMIT_BY,
+  SEARCH_TERMS_GROUP_SEARCH_TERMS,
+} from '../../constants/searchNames';
 
 const propTypes = {
   condition: PropTypes.instanceOf(Immutable.Map),
@@ -122,8 +126,9 @@ export default class AdvancedSearchBuilder extends Component {
       if (condition) {
         normalizedCondition = ensureRootBooleanOp(condition, preferredBooleanOp);
       } else {
-        // TODO: limit_by should be a constant
-        let initialCondition = searchTermsGroup === 'limit_by' || searchTermsGroup === 'search_terms' ? preferredConditionNew : preferredCondition;
+        let initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
+          || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS
+          ? preferredConditionNew : preferredCondition;
 
         if (!initialCondition) {
           initialCondition = Immutable.fromJS(

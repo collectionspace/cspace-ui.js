@@ -7,3 +7,5 @@ export const SEARCH_RESULT_TERMS_USED_PANEL = 'termsUsedPanel';
 export const SEARCH_RESULT_USED_BY_PANEL = 'usedByPanel';
 export const SEARCH_RESULT_AUTH_ROLE_PAGE = 'authRolePage';
 export const SEARCH_RESULT_ACCOUNT_PAGE = 'accountPage';
+export const SEARCH_TERMS_GROUP_LIMIT_BY = 'limitBy';
+export const SEARCH_TERMS_GROUP_SEARCH_TERMS = 'searchTerms';

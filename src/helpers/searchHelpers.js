@@ -1256,8 +1256,7 @@ export const createPageChangeHandler = ({
   });
 };
 
-// TODO: test this a bit more
-export const extractAdvancedSearchQuery = (searchQuery) => {
+export const extractAdvancedSearchGroupedTerms = (searchQuery) => {
   if (searchQuery?.get('op') === OP_AND) {
     const conditions = (searchQuery.get('value'));
     return {

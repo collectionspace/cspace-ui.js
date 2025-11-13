@@ -29,31 +29,6 @@ import {
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
-  const { recordType } = action.meta;
-
-  if (!recordType) {
-    return state;
-  }
-
-  const condition = action.payload;
-  const op = condition ? condition.get('op') : null;
-
-  let nextState = state;
-
-  if (op === OP_AND || op === OP_OR) {
-    nextState = nextState.set('advancedSearchBooleanOp', op);
-  }
-
-  nextState = nextState.setIn(
-    ['searchCond', recordType],
-    clearAdvancedSearchConditionValues(condition),
-  );
-
-  return nextState;
-};
-
-// TODO: check if we can merge with above
-const handleAdvancedSearchNewConditionChange = (state, action) => {
   const { recordType, searchTermsGroup } = action.meta;
 
   if (!recordType) {
@@ -66,11 +41,15 @@ const handleAdvancedSearchNewConditionChange = (state, action) => {
   let nextState = state;
 
   if (op === OP_AND || op === OP_OR) {
-    nextState = nextState.setIn(['advancedSearchNewBooleanOp', searchTermsGroup], op);
+    nextState = searchTermsGroup
+      ? nextState.setIn(['advancedSearchNewBooleanOp', searchTermsGroup], op)
+      : nextState.set('advancedSearchBooleanOp', op);
   }
 
   nextState = nextState.setIn(
-    ['searchNewCond', recordType, searchTermsGroup],
+    searchTermsGroup
+      ? ['searchNewCond', recordType, searchTermsGroup]
+      : ['searchCond', recordType],
     clearAdvancedSearchConditionValues(condition),
   );
 
@@ -148,10 +127,9 @@ export default (state = Immutable.Map(), action) => {
       return state.set('uploadType', action.payload);
     case SET_SEARCH_PAGE_ADVANCED:
     case SET_SEARCH_TO_SELECT_ADVANCED:
-      return handleAdvancedSearchConditionChange(state, action);
     case SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS:
     case SET_SEARCH_PAGE_ADVANCED_LIMIT_BY:
-      return handleAdvancedSearchNewConditionChange(state, action);
+      return handleAdvancedSearchConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
       return handleToggleRecordSidebar(state, action);
     case TOGGLE_SEARCH_RESULT_SIDEBAR:

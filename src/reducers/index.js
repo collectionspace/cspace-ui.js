@@ -141,7 +141,6 @@ export const getAdvancedSearchBooleanOp = (state) => (
   fromPrefs.getAdvancedSearchBooleanOp(state.prefs)
 );
 
-// TODO: check if we really need this
 export const getAdvancedSearchNewBooleanOp = (state, searchTermsGroup) => (
   fromPrefs.getAdvancedSearchNewBooleanOp(state.prefs, searchTermsGroup)
 );
