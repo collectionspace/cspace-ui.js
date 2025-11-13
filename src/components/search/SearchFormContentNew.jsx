@@ -73,6 +73,8 @@ const SearchFormContentNew = ({
         </div>
         <ConnectedPanel
           collapsible
+          collapsed
+          name="searchTermsPanel"
           header={<h3>{intl.formatMessage(messages.enterSearchTerms)}</h3>}
         >
           <LineInput
@@ -97,6 +99,8 @@ const SearchFormContentNew = ({
         <div className={styles.mb12}><b>{intl.formatMessage(messages.and)}</b></div>
         <ConnectedPanel
           collapsible
+          collapsed
+          name="limitByPanel"
           header={<h3>{intl.formatMessage(messages.limitBySpecificFields)}</h3>}
         >
           <AdvancedSearchBuilderContainer
