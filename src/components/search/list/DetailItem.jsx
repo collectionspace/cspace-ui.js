@@ -58,6 +58,22 @@ const renderEditButton = (location, state) => {
   ) : button;
 };
 
+const renderBlob = (location, state, blobCsid) => {
+  // todo: BlobNotFound image
+  // todo: alt text from response
+  if (location && blobCsid) {
+    return (
+      <Link to={{ pathname: location, state }}>
+        <BlobImage csid={blobCsid} derivative="Small" />
+      </Link>
+    );
+  } if (blobCsid) {
+    return <BlobImage csid={blobCsid} derivative="Small" />;
+  }
+
+  return undefined;
+};
+
 export default function DetailItem({
   item, index, detailConfig, searchDescriptor, listType, selectedItems,
 }) {
@@ -114,13 +130,11 @@ export default function DetailItem({
   );
 
   const editButton = renderEditButton(location, state);
-  // todo: NoBlobFound image
-  const blob = blobCsid ? <BlobImage csid={blobCsid} derivative="Small" className={styles.detailImg} /> : null;
   return (
     <div className={styles.innerDetail}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
-      <div className={styles.imgContainer}>
-        {blob}
+      <div className={styles.imageContainer}>
+        {renderBlob(location, state, blobCsid)}
       </div>
       <SearchResultCheckbox
         index={index}
