@@ -16,7 +16,26 @@ const { Button } = inputComponents;
 const propTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
-  detailConfig: PropTypes.object,
+  detailConfig: PropTypes.shape({
+    aside: PropTypes.shape({
+      formatter: PropTypes.func,
+    }),
+    title: PropTypes.shape({
+      formatter: PropTypes.func,
+    }),
+    subtitle: PropTypes.shape({
+      formatter: PropTypes.func,
+    }),
+    description: PropTypes.shape({
+      formatter: PropTypes.func,
+    }),
+    tags: PropTypes.shape({
+      formatter: PropTypes.func,
+    }),
+    footer: PropTypes.shape({
+      formatter: PropTypes.func,
+    }),
+  }),
   searchDescriptor: PropTypes.object,
   listType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
