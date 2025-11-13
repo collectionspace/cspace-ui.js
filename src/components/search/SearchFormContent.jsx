@@ -1,5 +1,3 @@
-// File: `src/components/search/SearchFormContent.jsx`
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'cspace-layout';

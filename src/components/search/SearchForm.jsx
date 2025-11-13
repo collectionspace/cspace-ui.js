@@ -311,8 +311,8 @@ export default class SearchForm extends Component {
       recordTypes = searchableRecordTypes;
     }
 
-    if (showNewSearch) {
-      return (
+    return showNewSearch
+      ? (
         <SearchFormContentNew
           header={header}
           footer={footer}
@@ -334,34 +334,32 @@ export default class SearchForm extends Component {
           onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
           handleFormSubmit={this.handleFormSubmit}
         />
+      )
+      : (
+        <SearchFormContent
+          header={header}
+          footer={footer}
+          recordTypeStyles={recordTypeStyles}
+          recordTypes={recordTypes}
+          recordTypeInputRootType={recordTypeInputRootType}
+          recordTypeInputServiceTypes={recordTypeInputServiceTypes}
+          recordTypeValue={recordTypeValue}
+          intl={intl}
+          messages={messages}
+          formatRecordTypeLabel={this.formatRecordTypeLabel}
+          handleRecordTypeDropdownCommit={this.handleRecordTypeDropdownCommit}
+          renderVocabularyInput={this.renderVocabularyInput}
+          fullTextPanelHeader={fullTextPanelHeader}
+          keywordValue={keywordValue}
+          handleKeywordInputCommit={this.handleKeywordInputCommit}
+          advancedSearchCondition={advancedSearchCondition}
+          config={config}
+          preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
+          onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+          handleFormSubmit={this.handleFormSubmit}
+          recordTypeInputReadOnly={recordTypeInputReadOnly}
+        />
       );
-    }
-
-    return (
-      <SearchFormContent
-        header={header}
-        footer={footer}
-        recordTypeStyles={recordTypeStyles}
-        recordTypes={recordTypes}
-        recordTypeInputRootType={recordTypeInputRootType}
-        recordTypeInputServiceTypes={recordTypeInputServiceTypes}
-        recordTypeValue={recordTypeValue}
-        intl={intl}
-        messages={messages}
-        formatRecordTypeLabel={this.formatRecordTypeLabel}
-        handleRecordTypeDropdownCommit={this.handleRecordTypeDropdownCommit}
-        renderVocabularyInput={this.renderVocabularyInput}
-        fullTextPanelHeader={fullTextPanelHeader}
-        keywordValue={keywordValue}
-        handleKeywordInputCommit={this.handleKeywordInputCommit}
-        advancedSearchCondition={advancedSearchCondition}
-        config={config}
-        preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
-        onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
-        handleFormSubmit={this.handleFormSubmit}
-        recordTypeInputReadOnly={recordTypeInputReadOnly}
-      />
-    );
   }
 }
 
