@@ -56,9 +56,9 @@ const isFieldControlled = (fieldDescriptor) => {
   const viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
 
   return (
-    viewType.toJSON() === AutocompleteInput.toJSON()
-    || viewType.toJSON() === OptionPickerInput.toJSON()
-    || viewType.toJSON() === TermPickerInput.toJSON()
+    viewType?.toJSON() === AutocompleteInput.toJSON()
+    || viewType?.toJSON() === OptionPickerInput.toJSON()
+    || viewType?.toJSON() === TermPickerInput.toJSON()
   );
 };
 
