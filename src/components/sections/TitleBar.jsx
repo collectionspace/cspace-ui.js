@@ -16,6 +16,7 @@ const propTypes = {
   serviceType: PropTypes.string,
   updateDocumentTitle: PropTypes.bool,
   onDocked: PropTypes.func,
+  isAsidePlainText: PropTypes.bool,
 };
 
 export default class TitleBar extends Component {
@@ -128,13 +129,14 @@ export default class TitleBar extends Component {
   }
 
   getDocumentTitle() {
+    const { isAsidePlainText } = this.props;
     const titleNode = this.domNode.querySelector('h1');
     const titleText = titleNode ? titleNode.textContent : null;
 
     const asideNode = this.domNode.querySelector('aside');
     const asideText = asideNode ? asideNode.textContent : null;
 
-    return [titleText, asideText].filter((part) => !!part).join(' | ');
+    return [titleText, !isAsidePlainText && asideText].filter((part) => !!part).join(' | ');
   }
 
   setDomNode(ref) {
@@ -182,11 +184,14 @@ export default class TitleBar extends Component {
   renderAside() {
     const {
       aside,
+      isAsidePlainText,
     } = this.props;
 
     if (aside !== null && typeof aside !== 'undefined') {
       return (
-        <aside><h2>{aside}</h2></aside>
+        <aside>
+          {isAsidePlainText ? aside : <h2>{aside}</h2>}
+        </aside>
       );
     }
 

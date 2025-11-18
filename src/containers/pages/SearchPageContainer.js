@@ -18,6 +18,7 @@ import {
 import {
   setSearchPageRecordType,
   setSearchPageVocabulary,
+  toggleUseNewSearch,
 } from '../../actions/prefs';
 
 import {
@@ -27,6 +28,7 @@ import {
   getSearchPageKeyword,
   getSearchPageRecordType,
   getSearchPageVocabulary,
+  getUseNewSearch,
   getUserPerms,
 } from '../../reducers';
 
@@ -34,6 +36,7 @@ const mapStateToProps = (state, ownProps) => {
   const searchPageRecordType = getSearchPageRecordType(state);
 
   return {
+    useNewSearch: getUseNewSearch(state),
     keywordValue: getSearchPageKeyword(state),
     recordTypeValue: searchPageRecordType,
     vocabularyValue: getSearchPageVocabulary(state, searchPageRecordType),
@@ -53,6 +56,7 @@ const mapDispatchToProps = {
   clearSearchPage,
   deleteOptionList,
   initiateSearch,
+  toggleUseNewSearch,
   onAdvancedSearchConditionCommit: setSearchPageAdvanced,
   onClearButtonClick: clearSearchPage,
   onKeywordCommit: setSearchPageKeyword,
