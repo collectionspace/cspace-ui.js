@@ -59,19 +59,16 @@ const renderEditButton = (location, state) => {
 };
 
 const renderBlob = (location, state, blobCsid) => {
-  // todo: BlobNotFound image
   // todo: alt text from response
-  if (location && blobCsid) {
+  if (location) {
     return (
       <Link to={{ pathname: location, state }}>
         <BlobImage csid={blobCsid} derivative="Small" />
       </Link>
     );
-  } if (blobCsid) {
-    return <BlobImage csid={blobCsid} derivative="Small" />;
   }
 
-  return undefined;
+  return <BlobImage csid={blobCsid} derivative="Small" />;
 };
 
 export default function DetailItem({

@@ -10,11 +10,13 @@ const propTypes = {
   alt: PropTypes.string,
   errorMessage: PropTypes.node,
   pendingMessage: PropTypes.node,
+  renderError: PropTypes.func,
   retry: PropTypes.bool,
   retryLimit: PropTypes.number,
   readImage: PropTypes.func.isRequired,
 };
 
+// todo: message -> i18n
 const defaultProps = {
   errorMessage: '',
   pendingMessage: '',
@@ -129,6 +131,7 @@ export default class Image extends Component {
       errorMessage,
       pendingMessage,
       src,
+      renderError,
       retry,
       retryLimit,
       readImage,
@@ -141,9 +144,9 @@ export default class Image extends Component {
     } = this.state;
 
     if (isError) {
-      return (
-        <div className={styles.error}>{errorMessage}</div>
-      );
+      return renderError
+        ? renderError()
+        : <div className={styles.error}><p>{errorMessage}</p></div>;
     }
 
     if (blobUrl) {
