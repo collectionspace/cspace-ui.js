@@ -1255,3 +1255,17 @@ export const createPageChangeHandler = ({
     state: location.state,
   });
 };
+
+export const extractAdvancedSearchGroupedTerms = (searchQuery) => {
+  if (searchQuery?.get('op') === OP_AND) {
+    const conditions = (searchQuery.get('value'));
+    return {
+      searchTerms: conditions.get(0),
+      limitBy: conditions.get(1),
+    };
+  }
+  return {
+    searchTerms: searchQuery,
+    limitBy: null,
+  };
+};

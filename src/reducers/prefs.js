@@ -24,10 +24,12 @@ import {
   SET_SEARCH_TO_SELECT_ADVANCED,
   TOGGLE_USE_NEW_SEARCH,
   SET_NEW_SEARCH_SHOWN,
+  SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
+  SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
-  const { recordType } = action.meta;
+  const { recordType, searchTermsGroup } = action.meta;
 
   if (!recordType) {
     return state;
@@ -39,11 +41,15 @@ const handleAdvancedSearchConditionChange = (state, action) => {
   let nextState = state;
 
   if (op === OP_AND || op === OP_OR) {
-    nextState = nextState.set('advancedSearchBooleanOp', op);
+    nextState = searchTermsGroup
+      ? nextState.setIn(['advancedSearchNewBooleanOp', searchTermsGroup], op)
+      : nextState.set('advancedSearchBooleanOp', op);
   }
 
   nextState = nextState.setIn(
-    ['searchCond', recordType],
+    searchTermsGroup
+      ? ['searchNewCond', recordType, searchTermsGroup]
+      : ['searchCond', recordType],
     clearAdvancedSearchConditionValues(condition),
   );
 
@@ -121,6 +127,8 @@ export default (state = Immutable.Map(), action) => {
       return state.set('uploadType', action.payload);
     case SET_SEARCH_PAGE_ADVANCED:
     case SET_SEARCH_TO_SELECT_ADVANCED:
+    case SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS:
+    case SET_SEARCH_PAGE_ADVANCED_LIMIT_BY:
       return handleAdvancedSearchConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
       return handleToggleRecordSidebar(state, action);
@@ -141,6 +149,10 @@ export default (state = Immutable.Map(), action) => {
 export const getAdvancedSearchBooleanOp = (state) => state.get('advancedSearchBooleanOp');
 
 export const getSearchCondition = (state, recordType) => state.getIn(['searchCond', recordType]);
+
+export const getAdvancedSearchNewBooleanOp = (state, searchTermsGroup) => state.getIn(['advancedSearchNewBooleanOp', searchTermsGroup]);
+
+export const getSearchNewCondition = (state, recordType, searchTermsGroup) => state.getIn(['searchNewCond', recordType, searchTermsGroup]);
 
 export const getSearchPageRecordType = (state) => state.getIn(['searchPage', 'recordType']);
 
