@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Panel } from 'cspace-layout';
 import { components as inputComponents } from 'cspace-input';
@@ -40,7 +40,8 @@ const SearchFormContentNew = ({
   config,
 }) => {
   const dispatch = useDispatch();
-  const newSearchShown = useSelector((state) => getNewSearchShown(state));
+  const reduxNewSearchShown = useSelector((state) => getNewSearchShown(state));
+  const [newSearchShown] = useState(reduxNewSearchShown);
 
   useEffect(() => {
     if (!newSearchShown) {
@@ -77,7 +78,7 @@ const SearchFormContentNew = ({
         </div>
         <ConnectedPanel
           collapsible
-          collapsed
+          collapsed={!newSearchShown}
           name="searchTermsPanel"
           header={<h3>{intl.formatMessage(messages.enterSearchTerms)}</h3>}
         >
@@ -103,7 +104,7 @@ const SearchFormContentNew = ({
         <div className={styles.mb12}><b>{intl.formatMessage(messages.and)}</b></div>
         <ConnectedPanel
           collapsible
-          collapsed
+          collapsed={!newSearchShown}
           name="limitByPanel"
           header={<h3>{intl.formatMessage(messages.limitBySpecificFields)}</h3>}
         >
