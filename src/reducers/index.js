@@ -141,6 +141,14 @@ export const getAdvancedSearchBooleanOp = (state) => (
   fromPrefs.getAdvancedSearchBooleanOp(state.prefs)
 );
 
+export const getAdvancedSearchNewBooleanOp = (state, searchTermsGroup) => (
+  fromPrefs.getAdvancedSearchNewBooleanOp(state.prefs, searchTermsGroup)
+);
+
+export const getSearchNewCondition = (state, recordType, searchTermsGroup) => (
+  fromPrefs.getSearchNewCondition(state.prefs, recordType, searchTermsGroup)
+);
+
 export const isPanelCollapsed = (state, recordType, name) => (
   fromPrefs.isPanelCollapsed(state.prefs, recordType, name)
 );
@@ -190,6 +198,12 @@ export const getIDGenerator = (state, idGeneratorName) => (
 );
 
 export const getSearchPageAdvanced = (state) => fromSearchPage.getAdvanced(state.searchPage);
+export const getSearchPageAdvancedLimitBy = (state) => (
+  fromSearchPage.getAdvancedLimitBy(state.searchPage)
+);
+export const getSearchPageAdvancedSearchTerms = (state) => (
+  fromSearchPage.getAdvancedSearchTerms(state.searchPage)
+);
 
 export const getSearchPageKeyword = (state) => fromSearchPage.getKeyword(state.searchPage);
 

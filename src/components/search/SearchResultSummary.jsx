@@ -9,9 +9,14 @@ import PageSizeChooser from './PageSizeChooser';
 import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
 import { setSearchPageRecordType, setSearchPageVocabulary } from '../../actions/prefs';
-import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
+import {
+  setSearchPageAdvanced,
+  setSearchPageAdvancedLimitBy,
+  setSearchPageAdvancedSearchTerms,
+  setSearchPageKeyword,
+} from '../../actions/searchPage';
 import { getSearchError, getSearchResult } from '../../reducers';
-import { getListTypeFromResult } from '../../helpers/searchHelpers';
+import { extractAdvancedSearchGroupedTerms, getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const messages = defineMessages({
   error: {
@@ -74,6 +79,14 @@ const defaultProps = {
 
         if (setSearchPageAdvanced) {
           dispatch(setSearchPageAdvanced(searchQuery.get('as')));
+        }
+
+        if (setSearchPageAdvancedLimitBy) {
+          dispatch(setSearchPageAdvancedLimitBy(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).limitBy));
+        }
+
+        if (setSearchPageAdvancedSearchTerms) {
+          dispatch(setSearchPageAdvancedSearchTerms(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).searchTerms));
         }
       });
     }

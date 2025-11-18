@@ -15,3 +15,7 @@
 .common > footer > :global(.cspace-ui-ButtonBar--common) {
   text-align: right;
 }
+
+.common .mb12 {
+  margin-bottom: 12px;
+}
