@@ -43,11 +43,11 @@ const messages = defineMessages({
   },
   enterSearchTerms: {
     id: 'searchForm.enterSearchTerms',
-    defaultMessage: 'Enter search terms:',
+    defaultMessage: 'Enter keyword search terms:',
   },
   limitBySpecificFields: {
     id: 'searchForm.limitBySpecificFields',
-    defaultMessage: 'Limit by specific fields:',
+    defaultMessage: 'Limit by:',
   },
   and: {
     id: 'searchForm.and',
