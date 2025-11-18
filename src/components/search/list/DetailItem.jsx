@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { FormattedMessage } from 'react-intl';
+import {
+  defineMessages, FormattedMessage, injectIntl, intlShape,
+} from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { useConfig } from '../../config/ConfigProvider';
 import BlobImage from '../../media/BlobImage';
@@ -16,6 +18,7 @@ const { Button } = inputComponents;
 const propTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
+  intl: intlShape,
   detailConfig: PropTypes.shape({
     aside: PropTypes.shape({
       formatter: PropTypes.func,
@@ -58,21 +61,28 @@ const renderEditButton = (location, state) => {
   ) : button;
 };
 
-const renderBlob = (location, state, blobCsid) => {
-  // todo: alt text from response
+const renderBlob = (location, state, blobCsid, blobAltText) => {
   if (location) {
     return (
       <Link to={{ pathname: location, state }}>
-        <BlobImage csid={blobCsid} derivative="Small" />
+        <BlobImage csid={blobCsid} derivative="Small" alt={blobAltText} />
       </Link>
     );
   }
 
-  return <BlobImage csid={blobCsid} derivative="Small" />;
+  return <BlobImage csid={blobCsid} derivative="Small" alt={blobAltText} />;
 };
 
-export default function DetailItem({
-  item, index, detailConfig, searchDescriptor, listType, selectedItems,
+const messages = defineMessages({
+  alt: {
+    id: 'searchDetail.altText',
+    description: 'Default alt text for thumbnails',
+    defaultMessage: 'Edit record {csid}',
+  },
+});
+
+function DetailItem({
+  item, index, detailConfig, searchDescriptor, listType, selectedItems, intl,
 }) {
   const config = useConfig();
 
@@ -99,6 +109,7 @@ export default function DetailItem({
 
   const csid = item.get('csid');
   const blobCsid = item.get('blobCsid');
+  const altText = item.get('blobAltText') || intl.formatMessage(messages.alt, { csid });
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const listTypeConfig = config.listTypes[listType];
@@ -129,9 +140,8 @@ export default function DetailItem({
   const editButton = renderEditButton(location, state);
   return (
     <div className={styles.innerDetail}>
-      {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <div className={styles.imageContainer}>
-        {renderBlob(location, state, blobCsid)}
+        {renderBlob(location, state, blobCsid, altText)}
       </div>
       <SearchResultCheckbox
         index={index}
@@ -149,3 +159,5 @@ export default function DetailItem({
 }
 
 DetailItem.propTypes = propTypes;
+
+export default injectIntl(DetailItem);

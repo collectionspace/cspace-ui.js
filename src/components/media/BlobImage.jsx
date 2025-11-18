@@ -7,11 +7,13 @@ import { getDerivativePath } from '../../helpers/blobHelpers';
 import styles from '../../../styles/cspace-ui/Image.css';
 
 const propTypes = {
+  alt: PropTypes.string,
   csid: PropTypes.string.isRequired,
   derivative: PropTypes.string,
 };
 
 const defaultProps = {
+  alt: '',
   derivative: 'Thumbnail',
 };
 
@@ -27,6 +29,7 @@ const renderError = () => (
 
 export default function BlobImage(props) {
   const {
+    alt,
     csid,
     derivative,
   } = props;
@@ -38,7 +41,7 @@ export default function BlobImage(props) {
   const path = getDerivativePath(csid, derivative);
 
   return (
-    <ImageContainer src={path} renderError={renderError} />
+    <ImageContainer alt={alt} src={path} renderError={renderError} />
   );
 }
 
