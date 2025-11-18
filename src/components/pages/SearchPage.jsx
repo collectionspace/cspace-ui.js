@@ -31,11 +31,11 @@ const messages = defineMessages({
   },
   toggleButtonOldSearch: {
     id: 'searchPage.toggleButtonOldSearch',
-    defaultMessage: 'Switch back to the old search',
+    defaultMessage: 'Revert to Classic Search',
   },
   toggleButtonNewSearch: {
     id: 'searchPage.toggleButtonNewSearch',
-    defaultMessage: 'Try the new search',
+    defaultMessage: 'Return to New Search',
   },
   provideFeedback: {
     id: 'searchPage.provideFeedback',
@@ -339,11 +339,9 @@ class SearchPage extends Component {
             ? intl.formatMessage(messages.toggleButtonOldSearch)
             : intl.formatMessage(messages.toggleButtonNewSearch)}
         </Button>
-        {(useNewSearch || typeof useNewSearch === 'undefined') && (
-          <a href="mailto:admin@example.com">
-            { intl.formatMessage(messages.provideFeedback) }
-          </a>
-        )}
+        <a href="https://collectionspace.org/contact/" target="_blank" rel="noreferrer">
+          { intl.formatMessage(messages.provideFeedback) }
+        </a>
       </div>
     );
 
