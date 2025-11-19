@@ -20,7 +20,10 @@ export default (state = Immutable.Map(), action) => {
     case SET_SEARCH_PAGE_KEYWORD:
       return state.set('keyword', action.payload);
     case SET_SEARCH_PAGE_RECORD_TYPE:
-      return state.delete('advanced');
+      return state
+        .delete('advanced')
+        .delete('advancedLimitBy')
+        .delete('advancedSearchTerms');
     case CLEAR_SEARCH_PAGE:
       return state.clear();
     default:
