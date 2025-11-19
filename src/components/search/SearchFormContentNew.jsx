@@ -50,7 +50,7 @@ const SearchFormContentNew = ({
         items: [{
           message: {
             id: 'newSearchForm.informative',
-            defaultMessage: 'This is an informative notification about the new search form. It includes:...',
+            defaultMessage: 'Welcome to the new CollectionSpace Advanced Search. Classic Search will remain available in the 8.3 release to ease the transition to the new advanced search. Please share feedback with us and visit the User Manual for more information on the functionality of search.',
           },
         }],
         date: new Date(),
