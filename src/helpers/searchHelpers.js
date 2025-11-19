@@ -52,7 +52,7 @@ import {
   NS_PREFIX,
 } from '../constants/xmlNames';
 
-const opsByDataType = {
+const opsByDataTypeMapNew = {
   [DATA_TYPE_STRING]: [
     OP_EQ,
     OP_NOT_EQ,
@@ -134,6 +134,92 @@ const opsByDataType = {
   ],
 };
 
+const opsByDataTypeMap = {
+  [DATA_TYPE_STRING]: [
+    OP_CONTAIN,
+    OP_NOT_CONTAIN,
+    OP_MATCH,
+    OP_NOT_MATCH,
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_INT]: [
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_FLOAT]: [
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_BOOL]: [
+    OP_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_DATE]: [
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_DATETIME]: [
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_GT,
+    OP_GTE,
+    OP_LT,
+    OP_LTE,
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_STRUCTURED_DATE]: [
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_CONTAIN,
+    OP_NOT_CONTAIN,
+    OP_GT,
+    OP_GTC,
+    OP_LT,
+    OP_LTC,
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NOT_COMPLETE,
+    OP_COMPLETE,
+  ],
+};
+
 // For controlled lists, comparison/range operators will not necessarily produce results that
 // users expect, since they are comparing database values/ref names, not display names. Don't
 // show those operators on controlled list fields, until we have a way to deal with this.
@@ -145,9 +231,16 @@ const controlledListOps = [
   OP_NOT_NULL,
 ];
 
-export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlled) => (
-  isControlled ? controlledListOps : (opsByDataType[dataType] || [])
-);
+export const getOperatorsForDataType = (
+  dataType = DATA_TYPE_STRING,
+  isControlled,
+  isNewSearchForm,
+) => {
+  const opsByDataType = isNewSearchForm
+    ? opsByDataTypeMapNew[dataType] : opsByDataTypeMap[dataType];
+
+  return isControlled ? controlledListOps : (opsByDataType || []);
+};
 
 export const operatorExpectsValue = (op) => (
   op !== OP_NULL

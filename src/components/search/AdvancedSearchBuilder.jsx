@@ -158,12 +158,15 @@ export default class AdvancedSearchBuilder extends Component {
       readOnly,
       recordType,
       withoutPanel,
+      searchTermsGroup,
     } = this.props;
 
     if (!condition) {
       return null;
     }
 
+    const isNewSearchForm = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
+      || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS;
     const SearchConditionInputComponent = getSearchConditionInputComponent(condition);
 
     const searchConditionInput = (
@@ -174,6 +177,7 @@ export default class AdvancedSearchBuilder extends Component {
         inline={inline}
         name="advancedSearch"
         readOnly={readOnly}
+        isNewSearchForm={isNewSearchForm}
         recordType={recordType}
         showInlineParens={false}
         showRemoveButton={false}
