@@ -131,9 +131,14 @@ export default class AdvancedSearchBuilder extends Component {
           ? preferredConditionNew : preferredCondition;
 
         if (!initialCondition) {
-          initialCondition = Immutable.fromJS(
-            get(config, ['recordTypes', recordType, 'advancedSearch']),
-          );
+          initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
+            ? Immutable.fromJS({
+              op: OP_OR,
+              value: {},
+            })
+            : Immutable.fromJS(
+              get(config, ['recordTypes', recordType, 'advancedSearch']),
+            );
         }
 
         normalizedCondition = ensureRootBooleanOp(initialCondition, preferredBooleanOp);
