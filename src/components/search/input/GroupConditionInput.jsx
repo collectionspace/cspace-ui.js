@@ -27,6 +27,7 @@ const propTypes = {
   getSearchConditionInputComponent: PropTypes.func.isRequired,
   buildRecordFieldOptionLists: PropTypes.func,
   deleteOptionList: PropTypes.func,
+  isNewSearchForm: PropTypes.bool,
   onCommit: PropTypes.func,
   onRemove: PropTypes.func,
 };
@@ -270,6 +271,7 @@ export default class GroupConditionInput extends Component {
       inline,
       readOnly,
       recordType,
+      isNewSearchForm,
       getSearchConditionInputComponent,
     } = this.props;
 
@@ -293,6 +295,7 @@ export default class GroupConditionInput extends Component {
         recordType={recordType}
         rootPath={path}
         showRemoveButton={false}
+        isNewSearchForm={isNewSearchForm}
         getSearchConditionInputComponent={getSearchConditionInputComponent}
         onCommit={this.handleChildConditionCommit}
       />

@@ -39,6 +39,7 @@ const propTypes = {
   name: PropTypes.string,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
+  isNewSearchForm: PropTypes.bool,
   rootPath: PropTypes.string,
   onCommit: PropTypes.func,
   onRemove: PropTypes.func,
@@ -183,6 +184,7 @@ export default class FieldConditionInput extends Component {
     const {
       config,
       recordType,
+      isNewSearchForm,
     } = this.props;
 
     const fieldDescriptor = get(
@@ -192,7 +194,7 @@ export default class FieldConditionInput extends Component {
     const dataType = getFieldDataType(fieldDescriptor);
     const isControlled = isFieldControlled(fieldDescriptor);
 
-    return getOperatorsForDataType(dataType, isControlled);
+    return getOperatorsForDataType(dataType, isControlled, isNewSearchForm);
   }
 
   setOperator(operator) {
@@ -276,6 +278,7 @@ export default class FieldConditionInput extends Component {
       inline,
       readOnly,
       recordType,
+      isNewSearchForm,
     } = this.props;
 
     const pathSpec = condition.get('path');
@@ -295,7 +298,7 @@ export default class FieldConditionInput extends Component {
 
     const dataType = getFieldDataType(fieldDescriptor);
     const isControlled = isFieldControlled(fieldDescriptor);
-    const operators = getOperatorsForDataType(dataType, isControlled);
+    const operators = getOperatorsForDataType(dataType, isControlled, isNewSearchForm);
 
     return (
       <OperatorInput
