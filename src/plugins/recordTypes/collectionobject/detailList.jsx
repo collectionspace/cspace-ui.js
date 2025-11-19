@@ -7,9 +7,11 @@ const dayMillis = 24 * 60 * 60 * 1000;
 /**
  * Configuration for the Search Result Detail View
  *
- * It has pre-defined keys which it uses to fill out sections:
- * - title, subtitle, description, tags, footer
- * -
+ * It has pre-defined formatters for the different detail sections:
+ * - title, subtitle, description, tags, footer, aside
+ *
+ * Each of these takes the data (list item) as well as a separator
+ * in the event multiple values are intended for display.
  */
 export default (configContext) => {
   const {
