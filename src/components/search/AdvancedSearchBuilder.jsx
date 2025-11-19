@@ -132,10 +132,7 @@ export default class AdvancedSearchBuilder extends Component {
 
         if (!initialCondition) {
           initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
-            ? Immutable.fromJS({
-              op: OP_OR,
-              value: {},
-            })
+            ? null
             : Immutable.fromJS(
               get(config, ['recordTypes', recordType, 'advancedSearch']),
             );
