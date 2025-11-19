@@ -704,7 +704,7 @@ describe('FieldConditionInput', () => {
     );
 
     committedCondition.should.equal(Immutable.fromJS({
-      op: OP_EQ,
+      op: OP_RANGE,
       path: 'ns2:collectionobjects_common/bar',
       value: ['value'],
     }));
