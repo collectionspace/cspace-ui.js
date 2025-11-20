@@ -227,6 +227,10 @@ const opsByDataTypeMap = {
 const controlledListOps = [
   OP_EQ,
   OP_NOT_EQ,
+  OP_CONTAIN,
+  OP_NOT_CONTAIN,
+  OP_MATCH,
+  OP_NOT_MATCH,
   OP_NULL,
   OP_NOT_NULL,
 ];

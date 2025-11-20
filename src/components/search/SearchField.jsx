@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import Field from '../record/Field';
 import orderIndicatorStyles from '../../../styles/cspace-ui/SearchOrderIndicator.css';
+import { TextInput } from '../../helpers/configContextInputs';
 
 const messages = defineMessages({
   or: {
@@ -20,6 +21,7 @@ const propTypes = {
   readOnly: PropTypes.bool,
   repeating: PropTypes.bool,
   onCommit: PropTypes.func,
+  isTextInput: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -129,6 +131,7 @@ export default class SearchField extends Component {
       value,
       readOnly,
       repeating,
+      isTextInput,
     } = this.props;
 
     const repeatingProps = {};
@@ -141,7 +144,18 @@ export default class SearchField extends Component {
       repeatingProps.onRemoveInstance = this.handleRemoveInstance;
     }
 
-    return (
+    return isTextInput ? (
+      <TextInput
+        parentPath={parentPath}
+        name={name}
+        asText={readOnly}
+        value={value}
+        onCommit={this.handleCommit}
+      // Do not allow multiline text fields.
+        multiline={false}
+        {...repeatingProps}
+      />
+    ) : (
       <Field
         label={undefined}
         parentPath={parentPath}
