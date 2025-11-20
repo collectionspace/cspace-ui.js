@@ -35,7 +35,8 @@ export default (configContext) => {
     const agentRole = formatRefName(data.get('agent'));
     const agentWithRole = formatNameRole(agent, agentRole);
 
-    const productionPlace = data.get('objectProductionPlace');
+    const place = data.get('objectProductionPlace');
+    const productionPlace = formatRefName(data.get('objectProductionPlace')) || place;
     const productionDate = data.get('objectProductionDate');
 
     return [
