@@ -384,7 +384,7 @@ export default class FieldConditionInput extends Component {
             }
             value={value}
             onCommit={this.handleValueCommit}
-            isTextInput={isOperatorMatchOrContain(operator)}
+            forceTextInput={isOperatorMatchOrContain(operator)}
           />
         );
       }

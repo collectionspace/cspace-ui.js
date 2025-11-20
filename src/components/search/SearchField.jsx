@@ -21,7 +21,7 @@ const propTypes = {
   readOnly: PropTypes.bool,
   repeating: PropTypes.bool,
   onCommit: PropTypes.func,
-  isTextInput: PropTypes.bool,
+  forceTextInput: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -36,6 +36,18 @@ export default class SearchField extends Component {
     this.handleAddInstance = this.handleAddInstance.bind(this);
     this.handleRemoveInstance = this.handleRemoveInstance.bind(this);
     this.renderOrderIndicator = this.renderOrderIndicator.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      forceTextInput, value, parentPath, name, onCommit,
+    } = this.props;
+
+    // If forceTextInput changed, reset value to null
+    if (forceTextInput !== prevProps.forceTextInput && value !== null && onCommit) {
+      const path = parentPath ? [...parentPath, name] : [name];
+      onCommit(path, null);
+    }
   }
 
   handleCommit(path, value) {
@@ -131,7 +143,7 @@ export default class SearchField extends Component {
       value,
       readOnly,
       repeating,
-      isTextInput,
+      forceTextInput,
     } = this.props;
 
     const repeatingProps = {};
@@ -144,7 +156,7 @@ export default class SearchField extends Component {
       repeatingProps.onRemoveInstance = this.handleRemoveInstance;
     }
 
-    return isTextInput ? (
+    return forceTextInput ? (
       <TextInput
         parentPath={parentPath}
         name={name}
