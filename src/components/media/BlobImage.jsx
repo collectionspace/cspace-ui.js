@@ -8,7 +8,7 @@ import styles from '../../../styles/cspace-ui/Image.css';
 
 const propTypes = {
   alt: PropTypes.string,
-  csid: PropTypes.string.isRequired,
+  csid: PropTypes.string,
   derivative: PropTypes.string,
 };
 
