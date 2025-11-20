@@ -224,7 +224,7 @@ const opsByDataTypeMap = {
 // users expect, since they are comparing database values/ref names, not display names. Don't
 // show those operators on controlled list fields, until we have a way to deal with this.
 
-const controlledListOps = [
+const autocompleteOps = [
   OP_EQ,
   OP_NOT_EQ,
   OP_CONTAIN,
@@ -235,15 +235,26 @@ const controlledListOps = [
   OP_NOT_NULL,
 ];
 
+const controlledListOps = [
+  OP_EQ,
+  OP_NOT_EQ,
+  OP_NULL,
+  OP_NOT_NULL,
+];
+
 export const getOperatorsForDataType = (
   dataType = DATA_TYPE_STRING,
   isControlled,
   isNewSearchForm,
+  isAutocomplete,
 ) => {
+  if (isAutocomplete) return autocompleteOps;
+  if (isControlled) return controlledListOps;
+
   const opsByDataType = isNewSearchForm
     ? opsByDataTypeMapNew[dataType] : opsByDataTypeMap[dataType];
 
-  return isControlled ? controlledListOps : (opsByDataType || []);
+  return opsByDataType ?? [];
 };
 
 export const operatorExpectsValue = (op) => (

@@ -70,6 +70,12 @@ const isFieldControlled = (fieldDescriptor) => {
   );
 };
 
+const isFieldAutocomplete = (fieldDescriptor) => {
+  const viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
+
+  return viewType?.toJSON() === AutocompleteInput.toJSON();
+};
+
 const isOperatorMatchOrContain = (operator) => (
   [OP_MATCH, OP_NOT_MATCH, OP_CONTAIN, OP_NOT_CONTAIN].includes(operator)
 );
@@ -204,8 +210,9 @@ export default class FieldConditionInput extends Component {
 
     const dataType = getFieldDataType(fieldDescriptor);
     const isControlled = isFieldControlled(fieldDescriptor);
+    const isAutocomplete = isFieldAutocomplete(fieldDescriptor);
 
-    return getOperatorsForDataType(dataType, isControlled, isNewSearchForm);
+    return getOperatorsForDataType(dataType, isControlled, isNewSearchForm, isAutocomplete);
   }
 
   setOperator(operator) {
@@ -309,7 +316,14 @@ export default class FieldConditionInput extends Component {
 
     const dataType = getFieldDataType(fieldDescriptor);
     const isControlled = isFieldControlled(fieldDescriptor);
-    const operators = getOperatorsForDataType(dataType, isControlled, isNewSearchForm);
+    const isAutocomplete = isFieldAutocomplete(fieldDescriptor);
+
+    const operators = getOperatorsForDataType(
+      dataType,
+      isControlled,
+      isNewSearchForm,
+      isAutocomplete,
+    );
 
     return (
       <OperatorInput
