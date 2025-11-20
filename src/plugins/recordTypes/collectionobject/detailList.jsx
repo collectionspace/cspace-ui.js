@@ -1,7 +1,3 @@
-import React from 'react';
-import Immutable from 'immutable';
-import { FormattedDate, FormattedMessage, FormattedRelative } from 'react-intl';
-
 const dayMillis = 24 * 60 * 60 * 1000;
 
 /**
@@ -14,6 +10,14 @@ const dayMillis = 24 * 60 * 60 * 1000;
  * in the event multiple values are intended for display.
  */
 export default (configContext) => {
+  const {
+    React,
+    Immutable,
+    FormattedDate,
+    FormattedMessage,
+    FormattedRelative,
+  } = configContext.lib;
+
   const {
     formatRefName,
   } = configContext.formatHelpers;
