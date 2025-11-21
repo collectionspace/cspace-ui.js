@@ -290,7 +290,7 @@ export default function SearchResults(props) {
       config={config}
       history={history}
       isOpen={isSidebarOpen}
-      recordType={searchDescriptor.recordType}
+      recordType={searchDescriptor.get('recordType')}
       position={sidebarPosition}
     />
   );
