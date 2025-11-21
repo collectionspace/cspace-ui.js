@@ -8,11 +8,9 @@ import { readListItems, getColumnConfig } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
-import { CheckboxInput } from '../../../helpers/configContextInputs';
 import styles from '../../../../styles/cspace-ui/SearchGrid.css';
-import { setResultItemSelected } from '../../../actions/search';
-import { derivativeImage } from '../../../helpers/formatHelpers';
 import { getListTypeFromResult } from '../../../helpers/searchHelpers';
+import BlobImage from '../../media/BlobImage';
 
 const GRID_COLUMN_SET = 'grid';
 
@@ -51,25 +49,17 @@ export function SearchResultCard({
     };
   }
 
-  // todo: image not found thumbnail
-  const blob = derivativeImage(blobCsid, 'Thumbnail');
+  const blob = <BlobImage csid={blobCsid} derivative="Medium" />;
   return (
     <div className={styles.card}>
       {blob}
       <div>
         <div className={styles.summary}>
-          <CheckboxInput
-            embedded
-            className={styles.detailCheckbox}
-            name={`${index}`}
-            value={selected}
-            onCommit={(path, value) => dispatch(setResultItemSelected(config,
-              SEARCH_RESULT_PAGE_SEARCH_NAME,
-              searchDescriptor,
-              listType,
-              parseInt(path[0], 10),
-              value))}
-            onClick={(event) => event.stopPropagation()}
+          <SearchResultCheckbox
+            index={index}
+            listType={listType}
+            searchDescriptor={searchDescriptor}
+            selected={selected}
           />
           <Link to={{ pathname: location, state }}>
             <span>
