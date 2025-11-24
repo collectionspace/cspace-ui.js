@@ -1,16 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { readListItems, getColumnConfig } from '../searchResultHelpers';
+import { get } from 'lodash';
+import { readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchGrid.css';
 import { getListTypeFromResult } from '../../../helpers/searchHelpers';
 import BlobImage from '../../media/BlobImage';
+import SearchResultCheckbox from '../SearchResultCheckbox';
+import { formatRefName } from '../../../helpers/formatHelpers';
 
 const GRID_COLUMN_SET = 'grid';
 
@@ -27,7 +29,6 @@ export function SearchResultCard({
   result, index, titleFields, subtitleFields, searchDescriptor, listType,
 }) {
   const config = useConfig();
-  const dispatch = useDispatch();
 
   const csid = result.get('csid');
   const blobCsid = result.get('blobCsid');
@@ -61,21 +62,20 @@ export function SearchResultCard({
             searchDescriptor={searchDescriptor}
             selected={selected}
           />
-          <Link to={{ pathname: location, state }}>
-            <span>
+          <div className={styles.info}>
+            <h2>
               {titleFields.map((field) => field.formatValue(result.get(field.dataKey)))
                 .filter((resultData) => !!resultData)
                 .join(': ')}
-            </span>
-          </Link>
+            </h2>
+            <p>
+              {result.get('title') || `${formatRefName(result.get('objectNameControlled'))}, ${result.get('objectName')}`}
+            </p>
+            <p>
+              {`${formatRefName(result.get('agent'))} (${result.get('agentRole')})`}
+            </p>
+          </div>
         </div>
-        <Link to={{ pathname: location, state }}>
-          <span>
-            {subtitleFields.map((field) => field.formatValue(result.get(field.dataKey)))
-              .filter((resultData) => !!resultData)
-              .join(': ')}
-          </span>
-        </Link>
       </div>
     </div>
   );
@@ -83,9 +83,15 @@ export function SearchResultCard({
 
 SearchResultCard.propTypes = cardPropTypes;
 
-const propTypes = {
-  searchDescriptor: PropTypes.object,
-  intl: PropTypes.object,
+const getGridConfig = (config, searchDescriptor) => {
+  const recordType = searchDescriptor.get('recordType');
+  const subresource = searchDescriptor.get('subresource');
+
+  const configurer = subresource
+    ? config.subresources[subresource]
+    : config.recordTypes[recordType];
+
+  return get(configurer, ['grid']);
 };
 
 function SearchResultGrid({ searchDescriptor, intl }) {
@@ -94,8 +100,6 @@ function SearchResultGrid({ searchDescriptor, intl }) {
     searchDescriptor));
   const config = useConfig();
 
-  // Note: The items returned is an Immutable.Map, so we need to use get
-  // in order to retrieve the data
   const listType = getListTypeFromResult(config, results);
   const { items } = readListItems(config, listType, results);
   if (!items) {
@@ -130,7 +134,7 @@ function SearchResultGrid({ searchDescriptor, intl }) {
   }
 
   // read headers
-  const cardConfig = getColumnConfig(config, searchDescriptor, GRID_COLUMN_SET);
+  const cardConfig = getGridConfig(config, searchDescriptor, GRID_COLUMN_SET);
   const titleConfig = cardConfig.title.fields;
   const titleFields = createFieldConfig(titleConfig);
   const subtitleConfig = cardConfig.subtitle.fields;
@@ -153,6 +157,9 @@ function SearchResultGrid({ searchDescriptor, intl }) {
   );
 }
 
-SearchResultGrid.propTypes = propTypes;
+SearchResultGrid.propTypes = {
+  searchDescriptor: PropTypes.object,
+  intl: PropTypes.object,
+};
 
 export default injectIntl(SearchResultGrid);
