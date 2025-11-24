@@ -482,6 +482,16 @@ export const normalizeFieldCondition = (fieldDescriptor, condition) => {
   return condition.delete('value');
 };
 
+export const isFieldAutocomplete = (fieldDescriptor, path) => {
+  let viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
+
+  if (path) {
+    viewType = get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'view', 'type']);
+  }
+
+  return viewType?.toJSON() === 'AutocompleteInput';
+};
+
 export const normalizeCondition = (fieldDescriptor, condition) => {
   if (condition) {
     const operator = condition.get('op');
@@ -999,7 +1009,19 @@ export const fieldConditionToNXQL = (fieldDescriptor, fieldCondition, counter) =
     }
   }
 
-  if (operator === OP_CONTAIN) {
+  const isAutocomplete = isFieldAutocomplete(fieldDescriptor, path);
+
+  if (isAutocomplete) {
+    if (operator === OP_CONTAIN) {
+      operator = OP_MATCH;
+      value = `%'%${value}%'%`;
+    } else if (operator === OP_NOT_CONTAIN) {
+      operator = OP_NOT_MATCH;
+      value = `%'%${value}%'%`;
+    } else if (operator === OP_MATCH || operator === OP_NOT_MATCH) {
+      value = `%'${value}'%`;
+    }
+  } else if (operator === OP_CONTAIN) {
     operator = OP_MATCH;
     value = `%${value}%`;
   } else if (operator === OP_NOT_CONTAIN) {

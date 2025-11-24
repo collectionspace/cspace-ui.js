@@ -33,6 +33,7 @@ import {
   dataTypeSupportsMultipleValues,
   operatorSupportsMultipleValues,
   operatorExpectsValue,
+  isFieldAutocomplete,
 } from '../../../helpers/searchHelpers';
 
 import styles from '../../../../styles/cspace-ui/FieldConditionInput.css';
@@ -68,12 +69,6 @@ const isFieldControlled = (fieldDescriptor) => {
     || viewType?.toJSON() === OptionPickerInput.toJSON()
     || viewType?.toJSON() === TermPickerInput.toJSON()
   );
-};
-
-const isFieldAutocomplete = (fieldDescriptor) => {
-  const viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
-
-  return viewType?.toJSON() === AutocompleteInput.toJSON();
 };
 
 const isOperatorMatchOrContain = (operator) => (
