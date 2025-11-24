@@ -220,10 +220,6 @@ const opsByDataTypeMap = {
   ],
 };
 
-// For controlled lists, comparison/range operators will not necessarily produce results that
-// users expect, since they are comparing database values/ref names, not display names. Don't
-// show those operators on controlled list fields, until we have a way to deal with this.
-
 const autocompleteOps = [
   OP_EQ,
   OP_NOT_EQ,
