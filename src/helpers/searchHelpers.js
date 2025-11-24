@@ -248,7 +248,7 @@ export const getOperatorsForDataType = (
   isNewSearchForm,
   isAutocomplete,
 ) => {
-  if (isAutocomplete) return autocompleteOps;
+  if (isAutocomplete && isNewSearchForm) return autocompleteOps;
   if (isControlled) return controlledListOps;
 
   const opsByDataType = isNewSearchForm
