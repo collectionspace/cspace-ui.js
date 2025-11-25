@@ -220,9 +220,16 @@ const opsByDataTypeMap = {
   ],
 };
 
-// For controlled lists, comparison/range operators will not necessarily produce results that
-// users expect, since they are comparing database values/ref names, not display names. Don't
-// show those operators on controlled list fields, until we have a way to deal with this.
+const autocompleteOps = [
+  OP_EQ,
+  OP_NOT_EQ,
+  OP_CONTAIN,
+  OP_NOT_CONTAIN,
+  OP_MATCH,
+  OP_NOT_MATCH,
+  OP_NULL,
+  OP_NOT_NULL,
+];
 
 const controlledListOps = [
   OP_EQ,
@@ -235,11 +242,15 @@ export const getOperatorsForDataType = (
   dataType = DATA_TYPE_STRING,
   isControlled,
   isNewSearchForm,
+  isAutocomplete,
 ) => {
+  if (isAutocomplete && isNewSearchForm) return autocompleteOps;
+  if (isControlled) return controlledListOps;
+
   const opsByDataType = isNewSearchForm
     ? opsByDataTypeMapNew[dataType] : opsByDataTypeMap[dataType];
 
-  return isControlled ? controlledListOps : (opsByDataType || []);
+  return opsByDataType ?? [];
 };
 
 export const operatorExpectsValue = (op) => (
@@ -465,6 +476,16 @@ export const normalizeFieldCondition = (fieldDescriptor, condition) => {
   }
 
   return condition.delete('value');
+};
+
+export const isFieldAutocomplete = (fieldDescriptor, path) => {
+  let viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
+
+  if (path) {
+    viewType = get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'view', 'type']);
+  }
+
+  return viewType?.toJSON() === 'AutocompleteInput';
 };
 
 export const normalizeCondition = (fieldDescriptor, condition) => {
@@ -984,7 +1005,19 @@ export const fieldConditionToNXQL = (fieldDescriptor, fieldCondition, counter) =
     }
   }
 
-  if (operator === OP_CONTAIN) {
+  const isAutocomplete = isFieldAutocomplete(fieldDescriptor, path);
+
+  if (isAutocomplete) {
+    if (operator === OP_CONTAIN) {
+      operator = OP_MATCH;
+      value = `%'%${value}%'%`;
+    } else if (operator === OP_NOT_CONTAIN) {
+      operator = OP_NOT_MATCH;
+      value = `%'%${value}%'%`;
+    } else if (operator === OP_MATCH || operator === OP_NOT_MATCH) {
+      value = `%'${value}'%`;
+    }
+  } else if (operator === OP_CONTAIN) {
     operator = OP_MATCH;
     value = `%${value}%`;
   } else if (operator === OP_NOT_CONTAIN) {
