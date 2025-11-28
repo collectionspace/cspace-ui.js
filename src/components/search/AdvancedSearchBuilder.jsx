@@ -114,7 +114,6 @@ export default class AdvancedSearchBuilder extends Component {
       config,
       preferredBooleanOp,
       preferredCondition,
-      preferredConditionNew,
       recordType,
       onConditionCommit,
       searchTermsGroup,
@@ -122,20 +121,20 @@ export default class AdvancedSearchBuilder extends Component {
 
     if (recordType && onConditionCommit) {
       let normalizedCondition;
+      let initialCondition;
 
       if (condition) {
         normalizedCondition = ensureRootBooleanOp(condition, preferredBooleanOp);
       } else {
-        let initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
-          || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS
-          ? preferredConditionNew : preferredCondition;
+        if (searchTermsGroup !== SEARCH_TERMS_GROUP_LIMIT_BY
+          && searchTermsGroup !== SEARCH_TERMS_GROUP_SEARCH_TERMS) {
+          initialCondition = preferredCondition;
 
-        if (!initialCondition) {
-          initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
-            ? null
-            : Immutable.fromJS(
+          if (!initialCondition) {
+            initialCondition = Immutable.fromJS(
               get(config, ['recordTypes', recordType, 'advancedSearch']),
             );
+          }
         }
 
         normalizedCondition = ensureRootBooleanOp(initialCondition, preferredBooleanOp);
