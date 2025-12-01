@@ -129,7 +129,13 @@ function DetailItem({
   const renderInfo = () => <aside>{asideFormatter(item)}</aside>;
   const renderDescriptionBlock = () => (
     <div className={styles.description}>
-      {titleFormatter?.(item)}
+      {
+        location ? (
+          <Link to={{ pathname: location, state }}>
+            {titleFormatter?.(item)}
+          </Link>
+        ) : titleFormatter?.(item)
+      }
       {subtitleFormatter?.(item)}
       {descriptionFormatter?.(item)}
       {tagFormatter?.(item)}

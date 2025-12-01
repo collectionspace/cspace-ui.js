@@ -40,7 +40,7 @@
   width: 55%;
 }
 
-.description > h2 {
+.description h2 {
   /**
    * Remove some of the vertical spacing from the h2
    * to better align it with the other content
