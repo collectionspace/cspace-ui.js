@@ -47,7 +47,7 @@ export default (configContext) => {
     ].filter((value) => !!value).join(separator);
   };
 
-  const fieldCollectorData = (data) => {
+  const fieldCollectorData = (data, separator) => {
     const fieldCollector = formatRefName(data.get('fieldCollector'));
     const fieldCollectorRole = formatRefName(data.get('fieldCollectorRole'));
     const fieldCollectorWithRole = formatNameRole(fieldCollector, fieldCollectorRole);
@@ -61,7 +61,15 @@ export default (configContext) => {
       fieldCollectionPlace,
       fieldCollectionSite,
       fieldCollectionDate,
-    ].filter((value) => !!value).join(', ');
+    ].filter((value) => !!value).join(separator);
+  };
+
+  const formatTaxonWithForm = (taxon, form) => {
+    if (taxon && form) {
+      return `${taxon}, ${form}`;
+    }
+
+    return taxon;
   };
 
   return {
@@ -69,8 +77,23 @@ export default (configContext) => {
       formatter: (data, separator = ' ') => {
         const objectNumber = data.get('objectNumber');
         const title = data.get('title');
-        const theTitle = [objectNumber, title].filter((value) => !!value).join(separator);
-        return <h2>{theTitle}</h2>;
+
+        const objectName = [data.get('objectNameControlled'), data.get('objectName')]
+          .filter((name) => !!name)
+          .join(', ');
+
+        const taxon = data.get('taxon');
+        const form = data.get('form');
+        const taxonWithForm = formatTaxonWithForm(taxon, form);
+
+        const adjacent = title || objectName || taxonWithForm;
+
+        return (
+          <h2>
+            {objectNumber}
+            {adjacent ? `${separator}${adjacent}` : null}
+          </h2>
+        );
       },
     },
     subtitle: {
