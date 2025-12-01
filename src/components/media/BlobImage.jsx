@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { defineMessages, FormattedMessage } from 'react-intl';
 import ImageContainer from '../../containers/media/ImageContainer';
 import { getDerivativePath } from '../../helpers/blobHelpers';
 
@@ -17,13 +17,17 @@ const defaultProps = {
   derivative: 'Thumbnail',
 };
 
+const messages = defineMessages({
+  notFound: {
+    id: 'blob.notFound',
+    description: 'Error message when no image can be displayed',
+    defaultMessage: 'no image found',
+  },
+});
+
 const renderError = () => (
   <div className={styles.noimage}>
-    <FormattedMessage
-      id="blob.error"
-      description="Error message when no image can be displayed"
-      defaultMessage="no image found"
-    />
+    <FormattedMessage {...messages.notFound} />
   </div>
 );
 
