@@ -87,7 +87,7 @@ export default (configContext) => {
     description: {
       formatter: (data) => {
         const briefDescription = data.get('briefDescription');
-        return <p>{briefDescription}</p>;
+        return briefDescription ? <p>{briefDescription}</p> : null;
       },
     },
     tags: {
