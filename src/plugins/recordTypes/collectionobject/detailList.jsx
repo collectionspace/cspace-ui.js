@@ -30,13 +30,14 @@ export default (configContext) => {
     return name || role;
   };
 
+  const formatRefNameWithDefault = (maybeRef) => formatRefName(maybeRef) || maybeRef;
+
   const formatAgentWithProductionData = (data, separator) => {
-    const agent = formatRefName(data.get('agent'));
-    const agentRole = formatRefName(data.get('agent'));
+    const agent = formatRefNameWithDefault(data.get('agent'));
+    const agentRole = formatRefNameWithDefault(data.get('agentRole'));
     const agentWithRole = formatNameRole(agent, agentRole);
 
-    const place = data.get('objectProductionPlace');
-    const productionPlace = formatRefName(data.get('objectProductionPlace')) || place;
+    const productionPlace = formatRefNameWithDefault(data.get('objectProductionPlace'));
     const productionDate = data.get('objectProductionDate');
 
     return [
