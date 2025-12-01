@@ -154,7 +154,7 @@ export default (configContext) => {
           <FormattedMessage
             id="detailList.collectionobject.currentLocation"
             description="The prefix for current location in the search detail view"
-            defaultMessage="Current Storage Location"
+            defaultMessage="Current Storage Location:"
           />
         );
 
@@ -162,7 +162,7 @@ export default (configContext) => {
           <FormattedMessage
             id="detailList.collectionobject.responsibleDepartment"
             description="The prefix for responsible department in the search detail view"
-            defaultMessage="Responsible Department"
+            defaultMessage="Responsible Department:"
           />
         );
 
