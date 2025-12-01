@@ -89,22 +89,22 @@ function DetailItem({
   const {
     title: {
       formatter: titleFormatter,
-    },
+    } = {},
     subtitle: {
       formatter: subtitleFormatter,
-    },
+    } = {},
     description: {
       formatter: descriptionFormatter,
-    },
+    } = {},
     tags: {
       formatter: tagFormatter,
-    },
+    } = {},
     footer: {
       formatter: footerFormatter,
-    },
+    } = {},
     aside: {
       formatter: asideFormatter,
-    },
+    } = {},
   } = detailConfig;
 
   const csid = item.get('csid');
@@ -129,11 +129,11 @@ function DetailItem({
   const renderInfo = () => <aside>{asideFormatter(item)}</aside>;
   const renderDescriptionBlock = () => (
     <div className={styles.description}>
-      {titleFormatter(item)}
-      {subtitleFormatter(item)}
-      {descriptionFormatter(item)}
-      {tagFormatter(item)}
-      {footerFormatter(item)}
+      {titleFormatter?.(item)}
+      {subtitleFormatter?.(item)}
+      {descriptionFormatter?.(item)}
+      {tagFormatter?.(item)}
+      {footerFormatter?.(item)}
     </div>
   );
 
