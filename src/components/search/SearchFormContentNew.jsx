@@ -78,7 +78,6 @@ const SearchFormContentNew = ({
         </div>
         <ConnectedPanel
           collapsible
-          collapsed={!newSearchShown}
           name="searchTermsPanel"
           header={<h3>{intl.formatMessage(messages.enterSearchTerms)}</h3>}
         >
@@ -104,7 +103,6 @@ const SearchFormContentNew = ({
         <div className={styles.mb12}><b>{intl.formatMessage(messages.and)}</b></div>
         <ConnectedPanel
           collapsible
-          collapsed={!newSearchShown}
           name="limitByPanel"
           header={<h3>{intl.formatMessage(messages.limitBySpecificFields)}</h3>}
         >
