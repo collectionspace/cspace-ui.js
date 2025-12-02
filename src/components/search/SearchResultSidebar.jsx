@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+import { useSelector } from 'react-redux';
 import SearchResultBatchPanelContainer from '../../containers/search/SearchResultBatchPanelContainer';
 import SearchResultReportPanelContainer from '../../containers/search/SearchResultReportPanelContainer';
 import SearchResultSidebarToggleButtonContainer from '../../containers/search/SearchResultSidebarToggleButtonContainer';
 import styles from '../../../styles/cspace-ui/SearchResultSidebar.css';
 import sidebarToggleBarStyles from '../../../styles/cspace-ui/SidebarToggleBar.css';
+import { getSearchSelectedItems } from '../../reducers';
+import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 const panelColor = 'black';
 
@@ -19,7 +21,6 @@ const propTypes = {
   recordType: PropTypes.string,
   isOpen: PropTypes.bool,
   position: PropTypes.string,
-  selectedItems: PropTypes.instanceOf(Immutable.Map),
 };
 
 const defaultProps = {
@@ -41,10 +42,11 @@ export default function SearchResultSidebar(props) {
     history,
     recordType,
     isOpen,
-    selectedItems,
     position,
   } = props;
 
+  const selectedItems = useSelector((state) => getSearchSelectedItems(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME));
   const toggle = renderSidebarToggle(position);
 
   if (!isOpen) {

@@ -8,7 +8,14 @@ import OperatorInput from './OperatorInput';
 import RangeSearchField from '../RangeSearchField';
 import SearchField from '../SearchField';
 import RemoveConditionButton from '../RemoveConditionButton';
-import { OP_RANGE, OP_NOT_RANGE } from '../../../constants/searchOperators';
+import {
+  OP_RANGE,
+  OP_NOT_RANGE,
+  OP_MATCH,
+  OP_NOT_MATCH,
+  OP_CONTAIN,
+  OP_NOT_CONTAIN,
+} from '../../../constants/searchOperators';
 
 import {
   configKey,
@@ -26,6 +33,7 @@ import {
   dataTypeSupportsMultipleValues,
   operatorSupportsMultipleValues,
   operatorExpectsValue,
+  isFieldAutocomplete,
 } from '../../../helpers/searchHelpers';
 
 import styles from '../../../../styles/cspace-ui/FieldConditionInput.css';
@@ -39,6 +47,7 @@ const propTypes = {
   name: PropTypes.string,
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
+  isNewSearchForm: PropTypes.bool,
   rootPath: PropTypes.string,
   onCommit: PropTypes.func,
   onRemove: PropTypes.func,
@@ -61,6 +70,10 @@ const isFieldControlled = (fieldDescriptor) => {
     || viewType?.toJSON() === TermPickerInput.toJSON()
   );
 };
+
+const isOperatorMatchOrContain = (operator) => (
+  [OP_MATCH, OP_NOT_MATCH, OP_CONTAIN, OP_NOT_CONTAIN].includes(operator)
+);
 
 export default class FieldConditionInput extends Component {
   constructor() {
@@ -183,6 +196,7 @@ export default class FieldConditionInput extends Component {
     const {
       config,
       recordType,
+      isNewSearchForm,
     } = this.props;
 
     const fieldDescriptor = get(
@@ -191,8 +205,9 @@ export default class FieldConditionInput extends Component {
 
     const dataType = getFieldDataType(fieldDescriptor);
     const isControlled = isFieldControlled(fieldDescriptor);
+    const isAutocomplete = isFieldAutocomplete(fieldDescriptor);
 
-    return getOperatorsForDataType(dataType, isControlled);
+    return getOperatorsForDataType(dataType, isControlled, isNewSearchForm, isAutocomplete);
   }
 
   setOperator(operator) {
@@ -276,6 +291,7 @@ export default class FieldConditionInput extends Component {
       inline,
       readOnly,
       recordType,
+      isNewSearchForm,
     } = this.props;
 
     const pathSpec = condition.get('path');
@@ -295,7 +311,14 @@ export default class FieldConditionInput extends Component {
 
     const dataType = getFieldDataType(fieldDescriptor);
     const isControlled = isFieldControlled(fieldDescriptor);
-    const operators = getOperatorsForDataType(dataType, isControlled);
+    const isAutocomplete = isFieldAutocomplete(fieldDescriptor);
+
+    const operators = getOperatorsForDataType(
+      dataType,
+      isControlled,
+      isNewSearchForm,
+      isAutocomplete,
+    );
 
     return (
       <OperatorInput
@@ -356,6 +379,7 @@ export default class FieldConditionInput extends Component {
             }
             value={value}
             onCommit={this.handleValueCommit}
+            forceTextInput={isOperatorMatchOrContain(operator)}
           />
         );
       }

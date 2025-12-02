@@ -131,9 +131,11 @@ export default class AdvancedSearchBuilder extends Component {
           ? preferredConditionNew : preferredCondition;
 
         if (!initialCondition) {
-          initialCondition = Immutable.fromJS(
-            get(config, ['recordTypes', recordType, 'advancedSearch']),
-          );
+          initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
+            ? null
+            : Immutable.fromJS(
+              get(config, ['recordTypes', recordType, 'advancedSearch']),
+            );
         }
 
         normalizedCondition = ensureRootBooleanOp(initialCondition, preferredBooleanOp);
@@ -158,12 +160,15 @@ export default class AdvancedSearchBuilder extends Component {
       readOnly,
       recordType,
       withoutPanel,
+      searchTermsGroup,
     } = this.props;
 
     if (!condition) {
       return null;
     }
 
+    const isNewSearchForm = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
+      || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS;
     const SearchConditionInputComponent = getSearchConditionInputComponent(condition);
 
     const searchConditionInput = (
@@ -174,6 +179,7 @@ export default class AdvancedSearchBuilder extends Component {
         inline={inline}
         name="advancedSearch"
         readOnly={readOnly}
+        isNewSearchForm={isNewSearchForm}
         recordType={recordType}
         showInlineParens={false}
         showRemoveButton={false}
