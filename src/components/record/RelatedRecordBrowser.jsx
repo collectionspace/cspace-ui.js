@@ -10,6 +10,7 @@ import RelationEditorContainer from '../../containers/record/RelationEditorConta
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
 import { canCreate, canRelate } from '../../helpers/permissionHelpers';
 import styles from '../../../styles/cspace-ui/RelatedRecordBrowser.css';
+import { deriveSearchType } from '../../helpers/searchHelpers';
 
 const propTypes = {
   cloneCsid: PropTypes.string,
@@ -386,6 +387,12 @@ export default class RelatedRecordBrowser extends Component {
 
     const className = isSidebarOpen ? styles.normal : styles.full;
 
+    const { listType } = deriveSearchType(
+      config,
+      this.getRelatedRecordPanelName(),
+      Immutable.fromJS({ recordType: relatedRecordType }),
+    );
+
     // TODO: Vary the name of the RelatedRecordPanelContainer depending on the object record type?
     // This would allow selected items to be remembered when switching back and forth between
     // secondary tabs, instead of being cleared.
@@ -401,6 +408,7 @@ export default class RelatedRecordBrowser extends Component {
           />
         </header>
         <RelatedRecordPanelContainer
+          listType={listType}
           collapsed={false}
           csid={csid}
           config={config}
