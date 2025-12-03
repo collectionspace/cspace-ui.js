@@ -2,13 +2,11 @@ import React from 'react';
 import { defineMessages, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { useConfig } from '../../config/ConfigProvider';
-import { setResultItemSelected } from '../../../actions/search';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
+import SearchResultCheckbox from '../SearchResultCheckbox';
 
 const propTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
@@ -24,11 +22,6 @@ const propTypes = {
 };
 
 const messages = defineMessages({
-  checkboxLabelSelect: {
-    id: 'searchResultTableRow.checkboxLabelSelect',
-    description: 'The aria-label for a checkbox input',
-    defaultMessage: 'Select row {index}',
-  },
   rowAriaLabel: {
     id: 'searchResultTableRow.rowAriaLabel',
     description: 'The aria-label for a row',
@@ -55,7 +48,6 @@ function SearchResultTableRow({
   item, index, totalItems, renderContext, intl,
 }) {
   const config = useConfig();
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const {
@@ -77,7 +69,6 @@ function SearchResultTableRow({
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const rowAriaLabel = createRowLabel(columns[0], item, index, totalItems, intl);
-  const checkboxAriaLabel = intl.formatMessage(messages.checkboxLabelSelect, { index: index + 1 });
 
   function handleRowClick() {
     // from SearchResultTable:
@@ -105,18 +96,11 @@ function SearchResultTableRow({
       onClick={handleRowClick}
     >
       <td>
-        <CheckboxInput
-          aria-label={checkboxAriaLabel}
-          embedded
-          name={`${index}`}
-          value={selected}
-          onCommit={(path, value) => dispatch(setResultItemSelected(config,
-            SEARCH_RESULT_PAGE_SEARCH_NAME,
-            searchDescriptor,
-            listType,
-            parseInt(path[0], 10),
-            value))}
-          onClick={(event) => event.stopPropagation()}
+        <SearchResultCheckbox
+          index={index}
+          listType={listType}
+          searchDescriptor={searchDescriptor}
+          selected={selected}
         />
       </td>
       {columns.map((column) => renderColumn(column, item, location))}
