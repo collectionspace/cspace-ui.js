@@ -11,26 +11,69 @@
   padding: 30px;
 }
 
-.innerDetail img {
-  max-height: 128px;
-  max-width: 20%;
-  width: auto;
-  margin-right: 5px;
+.imageContainer {
+  width: 20%;
+  margin-right: 1em;
 }
 
-.detailImg {
-  width: 128px;
-  height: 128px;
-  margin-right: 5px;
-  background:rgb(220, 220, 220);
+.imageContainer > a {
+  text-decoration: none;
 }
 
-.detailCheckbox {
-  margin-left: auto;
+.imageContainer > img {
+  max-width: 100%;
+}
+
+.imageContainer > * > img {
+  max-width: 100%;
 }
 
 .detailList {
   list-style: none;
   padding-left: 0;
   margin-top: 0;
+}
+
+.description {
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 55%;
+}
+
+.description h2 {
+  /**
+   * Remove some of the vertical spacing from the h2
+   * to better align it with the other content
+  */
+  margin-top: -7px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.description > h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.info {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.info > aside {
+  background-color: aliceblue;
+  height: 200px;
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.info > aside > div > span {
+  font-weight: bold;
+}
+
+.info > aside > div > p {
+  margin-top: 0;
+  margin-bottom: 0;
 }

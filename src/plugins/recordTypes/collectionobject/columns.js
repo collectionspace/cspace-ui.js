@@ -2,7 +2,6 @@ import { defineMessages } from 'react-intl';
 
 export default (configContext) => {
   const {
-    formatRefName,
     formatTimestamp,
   } = configContext.formatHelpers;
 
@@ -76,55 +75,6 @@ export default (configContext) => {
         order: 30,
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
-      },
-    },
-    list: {
-      objectNumber: {
-        messages: defineMessages({
-          label: {
-            id: 'column.collectionobject.list.objectNumber',
-            defaultMessage: 'Object ID',
-          },
-        }),
-        order: 10,
-      },
-      title: {
-        messages: defineMessages({
-          label: {
-            id: 'column.collectionobject.list.title',
-            defaultMessage: 'Object Title',
-          },
-        }),
-        order: 20,
-      },
-      responsibleDepartment: {
-        messages: defineMessages({
-          label: {
-            id: 'column.collectionobject.list.responsibleDepartment',
-            defaultMessage: 'Responsible Department',
-          },
-        }),
-        order: 30,
-      },
-      computedCurrentLocation: {
-        formatValue: formatRefName,
-        messages: defineMessages({
-          label: {
-            id: 'column.collectionobject.list.computedCurrentLocation',
-            defaultMessage: 'Current Location',
-          },
-        }),
-        order: 40,
-      },
-      briefDescription: {
-        messages: defineMessages({
-          label: {
-            id: 'column.collectionobject.list.briefDescription',
-            defaultMessage: 'Brief Description',
-          },
-        }),
-        order: 50,
-        sortBy: 'collectionobjects_common:briefDescriptions/0',
       },
     },
     grid: {

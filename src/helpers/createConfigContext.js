@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import lodash from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import { FormattedDate, FormattedMessage, FormattedRelative } from 'react-intl';
 import { helpers as inputHelpers } from 'cspace-input';
 import { Col, Cols, Row } from 'cspace-layout';
 import { getDisplayName } from 'cspace-refname';
@@ -62,7 +62,9 @@ export default () => ({
   },
   lib: {
     lodash,
+    FormattedDate,
     FormattedMessage,
+    FormattedRelative,
     Immutable,
     React,
     Component,
