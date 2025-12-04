@@ -77,45 +77,5 @@ export default (configContext) => {
         width: 150,
       },
     },
-    grid: {
-      title: {
-        fields: {
-          objectNumber: {
-            messages: defineMessages({
-              label: {
-                id: 'column.collectionobject.grid.objectNumber',
-                defaultMessage: 'Object ID',
-              },
-            }),
-            order: 10,
-          },
-          objectName: {
-            messages: defineMessages({
-              label: {
-                id: 'column.collectionobject.grid.objectName',
-                defaultMessage: 'Object Name',
-              },
-            }),
-            order: 20,
-          },
-        },
-      },
-      subtitle: {
-        fields: {
-          updatedAt: {
-            formatValue: formatTimestamp,
-            messages: defineMessages({
-              label: {
-                id: 'column.collectionobject.grid.updatedAt',
-                defaultMessage: 'Updated',
-              },
-            }),
-            order: 30,
-            sortBy: 'collectionspace_core:updatedAt',
-            width: 150,
-          },
-        },
-      },
-    },
   };
 };
