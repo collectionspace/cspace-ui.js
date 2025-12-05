@@ -4,6 +4,7 @@ export default (configContext) => {
   } = configContext.lib;
 
   const {
+    formatNameRole,
     formatRefNameWithDefault,
   } = configContext.formatHelpers;
 
@@ -13,19 +14,7 @@ export default (configContext) => {
     if (taxon && form) {
       return `${taxon}, ${form}`;
     }
-    if (taxon) {
-      return taxon;
-    }
-
-    return undefined;
-  };
-
-  const formatNameRole = (name, role) => {
-    if (name && role) {
-      return `${name} (${role})`;
-    }
-
-    return name;
+    return taxon;
   };
 
   const formatAgent = (data) => {
@@ -50,10 +39,10 @@ export default (configContext) => {
     subtitle: {
       formatter: (data) => {
         const title = data.get('title');
-        const objectName = data.get('objectName');
+        const objectName = formatRefNameWithDefault(data.get('objectName'));
         const objectNameControlled = formatRefNameWithDefault(data.get('objectNameControlled'));
         const taxon = formatRefNameWithDefault(data.get('taxon'));
-        const form = data.get('form');
+        const form = formatRefNameWithDefault(data.get('form'));
 
         const text = title
           || formatObjectName([objectNameControlled, objectName])
