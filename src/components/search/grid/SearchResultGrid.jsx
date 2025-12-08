@@ -105,7 +105,9 @@ export function SearchResultCard({
             {title}
             {subtitleFormatter?.(item)}
             {descriptionFormatter?.(item)}
-            {tagFormatter?.(item)}
+            <div className={styles.mt10}>
+              {tagFormatter?.(item)}
+            </div>
           </div>
         </div>
       </div>
