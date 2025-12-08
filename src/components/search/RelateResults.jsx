@@ -68,6 +68,7 @@ export default function RelateResults({
           err = {
             code: 'notPermitted',
             values: {
+              selectedCount: selectedItems.size,
               name: <FormattedMessage {...recordMessages.name} />,
               collectionName: <FormattedMessage {...recordMessages.collectionName} />,
             },
