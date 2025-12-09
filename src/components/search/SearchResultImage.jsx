@@ -21,7 +21,7 @@ function SearchResultImage({
   const itemCsid = item.get('csid');
   const blobCsid = item.get('blobCsid');
   const blobAlt = item.get('blobAltText');
-  const altText = blobAlt || intl.formatMessage(messages.alt, { itemCsid });
+  const altText = blobAlt || intl.formatMessage(messages.alt, { csid: itemCsid });
 
   const blob = <BlobImage csid={blobCsid} derivative={derivative} alt={altText} />;
   return location && state ? (
