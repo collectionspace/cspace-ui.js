@@ -122,20 +122,36 @@ export default class AdvancedSearchBuilder extends Component {
 
     if (recordType && onConditionCommit) {
       let normalizedCondition;
+      let initialCondition;
 
       if (condition) {
         normalizedCondition = ensureRootBooleanOp(condition, preferredBooleanOp);
       } else {
-        let initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
-          || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS
-          ? preferredConditionNew : preferredCondition;
+        const isNewSearchForm = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
+          || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS;
 
-        if (!initialCondition) {
-          initialCondition = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
-            ? null
-            : Immutable.fromJS(
-              get(config, ['recordTypes', recordType, 'advancedSearch']),
-            );
+        // use preferred condition when not using new search form
+        // or for both new "search terms, limit by" groups when recordType is not collectionobject
+        if (isNewSearchForm && recordType !== 'collectionobject') {
+          initialCondition = preferredConditionNew;
+        } else if (!isNewSearchForm) {
+          initialCondition = preferredCondition;
+        } else {
+          initialCondition = null;
+        }
+
+        // use config condition when there is no preferred condition
+        // and not using new search form or for new search terms group
+        // when recordType is not collectionobject
+        if (
+          !initialCondition && (
+            !isNewSearchForm
+            || (searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS && recordType !== 'collectionobject')
+          )
+        ) {
+          initialCondition = Immutable.fromJS(
+            get(config, ['recordTypes', recordType, 'advancedSearch']),
+          );
         }
 
         normalizedCondition = ensureRootBooleanOp(initialCondition, preferredBooleanOp);
