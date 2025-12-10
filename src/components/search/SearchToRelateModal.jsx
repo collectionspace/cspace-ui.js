@@ -30,7 +30,7 @@ const messages = defineMessages({
   },
   errorTitle: {
     id: 'searchToRelateModal.errorTitle',
-    defaultMessage: 'Can\'t Relate',
+    defaultMessage: 'Permission Denied',
   },
 });
 
@@ -41,7 +41,7 @@ const errorMessages = defineMessages({
   },
   notPermitted: {
     id: 'searchToRelateModal.error.notPermitted',
-    defaultMessage: '{name} records are selected. You are not permitted to create relations to {collectionName}.',
+    defaultMessage: '{selectedCount, plural, one {{name} record is} other {{name} records are}} selected. You are not permitted to create relations to {collectionName}.',
   },
 });
 
@@ -55,6 +55,7 @@ const propTypes = {
   }),
   error: PropTypes.shape({
     code: PropTypes.string,
+    values: PropTypes.object,
   }),
   isOpen: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -179,7 +180,7 @@ export default class SearchToRelateModal extends Component {
           onAcceptButtonClick={onCancelButtonClick}
           onCloseButtonClick={onCloseButtonClick}
         >
-          <FormattedMessage {...errorMessages[error.code]} />
+          <FormattedMessage {...errorMessages[error.code]} values={error.values || {}} />
         </Modal>
       );
     }
