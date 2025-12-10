@@ -12,17 +12,21 @@ const messages = defineMessages({
     id: 'footer.copyright',
     defaultMessage: 'Copyright © {startYear}–{endYear} CollectionSpace',
   },
+  documentation: {
+    id: 'footer.documentation',
+    defaultMessage: 'Access the CollectionSpace Documentation',
+  },
   about: {
     id: 'footer.about',
-    defaultMessage: 'About CollectionSpace',
+    defaultMessage: 'Visit the CollectionSpace Website',
   },
   feedback: {
     id: 'footer.feedback',
-    defaultMessage: 'Leave Feedback',
+    defaultMessage: 'Share Feedback with the CollectionSpace Program',
   },
   feedbackUrl: {
     id: 'footer.feedbackUrl',
-    defaultMessage: 'http://www.collectionspace.org/contact',
+    defaultMessage: 'https://www.collectionspace.org/contact',
   },
   release: {
     id: 'footer.release',
@@ -241,13 +245,19 @@ export default function Footer(props) {
         </li>
 
         <li>
-          <a href="http://www.collectionspace.org">
+          <a target="_blank" rel="noreferrer" href="https://collectionspace.atlassian.net/wiki/spaces/CO/overview?mode=global">
+            <FormattedMessage {...messages.documentation} />
+          </a>
+        </li>
+
+        <li>
+          <a target="_blank" rel="noreferrer" href="https://www.collectionspace.org">
             <FormattedMessage {...messages.about} />
           </a>
         </li>
 
         <li>
-          <a href={intl.formatMessage(messages.feedbackUrl)}>
+          <a target="_blank" rel="noreferrer" href={intl.formatMessage(messages.feedbackUrl)}>
             <FormattedMessage {...messages.feedback} />
           </a>
         </li>
