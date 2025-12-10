@@ -363,4 +363,32 @@ describe('SearchToRelateModal', () => {
 
     message.props.defaultMessage.should.contain('Locked records are selected');
   });
+
+  it('should render a Modal containing an error message with the error.values being passed', () => {
+    const error = {
+      code: 'notPermitted',
+      values: {
+        selectedCount: 3,
+        name: 'Object record',
+        collectionName: 'Objects',
+      },
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchToRelateModal
+        isOpen
+        error={error}
+      />,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal(Modal);
+
+    const message = findWithType(result, FormattedMessage);
+
+    message.props.values.should.equal(error.values);
+  });
 });

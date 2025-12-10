@@ -8300,9 +8300,9 @@ export default {
 
   "searchToRelateModal.error.locked": "Locked records are selected. Relations cannot be made to locked records.",
 
-  "searchToRelateModal.error.notPermitted": "{name} records are selected. You are not permitted to create relations to {collectionName}.",
+  "searchToRelateModal.error.notPermitted": "{selectedCount, plural, one {{name} record is} other {{name} records are}} selected. You are not permitted to create relations to {collectionName}.",
 
-  "searchToRelateModal.errorTitle": "Can't Relate",
+  "searchToRelateModal.errorTitle": "Permission Denied",
 
   "searchToRelateModal.label": "Relate records",
 
