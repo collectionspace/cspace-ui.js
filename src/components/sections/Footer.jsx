@@ -14,7 +14,7 @@ const messages = defineMessages({
   },
   documentation: {
     id: 'footer.documentation',
-    defaultMessage: 'Access CollectionSpace Documentation',
+    defaultMessage: 'Access the CollectionSpace Documentation',
   },
   about: {
     id: 'footer.about',
@@ -22,7 +22,7 @@ const messages = defineMessages({
   },
   feedback: {
     id: 'footer.feedback',
-    defaultMessage: 'Share Feedback with CollectionSpace Program',
+    defaultMessage: 'Share Feedback with the CollectionSpace Program',
   },
   feedbackUrl: {
     id: 'footer.feedbackUrl',
