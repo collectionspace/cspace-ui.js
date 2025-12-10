@@ -245,19 +245,19 @@ export default function Footer(props) {
         </li>
 
         <li>
-          <a href="https://collectionspace.atlassian.net/wiki/spaces/CO/overview?mode=global">
+          <a target="_blank" rel="noreferrer" href="https://collectionspace.atlassian.net/wiki/spaces/CO/overview?mode=global">
             <FormattedMessage {...messages.documentation} />
           </a>
         </li>
 
         <li>
-          <a href="https://www.collectionspace.org">
+          <a target="_blank" rel="noreferrer" href="https://www.collectionspace.org">
             <FormattedMessage {...messages.about} />
           </a>
         </li>
 
         <li>
-          <a href={intl.formatMessage(messages.feedbackUrl)}>
+          <a target="_blank" rel="noreferrer" href={intl.formatMessage(messages.feedbackUrl)}>
             <FormattedMessage {...messages.feedback} />
           </a>
         </li>
