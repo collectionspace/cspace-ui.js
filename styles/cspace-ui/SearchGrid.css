@@ -12,7 +12,7 @@
   gap: 15px;
 }
 
-:global(.cspace-ui-Image--noimage) {
+.grid :global(.cspace-ui-Image--noimage) {
   aspect-ratio: 1/1;
 }
 
