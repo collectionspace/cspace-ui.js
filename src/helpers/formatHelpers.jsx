@@ -42,6 +42,14 @@ export const formatDate = (date) => {
   return date;
 };
 
+export const formatNameRole = (name, role) => {
+  if (name && role) {
+    return `${name} (${role})`;
+  }
+
+  return name;
+};
+
 export const formatServiceObjectName = (serviceObjectName, { intl, config }) => {
   const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, serviceObjectName);
 
@@ -53,6 +61,13 @@ export const formatServiceObjectName = (serviceObjectName, { intl, config }) => 
 };
 
 export const formatRefName = (refName) => getDisplayName(refName);
+
+/**
+ * Attempt to format a RefName. If it cannot be formatted, return the initial value.
+ * @param {string} maybeRef a string which could be a refname
+ * @returns the formatted value of maybeRef or the initial value maybeRef
+ */
+export const formatRefNameWithDefault = (maybeRef) => formatRefName(maybeRef) || maybeRef;
 
 export const formatRefNameAsRecordType = (refName, { intl, config }) => {
   const recordServicePath = getServicePath(refName);
