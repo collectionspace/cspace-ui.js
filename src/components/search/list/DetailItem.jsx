@@ -2,23 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import {
-  defineMessages, FormattedMessage, injectIntl, intlShape,
-} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { useConfig } from '../../config/ConfigProvider';
-import BlobImage from '../../media/BlobImage';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 
 import styles from '../../../../styles/cspace-ui/SearchList.css';
 import SearchResultCheckbox from '../SearchResultCheckbox';
+import SearchResultImage from '../SearchResultImage';
 
 const { Button } = inputComponents;
 
 const propTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
-  intl: intlShape,
   detailConfig: PropTypes.shape({
     aside: PropTypes.shape({
       formatter: PropTypes.func,
@@ -44,6 +41,8 @@ const propTypes = {
   selectedItems: PropTypes.instanceOf(Immutable.Map),
 };
 
+const DETAIL_DERIVATIVE = 'Small';
+
 const renderEditButton = (location, state) => {
   const button = (
     <Button name="edit">
@@ -61,28 +60,8 @@ const renderEditButton = (location, state) => {
   ) : button;
 };
 
-const renderBlob = (location, state, blobCsid, blobAltText) => {
-  if (location) {
-    return (
-      <Link to={{ pathname: location, state }}>
-        <BlobImage csid={blobCsid} derivative="Small" alt={blobAltText} />
-      </Link>
-    );
-  }
-
-  return <BlobImage csid={blobCsid} derivative="Small" alt={blobAltText} />;
-};
-
-const messages = defineMessages({
-  alt: {
-    id: 'searchDetail.altText',
-    description: 'Default alt text for thumbnails',
-    defaultMessage: 'Edit record {csid}',
-  },
-});
-
-function DetailItem({
-  item, index, detailConfig, searchDescriptor, listType, selectedItems, intl,
+export default function DetailItem({
+  item, index, detailConfig, searchDescriptor, listType, selectedItems,
 }) {
   const config = useConfig();
 
@@ -108,8 +87,6 @@ function DetailItem({
   } = detailConfig;
 
   const csid = item.get('csid');
-  const blobCsid = item.get('blobCsid');
-  const altText = item.get('blobAltText') || intl.formatMessage(messages.alt, { csid });
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const listTypeConfig = config.listTypes[listType];
@@ -143,11 +120,20 @@ function DetailItem({
     </div>
   );
 
+  const blob = (
+    <SearchResultImage
+      derivative={DETAIL_DERIVATIVE}
+      item={item}
+      location={location}
+      state={state}
+    />
+  );
+
   const editButton = renderEditButton(location, state);
   return (
     <div className={styles.innerDetail}>
       <div className={styles.imageContainer}>
-        {renderBlob(location, state, blobCsid, altText)}
+        {blob}
       </div>
       <SearchResultCheckbox
         index={index}
@@ -165,5 +151,3 @@ function DetailItem({
 }
 
 DetailItem.propTypes = propTypes;
-
-export default injectIntl(DetailItem);

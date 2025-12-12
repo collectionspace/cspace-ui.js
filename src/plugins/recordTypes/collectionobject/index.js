@@ -3,6 +3,7 @@ import columns from './columns';
 import detailList from './detailList';
 import fields from './fields';
 import forms from './forms';
+import grid from './grid';
 import idGenerators from './idGenerators';
 import messages from './messages';
 import optionLists from './optionLists';
@@ -24,6 +25,7 @@ export default () => (configContext) => ({
       defaultForSearch: true, // Is this the default in search dropdowns?
       fields: fields(configContext),
       forms: forms(configContext),
+      grid: grid(configContext),
       title: title(configContext),
     },
   },

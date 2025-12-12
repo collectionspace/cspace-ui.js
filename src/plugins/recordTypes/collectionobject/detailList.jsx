@@ -20,17 +20,9 @@ export default (configContext) => {
 
   const {
     formatRefName,
+    formatNameRole,
+    formatRefNameWithDefault,
   } = configContext.formatHelpers;
-
-  const formatNameRole = (name, role) => {
-    if (name && role) {
-      return `${name} (${role})`;
-    }
-
-    return name || role;
-  };
-
-  const formatRefNameWithDefault = (maybeRef) => formatRefName(maybeRef) || maybeRef;
 
   const formatAgentWithProductionData = (data, separator) => {
     const agent = formatRefNameWithDefault(data.get('agent'));
@@ -78,12 +70,14 @@ export default (configContext) => {
         const objectNumber = data.get('objectNumber');
         const title = data.get('title');
 
-        const objectName = [data.get('objectNameControlled'), data.get('objectName')]
-          .filter((name) => !!name)
+        const objectName = [
+          formatRefName(data.get('objectNameControlled')),
+          formatRefNameWithDefault(data.get('objectName')),
+        ].filter((name) => !!name)
           .join(', ');
 
-        const taxon = data.get('taxon');
-        const form = data.get('form');
+        const taxon = formatRefNameWithDefault(data.get('taxon'));
+        const form = formatRefNameWithDefault(data.get('form'));
         const taxonWithForm = formatTaxonWithForm(taxon, form);
 
         const adjacent = title || objectName || taxonWithForm;
