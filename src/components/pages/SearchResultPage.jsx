@@ -18,6 +18,7 @@ import {
   getListTypeFromResult,
   createPageSizeChangeHandler,
   createPageChangeHandler,
+  extractAdvancedSearchGroupedTerms,
 } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
@@ -54,6 +55,8 @@ const propTypes = {
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   setPreferredPageSize: PropTypes.func,
   setSearchPageAdvanced: PropTypes.func,
+  setSearchPageAdvancedSearchTerms: PropTypes.func,
+  setSearchPageAdvancedLimitBy: PropTypes.func,
   setSearchPageKeyword: PropTypes.func,
   setSearchPageRecordType: PropTypes.func,
   setSearchPageVocabulary: PropTypes.func,
@@ -207,6 +210,8 @@ export default class SearchResultPage extends Component {
     const {
       location,
       setSearchPageAdvanced,
+      setSearchPageAdvancedLimitBy,
+      setSearchPageAdvancedSearchTerms,
       setSearchPageKeyword,
       setSearchPageRecordType,
       setSearchPageVocabulary,
@@ -234,6 +239,14 @@ export default class SearchResultPage extends Component {
 
     if (setSearchPageAdvanced) {
       setSearchPageAdvanced(searchQuery.get('as'));
+    }
+
+    if (setSearchPageAdvancedSearchTerms) {
+      setSearchPageAdvancedSearchTerms(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).searchTerms);
+    }
+
+    if (setSearchPageAdvancedLimitBy) {
+      setSearchPageAdvancedLimitBy(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).limitBy);
     }
   }
 

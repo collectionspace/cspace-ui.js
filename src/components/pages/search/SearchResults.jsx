@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { batch, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
+import get from 'lodash/get';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
@@ -18,6 +19,8 @@ import styles from '../../../../styles/cspace-ui/SearchResults.css';
 import buttonBarStyles from '../../../../styles/cspace-ui/ButtonBar.css';
 
 import {
+  setSearchPageRecordType,
+  setSearchPageVocabulary,
   setSearchResultPagePageSize,
 } from '../../../actions/prefs';
 
@@ -30,7 +33,17 @@ import {
 import SelectBar from '../../search/SelectBar';
 import RelateResults from '../../search/RelateResults';
 import ExportResults from '../../search/ExportResults';
-import { getListTypeFromResult, createPageSizeChangeHandler } from '../../../helpers/searchHelpers';
+import {
+  getListTypeFromResult,
+  createPageSizeChangeHandler,
+  extractAdvancedSearchGroupedTerms,
+} from '../../../helpers/searchHelpers';
+import {
+  setSearchPageAdvanced,
+  setSearchPageAdvancedLimitBy,
+  setSearchPageAdvancedSearchTerms,
+  setSearchPageKeyword,
+} from '../../../actions/searchPage';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -239,6 +252,30 @@ export default function SearchResults(props) {
     setPreferredPageSize: setSearchResultPagePageSize,
   });
 
+  const handleEditSearchLinkClick = () => {
+    // Transfer the search descriptor from this search to the search page. If this search
+    // originated from the search page, the original descriptor will be in the location state.
+    // Otherwise, build it from the URL params. If present, the search descriptor from the
+    // originating search page will be more complete than one constructed from the URL; for
+    // example, it will contain fields that are blank, which will have been removed from the
+    // URL, to reduce the size.
+    const origin = get(location.state, 'originSearchPage');
+    const conditionalSearchDescriptor = origin
+      ? Immutable.fromJS(origin.searchDescriptor)
+      : getSearchDescriptor(normalizedQuery, props);
+
+    const searchQuery = conditionalSearchDescriptor.get('searchQuery');
+
+    batch(() => {
+      dispatch(setSearchPageRecordType(conditionalSearchDescriptor.get('recordType')));
+      dispatch(setSearchPageVocabulary(conditionalSearchDescriptor.get('vocabulary')));
+      dispatch(setSearchPageKeyword(searchQuery.get('kw')));
+      dispatch(setSearchPageAdvanced(searchQuery.get('as')));
+      dispatch(setSearchPageAdvancedLimitBy(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).limitBy));
+      dispatch(setSearchPageAdvancedSearchTerms(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).searchTerms));
+    });
+  };
+
   const searchResults = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -313,6 +350,7 @@ export default function SearchResults(props) {
               searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
               searchDescriptor={searchDescriptor}
               onPageSizeChange={handlePageSizeChange}
+              onEditSearchLinkClick={handleEditSearchLinkClick}
             />
             <SelectExportRelateToggleBar
               toggleBar={displayToggles}
