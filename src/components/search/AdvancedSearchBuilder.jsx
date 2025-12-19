@@ -130,9 +130,11 @@ export default class AdvancedSearchBuilder extends Component {
         const isNewSearchForm = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
           || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS;
 
+        const recordTypesWithDefaultFields = ['all', 'procedure', 'authority'];
+
         // use preferred condition when not using new search form
-        // or for both new "search terms, limit by" groups when recordType is not collectionobject
-        if (isNewSearchForm && recordType !== 'collectionobject') {
+        // or for both new "search terms, limit by" groups when recordType is with default fields
+        if (isNewSearchForm && recordTypesWithDefaultFields.includes(recordType)) {
           initialCondition = preferredConditionNew;
         } else if (!isNewSearchForm) {
           initialCondition = preferredCondition;
@@ -142,11 +144,12 @@ export default class AdvancedSearchBuilder extends Component {
 
         // use config condition when there is no preferred condition
         // and not using new search form or for new search terms group
-        // when recordType is not collectionobject
+        // when recordType is with default fields
         if (
           !initialCondition && (
             !isNewSearchForm
-            || (searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS && recordType !== 'collectionobject')
+            || (searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS
+              && recordTypesWithDefaultFields.includes(recordType))
           )
         ) {
           initialCondition = Immutable.fromJS(
