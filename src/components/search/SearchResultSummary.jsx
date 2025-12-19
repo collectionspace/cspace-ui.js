@@ -4,19 +4,12 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
-import { batch, useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PageSizeChooser from './PageSizeChooser';
 import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
-import { setSearchPageRecordType, setSearchPageVocabulary } from '../../actions/prefs';
-import {
-  setSearchPageAdvanced,
-  setSearchPageAdvancedLimitBy,
-  setSearchPageAdvancedSearchTerms,
-  setSearchPageKeyword,
-} from '../../actions/searchPage';
 import { getSearchError, getSearchResult } from '../../reducers';
-import { extractAdvancedSearchGroupedTerms, getListTypeFromResult } from '../../helpers/searchHelpers';
+import { getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const messages = defineMessages({
   error: {
@@ -46,7 +39,6 @@ const propTypes = {
 
 const defaultProps = {
   renderEditLink: (searchDescriptor, onEditSearchLinkClick) => {
-    const dispatch = useDispatch();
     const recordType = searchDescriptor.get('recordType');
     const vocabulary = searchDescriptor.get('vocabulary');
     const subresource = searchDescriptor.get('subresource');
@@ -63,36 +55,8 @@ const defaultProps = {
     const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
     const path = `/search/${recordType}${vocabularyPath}`;
 
-    function defaultOnClick() {
-      batch(() => {
-        if (setSearchPageRecordType) {
-          dispatch(setSearchPageRecordType(searchDescriptor.get('recordType')));
-        }
-
-        if (setSearchPageVocabulary) {
-          dispatch(setSearchPageVocabulary(searchDescriptor.get('vocabulary')));
-        }
-
-        if (setSearchPageKeyword) {
-          dispatch(setSearchPageKeyword(searchQuery.get('kw')));
-        }
-
-        if (setSearchPageAdvanced) {
-          dispatch(setSearchPageAdvanced(searchQuery.get('as')));
-        }
-
-        if (setSearchPageAdvancedLimitBy) {
-          dispatch(setSearchPageAdvancedLimitBy(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).limitBy));
-        }
-
-        if (setSearchPageAdvancedSearchTerms) {
-          dispatch(setSearchPageAdvancedSearchTerms(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).searchTerms));
-        }
-      });
-    }
-
     return (
-      <Link to={path} onClick={onEditSearchLinkClick || defaultOnClick}>
+      <Link to={path} onClick={onEditSearchLinkClick}>
         <FormattedMessage {...messages.editSearch} />
       </Link>
     );

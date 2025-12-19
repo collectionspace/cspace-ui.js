@@ -23,7 +23,6 @@ const propTypes = {
   withoutPanel: PropTypes.bool,
   preferredBooleanOp: PropTypes.string,
   preferredCondition: PropTypes.instanceOf(Immutable.Map),
-  preferredConditionNew: PropTypes.instanceOf(Immutable.Map),
   readOnly: PropTypes.bool,
   recordType: PropTypes.string,
   searchTermsGroup: PropTypes.string,
@@ -114,7 +113,6 @@ export default class AdvancedSearchBuilder extends Component {
       config,
       preferredBooleanOp,
       preferredCondition,
-      preferredConditionNew,
       recordType,
       onConditionCommit,
       searchTermsGroup,
@@ -130,23 +128,21 @@ export default class AdvancedSearchBuilder extends Component {
         const isNewSearchForm = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
           || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS;
 
+        const recordTypesWithDefaultFields = ['all', 'procedure', 'authority'];
+
         // use preferred condition when not using new search form
-        // or for both new "search terms, limit by" groups when recordType is not collectionobject
-        if (isNewSearchForm && recordType !== 'collectionobject') {
-          initialCondition = preferredConditionNew;
-        } else if (!isNewSearchForm) {
+        if (!isNewSearchForm) {
           initialCondition = preferredCondition;
-        } else {
-          initialCondition = null;
         }
 
         // use config condition when there is no preferred condition
         // and not using new search form or for new search terms group
-        // when recordType is not collectionobject
+        // when recordType is with default fields
         if (
           !initialCondition && (
             !isNewSearchForm
-            || (searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS && recordType !== 'collectionobject')
+            || (searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS
+              && recordTypesWithDefaultFields.includes(recordType))
           )
         ) {
           initialCondition = Immutable.fromJS(
