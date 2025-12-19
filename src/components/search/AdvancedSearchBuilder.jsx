@@ -133,13 +133,8 @@ export default class AdvancedSearchBuilder extends Component {
         const recordTypesWithDefaultFields = ['all', 'procedure', 'authority'];
 
         // use preferred condition when not using new search form
-        // or for both new "search terms, limit by" groups when recordType is with default fields
-        if (isNewSearchForm && recordTypesWithDefaultFields.includes(recordType)) {
-          initialCondition = preferredConditionNew;
-        } else if (!isNewSearchForm) {
+        if (!isNewSearchForm) {
           initialCondition = preferredCondition;
-        } else {
-          initialCondition = null;
         }
 
         // use config condition when there is no preferred condition
