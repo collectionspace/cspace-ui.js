@@ -127,7 +127,7 @@ export default (configContext) => {
           <FormattedMessage
             id="detailList.collectionobject.concepts"
             description="The prefix for content concept tags in the search detail view"
-            defaultMessage="Content Concepts: "
+            defaultMessage="CONCEPT TAGS: "
           />
         );
 
