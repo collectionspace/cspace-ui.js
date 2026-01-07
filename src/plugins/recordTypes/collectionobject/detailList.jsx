@@ -19,7 +19,6 @@ export default (configContext) => {
   } = configContext.lib;
 
   const {
-    formatRefName,
     formatNameRole,
     formatRefNameWithDefault,
   } = configContext.formatHelpers;
@@ -40,12 +39,12 @@ export default (configContext) => {
   };
 
   const fieldCollectorData = (data, separator) => {
-    const fieldCollector = formatRefName(data.get('fieldCollector'));
-    const fieldCollectorRole = formatRefName(data.get('fieldCollectorRole'));
+    const fieldCollector = formatRefNameWithDefault(data.get('fieldCollector'));
+    const fieldCollectorRole = formatRefNameWithDefault(data.get('fieldCollectorRole'));
     const fieldCollectorWithRole = formatNameRole(fieldCollector, fieldCollectorRole);
 
-    const fieldCollectionSite = formatRefName(data.get('fieldCollectionSite'));
-    const fieldCollectionPlace = formatRefName(data.get('fieldCollectionPlace'));
+    const fieldCollectionSite = formatRefNameWithDefault(data.get('fieldCollectionSite'));
+    const fieldCollectionPlace = formatRefNameWithDefault(data.get('fieldCollectionPlace'));
     const fieldCollectionDate = data.get('fieldCollectionDate');
 
     return [
@@ -71,10 +70,9 @@ export default (configContext) => {
         const title = data.get('title');
 
         const objectName = [
-          formatRefName(data.get('objectNameControlled')),
+          formatRefNameWithDefault(data.get('objectNameControlled')),
           formatRefNameWithDefault(data.get('objectName')),
-        ].filter((name) => !!name)
-          .join(', ');
+        ].filter((name) => !!name).join(', ');
 
         const taxon = formatRefNameWithDefault(data.get('taxon'));
         const form = formatRefNameWithDefault(data.get('form'));
@@ -116,10 +114,10 @@ export default (configContext) => {
           const contentConcept = contentConcepts.get('contentConcept');
           if (Immutable.List.isList(contentConcept)) {
             conceptTags = contentConcept.filter((concept) => !!concept)
-              .map((concept) => formatRefName(concept))
+              .map((concept) => formatRefNameWithDefault(concept))
               .join(separator);
           } else {
-            conceptTags = formatRefName(contentConcept);
+            conceptTags = formatRefNameWithDefault(contentConcept);
           }
         }
 
@@ -141,7 +139,7 @@ export default (configContext) => {
     },
     aside: {
       formatter: (data) => {
-        const location = formatRefName(data.get('computedCurrentLocation'));
+        const location = formatRefNameWithDefault(data.get('computedCurrentLocation'));
         const responsibleDepartment = data.get('responsibleDepartment');
 
         const currentLocationPrefix = (
