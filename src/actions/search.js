@@ -33,6 +33,14 @@ const getSortParam = (config, searchDescriptor, columnSetName) => {
     return null;
   }
 
+  // prefer the new sort.js config
+  const sort = get(config,
+    ['recordTypes', searchDescriptor.get('recordType'), 'sort', sortColumnName]);
+
+  if (sort && sort.sortBy) {
+    return sort.sortBy;
+  }
+
   const column = get(config,
     ['recordTypes', searchDescriptor.get('recordType'), 'columns', columnSetName, sortColumnName]);
 
@@ -247,6 +255,7 @@ export const search = (config, searchName, searchDescriptor, columnSetName = 'de
   if (searchQuery.get('sort')) {
     const sortParam = getSortParam(config, searchDescriptor, columnSetName);
 
+    console.log(`sort ${searchQuery.get('sort')} :: ${sortParam}`);
     if (!sortParam) {
       dispatch({
         type: SEARCH_REJECTED,
