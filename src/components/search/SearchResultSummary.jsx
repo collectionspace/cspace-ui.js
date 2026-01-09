@@ -35,6 +35,7 @@ const propTypes = {
   renderEditLink: PropTypes.func,
   onEditSearchLinkClick: PropTypes.func,
   onPageSizeChange: PropTypes.func,
+  renderSortBy: PropTypes.func,
 };
 
 const defaultProps = {
@@ -69,6 +70,7 @@ export default function SearchResultSummary(props) {
     searchDescriptor,
     searchName,
     renderEditLink,
+    renderSortBy,
     onEditSearchLinkClick,
     onPageSizeChange,
   } = props;
@@ -165,7 +167,10 @@ export default function SearchResultSummary(props) {
   return (
     <div className={className}>
       {content}
-      {pageSizeChooser}
+      <div style={{ marginLeft: 'auto' }}>
+        {renderSortBy?.()}
+        {pageSizeChooser}
+      </div>
     </div>
   );
 }
