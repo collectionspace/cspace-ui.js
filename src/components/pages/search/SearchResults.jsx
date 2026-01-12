@@ -13,6 +13,7 @@ import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
 import SearchResultSidebar from '../../search/SearchResultSidebar';
 import SearchResultSummary from '../../search/SearchResultSummary';
+import SortBy from '../../search/SortBy';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchResults.css';
