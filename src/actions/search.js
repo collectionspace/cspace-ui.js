@@ -38,7 +38,7 @@ const getSortParam = (config, searchDescriptor, columnSetName) => {
     ['recordTypes', searchDescriptor.get('recordType'), 'sort', sortColumnName]);
 
   if (sort && sort.sortBy) {
-    return sort.sortBy;
+    return sort.sortBy + (sortDir ? ' DESC' : '');
   }
 
   const column = get(config,
