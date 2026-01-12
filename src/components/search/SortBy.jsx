@@ -1,10 +1,15 @@
 import React from 'react';
-import qs from 'qs';
+import PropTypes from 'prop-types';
 import { baseComponents as components } from 'cspace-input';
-import { defineMessages, FormattedMessage } from 'react-intl';
-import { useHistory, useLocation } from 'react-router-dom';
+import {
+  defineMessages, FormattedMessage, injectIntl, intlShape,
+} from 'react-intl';
 
-const { DropdownMenuInput } = components;
+import { get } from 'lodash';
+import styles from '../../../styles/cspace-ui/SortBy.css';
+import { useConfig } from '../config/ConfigProvider';
+
+const { DropdownMenuInput, MiniButton } = components;
 
 const messages = defineMessages({
   sortBy: {
@@ -13,74 +18,67 @@ const messages = defineMessages({
   },
 });
 
-const updateSortBy = (sort, history, location) => {
-  if (history) {
-    const {
-      search,
-    } = location;
+function SortBy({
+  intl,
+  onSortChange,
+  onSortDirChange,
+  recordType,
+  sort,
+}) {
+  const config = useConfig();
+  const sortConfig = get(config, ['recordTypes', recordType, 'sort']);
 
-    const query = qs.parse(search.substring(1));
+  const {
+    defaultSortBy = 'updatedAt',
+    defaultSortDir = 'desc',
+  } = sortConfig;
 
-    query.sort = sort;
+  const options = Object.keys(sortConfig)
+    .filter((key) => sortConfig[key].sortBy !== undefined)
+    .map((key) => {
+      const option = sortConfig[key];
+      const label = intl.formatMessage(option.messages.label) ?? key;
 
-    const queryString = qs.stringify(query);
-
-    history.push({
-      pathname: location.pathname,
-      search: `?${queryString}`,
-      state: location.state,
+      return {
+        value: key,
+        label,
+      };
     });
-  }
-};
 
-export default function SortBy(props) {
-  const { onSortChange, sort } = props;
-
-  const prefix = <FormattedMessage {...messages.sortBy} />;
-  const options = [
-    {
-      label: 'Object Number',
-      value: 'objectNumber',
-    },
-    {
-      label: 'Object Name',
-      value: 'objectName',
-    },
-    {
-      label: 'Object Name Controlled',
-      value: 'objectNameControlled',
-    },
-    {
-      label: 'Title',
-      value: 'title',
-    },
-    {
-      label: 'Updated At',
-      value: 'updatedAt',
-    },
-    {
-      label: 'Created At',
-      value: 'createdAt',
-    },
-    {
-      label: 'Computed Current Location',
-      value: 'computedCurrentLocation',
-    },
-  ];
-
-  const currentVal = sort || 'updatedAt';
+  const [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDir];
   const input = (
     <DropdownMenuInput
       options={options}
-      value={currentVal}
+      value={sortBy}
       onCommit={(path, value) => onSortChange(value)}
     />
   );
+
+  const sortDirClass = sortDir ? styles.descending : styles.ascending;
+  const sortDirButton = (
+    <MiniButton
+      className={sortDirClass}
+      onClick={() => onSortDirChange()}
+    />
+  );
+
+  const prefix = <FormattedMessage {...messages.sortBy} />;
 
   return (
     <div>
       {prefix}
       {input}
+      {sortDirButton}
     </div>
   );
 }
+
+SortBy.propTypes = {
+  intl: intlShape,
+  onSortChange: PropTypes.func,
+  onSortDirChange: PropTypes.func,
+  recordType: PropTypes.string,
+  sort: PropTypes.string,
+};
+
+export default injectIntl(SortBy);
