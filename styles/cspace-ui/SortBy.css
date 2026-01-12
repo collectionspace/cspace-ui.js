@@ -1,0 +1,11 @@
+@value buttonBg from '../colors.css';
+
+.ascending {
+  background-image: url(../../images/collapseWhite.svg) !important;
+  background-color: buttonBg !important;
+}
+
+.descending {
+  background-image: url(../../images/expandWhite.svg) !important;
+  background-color: buttonBg !important;
+}
