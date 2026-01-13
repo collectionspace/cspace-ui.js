@@ -69,6 +69,8 @@ import {
   getSubrecordSearchName,
   deriveSearchType,
   getListTypeFromResult,
+  createSortByHandler,
+  createSortDirHandler,
 } from '../../../src/helpers/searchHelpers';
 import { SEARCH_RESULT_ACCOUNT_PAGE, SEARCH_RESULT_AUTH_ROLE_PAGE } from '../../../src/constants/searchNames';
 
@@ -2059,6 +2061,129 @@ describe('searchHelpers', () => {
     it('should return the condition if it is null or undefined', () => {
       expect(clearAdvancedSearchConditionValues(null)).to.equal(null);
       expect(clearAdvancedSearchConditionValues(undefined)).to.equal(undefined);
+    });
+  });
+
+  describe('createSortByHandler', () => {
+    const path = '/collectionobjects';
+
+    it('should update the sort when no querystring exists', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: '',
+      };
+
+      const sort = 'updatedAt';
+      const handler = createSortByHandler({ history, location });
+      handler(sort);
+      expect(updatedSearch).to.contain(sort);
+    });
+
+    it('should preserve the sort direction of the pervious query', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const direction = 'desc';
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: `?sort=objectNumber ${direction}`,
+      };
+
+      const sort = 'updatedAt';
+      const handler = createSortByHandler({ history, location });
+      handler(sort);
+      expect(updatedSearch).to.contain(sort);
+      expect(updatedSearch).to.contain(direction);
+    });
+  });
+
+  describe('createSortDirHandler', () => {
+    const path = '/collectionobjects';
+
+    it('should switch to descending when the sort direction is empty', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: '?sort=objectNumber',
+      };
+
+      const handler = createSortDirHandler({ history, location });
+      handler();
+
+      const direction = 'desc';
+      expect(updatedSearch).to.contain(direction);
+    });
+
+    it('should switch to ascending when the sort direction is desc', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const direction = 'desc';
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: `?sort=objectNumber ${direction}`,
+      };
+
+      const handler = createSortDirHandler({ history, location });
+      handler();
+
+      // ascending is an empty string, so we check that it doesn't contain the previous direction
+      expect(updatedSearch).to.not.contain(direction);
+    });
+
+    it('should use the default sort parameters when the query string is empty', () => {
+      const defaultSortBy = 'updatedAt';
+      const defaultSortDir = 'desc';
+
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: '',
+      };
+
+      const handler = createSortDirHandler({
+        history,
+        location,
+        defaultSortBy,
+        defaultSortDir,
+      });
+      handler();
+
+      expect(updatedSearch).to.contain(defaultSortBy);
+      // we still switch from descending to ascending, so check that the dir is not present
+      expect(updatedSearch).to.not.contain(defaultSortDir);
     });
   });
 });
