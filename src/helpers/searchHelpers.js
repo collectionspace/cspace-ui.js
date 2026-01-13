@@ -1404,11 +1404,9 @@ export const createSortByHandler = ({ history, location }) => (sort) => {
   if (!history || !location) {
     return;
   }
-  const {
-    search: currentSearch,
-  } = location;
 
-  const query = qs.parse(currentSearch.substring(1));
+  const { search } = location;
+  const query = qs.parse(search.substring(1));
 
   if (query) {
     const { sort: currentSort } = query;
@@ -1441,11 +1439,8 @@ export const createSortDirHandler = ({
     return;
   }
 
-  const {
-    search: currentSearch,
-  } = location;
-
-  const query = qs.parse(currentSearch.substring(1));
+  const { search } = location;
+  const query = qs.parse(search.substring(1));
 
   if (query) {
     const { sort } = query;
