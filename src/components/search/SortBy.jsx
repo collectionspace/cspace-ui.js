@@ -6,6 +6,7 @@ import {
 } from 'react-intl';
 
 import { get } from 'lodash';
+import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/SortBy.css';
 import { useConfig } from '../config/ConfigProvider';
 
@@ -57,13 +58,13 @@ function SortBy({
   const sortDirClass = sortDir ? styles.descending : styles.ascending;
   const sortDirButton = (
     <MiniButton
-      className={`${sortDirClass} ${styles.sortByMiniButton}`}
+      className={classNames(sortDirClass, styles.sortByMiniButton)}
       onClick={() => onSortDirChange()}
     />
   );
 
   const prefixMessage = intl.formatMessage(messages.sortBy);
-  const prefix = <span className={`${styles.mt2} ${styles.mr5}`}>{prefixMessage}</span>;
+  const prefix = <span className={classNames(styles.mt2, styles.mr5)}>{prefixMessage}</span>;
 
   return (
     <div className={styles.flex}>
