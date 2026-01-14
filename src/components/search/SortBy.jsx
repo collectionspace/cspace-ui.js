@@ -17,6 +17,14 @@ const messages = defineMessages({
     id: 'search.sortBy',
     defaultMessage: 'Sort By',
   },
+  ascendingAriaLabel: {
+    id: 'search.sortDir.ascending.label',
+    defaultMessage: 'Current sort: ascending',
+  },
+  descendingAriaLabel: {
+    id: 'search.sortDir.descending.label',
+    defaultMessage: 'Current sort: descending',
+  },
 });
 
 function SortBy({
@@ -57,8 +65,11 @@ function SortBy({
   );
 
   const sortDirClass = sortDir ? styles.descending : styles.ascending;
+  const sortDirLabel = sortDir ? intl.formatMessage(messages.descendingAriaLabel)
+    : intl.formatMessage(messages.ascendingAriaLabel);
   const sortDirButton = (
     <Button
+      aria-label={sortDirLabel}
       className={classNames(sortDirClass, styles.sortByButton)}
       onClick={() => onSortDirChange()}
     />
