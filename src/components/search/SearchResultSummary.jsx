@@ -167,7 +167,7 @@ export default function SearchResultSummary(props) {
   return (
     <div className={className}>
       {content}
-      <div style={{ marginLeft: 'auto' }}>
+      <div className={`${styles.flex} ${styles.flexInitial}`}>
         {renderSortBy?.()}
         {pageSizeChooser}
       </div>
