@@ -19,6 +19,8 @@ import {
   createPageSizeChangeHandler,
   createPageChangeHandler,
   extractAdvancedSearchGroupedTerms,
+  createSortByHandler,
+  createSortDirHandler,
 } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
@@ -30,6 +32,7 @@ import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 import ExportResults from '../search/ExportResults';
 import RelateResults from '../search/RelateResults';
+import SortBy from '../search/SortBy';
 
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
@@ -467,6 +470,8 @@ export default class SearchResultPage extends Component {
 
   renderHeader({ searchError, searchResult }) {
     const {
+      history,
+      location,
       selectedItems,
       setAllItemsSelected,
       perms,
@@ -515,6 +520,23 @@ export default class SearchResultPage extends Component {
       );
     }
 
+    const {
+      search,
+    } = location;
+
+    const query = qs.parse(search.substring(1));
+    const sortChangeHandler = createSortByHandler({ history, location });
+    const sortDirChangeHandler = createSortDirHandler({ history, location });
+
+    const renderSortBy = () => (
+      <SortBy
+        onSortChange={sortChangeHandler}
+        onSortDirChange={sortDirChangeHandler}
+        sort={query?.sort}
+        recordType={searchDescriptor.get('recordType')}
+      />
+    );
+
     return (
       <header>
         <SearchResultSummary
@@ -524,6 +546,7 @@ export default class SearchResultPage extends Component {
           searchDescriptor={searchDescriptor}
           onEditSearchLinkClick={this.handleEditSearchLinkClick}
           onPageSizeChange={this.handlePageSizeChange}
+          renderSortBy={() => renderSortBy()}
         />
         {selectBar}
       </header>

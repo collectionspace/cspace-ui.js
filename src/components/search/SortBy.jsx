@@ -27,7 +27,8 @@ function SortBy({
   sort,
 }) {
   const config = useConfig();
-  const sortConfig = get(config, ['recordTypes', recordType, 'sort']);
+  const sortConfig = get(config, ['recordTypes', recordType, 'sort'])
+    ?? get(config, ['recordTypes', recordType, 'columns', 'default']);
 
   const {
     defaultSortBy = 'updatedAt',
