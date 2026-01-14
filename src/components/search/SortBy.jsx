@@ -38,6 +38,10 @@ function SortBy({
   const sortConfig = get(config, ['recordTypes', recordType, 'sort'])
     ?? get(config, ['recordTypes', recordType, 'columns', 'default']);
 
+  if (!sortConfig) {
+    return null;
+  }
+
   const {
     defaultSortBy = 'updatedAt',
     defaultSortDir = 'desc',
