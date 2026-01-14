@@ -1,11 +1,29 @@
 @value buttonBg from '../colors.css';
+@value inputHeight from '../dimensions.css';
+
+.flex {
+  display: flex;
+  margin-right: inputHeight;
+}
+
+.mt2 {
+  margin-top: 2px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.sortByMiniButton {
+  height: inputHeight;
+  width: inputHeight;
+  background-color: buttonBg !important;
+}
 
 .ascending {
   background-image: url(../../images/collapseWhite.svg) !important;
-  background-color: buttonBg !important;
 }
 
 .descending {
   background-image: url(../../images/expandWhite.svg) !important;
-  background-color: buttonBg !important;
 }

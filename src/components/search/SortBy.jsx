@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { baseComponents as components } from 'cspace-input';
 import {
-  defineMessages, FormattedMessage, injectIntl, intlShape,
+  defineMessages, injectIntl, intlShape,
 } from 'react-intl';
 
 import { get } from 'lodash';
@@ -57,15 +57,16 @@ function SortBy({
   const sortDirClass = sortDir ? styles.descending : styles.ascending;
   const sortDirButton = (
     <MiniButton
-      className={sortDirClass}
+      className={`${sortDirClass} ${styles.sortByMiniButton}`}
       onClick={() => onSortDirChange()}
     />
   );
 
-  const prefix = <FormattedMessage {...messages.sortBy} />;
+  const prefixMessage = intl.formatMessage(messages.sortBy);
+  const prefix = <span className={`${styles.mt2} ${styles.mr5}`}>{prefixMessage}</span>;
 
   return (
-    <div>
+    <div className={styles.flex}>
       {prefix}
       {input}
       {sortDirButton}
