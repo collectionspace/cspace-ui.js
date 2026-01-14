@@ -14,9 +14,10 @@
   margin-right: 5px;
 }
 
-.sortByMiniButton {
+.sortByButton {
   height: inputHeight;
   width: inputHeight;
+  border-radius: 0 3px 3px 0;
   background-color: buttonBg !important;
 }
 

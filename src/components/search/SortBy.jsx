@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/SortBy.css';
 import { useConfig } from '../config/ConfigProvider';
 
-const { DropdownMenuInput, MiniButton } = components;
+const { DropdownMenuInput, Button } = components;
 
 const messages = defineMessages({
   sortBy: {
@@ -57,8 +57,8 @@ function SortBy({
 
   const sortDirClass = sortDir ? styles.descending : styles.ascending;
   const sortDirButton = (
-    <MiniButton
-      className={classNames(sortDirClass, styles.sortByMiniButton)}
+    <Button
+      className={classNames(sortDirClass, styles.sortByButton)}
       onClick={() => onSortDirChange()}
     />
   );
