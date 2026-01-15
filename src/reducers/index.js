@@ -165,6 +165,10 @@ export const getSearchResultPagePageSize = (state) => (
   fromPrefs.getSearchResultPagePageSize(state.prefs)
 );
 
+export const getSearchResultPageView = (state) => (
+  fromPrefs.getSearchResultPageView(state.prefs)
+);
+
 export const getSearchToSelectPageSize = (state) => (
   fromPrefs.getSearchToSelectPageSize(state.prefs)
 );
