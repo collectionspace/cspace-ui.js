@@ -51,6 +51,11 @@ import {
 import {
   NS_PREFIX,
 } from '../constants/xmlNames';
+import {
+  ALL_FIELDS,
+  EARLIEST_SCALAR_DATE_FIELD,
+  LATEST_SCALAR_DATE_FIELD,
+} from '../constants/structuredDateFields';
 
 const opsByDataTypeMapNew = {
   [DATA_TYPE_STRING]: [
@@ -688,31 +693,8 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
   const operator = condition.get('op');
   const value = condition.get('value');
 
-  const earliestScalarDatePath = `${path}/dateEarliestScalarValue`;
-  const latestScalarDatePath = `${path}/dateLatestScalarValue`;
-
-  const displayDatePath = `${path}/dateDisplayDate`;
-  const associationPath = `${path}/dateAssociation`;
-  const earliestSingleYearPath = `${path}/dateEarliestSingleYear`;
-  const earliestSingleMonthPath = `${path}/dateEarliestSingleMonth`;
-  const earliestSingleDayPath = `${path}/dateEarliestSingleDay`;
-  const earliestSingleEraPath = `${path}/dateEarliestSingleEra`;
-  const earliestSingleCertaintyPath = `${path}/dateEarliestSingleCertainty`;
-  const earliestSingleQualifierPath = `${path}/dateEarliestSingleQualifier`;
-  const earliestSingleQualifierValuePath = `${path}/dateEarliestSingleQualifierValue`;
-  const earliestSingleQualifierUnitPath = `${path}/dateEarliestSingleQualifierUnit`;
-  const latestYearPath = `${path}/dateLatestYear`;
-  const latestMonthPath = `${path}/dateLatestMonth`;
-  const latestDayPath = `${path}/dateLatestDay`;
-  const latestEraPath = `${path}/dateLatestEra`;
-  const latestCertaintyPath = `${path}/dateLatestCertainty`;
-  const latestQualifierPath = `${path}/dateLatestQualifier`;
-  const latestQualifierValuePath = `${path}/dateLatestQualifierValue`;
-  const latestQualifierUnitPath = `${path}/dateLatestQualifierUnit`;
-  const periodPath = `${path}/datePeriod`;
-  const notePath = `${path}/dateNote`;
-  const earliestScalarValuePath = `${path}/dateEarliestScalarValue`;
-  const latestScalarValuePath = `${path}/dateLatestScalarValue`;
+  const earliestScalarDatePath = `${path}${EARLIEST_SCALAR_DATE_FIELD}`;
+  const latestScalarDatePath = `${path}${LATEST_SCALAR_DATE_FIELD}`;
 
   let convertedCondition;
 
@@ -747,96 +729,10 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
       op: OP_GROUP,
       value: {
         op: OP_AND,
-        value: [
-          {
-            path: displayDatePath,
-            op: OP_NULL,
-          },
-          {
-            path: associationPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleYearPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleMonthPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleDayPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleEraPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleCertaintyPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleQualifierPath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleQualifierValuePath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestSingleQualifierUnitPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestYearPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestMonthPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestDayPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestEraPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestCertaintyPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestQualifierPath,
-            op: OP_NULL,
-          },
-          {
-            path: latestQualifierValuePath,
-            op: OP_NULL,
-          },
-          {
-            path: latestQualifierUnitPath,
-            op: OP_NULL,
-          },
-          {
-            path: periodPath,
-            op: OP_NULL,
-          },
-          {
-            path: notePath,
-            op: OP_NULL,
-          },
-          {
-            path: earliestScalarValuePath,
-            op: OP_NULL,
-          },
-          {
-            path: latestScalarValuePath,
-            op: OP_NULL,
-          },
-        ],
+        value: ALL_FIELDS.map((field) => ({
+          path: `${path}${field}`,
+          op: OP_NULL,
+        })),
       },
     });
   } else if (operator === OP_NOT_NULL) {
@@ -845,96 +741,10 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
       op: OP_GROUP,
       value: {
         op: OP_OR,
-        value: [
-          {
-            path: displayDatePath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: associationPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleYearPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleMonthPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleDayPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleEraPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleCertaintyPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleQualifierPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleQualifierValuePath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestSingleQualifierUnitPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestYearPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestMonthPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestDayPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestEraPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestCertaintyPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestQualifierPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestQualifierValuePath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestQualifierUnitPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: periodPath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: notePath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: earliestScalarValuePath,
-            op: OP_NOT_NULL,
-          },
-          {
-            path: latestScalarValuePath,
-            op: OP_NOT_NULL,
-          },
-        ],
+        value: ALL_FIELDS.map((field) => ({
+          path: `${path}${field}`,
+          op: OP_NOT_NULL,
+        })),
       },
     });
   } else if (operator === OP_NOT_RANGE) {
