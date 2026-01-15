@@ -645,6 +645,10 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition, counter) => {
 
 const correlatePath = (nxql, nxqlPath, counter) => {
   if (!nxqlPath.endsWith('*')) {
+    if (nxqlPath.includes('*')) {
+      const index = nxqlPath.lastIndexOf('*');
+      return correlatePath(nxql, nxqlPath.substring(0, index + 1), counter);
+    }
     return nxql;
   }
 
