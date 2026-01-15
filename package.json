@@ -104,7 +104,7 @@
     "loglevel": "^1.6.1",
     "mocha": "^10.2.0",
     "moxios": "^0.4.0",
-    "msw": "^1.1.0",
+    "msw": "^2.12.7",
     "nyc": "^15.1.0",
     "react-shallow-testutils": "^3.0.1",
     "react-test-renderer": "^16.14.0",
