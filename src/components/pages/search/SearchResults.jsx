@@ -7,7 +7,10 @@ import qs from 'qs';
 import get from 'lodash/get';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import {
-  SEARCH_RESULT_GRID_VIEW, SEARCH_RESULT_LIST_VIEW, SEARCH_RESULT_PAGE_SEARCH_NAME, SEARCH_RESULT_TABLE_VIEW,
+  SEARCH_RESULT_GRID_VIEW,
+  SEARCH_RESULT_LIST_VIEW,
+  SEARCH_RESULT_PAGE_SEARCH_NAME,
+  SEARCH_RESULT_TABLE_VIEW,
 } from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
