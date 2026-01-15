@@ -207,19 +207,93 @@ describe('collectionobject detail list layout', () => {
       fieldCollectorText.should.contain(fieldCollectionSite);
     });
 
-    it('should skip the agent when the agent is missing', function test() {
-      const formatted = formatter(Immutable.fromJS({
-        agentRole,
-        objectProductionDate,
-        objectProductionPlace,
-      }));
+    describe('agent formatting', () => {
+      it('should skip the agent role when the agent is missing', function test() {
+        const formatted = formatter(Immutable.fromJS({
+          agentRole,
+          objectProductionDate,
+          objectProductionPlace,
+        }));
 
-      render(formatted, this.container);
-      const h3 = this.container.querySelector('h3');
+        render(formatted, this.container);
+        const h3Text = this.container.querySelector('h3').textContent;
 
-      h3.textContent.should.not.contain(agent);
-      h3.textContent.should.contain(objectProductionDate);
-      h3.textContent.should.contain(objectProductionPlace);
+        h3Text.should.not.contain(agent);
+        h3Text.should.contain(objectProductionDate);
+        h3Text.should.contain(objectProductionPlace);
+      });
+
+      it('should not return an agent if only the date is provided', function test() {
+        const formatted = formatter(Immutable.fromJS({
+          objectProductionDate,
+        }));
+
+        render(formatted, this.container);
+        const h3 = this.container.querySelector('h3');
+
+        expect(h3).to.equal(null);
+      });
+    });
+
+    describe('field collector formatting', () => {
+      it('should skip the field collector role when the field collector is missing', function test() {
+        const formatted = formatter(Immutable.fromJS({
+          fieldCollectorRole,
+          fieldCollectionDate,
+          fieldCollectionPlace,
+          fieldCollectionSite,
+        }));
+
+        render(formatted, this.container);
+        const h3Text = this.container.querySelector('h3').textContent;
+
+        h3Text.should.contain(fieldCollectionDate);
+        h3Text.should.contain(fieldCollectionPlace);
+        h3Text.should.contain(fieldCollectionSite);
+
+        h3Text.should.not.contain(fieldCollector);
+        h3Text.should.not.contain(fieldCollectorRole);
+      });
+
+      it('should use the site when provided', function test() {
+        const formatted = formatter(Immutable.fromJS({
+          fieldCollectionSite,
+          fieldCollectionDate,
+        }));
+
+        render(formatted, this.container);
+        const h3Text = this.container.querySelector('h3').textContent;
+
+        h3Text.should.contain(fieldCollectionSite);
+        h3Text.should.contain(fieldCollectionDate);
+        h3Text.should.not.contain(fieldCollector);
+        h3Text.should.not.contain(fieldCollectionPlace);
+      });
+
+      it('should return the place when provided', function test() {
+        const formatted = formatter(Immutable.fromJS({
+          fieldCollectionPlace,
+        }));
+
+        render(formatted, this.container);
+        const h3Text = this.container.querySelector('h3').textContent;
+
+        h3Text.should.contain(fieldCollectionPlace);
+        h3Text.should.not.contain(fieldCollector);
+        h3Text.should.not.contain(fieldCollectorRole);
+        h3Text.should.not.contain(fieldCollectionDate);
+        h3Text.should.not.contain(fieldCollectionSite);
+      });
+
+      it('should return null when only the date is provided', function test() {
+        const formatted = formatter(Immutable.fromJS({
+          fieldCollectionDate,
+        }));
+
+        render(formatted, this.container);
+        const h3 = this.container.querySelector('h3');
+        expect(h3).to.equal(null);
+      });
     });
   });
 

@@ -23,6 +23,12 @@ export default (configContext) => {
     formatRefNameWithDefault,
   } = configContext.formatHelpers;
 
+  /**
+   * This should return iff the agentWithRole or productionPlace exist, e.g.
+   * agentWithRole, place, date
+   * agentWithRole, date
+   * place, date
+   */
   const formatAgentWithProductionData = (data, separator) => {
     const agent = formatRefNameWithDefault(data.get('agent'));
     const agentRole = formatRefNameWithDefault(data.get('agentRole'));
@@ -31,13 +37,24 @@ export default (configContext) => {
     const productionPlace = formatRefNameWithDefault(data.get('objectProductionPlace'));
     const productionDate = data.get('objectProductionDate');
 
-    return [
+    const prefix = [
       agentWithRole,
       productionPlace,
-      productionDate,
     ].filter((value) => !!value).join(separator);
+
+    let formatted = null;
+    if (prefix && productionDate) {
+      formatted = `${prefix}${separator}${productionDate}`;
+    } else if (prefix) {
+      formatted = prefix;
+    }
+    return formatted;
   };
 
+  /**
+   * This follows the same rules as the agent with fieldCollectionDate, but using
+   * fieldCollectionSite in addition to fieldCollectionPlace.
+   */
   const fieldCollectorData = (data, separator) => {
     const fieldCollector = formatRefNameWithDefault(data.get('fieldCollector'));
     const fieldCollectorRole = formatRefNameWithDefault(data.get('fieldCollectorRole'));
@@ -47,12 +64,19 @@ export default (configContext) => {
     const fieldCollectionPlace = formatRefNameWithDefault(data.get('fieldCollectionPlace'));
     const fieldCollectionDate = data.get('fieldCollectionDate');
 
-    return [
+    const prefix = [
       fieldCollectorWithRole,
       fieldCollectionPlace,
       fieldCollectionSite,
-      fieldCollectionDate,
     ].filter((value) => !!value).join(separator);
+
+    let formatted = null;
+    if (prefix && fieldCollectionDate) {
+      formatted = `${prefix}${separator}${fieldCollectionDate}`;
+    } else if (prefix) {
+      formatted = prefix;
+    }
+    return formatted;
   };
 
   const formatTaxonWithForm = (taxon, form) => {
