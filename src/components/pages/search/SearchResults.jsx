@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
 import get from 'lodash/get';
-import { defineMessages } from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import {
   SEARCH_RESULT_GRID_VIEW, SEARCH_RESULT_LIST_VIEW, SEARCH_RESULT_PAGE_SEARCH_NAME, SEARCH_RESULT_TABLE_VIEW,
 } from '../../../constants/searchNames';
@@ -224,16 +224,24 @@ function normalizeQuery(props, config) {
 
 const messages = defineMessages({
   table: {
-    id: 'search.results.view.table',
+    id: 'search.result.view.table',
+    description: 'The table button aria-label',
     defaultMessage: 'table',
   },
   detailList: {
-    id: 'search.results.view.detailList',
+    id: 'search.result.view.detailList',
+    description: 'The detailList button aria-label',
     defaultMessage: 'list',
   },
   grid: {
-    id: 'search.results.view.grid',
+    id: 'search.result.view.grid',
+    description: 'The grid button aria-label',
     defaultMessage: 'grid',
+  },
+  sidebarToggle: {
+    id: 'search.result.sidebar.toggle',
+    description: 'a message which should be removed',
+    defaultMessage: 'Move sidebar {position}',
   },
 });
 
@@ -250,12 +258,12 @@ const messages = defineMessages({
  * @param {*} props
  * @returns the SearchResults page component
  */
-export default function SearchResults(props) {
+function SearchResults(props) {
   const [sidebarPosition, setSidebarPosition] = useState('right');
   const config = useConfig();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { location } = props;
+  const { intl, location } = props;
 
   const normalizedQuery = normalizeQuery(props, config);
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
@@ -301,10 +309,13 @@ export default function SearchResults(props) {
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
   const display = useSelector((state) => getSearchResultPageView(state));
 
+  const gridAriaLabel = intl.formatMessage(messages.grid);
+  const detailListAriaLabel = intl.formatMessage(messages.detailList);
+  const tableAriaLabel = intl.formatMessage(messages.table);
   const toggles = [
-    { key: SEARCH_RESULT_TABLE_VIEW, label: messages.table },
-    { key: SEARCH_RESULT_GRID_VIEW, label: messages.grid },
-    { key: SEARCH_RESULT_LIST_VIEW, label: messages.detailList },
+    { key: SEARCH_RESULT_TABLE_VIEW, label: tableAriaLabel },
+    { key: SEARCH_RESULT_GRID_VIEW, label: gridAriaLabel },
+    { key: SEARCH_RESULT_LIST_VIEW, label: detailListAriaLabel },
   ];
 
   const nextPosition = sidebarPosition === 'right' ? 'left' : 'right';
@@ -389,8 +400,11 @@ export default function SearchResults(props) {
 }
 
 const searchResultsPropTypes = {
+  intl: intlShape,
   location: PropTypes.object.isRequired,
 };
 
 SearchResults.propTypes = searchResultsPropTypes;
 SelectExportRelateToggleBar.propTypes = selectBarPropTypes;
+
+export default injectIntl(SearchResults);
