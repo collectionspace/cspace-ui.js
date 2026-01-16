@@ -378,7 +378,7 @@ describe('collectionobject detail list layout', () => {
     });
   });
 
-  describe('aside formatter', () => {
+  describe.only('aside formatter', () => {
     const {
       aside: { formatter },
     } = detailListConfig;
@@ -404,6 +404,33 @@ describe('collectionobject detail list layout', () => {
       locationDiv.should.contain(computedCurrentLocation);
       const departmentDiv = nodeList[1].textContent;
       departmentDiv.should.contain(responsibleDepartment);
+    });
+
+    it('should display \'Storage Location not found\' when no location data is present', function test() {
+      const noLocationText = 'Storage Location not assigned';
+      const formatted = formatter(Immutable.fromJS({
+        objectNumber,
+      }));
+
+      render(formatted, this.container);
+      const locationDiv = this.container.querySelector('div');
+      locationDiv.textContent.should.contain(noLocationText);
+    });
+
+    it('should omit the responsible department header when no data is present', function test() {
+      const responsibleDepartmentHeader = 'Responsible Department';
+      const computedCurrentLocation = 'currentLocation';
+      const formatted = formatter(Immutable.fromJS({
+        objectNumber,
+        computedCurrentLocation,
+      }));
+
+      render(formatted, this.container);
+      const nodeList = this.container.querySelectorAll('div');
+      nodeList.length.should.equal(1);
+
+      const locationDiv = nodeList[0].textContent;
+      locationDiv.should.not.contain(responsibleDepartmentHeader);
     });
   });
 
