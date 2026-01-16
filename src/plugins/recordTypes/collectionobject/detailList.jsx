@@ -163,8 +163,8 @@ export default (configContext) => {
     },
     aside: {
       formatter: (data) => {
-        const location = formatRefNameWithDefault(data.get('computedCurrentLocation'));
-        const responsibleDepartment = data.get('responsibleDepartment');
+        const locationData = formatRefNameWithDefault(data.get('computedCurrentLocation'));
+        const responsibleDepartmentData = data.get('responsibleDepartment');
 
         const currentLocationPrefix = (
           <FormattedMessage
@@ -174,6 +174,21 @@ export default (configContext) => {
           />
         );
 
+        const locationNotFound = (
+          <FormattedMessage
+            id="detailList.collectionobject.locationNotFound"
+            description="The text when the computedCurrentLocation is null or empty"
+            defaultMessage="Storage Location not assigned"
+          />
+        );
+
+        const location = locationData ? (
+          <div>
+            {currentLocationPrefix}
+            <p>{locationData}</p>
+          </div>
+        ) : <div>{locationNotFound}</div>;
+
         const responsibleDepartmentPrefix = (
           <FormattedMessage
             id="detailList.collectionobject.responsibleDepartment"
@@ -182,16 +197,17 @@ export default (configContext) => {
           />
         );
 
+        const responsibleDepartment = responsibleDepartmentData ? (
+          <div>
+            {responsibleDepartmentPrefix}
+            <p>{responsibleDepartmentData}</p>
+          </div>
+        ) : null;
+
         return (
           <>
-            <div>
-              {currentLocationPrefix}
-              <p>{location}</p>
-            </div>
-            <div>
-              {responsibleDepartmentPrefix}
-              <p>{responsibleDepartment}</p>
-            </div>
+            {location}
+            {responsibleDepartment}
           </>
         );
       },
