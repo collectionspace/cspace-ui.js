@@ -963,6 +963,10 @@ describe('searchHelpers', () => {
                   geordi: {},
                   worf: {},
                 },
+                nonRepeatingNestedGroup: {
+                  qux: {},
+                  quux: {},
+                },
               },
             },
           },
@@ -1023,6 +1027,31 @@ describe('searchHelpers', () => {
 
       groupConditionToNXQL(fields, condition, createCounter()).should
         .equal('(part:groupList/*2/nestedGroupList/*1/worf > "val1" OR part:groupList/*2/nestedGroupList/*1/geordi < "val2")');
+    });
+
+    it('should correlate paths to the fields in nested groups, when group is not repeating but parent group is', () => {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'ns2:part/groupList/group/nestedGroupList/nonRepeatingNestedGroup',
+        value: {
+          op: OP_OR,
+          value: [
+            {
+              op: OP_GT,
+              path: 'ns2:part/groupList/group/nestedGroupList/nonRepeatingNestedGroup/qux',
+              value: 'val1',
+            },
+            {
+              op: OP_LT,
+              path: 'ns2:part/groupList/group/nestedGroupList/nonRepeatingNestedGroup/quux',
+              value: 'val2',
+            },
+          ],
+        },
+      });
+
+      groupConditionToNXQL(fields, condition, createCounter()).should
+        .equal('(part:groupList/*1/nestedGroupList/nonRepeatingNestedGroup/qux > "val1" OR part:groupList/*1/nestedGroupList/nonRepeatingNestedGroup/quux < "val2")');
     });
   });
 

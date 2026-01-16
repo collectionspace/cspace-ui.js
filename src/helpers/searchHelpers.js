@@ -51,6 +51,11 @@ import {
 import {
   NS_PREFIX,
 } from '../constants/xmlNames';
+import {
+  ALL_FIELDS,
+  EARLIEST_SCALAR_DATE_FIELD,
+  LATEST_SCALAR_DATE_FIELD,
+} from '../constants/structuredDateFields';
 
 const opsByDataTypeMapNew = {
   [DATA_TYPE_STRING]: [
@@ -645,6 +650,10 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition, counter) => {
 
 const correlatePath = (nxql, nxqlPath, counter) => {
   if (!nxqlPath.endsWith('*')) {
+    if (nxqlPath.includes('*')) {
+      const index = nxqlPath.lastIndexOf('*');
+      return correlatePath(nxql, nxqlPath.substring(0, index + 1), counter);
+    }
     return nxql;
   }
 
@@ -684,8 +693,8 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
   const operator = condition.get('op');
   const value = condition.get('value');
 
-  const earliestScalarDatePath = `${path}/dateEarliestScalarValue`;
-  const latestScalarDatePath = `${path}/dateLatestScalarValue`;
+  const earliestScalarDatePath = `${path}${EARLIEST_SCALAR_DATE_FIELD}`;
+  const latestScalarDatePath = `${path}${LATEST_SCALAR_DATE_FIELD}`;
 
   let convertedCondition;
 
@@ -712,6 +721,30 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
             value: rangeStart,
           },
         ],
+      },
+    });
+  } else if (operator === OP_NULL) {
+    convertedCondition = Immutable.fromJS({
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_AND,
+        value: ALL_FIELDS.map((field) => ({
+          path: `${path}${field}`,
+          op: OP_NULL,
+        })),
+      },
+    });
+  } else if (operator === OP_NOT_NULL) {
+    convertedCondition = Immutable.fromJS({
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_OR,
+        value: ALL_FIELDS.map((field) => ({
+          path: `${path}${field}`,
+          op: OP_NOT_NULL,
+        })),
       },
     });
   } else if (operator === OP_NOT_RANGE) {
