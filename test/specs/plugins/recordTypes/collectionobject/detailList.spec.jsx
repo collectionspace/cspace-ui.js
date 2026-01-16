@@ -378,7 +378,7 @@ describe('collectionobject detail list layout', () => {
     });
   });
 
-  describe.only('aside formatter', () => {
+  describe('aside formatter', () => {
     const {
       aside: { formatter },
     } = detailListConfig;
