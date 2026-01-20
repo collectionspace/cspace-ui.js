@@ -1,3 +1,5 @@
+import { defineMessages } from 'react-intl';
+
 const dayMillis = 24 * 60 * 60 * 1000;
 
 /**
@@ -131,7 +133,18 @@ export default (configContext) => {
       },
     },
     tags: {
+      messages: defineMessages({
+        concepts: {
+          id: 'detailList.subtitle.collectionobject.concepts',
+          description: 'The prefix for content concept tags in the search detail view',
+          defaultMessage: `{count, plural,
+            one {CONCEPT TAG: }
+            other {CONCEPT TAGS: }
+          }`,
+        },
+      }),
       formatter: (data, separator = ', ') => {
+        let count = 0;
         let conceptTags;
         const contentConcepts = data.get('contentConcepts');
         if (contentConcepts) {
@@ -140,16 +153,21 @@ export default (configContext) => {
             conceptTags = contentConcept.filter((concept) => !!concept)
               .map((concept) => formatRefNameWithDefault(concept))
               .join(separator);
+            count = contentConcept.size;
           } else {
             conceptTags = formatRefNameWithDefault(contentConcept);
+            count = 1;
           }
         }
 
         const prefix = (
           <FormattedMessage
-            id="detailList.collectionobject.concepts"
+            id="detailList.subtitle.collectionobject.concepts"
             description="The prefix for content concept tags in the search detail view"
-            defaultMessage="CONCEPT TAGS: "
+            defaultMessage="{count, plural,
+              one {CONCEPT TAG: }
+              other {CONCEPT TAGS: }}"
+            values={{ count }}
           />
         );
 
@@ -162,13 +180,30 @@ export default (configContext) => {
       },
     },
     aside: {
+      messages: defineMessages({
+        computedLocation: {
+          id: 'detailList.aside.collectionobject.currentLocation',
+          description: 'The prefix for current location in the search detail view',
+          defaultMessage: 'Current Storage Location:',
+        },
+        locationNotFound: {
+          id: 'detailList.aside.collectionobject.locationNotFound',
+          description: 'The text when the computedCurrentLocation is null or empty',
+          defaultMessage: 'Storage Location not assigned',
+        },
+        responsibleDepartment: {
+          id: 'detailList.aside.collectionobject.responsibleDepartment',
+          description: 'The prefix for responsible department in the search detail view',
+          defaultMessage: 'Responsible Department:',
+        },
+      }),
       formatter: (data) => {
         const locationData = formatRefNameWithDefault(data.get('computedCurrentLocation'));
         const responsibleDepartmentData = data.get('responsibleDepartment');
 
         const currentLocationPrefix = (
           <FormattedMessage
-            id="detailList.collectionobject.currentLocation"
+            id="detailList.aside.collectionobject.currentLocation"
             description="The prefix for current location in the search detail view"
             defaultMessage="Current Storage Location:"
           />
@@ -176,7 +211,7 @@ export default (configContext) => {
 
         const locationNotFound = (
           <FormattedMessage
-            id="detailList.collectionobject.locationNotFound"
+            id="detailList.aside.collectionobject.locationNotFound"
             description="The text when the computedCurrentLocation is null or empty"
             defaultMessage="Storage Location not assigned"
           />
@@ -191,7 +226,7 @@ export default (configContext) => {
 
         const responsibleDepartmentPrefix = (
           <FormattedMessage
-            id="detailList.collectionobject.responsibleDepartment"
+            id="detailList.aside.collectionobject.responsibleDepartment"
             description="The prefix for responsible department in the search detail view"
             defaultMessage="Responsible Department:"
           />
@@ -213,6 +248,13 @@ export default (configContext) => {
       },
     },
     footer: {
+      messages: defineMessages({
+        updatedAt: {
+          id: 'detailList.footer.collectionobject.updatedAt',
+          description: 'The prefix for the updateAt display',
+          defaultMessage: 'Modified: {value}',
+        },
+      }),
       formatter: (data) => {
         const updatedAt = Date.parse(data.get('updatedAt'));
         if (!updatedAt) {
@@ -227,7 +269,7 @@ export default (configContext) => {
 
         return (
           <FormattedMessage
-            id="detailList.collectionobject.updatedAt"
+            id="detailList.footer.collectionobject.updatedAt"
             description="The prefix for the updateAt display"
             defaultMessage="Modified: {value}"
             values={{
