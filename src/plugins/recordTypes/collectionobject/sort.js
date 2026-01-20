@@ -3,8 +3,7 @@ import { defineMessages } from 'react-intl';
 /**
  * We store a key which is the value of the sort option, then use the 'sortBy' to store
  * the actual field associated with the key. This is to keep some compatibility with how
- * things have previously worked so that we aren't changing too much at once. Maybe it would
- * be better to move off of 'sortBy' now, though.
+ * things have previously worked so that we aren't changing too much at once.
  */
 export default {
   objectNumber: {
