@@ -5,7 +5,13 @@ import { useHistory } from 'react-router-dom';
 import Immutable from 'immutable';
 import qs from 'qs';
 import get from 'lodash/get';
-import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import {
+  SEARCH_RESULT_GRID_VIEW,
+  SEARCH_RESULT_LIST_VIEW,
+  SEARCH_RESULT_PAGE_SEARCH_NAME,
+  SEARCH_RESULT_TABLE_VIEW,
+} from '../../../constants/searchNames';
 import SearchResultTitleBar from '../../search/SearchResultTitleBar';
 import SearchResultFooter from '../../search/SearchResultFooter';
 import SearchResultTable from '../../search/table/SearchTable';
@@ -22,6 +28,7 @@ import {
   setSearchPageRecordType,
   setSearchPageVocabulary,
   setSearchResultPagePageSize,
+  setSearchResultPageView,
 } from '../../../actions/prefs';
 
 import {
@@ -29,6 +36,7 @@ import {
 } from '../../../actions/search';
 import {
   getSearchResult, isSearchResultSidebarOpen, getSearchSelectedItems, getUserPerms,
+  getSearchResultPageView,
 } from '../../../reducers';
 import SelectBar from '../../search/SelectBar';
 import RelateResults from '../../search/RelateResults';
@@ -217,6 +225,29 @@ function normalizeQuery(props, config) {
   return query;
 }
 
+const messages = defineMessages({
+  table: {
+    id: 'search.result.view.table',
+    description: 'The table button aria-label',
+    defaultMessage: 'table',
+  },
+  detailList: {
+    id: 'search.result.view.detailList',
+    description: 'The detailList button aria-label',
+    defaultMessage: 'list',
+  },
+  grid: {
+    id: 'search.result.view.grid',
+    description: 'The grid button aria-label',
+    defaultMessage: 'grid',
+  },
+  sidebarToggle: {
+    id: 'search.result.sidebar.toggle',
+    description: 'a message which should be removed',
+    defaultMessage: 'Move sidebar {position}',
+  },
+});
+
 /**
  * The page for displaying Search Results. Before rendering it first executes the search based on
  * the query parameters provided by encapsulating them in a search descriptor and calling the search
@@ -230,13 +261,12 @@ function normalizeQuery(props, config) {
  * @param {*} props
  * @returns the SearchResults page component
  */
-export default function SearchResults(props) {
-  const [display, setDisplay] = useState('table');
+function SearchResults(props) {
   const [sidebarPosition, setSidebarPosition] = useState('right');
   const config = useConfig();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { location } = props;
+  const { intl, location } = props;
 
   const normalizedQuery = normalizeQuery(props, config);
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
@@ -280,11 +310,15 @@ export default function SearchResults(props) {
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
+  const display = useSelector((state) => getSearchResultPageView(state));
 
+  const gridAriaLabel = intl.formatMessage(messages.grid);
+  const detailListAriaLabel = intl.formatMessage(messages.detailList);
+  const tableAriaLabel = intl.formatMessage(messages.table);
   const toggles = [
-    { key: 'table', label: 'table' },
-    { key: 'grid', label: 'grid' },
-    { key: 'list', label: 'list' },
+    { key: SEARCH_RESULT_TABLE_VIEW, label: tableAriaLabel },
+    { key: SEARCH_RESULT_GRID_VIEW, label: gridAriaLabel },
+    { key: SEARCH_RESULT_LIST_VIEW, label: detailListAriaLabel },
   ];
 
   const nextPosition = sidebarPosition === 'right' ? 'left' : 'right';
@@ -298,7 +332,7 @@ export default function SearchResults(props) {
           name={item.key}
           label={item.label}
           style={styles[item.key]}
-          onClick={() => setDisplay(item.key)}
+          onClick={() => dispatch(setSearchResultPageView(item.key))}
         />
       )}
       renderSidebarToggle={() => (
@@ -314,12 +348,12 @@ export default function SearchResults(props) {
   );
 
   let searchDisplay;
-  if (display === 'table') {
-    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} />;
-  } else if (display === 'list') {
+  if (display === SEARCH_RESULT_GRID_VIEW) {
+    searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
+  } else if (display === SEARCH_RESULT_LIST_VIEW) {
     searchDisplay = <SearchDetailList searchDescriptor={searchDescriptor} />;
   } else {
-    searchDisplay = <SearchResultGrid searchDescriptor={searchDescriptor} />;
+    searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} />;
   }
 
   const sidebar = (
@@ -369,8 +403,11 @@ export default function SearchResults(props) {
 }
 
 const searchResultsPropTypes = {
+  intl: intlShape,
   location: PropTypes.object.isRequired,
 };
 
 SearchResults.propTypes = searchResultsPropTypes;
 SelectExportRelateToggleBar.propTypes = selectBarPropTypes;
+
+export default injectIntl(SearchResults);
