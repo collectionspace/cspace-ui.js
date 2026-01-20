@@ -255,7 +255,6 @@ export const search = (config, searchName, searchDescriptor, columnSetName = 'de
   if (searchQuery.get('sort')) {
     const sortParam = getSortParam(config, searchDescriptor, columnSetName);
 
-    console.log(`sort ${searchQuery.get('sort')} :: ${sortParam}`);
     if (!sortParam) {
       dispatch({
         type: SEARCH_REJECTED,
