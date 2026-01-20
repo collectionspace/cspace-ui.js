@@ -133,17 +133,18 @@ export default (configContext) => {
       },
     },
     tags: {
-      messages: defineMessages({
-        concepts: {
-          id: 'detailList.subtitle.collectionobject.concepts',
-          description: 'The prefix for content concept tags in the search detail view',
-          defaultMessage: `{count, plural,
-            one {CONCEPT TAG: }
-            other {CONCEPT TAGS: }
-          }`,
-        },
-      }),
       formatter: (data, separator = ', ') => {
+        const messages = defineMessages({
+          concepts: {
+            id: 'detailList.subtitle.collectionobject.concepts',
+            description: 'The prefix for content concept tags in the search detail view',
+            defaultMessage: `{count, plural,
+              one {CONCEPT TAG: }
+              other {CONCEPT TAGS: }
+            }`,
+          },
+        });
+
         let count = 0;
         let conceptTags;
         const contentConcepts = data.get('contentConcepts');
@@ -162,11 +163,8 @@ export default (configContext) => {
 
         const prefix = (
           <FormattedMessage
-            id="detailList.subtitle.collectionobject.concepts"
-            description="The prefix for content concept tags in the search detail view"
-            defaultMessage="{count, plural,
-              one {CONCEPT TAG: }
-              other {CONCEPT TAGS: }}"
+            id={messages.concepts.id}
+            defaultMessage={messages.concepts.defaultMessage}
             values={{ count }}
           />
         );
@@ -180,40 +178,39 @@ export default (configContext) => {
       },
     },
     aside: {
-      messages: defineMessages({
-        computedLocation: {
-          id: 'detailList.aside.collectionobject.currentLocation',
-          description: 'The prefix for current location in the search detail view',
-          defaultMessage: 'Current Storage Location:',
-        },
-        locationNotFound: {
-          id: 'detailList.aside.collectionobject.locationNotFound',
-          description: 'The text when the computedCurrentLocation is null or empty',
-          defaultMessage: 'Storage Location not assigned',
-        },
-        responsibleDepartment: {
-          id: 'detailList.aside.collectionobject.responsibleDepartment',
-          description: 'The prefix for responsible department in the search detail view',
-          defaultMessage: 'Responsible Department:',
-        },
-      }),
       formatter: (data) => {
+        const messages = defineMessages({
+          computedLocation: {
+            id: 'detailList.aside.collectionobject.currentLocation',
+            description: 'The prefix for current location in the search detail view',
+            defaultMessage: 'Current Storage Location:',
+          },
+          locationNotFound: {
+            id: 'detailList.aside.collectionobject.locationNotFound',
+            description: 'The text when the computedCurrentLocation is null or empty',
+            defaultMessage: 'Storage Location not assigned',
+          },
+          responsibleDepartment: {
+            id: 'detailList.aside.collectionobject.responsibleDepartment',
+            description: 'The prefix for responsible department in the search detail view',
+            defaultMessage: 'Responsible Department:',
+          },
+        });
+
         const locationData = formatRefNameWithDefault(data.get('computedCurrentLocation'));
         const responsibleDepartmentData = data.get('responsibleDepartment');
 
         const currentLocationPrefix = (
           <FormattedMessage
-            id="detailList.aside.collectionobject.currentLocation"
-            description="The prefix for current location in the search detail view"
-            defaultMessage="Current Storage Location:"
+            id={messages.computedLocation.id}
+            defaultMessage={messages.computedLocation.defaultMessage}
           />
         );
 
         const locationNotFound = (
           <FormattedMessage
-            id="detailList.aside.collectionobject.locationNotFound"
-            description="The text when the computedCurrentLocation is null or empty"
-            defaultMessage="Storage Location not assigned"
+            id={messages.locationNotFound.id}
+            defaultMessage={messages.locationNotFound.defaultMessage}
           />
         );
 
@@ -226,9 +223,8 @@ export default (configContext) => {
 
         const responsibleDepartmentPrefix = (
           <FormattedMessage
-            id="detailList.aside.collectionobject.responsibleDepartment"
-            description="The prefix for responsible department in the search detail view"
-            defaultMessage="Responsible Department:"
+            id={messages.responsibleDepartment.id}
+            defaultMessage={messages.responsibleDepartment.defaultMessage}
           />
         );
 
@@ -248,14 +244,15 @@ export default (configContext) => {
       },
     },
     footer: {
-      messages: defineMessages({
-        updatedAt: {
-          id: 'detailList.footer.collectionobject.updatedAt',
-          description: 'The prefix for the updateAt display',
-          defaultMessage: 'Modified: {value}',
-        },
-      }),
       formatter: (data) => {
+        const messages = defineMessages({
+          updatedAt: {
+            id: 'detailList.footer.collectionobject.updatedAt',
+            description: 'The prefix for the updateAt display',
+            defaultMessage: 'Modified: {value}',
+          },
+        });
+
         const updatedAt = Date.parse(data.get('updatedAt'));
         if (!updatedAt) {
           return undefined;
@@ -269,9 +266,8 @@ export default (configContext) => {
 
         return (
           <FormattedMessage
-            id="detailList.footer.collectionobject.updatedAt"
-            description="The prefix for the updateAt display"
-            defaultMessage="Modified: {value}"
+            id={messages.updatedAt.id}
+            defaultMessage={messages.updatedAt.defaultMessage}
             values={{
               value: formattedUpdatedAt,
             }}
