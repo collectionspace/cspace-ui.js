@@ -33,6 +33,14 @@ const getSortParam = (config, searchDescriptor, columnSetName) => {
     return null;
   }
 
+  // prefer the new sort.js config
+  const sort = get(config,
+    ['recordTypes', searchDescriptor.get('recordType'), 'sort', sortColumnName]);
+
+  if (sort && sort.sortBy) {
+    return sort.sortBy + (sortDir ? ' DESC' : '');
+  }
+
   const column = get(config,
     ['recordTypes', searchDescriptor.get('recordType'), 'columns', columnSetName, sortColumnName]);
 
