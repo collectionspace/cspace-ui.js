@@ -19,6 +19,7 @@ import SearchResultGrid from '../../search/grid/SearchResultGrid';
 import SearchDetailList from '../../search/list/SearchList';
 import SearchResultSidebar from '../../search/SearchResultSidebar';
 import SearchResultSummary from '../../search/SearchResultSummary';
+import SortBy from '../../search/SortBy';
 import { ToggleButton, ToggleButtonContainer } from '../../search/header/ToggleButtons';
 import { useConfig } from '../../config/ConfigProvider';
 import styles from '../../../../styles/cspace-ui/SearchResults.css';
@@ -45,6 +46,8 @@ import {
   getListTypeFromResult,
   createPageSizeChangeHandler,
   extractAdvancedSearchGroupedTerms,
+  createSortByHandler,
+  createSortDirHandler,
 } from '../../../helpers/searchHelpers';
 import {
   setSearchPageAdvanced,
@@ -306,6 +309,18 @@ function SearchResults(props) {
     });
   };
 
+  const handleSortChange = createSortByHandler({ history, location });
+  const handleSortDirChange = createSortDirHandler({ history, location });
+
+  const renderSortBy = () => (
+    <SortBy
+      onSortChange={handleSortChange}
+      onSortDirChange={handleSortDirChange}
+      sort={normalizedQuery?.sort}
+      recordType={searchDescriptor.get('recordType')}
+    />
+  );
+
   const searchResults = useSelector((state) => getSearchResult(state,
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
@@ -385,6 +400,7 @@ function SearchResults(props) {
               searchDescriptor={searchDescriptor}
               onPageSizeChange={handlePageSizeChange}
               onEditSearchLinkClick={handleEditSearchLinkClick}
+              renderSortBy={() => renderSortBy()}
             />
             <SelectExportRelateToggleBar
               toggleBar={displayToggles}

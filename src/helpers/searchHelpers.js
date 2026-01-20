@@ -1428,3 +1428,63 @@ export const extractAdvancedSearchGroupedTerms = (searchQuery) => {
     limitBy: null,
   };
 };
+
+/**
+ * Handler which updates the sortBy portion of the sort string. This preserves
+ * the sort direction previously applied to the query.
+ */
+export const createSortByHandler = ({ history, location }) => (sort) => {
+  if (!history || !location) {
+    return;
+  }
+
+  const { search } = location;
+  const query = qs.parse(search.substring(1));
+
+  if (query) {
+    const { sort: currentSort } = query;
+
+    const sortDir = currentSort?.split(' ')[1] ?? undefined;
+    query.sort = sortDir === undefined ? sort : `${sort} ${sortDir}`;
+    const queryString = qs.stringify(query);
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
+};
+
+/**
+ * Handler which updates the sort direction portion of the sort string. This
+ * inverts based on the existence of the previous sort direction as undefined/null
+ * is used for ascending.
+ *
+ * Note: if no parameters are present, the API defaults to updatedAt descending.
+ */
+export const createSortDirHandler = ({
+  history,
+  location,
+  defaultSortBy = 'updatedAt',
+  defaultSortDir = 'desc',
+}) => () => {
+  if (!history || !location) {
+    return;
+  }
+
+  const { search } = location;
+  const query = qs.parse(search.substring(1));
+
+  if (query) {
+    const { sort } = query;
+
+    const [sortColumn, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDir];
+    query.sort = sortDir === undefined ? `${sortColumn} desc` : sortColumn;
+    const queryString = qs.stringify(query);
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
+};

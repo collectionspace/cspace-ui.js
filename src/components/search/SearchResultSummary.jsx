@@ -5,6 +5,7 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 import PageSizeChooser from './PageSizeChooser';
 import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
@@ -35,6 +36,7 @@ const propTypes = {
   renderEditLink: PropTypes.func,
   onEditSearchLinkClick: PropTypes.func,
   onPageSizeChange: PropTypes.func,
+  renderSortBy: PropTypes.func,
 };
 
 const defaultProps = {
@@ -69,6 +71,7 @@ export default function SearchResultSummary(props) {
     searchDescriptor,
     searchName,
     renderEditLink,
+    renderSortBy,
     onEditSearchLinkClick,
     onPageSizeChange,
   } = props;
@@ -161,11 +164,15 @@ export default function SearchResultSummary(props) {
   );
 
   const className = isSearching ? styles.searching : styles.normal;
+  const groupedClassName = classNames(styles.flex, styles.flexInitial);
 
   return (
     <div className={className}>
       {content}
-      {pageSizeChooser}
+      <div className={groupedClassName}>
+        {renderSortBy?.()}
+        {pageSizeChooser}
+      </div>
     </div>
   );
 }

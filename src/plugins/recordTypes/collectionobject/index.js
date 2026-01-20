@@ -9,6 +9,7 @@ import messages from './messages';
 import optionLists from './optionLists';
 import prepareForSending from './prepareForSending';
 import serviceConfig from './serviceConfig';
+import sort from './sort';
 import title from './title';
 
 export default () => (configContext) => ({
@@ -19,6 +20,7 @@ export default () => (configContext) => ({
       messages,
       prepareForSending,
       serviceConfig,
+      sort,
       advancedSearch: advancedSearch(configContext),
       columns: columns(configContext),
       detailList: detailList(configContext),
