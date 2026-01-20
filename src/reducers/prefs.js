@@ -14,6 +14,7 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_RESULT_PAGE_VIEW,
   SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
@@ -119,6 +120,8 @@ export default (state = Immutable.Map(), action) => {
       );
     case SET_SEARCH_RESULT_PAGE_PAGE_SIZE:
       return state.set('searchResultPagePageSize', action.payload);
+    case SET_SEARCH_RESULT_PAGE_VIEW:
+      return state.set('searchResultPageView', action.payload);
     case SET_SEARCH_TO_SELECT_PAGE_SIZE:
       return state.set('searchToSelectPageSize', action.payload);
     case SET_FORM:
@@ -165,6 +168,8 @@ export const getQuickSearchVocabulary = (state, recordType) => state.getIn(['qui
 export const getSearchPanelPageSize = (state, recordType, name) => state.getIn(['panels', recordType, name, 'pageSize']);
 
 export const getSearchResultPagePageSize = (state) => state.get('searchResultPagePageSize');
+
+export const getSearchResultPageView = (state) => state.get('searchResultPageView');
 
 export const getSearchToSelectPageSize = (state) => state.get('searchToSelectPageSize');
 

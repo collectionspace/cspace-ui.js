@@ -23,6 +23,7 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_RESULT_PAGE_VIEW,
   SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
@@ -98,6 +99,11 @@ export const setSearchPanelPageSize = (recordType, name, pageSize) => ({
 export const setSearchResultPagePageSize = (pageSize) => ({
   type: SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
   payload: pageSize,
+});
+
+export const setSearchResultPageView = (view) => ({
+  type: SET_SEARCH_RESULT_PAGE_VIEW,
+  payload: view,
 });
 
 export const setSearchToSelectPageSize = (pageSize) => ({

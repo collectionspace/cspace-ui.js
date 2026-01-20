@@ -9,3 +9,6 @@ export const SEARCH_RESULT_AUTH_ROLE_PAGE = 'authRolePage';
 export const SEARCH_RESULT_ACCOUNT_PAGE = 'accountPage';
 export const SEARCH_TERMS_GROUP_LIMIT_BY = 'limitBy';
 export const SEARCH_TERMS_GROUP_SEARCH_TERMS = 'searchTerms';
+export const SEARCH_RESULT_GRID_VIEW = 'grid';
+export const SEARCH_RESULT_LIST_VIEW = 'list';
+export const SEARCH_RESULT_TABLE_VIEW = 'table';
