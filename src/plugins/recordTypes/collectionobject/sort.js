@@ -11,7 +11,7 @@ export default {
     messages: defineMessages({
       label: {
         id: 'sortBy.collectionobjects.objectNumber',
-        defaultMessage: 'Idnetification number',
+        defaultMessage: 'Identification number',
       },
     }),
     sortBy: 'collectionobjects_common:objectNumber',
