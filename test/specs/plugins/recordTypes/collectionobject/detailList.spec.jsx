@@ -1,6 +1,4 @@
-import React from 'react';
 import Immutable from 'immutable';
-import { IntlProvider } from 'react-intl';
 import createDetailListConfig from '../../../../../src/plugins/recordTypes/collectionobject/detailList';
 import createConfigContext from '../../../../../src/helpers/createConfigContext';
 import createTestContainer from '../../../../helpers/createTestContainer';
@@ -30,6 +28,12 @@ const taxon = 'taxon';
 const form = 'preservationForm';
 
 describe('collectionobject detail list layout', () => {
+  const intl = {
+    formatMessage: (message) => `${message.defaultMessage}`,
+    formatRelative: () => 'formatted relative',
+    formatDate: () => 'formatted date',
+  };
+
   const configContext = createConfigContext();
   const detailListConfig = createDetailListConfig(configContext);
 
@@ -188,7 +192,7 @@ describe('collectionobject detail list layout', () => {
         fieldCollectionDate,
         fieldCollectionPlace,
         fieldCollectionSite,
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const nodeList = this.container.querySelectorAll('h3');
@@ -213,7 +217,7 @@ describe('collectionobject detail list layout', () => {
           agentRole,
           objectProductionDate,
           objectProductionPlace,
-        }));
+        }), { intl });
 
         render(formatted, this.container);
         const h3Text = this.container.querySelector('h3').textContent;
@@ -242,7 +246,7 @@ describe('collectionobject detail list layout', () => {
           fieldCollectionDate,
           fieldCollectionPlace,
           fieldCollectionSite,
-        }));
+        }), { intl });
 
         render(formatted, this.container);
         const h3Text = this.container.querySelector('h3').textContent;
@@ -259,7 +263,7 @@ describe('collectionobject detail list layout', () => {
         const formatted = formatter(Immutable.fromJS({
           fieldCollectionSite,
           fieldCollectionDate,
-        }));
+        }), { intl });
 
         render(formatted, this.container);
         const h3Text = this.container.querySelector('h3').textContent;
@@ -273,7 +277,7 @@ describe('collectionobject detail list layout', () => {
       it('should return the place when provided', function test() {
         const formatted = formatter(Immutable.fromJS({
           fieldCollectionPlace,
-        }));
+        }), { intl });
 
         render(formatted, this.container);
         const h3Text = this.container.querySelector('h3').textContent;
@@ -288,7 +292,7 @@ describe('collectionobject detail list layout', () => {
       it('should return null when only the date is provided', function test() {
         const formatted = formatter(Immutable.fromJS({
           fieldCollectionDate,
-        }));
+        }), { intl });
 
         render(formatted, this.container);
         const h3 = this.container.querySelector('h3');
@@ -344,7 +348,7 @@ describe('collectionobject detail list layout', () => {
     it('should display nothing when no content concepts are supplied', function test() {
       const formatted = formatter(Immutable.fromJS({
         objectNumber,
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const p = this.container.querySelector('p');
@@ -356,7 +360,7 @@ describe('collectionobject detail list layout', () => {
         contentConcepts: {
           contentConcept: Immutable.List.of(fooConcept, barConcept),
         },
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const p = this.container.querySelector('p');
@@ -369,7 +373,7 @@ describe('collectionobject detail list layout', () => {
         contentConcepts: {
           contentConcept: fooConcept,
         },
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const p = this.container.querySelector('p');
@@ -394,7 +398,7 @@ describe('collectionobject detail list layout', () => {
         objectNumber,
         responsibleDepartment,
         computedCurrentLocation,
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const nodeList = this.container.querySelectorAll('div');
@@ -410,7 +414,7 @@ describe('collectionobject detail list layout', () => {
       const noLocationText = 'Storage Location not assigned';
       const formatted = formatter(Immutable.fromJS({
         objectNumber,
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const locationDiv = this.container.querySelector('div');
@@ -423,7 +427,7 @@ describe('collectionobject detail list layout', () => {
       const formatted = formatter(Immutable.fromJS({
         objectNumber,
         computedCurrentLocation,
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const nodeList = this.container.querySelectorAll('div');
@@ -446,28 +450,42 @@ describe('collectionobject detail list layout', () => {
     it('should display nothing when no updatedAt is supplied', function test() {
       const formatted = formatter(Immutable.fromJS({
         objectNumber,
-      }));
+      }), { intl });
 
       render(formatted, this.container);
       const span = this.container.querySelector('span');
       expect(span).to.equal(null);
     });
 
-    it('should display the date when no updatedAt', function test() {
-      const expected = 'Modified: 1/26/2017';
+    it('should display the date when updatedAt is present', function test() {
+      // when we update react-intl we should be able to switch
+      // to createIntl instead of using these mock objects
+      let formateDateCall = false;
+      let formateRelativeCall = false;
+      const updatedAtIntl = {
+        formatMessage: (message) => `${message.defaultMessage}`,
+        formatRelative: () => {
+          formateRelativeCall = true;
+          return 'formatted relative';
+        },
+        formatDate: () => {
+          formateDateCall = true;
+          return 'formatted date';
+        },
+      };
+
+      const expected = 'Modified:';
       const updatedAt = '2017-01-26T08:08:47.026Z';
       const formatted = formatter(Immutable.fromJS({
         objectNumber,
         updatedAt,
-      }));
+      }), { intl: updatedAtIntl });
 
-      render(
-        <IntlProvider locale="en">
-          {formatted}
-        </IntlProvider>, this.container,
-      );
+      render(formatted, this.container);
       const span = this.container.querySelector('span');
-      span.textContent.should.equal(expected);
+      span.textContent.should.contain(expected);
+      expect(formateDateCall).to.equal(true);
+      expect(formateRelativeCall).to.equal(false);
     });
   });
 });

@@ -15,9 +15,6 @@ export default (configContext) => {
   const {
     React,
     Immutable,
-    FormattedDate,
-    FormattedMessage,
-    FormattedRelative,
   } = configContext.lib;
 
   const {
@@ -91,7 +88,7 @@ export default (configContext) => {
 
   return {
     title: {
-      formatter: (data, separator = ' ') => {
+      formatter: (data, { separator = ' ' } = {}) => {
         const objectNumber = data.get('objectNumber');
         const title = data.get('title');
 
@@ -115,7 +112,7 @@ export default (configContext) => {
       },
     },
     subtitle: {
-      formatter: (data, separator = ', ') => {
+      formatter: (data, { separator = ', ' } = {}) => {
         const agentVal = formatAgentWithProductionData(data, separator);
         const fieldCollectorVal = fieldCollectorData(data, separator);
         return (
@@ -133,10 +130,10 @@ export default (configContext) => {
       },
     },
     tags: {
-      formatter: (data, separator = ', ') => {
+      formatter: (data, { intl, separator = ', ' } = {}) => {
         const messages = defineMessages({
           concepts: {
-            id: 'detailList.subtitle.collectionobject.concepts',
+            id: 'detailList.tags.collectionobject.concepts',
             description: 'The prefix for content concept tags in the search detail view',
             defaultMessage: `{count, plural,
               one {CONCEPT TAG: }
@@ -161,24 +158,18 @@ export default (configContext) => {
           }
         }
 
-        const prefix = (
-          <FormattedMessage
-            id={messages.concepts.id}
-            defaultMessage={messages.concepts.defaultMessage}
-            values={{ count }}
-          />
-        );
+        const prefix = intl.formatMessage(messages.concepts, { count });
 
         return conceptTags ? (
           <p>
-            {prefix}
+            <span>{prefix}</span>
             {conceptTags}
           </p>
         ) : undefined;
       },
     },
     aside: {
-      formatter: (data) => {
+      formatter: (data, { intl } = {}) => {
         const messages = defineMessages({
           computedLocation: {
             id: 'detailList.aside.collectionobject.currentLocation',
@@ -200,37 +191,20 @@ export default (configContext) => {
         const locationData = formatRefNameWithDefault(data.get('computedCurrentLocation'));
         const responsibleDepartmentData = data.get('responsibleDepartment');
 
-        const currentLocationPrefix = (
-          <FormattedMessage
-            id={messages.computedLocation.id}
-            defaultMessage={messages.computedLocation.defaultMessage}
-          />
-        );
-
-        const locationNotFound = (
-          <FormattedMessage
-            id={messages.locationNotFound.id}
-            defaultMessage={messages.locationNotFound.defaultMessage}
-          />
-        );
-
         const location = locationData ? (
           <div>
-            {currentLocationPrefix}
+            <span>{intl.formatMessage(messages.computedLocation)}</span>
             <p>{locationData}</p>
           </div>
-        ) : <div>{locationNotFound}</div>;
-
-        const responsibleDepartmentPrefix = (
-          <FormattedMessage
-            id={messages.responsibleDepartment.id}
-            defaultMessage={messages.responsibleDepartment.defaultMessage}
-          />
+        ) : (
+          <div>
+            <span>{intl.formatMessage(messages.locationNotFound)}</span>
+          </div>
         );
 
         const responsibleDepartment = responsibleDepartmentData ? (
           <div>
-            {responsibleDepartmentPrefix}
+            <span>{intl.formatMessage(messages.responsibleDepartment)}</span>
             <p>{responsibleDepartmentData}</p>
           </div>
         ) : null;
@@ -244,7 +218,7 @@ export default (configContext) => {
       },
     },
     footer: {
-      formatter: (data) => {
+      formatter: (data, { intl } = {}) => {
         const messages = defineMessages({
           updatedAt: {
             id: 'detailList.footer.collectionobject.updatedAt',
@@ -261,18 +235,10 @@ export default (configContext) => {
         const now = Date.now();
         const diff = now - updatedAt;
         const formattedUpdatedAt = diff <= dayMillis
-          ? <FormattedRelative value={updatedAt} />
-          : <FormattedDate value={updatedAt} />;
+          ? intl.formatRelative(updatedAt)
+          : intl.formatDate(updatedAt);
 
-        return (
-          <FormattedMessage
-            id={messages.updatedAt.id}
-            defaultMessage={messages.updatedAt.defaultMessage}
-            values={{
-              value: formattedUpdatedAt,
-            }}
-          />
-        );
+        return <span>{intl.formatMessage(messages.updatedAt, { value: formattedUpdatedAt })}</span>;
       },
     },
   };
