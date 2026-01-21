@@ -273,10 +273,17 @@ function SearchResults(props) {
 
   const normalizedQuery = normalizeQuery(props, config);
   const searchDescriptor = getSearchDescriptor(normalizedQuery, props);
+
+  const searchResults = useSelector((state) => getSearchResult(state,
+    SEARCH_RESULT_PAGE_SEARCH_NAME,
+    searchDescriptor));
+  const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
+  const display = useSelector((state) => getSearchResultPageView(state));
+
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
-  }, [searchDescriptor.toString()]);
+  }, [searchDescriptor.toString(), searchResults.size]);
 
   const handlePageSizeChange = createPageSizeChangeHandler({
     history,
@@ -320,12 +327,6 @@ function SearchResults(props) {
       recordType={searchDescriptor.get('recordType')}
     />
   );
-
-  const searchResults = useSelector((state) => getSearchResult(state,
-    SEARCH_RESULT_PAGE_SEARCH_NAME,
-    searchDescriptor));
-  const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
-  const display = useSelector((state) => getSearchResultPageView(state));
 
   const gridAriaLabel = intl.formatMessage(messages.grid);
   const detailListAriaLabel = intl.formatMessage(messages.detailList);
