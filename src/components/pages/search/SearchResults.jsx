@@ -283,7 +283,7 @@ function SearchResults(props) {
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
-  }, [searchDescriptor.toString(), searchResults.size]);
+  }, [searchDescriptor.toString(), searchResults?.size]);
 
   const handlePageSizeChange = createPageSizeChangeHandler({
     history,
