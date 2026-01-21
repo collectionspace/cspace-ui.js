@@ -320,19 +320,32 @@ describe('formatHelpers', () => {
     it('should return a BlobImage with the given csid and derivative', () => {
       const csid = '1234';
       const derivative = 'SomeDerivativeName';
+      const rowData = Immutable.Map({ altText: 'alt text', identificationNumber: 'id123' });
 
-      const component = derivativeImage(csid, derivative);
+      const component = derivativeImage(csid, derivative, rowData);
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
       component.props.derivative.should.equal(derivative);
+      component.props.alt.should.equal('alt text');
+    });
+
+    it('should fall back to identificationNumber if altText is not present', () => {
+      const csid = '1234';
+      const derivative = 'SomeDerivativeName';
+      const rowData = Immutable.Map({ identificationNumber: 'id123' });
+
+      const component = derivativeImage(csid, derivative, rowData);
+
+      component.props.alt.should.equal('id123');
     });
 
     it('should return null if no csid is supplied', () => {
       const csid = null;
       const derivative = 'SomeDerivativeName';
+      const rowData = Immutable.Map();
 
-      const component = derivativeImage(csid, derivative);
+      const component = derivativeImage(csid, derivative, rowData);
 
       expect(component).to.equal(null);
     });
@@ -341,8 +354,9 @@ describe('formatHelpers', () => {
   describe('thumbnailImage', () => {
     it('should return a BlobImage with the given csid and the thumbnail derivative', () => {
       const csid = '1234';
+      const rowData = Immutable.Map();
 
-      const component = thumbnailImage(csid);
+      const component = thumbnailImage(csid, { rowData });
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
@@ -353,8 +367,9 @@ describe('formatHelpers', () => {
   describe('smallImage', () => {
     it('should return a BlobImage with the given csid and the small derivative', () => {
       const csid = '1234';
+      const rowData = Immutable.Map();
 
-      const component = smallImage(csid);
+      const component = smallImage(csid, { rowData });
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
@@ -365,8 +380,9 @@ describe('formatHelpers', () => {
   describe('mediumImage', () => {
     it('should return a BlobImage with the given csid and the medium derivative', () => {
       const csid = '1234';
+      const rowData = Immutable.Map();
 
-      const component = mediumImage(csid);
+      const component = mediumImage(csid, { rowData });
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
@@ -377,8 +393,9 @@ describe('formatHelpers', () => {
   describe('originalJpegImage', () => {
     it('should return a BlobImage with the given csid and the original jpeg derivative', () => {
       const csid = '1234';
+      const rowData = Immutable.Map();
 
-      const component = originalJpegImage(csid);
+      const component = originalJpegImage(csid, { rowData });
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
@@ -389,8 +406,9 @@ describe('formatHelpers', () => {
   describe('originalImage', () => {
     it('should return a BlobImage with the given csid and the original derivative', () => {
       const csid = '1234';
+      const rowData = Immutable.Map();
 
-      const component = originalImage(csid);
+      const component = originalImage(csid, { rowData });
 
       component.type.should.equal(BlobImage);
       component.props.csid.should.equal(csid);
