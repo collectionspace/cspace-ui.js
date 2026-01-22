@@ -35,7 +35,6 @@ ToggleButton.propTypes = toggleButtonProps;
 const propTypes = {
   items: PropTypes.array,
   renderButton: PropTypes.func,
-  renderSidebarToggle: PropTypes.func,
 };
 
 /**
@@ -47,7 +46,7 @@ const propTypes = {
  * @param {*} param0
  * @returns
  */
-export function ToggleButtonContainer({ items, renderButton, renderSidebarToggle }) {
+export function ToggleButtonContainer({ items, renderButton }) {
   const toggleStyles = {
     marginLeft: 'auto',
   };
@@ -55,7 +54,6 @@ export function ToggleButtonContainer({ items, renderButton, renderSidebarToggle
   return (
     <div className={styles.common} style={toggleStyles}>
       {items.map((item) => renderButton(item))}
-      {renderSidebarToggle()}
     </div>
   );
 }
