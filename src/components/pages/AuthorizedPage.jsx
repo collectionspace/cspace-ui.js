@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from '../login/LoginForm';
 import styles from '../../../styles/cspace-ui/AuthorizedPage.css';
+import {
+  getLoginError,
+  getLoginLandingPath,
+  isLoginPending as isLoginPendingSelector,
+  isLoginSuccess as isLoginSuccessSelector,
+} from '../../reducers';
+import { receiveAuthCode } from '../../actions/login';
 
 const propTypes = {
   history: PropTypes.shape({
     replace: PropTypes.func.isRequired,
   }).isRequired,
-  isLoginPending: PropTypes.bool,
-  isLoginSuccess: PropTypes.bool,
-  landingPath: PropTypes.string,
   location: PropTypes.shape({
     search: PropTypes.string,
   }).isRequired,
-  loginError: PropTypes.instanceOf(Immutable.Map),
-  receiveAuthCode: PropTypes.func.isRequired,
 };
 
 const contextTypes = {
@@ -30,12 +32,15 @@ export default function AuthorizedPage(props, context = {}) {
   } = context;
 
   const {
-    isLoginPending,
-    isLoginSuccess,
     location,
-    loginError,
-    receiveAuthCode,
   } = props;
+
+  const isLoginPending = useSelector(isLoginPendingSelector);
+  const isLoginSuccess = useSelector(isLoginSuccessSelector);
+  const landingPath = useSelector(getLoginLandingPath);
+  const loginError = useSelector(getLoginError);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const {
@@ -46,14 +51,13 @@ export default function AuthorizedPage(props, context = {}) {
     const authCodeRequestId = params.get('state');
     const authCode = params.get('code');
 
-    receiveAuthCode(config, authCodeRequestId, authCode);
+    dispatch(receiveAuthCode(config, authCodeRequestId, authCode));
   }, []);
 
   useEffect(() => {
     if (isLoginSuccess) {
       const {
         history,
-        landingPath,
       } = props;
 
       history.replace(landingPath);
