@@ -21,7 +21,7 @@ const messages = defineMessages({
   notFound: {
     id: 'blob.notFound',
     description: 'Error message when no image can be displayed',
-    defaultMessage: 'no image found',
+    defaultMessage: 'No Preview Image Available',
   },
 });
 

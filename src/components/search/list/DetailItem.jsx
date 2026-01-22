@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
 import { useConfig } from '../../config/ConfigProvider';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
@@ -14,6 +14,7 @@ import SearchResultImage from '../SearchResultImage';
 const { Button } = inputComponents;
 
 const propTypes = {
+  intl: intlShape,
   item: PropTypes.instanceOf(Immutable.Map),
   index: PropTypes.number,
   detailConfig: PropTypes.shape({
@@ -60,8 +61,8 @@ const renderEditButton = (location, state) => {
   ) : button;
 };
 
-export default function DetailItem({
-  item, index, detailConfig, searchDescriptor, listType, selectedItems,
+function DetailItem({
+  intl, item, index, detailConfig, searchDescriptor, listType, selectedItems,
 }) {
   const config = useConfig();
 
@@ -103,20 +104,20 @@ export default function DetailItem({
     };
   }
 
-  const renderInfo = () => <aside>{asideFormatter(item)}</aside>;
+  const renderInfo = () => <aside>{asideFormatter(item, { intl })}</aside>;
   const renderDescriptionBlock = () => (
     <div className={styles.description}>
       {
         location ? (
           <Link to={{ pathname: location, state }}>
-            {titleFormatter?.(item)}
+            {titleFormatter?.(item, { intl })}
           </Link>
-        ) : titleFormatter?.(item)
+        ) : titleFormatter?.(item, { intl })
       }
-      {subtitleFormatter?.(item)}
-      {descriptionFormatter?.(item)}
-      {tagFormatter?.(item)}
-      {footerFormatter?.(item)}
+      {subtitleFormatter?.(item, { intl })}
+      {descriptionFormatter?.(item, { intl })}
+      {tagFormatter?.(item, { intl })}
+      {footerFormatter?.(item, { intl })}
     </div>
   );
 
@@ -150,4 +151,5 @@ export default function DetailItem({
   );
 }
 
+export default injectIntl(DetailItem);
 DetailItem.propTypes = propTypes;
