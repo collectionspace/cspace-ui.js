@@ -5,7 +5,6 @@ import SidebarToggleButton from '../navigation/SidebarToggleButton';
 const propTypes = {
   isSearchResultSidebarOpen: PropTypes.bool,
   toggleSearchResultSidebar: PropTypes.func,
-  position: PropTypes.string,
 };
 
 const defaultProps = {
@@ -16,14 +15,12 @@ export default function SearchResultSidebarToggleButton(props) {
   const {
     isSearchResultSidebarOpen,
     toggleSearchResultSidebar,
-    position,
   } = props;
 
   return (
     <SidebarToggleButton
       isOpen={isSearchResultSidebarOpen}
       toggle={toggleSearchResultSidebar}
-      position={position}
     />
   );
 }
