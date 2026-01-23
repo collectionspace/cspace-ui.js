@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { batch, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -244,11 +244,6 @@ const messages = defineMessages({
     description: 'The grid button aria-label',
     defaultMessage: 'grid',
   },
-  sidebarToggle: {
-    id: 'search.result.sidebar.toggle',
-    description: 'a message which should be removed',
-    defaultMessage: 'Move sidebar {position}',
-  },
 });
 
 /**
@@ -265,7 +260,6 @@ const messages = defineMessages({
  * @returns the SearchResults page component
  */
 function SearchResults(props) {
-  const [sidebarPosition, setSidebarPosition] = useState('right');
   const config = useConfig();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -337,7 +331,6 @@ function SearchResults(props) {
     { key: SEARCH_RESULT_LIST_VIEW, label: detailListAriaLabel },
   ];
 
-  const nextPosition = sidebarPosition === 'right' ? 'left' : 'right';
   const displayToggles = (
     <ToggleButtonContainer
       items={toggles}
@@ -349,15 +342,6 @@ function SearchResults(props) {
           label={item.label}
           style={styles[item.key]}
           onClick={() => dispatch(setSearchResultPageView(item.key))}
-        />
-      )}
-      renderSidebarToggle={() => (
-        <ToggleButton
-          disabled={false}
-          key="sidebar"
-          name="sidebar"
-          label={`Move sidebar ${nextPosition}`}
-          onClick={() => setSidebarPosition(nextPosition)}
         />
       )}
     />
@@ -378,7 +362,6 @@ function SearchResults(props) {
       history={history}
       isOpen={isSidebarOpen}
       recordType={searchDescriptor.get('recordType')}
-      position={sidebarPosition}
     />
   );
 
@@ -392,7 +375,6 @@ function SearchResults(props) {
       />
       <div className={isSidebarOpen ? styles.body : styles.full}>
         {/* SearchResultHeader? */}
-        {sidebarPosition === 'left' ? sidebar : null}
         <div className={styles.results}>
           <header>
             <SearchResultSummary
@@ -413,7 +395,7 @@ function SearchResults(props) {
           {searchDisplay}
           <SearchResultFooter searchDescriptor={searchDescriptor} />
         </div>
-        {sidebarPosition === 'right' ? sidebar : null}
+        {sidebar}
       </div>
     </main>
   );

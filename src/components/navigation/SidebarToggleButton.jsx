@@ -21,13 +21,11 @@ const propTypes = {
   color: PropTypes.string,
   isOpen: PropTypes.bool,
   toggle: PropTypes.func,
-  position: PropTypes.string,
 };
 
 const defaultProps = {
   color: 'black',
   isOpen: true,
-  position: 'right',
 };
 
 export default function SidebarToggleButton(props) {
@@ -35,18 +33,10 @@ export default function SidebarToggleButton(props) {
     color,
     isOpen,
     toggle,
-    position,
   } = props;
 
-  let style;
-  if (position === 'right') {
-    style = isOpen ? styles.normal : styles.closed;
-  } else {
-    style = isOpen ? styles.left : styles.closedLeft;
-  }
-
   const className = classNames(
-    style,
+    isOpen ? styles.normal : styles.closed,
     styles[color],
   );
 

@@ -24,30 +24,12 @@
   content: ' >';
 }
 
-.left {
-  composes: common;
-  left: 0px;
-}
-
-.left::before {
-  content: '< ';
-}
-
 .closed {
   composes: common;
 }
 
 .closed::before {
   content: '< ';
-}
-
-.closedLeft {
-  composes: common;
-  left: 0px;
-}
-
-.closedLeft::after {
-  content: ' >';
 }
 
 .black {
