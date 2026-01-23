@@ -48,6 +48,7 @@ import {
   extractAdvancedSearchGroupedTerms,
   createSortByHandler,
   createSortDirHandler,
+  normalizeSearchQueryParams,
 } from '../../../helpers/searchHelpers';
 import {
   setSearchPageAdvanced,
@@ -174,7 +175,6 @@ function setPreferredPageSize(props, dispatch) {
 
 function normalizeQuery(props, config) {
   const {
-    history,
     location,
     preferredPageSize,
   } = props;
@@ -184,48 +184,13 @@ function normalizeQuery(props, config) {
   } = location;
 
   const query = qs.parse(searchFromLoc.substring(1));
+  const { normalizedQuery } = normalizeSearchQueryParams(
+    query,
+    preferredPageSize,
+    config.defaultSearchPageSize,
+  );
 
-  if (history) {
-    const normalizedQueryParams = {};
-
-    const pageSize = parseInt(query.size, 10);
-
-    if (Number.isNaN(pageSize) || pageSize < 1) {
-      const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
-
-      normalizedQueryParams.size = normalizedPageSize.toString();
-    } else if (pageSize > 2500) {
-      // Services layer max is 2500
-      normalizedQueryParams.size = '2500';
-    } else if (pageSize.toString() !== query.size) {
-      normalizedQueryParams.size = pageSize.toString();
-    }
-
-    const pageNum = parseInt(query.p, 10);
-
-    if (Number.isNaN(pageNum) || pageNum < 1) {
-      normalizedQueryParams.p = '1';
-    } else if (pageNum.toString() !== query.p) {
-      normalizedQueryParams.p = pageNum.toString();
-    }
-
-    if (Object.keys(normalizedQueryParams).length > 0) {
-      const newQuery = { ...query, ...normalizedQueryParams };
-
-      /*
-      const queryString = qs.stringify(newQuery);
-      history.replace({
-        pathname: location.pathname,
-        search: `?${queryString}`,
-        state: location.state,
-      });
-      */
-
-      return newQuery;
-    }
-  }
-
-  return query;
+  return normalizedQuery;
 }
 
 const messages = defineMessages({

@@ -483,6 +483,54 @@ export const normalizeFieldCondition = (fieldDescriptor, condition) => {
   return condition.delete('value');
 };
 
+export function normalizePageSize(pageSize, { min = 1, max = 2500, fallback = 20 } = {}) {
+  const normalized = parseInt(pageSize, 10);
+
+  if (Number.isNaN(normalized) || normalized < min) {
+    return fallback;
+  }
+  if (normalized > max) {
+    return max;
+  }
+  return normalized;
+}
+
+export function normalizeSearchQueryParams(
+  query,
+  preferredPageSize,
+  defaultPageSize,
+  maxPageSize = 2500,
+) {
+  const normalizedQuery = { ...query };
+  let changed = false;
+
+  // Normalize page size
+  const fallback = preferredPageSize || defaultPageSize || 20;
+  const normalizedPageSize = normalizePageSize(query.size, {
+    min: 1,
+    max: maxPageSize,
+    fallback,
+  });
+
+  if (parseInt(query.size, 10) !== normalizedPageSize) {
+    normalizedQuery.size = normalizedPageSize.toString();
+    changed = true;
+  }
+
+  // Normalize page number
+  const pageNum = parseInt(query.p, 10);
+
+  if (Number.isNaN(pageNum) || pageNum < 1) {
+    normalizedQuery.p = '1';
+    changed = true;
+  } else if (pageNum.toString() !== query.p) {
+    normalizedQuery.p = pageNum.toString();
+    changed = true;
+  }
+
+  return { normalizedQuery, changed };
+}
+
 export const isFieldAutocomplete = (fieldDescriptor, path) => {
   let viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
 
@@ -1354,13 +1402,11 @@ export const createPageSizeChangeHandler = ({
   minPageSize = 1,
 }) => (pageSize) => {
   // Normalize page size
-  let normalizedPageSize = parseInt(pageSize, 10);
-
-  if (Number.isNaN(normalizedPageSize) || normalizedPageSize < minPageSize) {
-    normalizedPageSize = minPageSize;
-  } else if (normalizedPageSize > maxPageSize) {
-    normalizedPageSize = maxPageSize;
-  }
+  const normalizedPageSize = normalizePageSize(pageSize, {
+    min: minPageSize,
+    max: maxPageSize,
+    fallback: minPageSize,
+  });
 
   if (dispatch && setPreferredPageSize) {
     dispatch(() => setPreferredPageSize(normalizedPageSize));

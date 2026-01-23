@@ -21,6 +21,7 @@ import {
   extractAdvancedSearchGroupedTerms,
   createSortByHandler,
   createSortDirHandler,
+  normalizeSearchQueryParams,
 } from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
@@ -382,43 +383,22 @@ export default class SearchResultPage extends Component {
     } = location;
 
     const query = qs.parse(search.substring(1));
+    const { normalizedQuery, changed } = normalizeSearchQueryParams(
+      query,
+      preferredPageSize,
+      config.defaultSearchPageSize,
+    );
 
-    if (history) {
-      const normalizedQueryParams = {};
+    if (history && changed) {
+      const queryString = qs.stringify(normalizedQuery);
 
-      const pageSize = parseInt(query.size, 10);
+      history.replace({
+        pathname: location.pathname,
+        search: `?${queryString}`,
+        state: location.state,
+      });
 
-      if (Number.isNaN(pageSize) || pageSize < 1) {
-        const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
-
-        normalizedQueryParams.size = normalizedPageSize.toString();
-      } else if (pageSize > 2500) {
-        // Services layer max is 2500
-        normalizedQueryParams.size = '2500';
-      } else if (pageSize.toString() !== query.size) {
-        normalizedQueryParams.size = pageSize.toString();
-      }
-
-      const pageNum = parseInt(query.p, 10);
-
-      if (Number.isNaN(pageNum) || pageNum < 1) {
-        normalizedQueryParams.p = '1';
-      } else if (pageNum.toString() !== query.p) {
-        normalizedQueryParams.p = pageNum.toString();
-      }
-
-      if (Object.keys(normalizedQueryParams).length > 0) {
-        const newQuery = { ...query, ...normalizedQueryParams };
-        const queryString = qs.stringify(newQuery);
-
-        history.replace({
-          pathname: location.pathname,
-          search: `?${queryString}`,
-          state: location.state,
-        });
-
-        return true;
-      }
+      return true;
     }
 
     return false;
