@@ -167,7 +167,7 @@ export const formatExtensionFieldName = (intl, fieldConfig, messageName = 'fullN
 };
 
 export const derivativeImage = (blobCsid, derivative, rowData) => {
-  if (!blobCsid) {
+  if (!blobCsid || !rowData) {
     return null;
   }
 
@@ -175,31 +175,31 @@ export const derivativeImage = (blobCsid, derivative, rowData) => {
   return <BlobImage csid={blobCsid} derivative={derivative} alt={alt} />;
 };
 
-export const thumbnailImage = (blobCsid, { rowData }) => derivativeImage(
+export const thumbnailImage = (blobCsid, { rowData } = {}) => derivativeImage(
   blobCsid,
   DERIVATIVE_THUMBNAIL,
   rowData,
 );
 
-export const smallImage = (blobCsid, { rowData }) => derivativeImage(
+export const smallImage = (blobCsid, { rowData } = {}) => derivativeImage(
   blobCsid,
   DERIVATIVE_SMALL,
   rowData,
 );
 
-export const mediumImage = (blobCsid, { rowData }) => derivativeImage(
+export const mediumImage = (blobCsid, { rowData } = {}) => derivativeImage(
   blobCsid,
   DERIVATIVE_MEDIUM,
   rowData,
 );
 
-export const originalJpegImage = (blobCsid, { rowData }) => derivativeImage(
+export const originalJpegImage = (blobCsid, { rowData } = {}) => derivativeImage(
   blobCsid,
   DERIVATIVE_ORIGINAL_JPEG,
   rowData,
 );
 
-export const originalImage = (blobCsid, { rowData }) => derivativeImage(
+export const originalImage = (blobCsid, { rowData } = {}) => derivativeImage(
   blobCsid,
   DERIVATIVE_ORIGINAL,
   rowData,
