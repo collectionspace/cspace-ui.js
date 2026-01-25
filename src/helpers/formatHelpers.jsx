@@ -166,16 +166,41 @@ export const formatExtensionFieldName = (intl, fieldConfig, messageName = 'fullN
   return [formattedParentName, formattedName].filter((part) => !!part).join(' - ');
 };
 
-export const derivativeImage = (blobCsid, derivative) => (
-  blobCsid ? <BlobImage csid={blobCsid} derivative={derivative} /> : null
+export const derivativeImage = (blobCsid, derivative, rowData) => {
+  if (!blobCsid || !rowData) {
+    return null;
+  }
+
+  const alt = rowData.get('altText') || rowData.get('identificationNumber');
+  return <BlobImage csid={blobCsid} derivative={derivative} alt={alt} />;
+};
+
+export const thumbnailImage = (blobCsid, { rowData } = {}) => derivativeImage(
+  blobCsid,
+  DERIVATIVE_THUMBNAIL,
+  rowData,
 );
 
-export const thumbnailImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_THUMBNAIL);
+export const smallImage = (blobCsid, { rowData } = {}) => derivativeImage(
+  blobCsid,
+  DERIVATIVE_SMALL,
+  rowData,
+);
 
-export const smallImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_SMALL);
+export const mediumImage = (blobCsid, { rowData } = {}) => derivativeImage(
+  blobCsid,
+  DERIVATIVE_MEDIUM,
+  rowData,
+);
 
-export const mediumImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_MEDIUM);
+export const originalJpegImage = (blobCsid, { rowData } = {}) => derivativeImage(
+  blobCsid,
+  DERIVATIVE_ORIGINAL_JPEG,
+  rowData,
+);
 
-export const originalJpegImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_ORIGINAL_JPEG);
-
-export const originalImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_ORIGINAL);
+export const originalImage = (blobCsid, { rowData } = {}) => derivativeImage(
+  blobCsid,
+  DERIVATIVE_ORIGINAL,
+  rowData,
+);
