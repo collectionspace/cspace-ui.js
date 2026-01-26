@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { components as inputComponents } from 'cspace-input';
 import PropTypes from 'prop-types';
 import styles from '../../../../styles/cspace-ui/ButtonBar.css';
@@ -6,26 +7,32 @@ import styles from '../../../../styles/cspace-ui/ButtonBar.css';
 const { Button } = inputComponents;
 
 const toggleButtonProps = {
-  label: PropTypes.string,
-  style: PropTypes.any,
+  className: PropTypes.any,
+  icon: PropTypes.string,
   name: PropTypes.string,
+  title: PropTypes.string,
+  isActive: PropTypes.bool,
 };
 
 export function ToggleButton(props) {
   const {
-    label,
-    style,
+    className,
+    icon,
     name,
+    title,
+    isActive,
     ...remainingProps
   } = props;
 
   return (
     <Button
-      className={style}
+      active={isActive}
+      className={classNames(className, 'material-icons')}
       name={name}
+      title={title}
       {...remainingProps}
     >
-      {label}
+      {icon}
     </Button>
   );
 }
@@ -38,13 +45,7 @@ const propTypes = {
 };
 
 /**
- * todo: figure out styling
- *
- * also a side note - we might want this to be part of the
- * select bar
- *
- * @param {*} param0
- * @returns
+ * A wrapper around the ToggleButtons which puts them into a single div
  */
 export function ToggleButtonContainer({ items, renderButton }) {
   const toggleStyles = {

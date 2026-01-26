@@ -23,3 +23,12 @@
 .full > .results {
   padding: 0 0 10px 0;
 }
+
+.detailList {
+  transform: rotate(180deg);
+}
+
+.toggle {
+  padding: 6px;
+  font-size: 18px;
+}
