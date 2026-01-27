@@ -292,8 +292,8 @@ function SearchResults(props) {
   const tableLabel = intl.formatMessage(messages.table);
   const detailListLabel = intl.formatMessage(messages.detailList);
   const toggles = [
-    { key: SEARCH_RESULT_GRID_VIEW, label: gridLabel, icon: 'grid_view' },
     { key: SEARCH_RESULT_TABLE_VIEW, label: tableLabel, icon: 'format_list_bulleted' },
+    { key: SEARCH_RESULT_GRID_VIEW, label: gridLabel, icon: 'grid_view' },
     {
       key: SEARCH_RESULT_LIST_VIEW, label: detailListLabel, icon: 'vertical_split', class: styles.detailList,
     },
