@@ -11,7 +11,6 @@ const toggleButtonProps = {
   icon: PropTypes.string,
   name: PropTypes.string,
   title: PropTypes.string,
-  isActive: PropTypes.bool,
 };
 
 export function ToggleButton(props) {
@@ -20,13 +19,11 @@ export function ToggleButton(props) {
     icon,
     name,
     title,
-    isActive,
     ...remainingProps
   } = props;
 
   return (
     <Button
-      active={isActive}
       className={classNames(className, 'material-icons')}
       name={name}
       title={title}

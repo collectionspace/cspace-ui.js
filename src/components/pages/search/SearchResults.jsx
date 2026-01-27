@@ -305,7 +305,6 @@ function SearchResults(props) {
       renderButton={(item) => (
         <ToggleButton
           icon={item.icon}
-          isActive={item.key === display}
           key={item.key}
           name={item.key}
           title={item.label}
