@@ -10,7 +10,8 @@ import { hasBlockingError } from '../helpers/validationHelpers';
 
 import {
   createInvocationData,
-  getReportViewerPath, storeReportInvocation,
+  getReportViewerPath,
+  storeReportInvocation,
   VIEWER_WINDOW_NAME,
 } from '../helpers/invocationHelpers';
 
