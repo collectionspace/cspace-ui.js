@@ -254,7 +254,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.dutiesofcare_common.partiesInvolvedGroup.name',
-                  defaultMessage: 'Party involved',
+                  defaultMessage: 'Parties involved',
                 },
               }),
               repeating: true,
@@ -270,7 +270,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.dutiesofcare_common.involvedParty.fullName',
-                    defaultMessage: 'Party involved person',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.dutiesofcare_common.involvedParty.name',
@@ -290,7 +290,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.dutiesofcare_common.involvedOnBehalfOf.fullName',
-                    defaultMessage: 'Party involved on behalf of',
+                    defaultMessage: 'Parties involved on behalf of',
                   },
                   name: {
                     id: 'field.dutiesofcare_common.involvedOnBehalfOf.name',
@@ -310,7 +310,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.dutiesofcare_common.involvedRole.fullName',
-                    defaultMessage: 'Party involved roles',
+                    defaultMessage: 'Parties involved roles',
                   },
                   name: {
                     id: 'field.dutiesofcare_common.involvedRole.name',
