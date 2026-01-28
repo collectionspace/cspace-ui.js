@@ -27,6 +27,7 @@
 - Display alt text with thumbnail images (Criteria 1.1.1).
 - Add link to User Manual in Footer (Criteria 3.2.6).
 - ARIA/WCAG updates for search table.
+- Fix Contrast for Selected Page in search results paginator (Criteria 1.4.3)
 
 ### Bug Fixes
 
