@@ -2,11 +2,9 @@ import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
-import * as axe from 'axe-core';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import RolesInput from '../../../../src/components/admin/RolesInput';
-import throwAxeViolationsError from '../../../helpers/utils';
 
 const { expect } = chai;
 
@@ -24,7 +22,7 @@ describe('RolesInput', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a ul without a11y violations', async function test() {
+  it('should render as a ul', function test() {
     render(
       <RolesInput
         roles={roles}
@@ -32,12 +30,6 @@ describe('RolesInput', () => {
     );
 
     this.container.firstElementChild.nodeName.should.equal('UL');
-
-    const results = await axe.run(this.container);
-    if (results.violations.length > 0) {
-      throwAxeViolationsError(results.violations);
-    }
-    results.violations.length.should.equal(0);
   });
 
   it('should call readRoles when mounted if roles is not supplied', function test() {

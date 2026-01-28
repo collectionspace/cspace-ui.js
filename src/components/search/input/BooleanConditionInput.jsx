@@ -27,7 +27,6 @@ const propTypes = {
   rootPath: PropTypes.string,
   showInlineParens: PropTypes.bool,
   showRemoveButton: PropTypes.bool,
-  isNewSearchForm: PropTypes.bool,
   getSearchConditionInputComponent: PropTypes.func.isRequired,
   onCommit: PropTypes.func,
   onRemove: PropTypes.func,
@@ -303,7 +302,6 @@ export default class BooleanConditionInput extends Component {
       recordType,
       rootPath,
       getSearchConditionInputComponent,
-      isNewSearchForm,
     } = this.props;
 
     const operator = condition.get('op');
@@ -337,7 +335,6 @@ export default class BooleanConditionInput extends Component {
             recordType={recordType}
             rootPath={rootPath}
             getSearchConditionInputComponent={getSearchConditionInputComponent}
-            isNewSearchForm={isNewSearchForm}
             onCommit={this.handleChildConditionCommit}
             onRemove={this.handleChildConditionRemove}
           />

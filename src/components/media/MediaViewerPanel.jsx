@@ -65,13 +65,14 @@ export default class MediaViewerPanel extends Component {
     const {
       columnSetName,
       config,
+      listType,
       name,
       search,
       searchDescriptor,
     } = this.props;
 
     if (search) {
-      search(config, name, searchDescriptor, columnSetName);
+      search(config, name, searchDescriptor, listType, columnSetName);
     }
   }
 

@@ -23,8 +23,6 @@ import {
   OP_NULL,
   OP_CONTAIN,
 } from '../../../../../src/constants/searchOperators';
-import { OP_NOT_EQ } from '../../../../../lib/constants/searchOperators';
-import { DATA_TYPE_DATE } from '../../../../../lib/constants/dataTypes';
 
 const { expect } = chai;
 
@@ -82,7 +80,6 @@ const config = {
           'ns2:collectionobjects_common': {
             objectNumber: {
               [configKey]: {
-                dataType: DATA_TYPE_DATE,
                 searchView: {
                   type: TestInput,
                 },
@@ -491,7 +488,7 @@ describe('FieldConditionInput', () => {
 
   it('should call onCommit when the operator input is committed', function test() {
     const condition = Immutable.fromJS({
-      op: OP_NOT_EQ,
+      op: OP_EQ,
       path: 'ns2:collectionobjects_common/objectNumber',
       value: 'value',
     });
@@ -524,7 +521,7 @@ describe('FieldConditionInput', () => {
 
     const input = this.container.querySelector('input[data-name="searchOp"]');
 
-    input.value = 'is';
+    input.value = 'is greater than';
 
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
@@ -532,7 +529,7 @@ describe('FieldConditionInput', () => {
     committedName.should.equal(name);
 
     committedCondition.should.equal(Immutable.fromJS({
-      op: OP_EQ,
+      op: OP_GT,
       path: 'ns2:collectionobjects_common/objectNumber',
       value: 'value',
     }));

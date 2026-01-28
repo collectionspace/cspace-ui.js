@@ -11,7 +11,6 @@ import { hasBlockingError } from '../helpers/validationHelpers';
 import {
   createInvocationData,
   getReportViewerPath,
-  storeReportInvocation,
   VIEWER_WINDOW_NAME,
 } from '../helpers/invocationHelpers';
 
@@ -70,10 +69,7 @@ export const openReport = (config, reportMetadata, invocationDescriptor) => (
     }
 
     return validateParams.then(() => {
-      const viewerPath = getReportViewerPath(config, reportCsid, invocationDescriptor);
-
-      // Store invocationDescriptor and params in localStorage
-      storeReportInvocation(invocationDescriptor, params);
+      const viewerPath = getReportViewerPath(config, reportCsid, invocationDescriptor, params);
 
       window.open(viewerPath, VIEWER_WINDOW_NAME);
     });

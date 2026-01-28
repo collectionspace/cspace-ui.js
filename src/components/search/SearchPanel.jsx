@@ -8,7 +8,7 @@ import { baseComponents as inputComponents } from 'cspace-input';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
-import { getListTypeFromResult, searchDescriptorToLocation } from '../../helpers/searchHelpers';
+import { searchDescriptorToLocation } from '../../helpers/searchHelpers';
 import Pager from './Pager';
 import styles from '../../../styles/cspace-ui/SearchPanel.css';
 
@@ -235,13 +235,14 @@ export default class SearchPanel extends Component {
     const {
       columnSetName,
       config,
+      listType,
       name,
       search,
       searchDescriptor,
     } = this.props;
 
     if (search) {
-      search(config, name, searchDescriptor, columnSetName);
+      search(config, name, searchDescriptor, listType, columnSetName);
     }
   }
 
@@ -284,17 +285,16 @@ export default class SearchPanel extends Component {
     const {
       config,
       isFiltered,
+      listType,
       searchResult,
       title,
     } = this.props;
 
-    let totalItems = null;
-    if (searchResult) {
-      const listType = getListTypeFromResult(config, searchResult);
-      const listTypeConfig = config.listTypes[listType];
+    const listTypeConfig = config.listTypes[listType];
 
-      totalItems = searchResult.getIn([listTypeConfig.listNodeName, 'totalItems']);
-    }
+    const totalItems = searchResult
+      ? searchResult.getIn([listTypeConfig.listNodeName, 'totalItems'])
+      : null;
 
     let headerContent;
 
@@ -322,11 +322,11 @@ export default class SearchPanel extends Component {
   renderFooter({ searchResult }) {
     const {
       config,
+      listType,
       pageSizeOptionListName,
     } = this.props;
 
     if (searchResult) {
-      const listType = getListTypeFromResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const list = searchResult.get(listTypeConfig.listNodeName);
 

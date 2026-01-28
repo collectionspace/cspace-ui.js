@@ -1,11 +1,6 @@
 import { connect } from 'react-redux';
 import SearchResultPage from '../../components/pages/SearchResultPage';
-import {
-  setSearchPageAdvanced,
-  setSearchPageAdvancedLimitBy,
-  setSearchPageAdvancedSearchTerms,
-  setSearchPageKeyword,
-} from '../../actions/searchPage';
+import { setSearchPageAdvanced, setSearchPageKeyword } from '../../actions/searchPage';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
@@ -37,8 +32,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   search,
   setSearchPageAdvanced,
-  setSearchPageAdvancedLimitBy,
-  setSearchPageAdvancedSearchTerms,
   setSearchPageKeyword,
   setSearchPageRecordType,
   setSearchPageVocabulary,

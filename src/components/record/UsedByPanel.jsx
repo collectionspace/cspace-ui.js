@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
-import { SEARCH_RESULT_USED_BY_PANEL } from '../../constants/searchNames';
 
 const messages = defineMessages({
   title: {
@@ -143,7 +142,7 @@ export default class UsedByPanel extends Component {
         config={config}
         csid={csid}
         listType="refDoc"
-        name={SEARCH_RESULT_USED_BY_PANEL}
+        name="usedByPanel"
         searchDescriptor={searchDescriptor}
         recordType={recordType}
         vocabulary={vocabulary}

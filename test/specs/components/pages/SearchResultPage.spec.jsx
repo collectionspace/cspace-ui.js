@@ -16,7 +16,10 @@ import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import mockHistory from '../../../helpers/mockHistory';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
+import SelectBar from '../../../../src/components/search/SelectBar';
 import SearchResultPage from '../../../../src/components/pages/SearchResultPage';
+import ExportModalContainer from '../../../../src/containers/search/ExportModalContainer';
+import SearchToRelateModalContainer from '../../../../src/containers/search/SearchToRelateModalContainer';
 import WatchedSearchResultTableContainer from '../../../../src/containers/search/WatchedSearchResultTableContainer';
 import { searchKey } from '../../../../src/reducers/search';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../../src/constants/searchNames';
@@ -181,16 +184,14 @@ const searchDescriptor = Immutable.fromJS({
   },
 });
 
-const optionList = Immutable.Map({
-  searchResultPagePageSizes: [
-    { value: '10' },
-    { value: '20' },
-    { value: '40' },
-  ],
-});
-
 const store = mockStore({
-  optionList,
+  optionList: Immutable.Map({
+    searchResultPagePageSizes: [
+      { value: '10' },
+      { value: '20' },
+      { value: '40' },
+    ],
+  }),
   prefs: Immutable.Map(),
   search: Immutable.fromJS({
     [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
@@ -639,25 +640,9 @@ describe('SearchResultPage', () => {
         'ns2:abstract-common-list': {},
       });
 
-      const updatedStore = mockStore({
-        optionList,
-        prefs: Immutable.Map(),
-        search: Immutable.fromJS({
-          [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
-            byKey: {
-              [searchKey(searchDescriptor)]: {
-                result: noTotalItemsSearchResult,
-              },
-            },
-          },
-        }),
-        searchToSelect: Immutable.Map(),
-        user: Immutable.Map(),
-      });
-
       render(
         <IntlProvider locale="en">
-          <StoreProvider store={updatedStore}>
+          <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <Router>
                 {searchResultPage.renderHeader({ searchResult: noTotalItemsSearchResult })}
@@ -674,6 +659,10 @@ describe('SearchResultPage', () => {
     });
 
     it('should render an error message if the search has an error', () => {
+      const searchError = Immutable.Map({
+        code: 'ERROR_CODE',
+      });
+
       const pageContainer = document.createElement('div');
 
       document.body.appendChild(pageContainer);
@@ -700,29 +689,9 @@ describe('SearchResultPage', () => {
 
       document.body.appendChild(headerContainer);
 
-      const searchError = Immutable.Map({
-        code: 'ERROR_CODE',
-      });
-
-      const updatedStore = mockStore({
-        optionList,
-        prefs: Immutable.Map(),
-        search: Immutable.fromJS({
-          [SEARCH_RESULT_PAGE_SEARCH_NAME]: {
-            byKey: {
-              [searchKey(searchDescriptor)]: {
-                error: searchError,
-              },
-            },
-          },
-        }),
-        searchToSelect: Immutable.Map(),
-        user: Immutable.Map(),
-      });
-
       render(
         <IntlProvider locale="en">
-          <StoreProvider store={updatedStore}>
+          <StoreProvider store={store}>
             <ConfigProvider config={config}>
               <Router>
                 {searchResultPage.renderHeader({ searchError })}
@@ -1132,6 +1101,346 @@ describe('SearchResultPage', () => {
         state: location.state,
       });
     });
+  });
+
+  it('should close the export modal when an export has been invoked', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const exportButton = selectBar.props.buttons[1];
+
+    exportButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, ExportModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onExportOpened();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, ExportModalContainer);
+
+    modal.props.isOpen.should.equal(false);
+  });
+
+  it('should render a search to relate modal if the search record type is object an object or procedure', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    findWithType(result, SearchToRelateModalContainer).should.not.equal(null);
+  });
+
+  it('should generate search to relate subjects from selected items', () => {
+    const selectedItems = Immutable.fromJS({
+      1111: {
+        csid: '1111',
+      },
+      2222: {
+        csid: '2222',
+      },
+    });
+
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+        selectedItems={selectedItems}
+      />, context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    const subjects = modal.props.subjects();
+
+    subjects.should.deep.equal([
+      { csid: '1111', recordType: 'collectionobject', title: undefined },
+      { csid: '2222', recordType: 'collectionobject', title: undefined },
+    ]);
+  });
+
+  it('should return null subjects if selected items is undefined', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    const subjects = modal.props.subjects();
+
+    expect(subjects).to.equal(null);
+  });
+
+  it('should close the search to relate modal when relations have been created', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onRelationsCreated();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(false);
+  });
+
+  it('should set an error on the search to relate modal when the relate button is clicked when a locked item is selected', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    const selectedItems = Immutable.fromJS({
+      1111: {
+        csid: '1111',
+        uri: '/collectionobjects/1111',
+      },
+      2222: {
+        csid: '2222',
+        uri: '/movements/2222',
+        workflowState: 'locked',
+      },
+    });
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+        perms={Immutable.fromJS({
+          collectionobject: {
+            data: 'CRUDL',
+          },
+          relation: {
+            data: 'CRUDL',
+          },
+        })}
+        selectedItems={selectedItems}
+      />, context,
+    );
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.error.code.should.equal('locked');
+  });
+
+  it('should set an error on the search to relate modal when the relate button is clicked when an item is selected that the user is not permitted to relate', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    const selectedItems = Immutable.fromJS({
+      1111: {
+        csid: '1111',
+        uri: '/collectionobjects/1111',
+      },
+    });
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+        perms={Immutable.fromJS({
+          collectionobject: {
+            data: 'R',
+          },
+          relation: {
+            data: 'CRUDL',
+          },
+        })}
+        selectedItems={selectedItems}
+      />, context,
+    );
+
+    let result;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+
+    const modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.error.code.should.equal('notPermitted');
+  });
+
+  it('should close the search to relate modal when the close button is clicked', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onCloseButtonClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(false);
+  });
+
+  it('should close the search to relate modal when the cancel button is clicked', () => {
+    const shallowRenderer = createRenderer();
+
+    const context = {
+      config,
+      store,
+    };
+
+    shallowRenderer.render(
+      <SearchResultPage
+        location={location}
+        match={match}
+      />, context,
+    );
+
+    let result;
+    let modal;
+
+    result = shallowRenderer.getRenderOutput();
+
+    const table = findWithType(result, WatchedSearchResultTableContainer);
+    const tableHeader = table.props.renderHeader({ searchError: null, searchResult: null });
+    const selectBar = findWithType(tableHeader, SelectBar);
+    const relateButton = selectBar.props.buttons[0];
+
+    relateButton.props.onClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(true);
+    modal.props.onCancelButtonClick();
+
+    result = shallowRenderer.getRenderOutput();
+    modal = findWithType(result, SearchToRelateModalContainer);
+
+    modal.props.isOpen.should.equal(false);
   });
 
   // This test inntriduced due to workaround from DRYD-252.

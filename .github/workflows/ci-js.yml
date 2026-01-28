@@ -2,9 +2,9 @@ name: Continuous integration
 
 on:
   push:
-    branches: [ "main", "v*", "develop" ]
+    branches: [ "master", "main", "v*" ]
   pull_request:
-    branches: [ "main", "v*", "develop" ]
+    branches: [ "master", "main", "v*" ]
 
 jobs:
   check:

@@ -6,6 +6,7 @@ import chaiImmutable from 'chai-immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { setupWorker, rest } from 'msw';
+import qs from 'qs';
 
 import {
   SHOW_NOTIFICATION,
@@ -276,7 +277,7 @@ describe('report action creator', () => {
 
       return store.dispatch(openReport(config, reportMetadata, invocationDescriptor))
         .then(() => {
-          openedPath.should.equal(`/report/${reportCsid}?mode=single&outputMIME=${outputMIME}&recordType=${recordType}`);
+          openedPath.should.equal(`/report/${reportCsid}?mode=single&csid=${recordCsid}&outputMIME=${outputMIME}&recordType=${recordType}`);
 
           window.open = savedWindowOpen;
         });
@@ -314,7 +315,11 @@ describe('report action creator', () => {
 
       return store.dispatch(openReport(config, reportMetadata, invocationDescriptor))
         .then(() => {
-          openedPath.should.equal(`/report/${reportCsid}?mode=single&recordType=${recordType}`);
+          const expectedParams = qs.stringify({
+            params: JSON.stringify(params),
+          });
+
+          openedPath.should.equal(`/report/${reportCsid}?mode=single&csid=${recordCsid}&recordType=${recordType}&${expectedParams}`);
 
           window.open = savedWindowOpen;
         });

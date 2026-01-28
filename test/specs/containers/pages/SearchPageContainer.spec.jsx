@@ -319,7 +319,6 @@ describe('SearchPageContainer', () => {
         keyword: 'hello world',
       }),
       prefs: Immutable.fromJS({
-        useNewSearch: false,
         searchPage: {
           recordType: 'concept',
           vocabulary: {

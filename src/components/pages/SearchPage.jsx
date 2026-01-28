@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  defineMessages, injectIntl, FormattedMessage, intlShape,
-} from 'react-intl';
+import { defineMessages, injectIntl, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import Immutable from 'immutable';
-import { components as inputComponents } from 'cspace-input';
 import ErrorPage from './ErrorPage';
 import BaseSearchForm from '../search/SearchForm';
 import TitleBar from '../sections/TitleBar';
@@ -20,26 +17,12 @@ import {
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
 
-const { Button } = inputComponents;
-
 const SearchForm = injectIntl(BaseSearchForm);
 
 const messages = defineMessages({
   title: {
     id: 'searchPage.title',
     defaultMessage: 'Search',
-  },
-  toggleButtonOldSearch: {
-    id: 'searchPage.toggleButtonOldSearch',
-    defaultMessage: 'Revert to Classic Search',
-  },
-  toggleButtonNewSearch: {
-    id: 'searchPage.toggleButtonNewSearch',
-    defaultMessage: 'Return to New Search',
-  },
-  provideFeedback: {
-    id: 'searchPage.provideFeedback',
-    defaultMessage: 'Provide feedback',
   },
 });
 
@@ -51,10 +34,7 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   keywordValue: PropTypes.string,
-  useNewSearch: PropTypes.bool,
   advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
-  advancedSearchConditionLimitBy: PropTypes.instanceOf(Immutable.Map),
-  advancedSearchConditionSearchTerms: PropTypes.instanceOf(Immutable.Map),
   history: PropTypes.shape({
     push: PropTypes.func,
     replace: PropTypes.func,
@@ -73,14 +53,10 @@ const propTypes = {
   deleteOptionList: PropTypes.func,
   initiateSearch: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
-  onAdvancedSearchConditionLimitByCommit: PropTypes.func,
-  onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
-  toggleUseNewSearch: PropTypes.func,
-  intl: intlShape,
 };
 
 const contextTypes = {
@@ -89,7 +65,7 @@ const contextTypes = {
   }).isRequired,
 };
 
-class SearchPage extends Component {
+export default class SearchPage extends Component {
   constructor() {
     super();
 
@@ -97,7 +73,6 @@ class SearchPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleVocabularyCommit = this.handleVocabularyCommit.bind(this);
     this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
-    this.handleToggleSearch = this.handleToggleSearch.bind(this);
 
     this.state = ({
       headerDockPosition: null,
@@ -165,11 +140,6 @@ class SearchPage extends Component {
     if (clearSearchPage) {
       clearSearchPage();
     }
-  }
-
-  handleToggleSearch() {
-    const { toggleUseNewSearch } = this.props;
-    toggleUseNewSearch();
   }
 
   handleRecordTypeCommit(value) {
@@ -292,8 +262,6 @@ class SearchPage extends Component {
   render() {
     const {
       advancedSearchCondition,
-      advancedSearchConditionLimitBy,
-      advancedSearchConditionSearchTerms,
       keywordValue,
       perms,
       preferredAdvancedSearchBooleanOp,
@@ -301,12 +269,8 @@ class SearchPage extends Component {
       buildRecordFieldOptionLists,
       deleteOptionList,
       onAdvancedSearchConditionCommit,
-      onAdvancedSearchConditionLimitByCommit,
-      onAdvancedSearchConditionSearchTermsCommit,
       onClearButtonClick,
       onKeywordCommit,
-      useNewSearch,
-      intl,
     } = this.props;
 
     const {
@@ -331,34 +295,17 @@ class SearchPage extends Component {
 
     const title = <FormattedMessage {...messages.title} />;
 
-    // TODO: mailto address needs to be specified
-    const toggleButton = (
-      <div className={styles.toggleButton}>
-        <Button onClick={this.handleToggleSearch}>
-          {useNewSearch || typeof useNewSearch === 'undefined'
-            ? intl.formatMessage(messages.toggleButtonOldSearch)
-            : intl.formatMessage(messages.toggleButtonNewSearch)}
-        </Button>
-        <a href="https://collectionspace.org/contact/" target="_blank" rel="noreferrer">
-          { intl.formatMessage(messages.provideFeedback) }
-        </a>
-      </div>
-    );
-
     return (
       <div className={styles.common}>
         <TitleBar
           title={title}
-          aside={toggleButton}
-          isAsidePlainText
           updateDocumentTitle
           onDocked={this.handleTitleBarDocked}
         />
+
         <div className={pageBodyStyles.common}>
           <SearchForm
             advancedSearchCondition={advancedSearchCondition}
-            advancedSearchConditionLimitBy={advancedSearchConditionLimitBy}
-            advancedSearchConditionSearchTerms={advancedSearchConditionSearchTerms}
             config={config}
             dockTop={headerDockPosition}
             keywordValue={keywordValue}
@@ -370,10 +317,7 @@ class SearchPage extends Component {
             getAuthorityVocabCsid={getAuthorityVocabCsid}
             buildRecordFieldOptionLists={buildRecordFieldOptionLists}
             deleteOptionList={deleteOptionList}
-            showNewSearch={useNewSearch || typeof useNewSearch === 'undefined'}
             onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
-            onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
-            onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
             onClearButtonClick={onClearButtonClick}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
@@ -388,5 +332,3 @@ class SearchPage extends Component {
 
 SearchPage.propTypes = propTypes;
 SearchPage.contextTypes = contextTypes;
-
-export default injectIntl(SearchPage);

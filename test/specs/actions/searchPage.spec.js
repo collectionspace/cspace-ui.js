@@ -104,7 +104,6 @@ describe('search page action creator', () => {
           advanced: advancedSearchCondition,
         }),
         prefs: Immutable.fromJS({
-          useNewSearch: false,
           searchPage: {
             recordType: 'loanin',
           },

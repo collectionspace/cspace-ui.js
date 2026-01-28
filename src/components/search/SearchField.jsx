@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import Field from '../record/Field';
 import orderIndicatorStyles from '../../../styles/cspace-ui/SearchOrderIndicator.css';
-import { TextInput } from '../../helpers/configContextInputs';
 
 const messages = defineMessages({
   or: {
@@ -21,7 +20,6 @@ const propTypes = {
   readOnly: PropTypes.bool,
   repeating: PropTypes.bool,
   onCommit: PropTypes.func,
-  forceTextInput: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -36,18 +34,6 @@ export default class SearchField extends Component {
     this.handleAddInstance = this.handleAddInstance.bind(this);
     this.handleRemoveInstance = this.handleRemoveInstance.bind(this);
     this.renderOrderIndicator = this.renderOrderIndicator.bind(this);
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      forceTextInput, value, parentPath, name, onCommit,
-    } = this.props;
-
-    // If forceTextInput changed, reset value to null
-    if (forceTextInput !== prevProps.forceTextInput && value !== null && onCommit) {
-      const path = parentPath ? [...parentPath, name] : [name];
-      onCommit(path, null);
-    }
   }
 
   handleCommit(path, value) {
@@ -143,7 +129,6 @@ export default class SearchField extends Component {
       value,
       readOnly,
       repeating,
-      forceTextInput,
     } = this.props;
 
     const repeatingProps = {};
@@ -156,18 +141,7 @@ export default class SearchField extends Component {
       repeatingProps.onRemoveInstance = this.handleRemoveInstance;
     }
 
-    return forceTextInput ? (
-      <TextInput
-        parentPath={parentPath}
-        name={name}
-        asText={readOnly}
-        value={value}
-        onCommit={this.handleCommit}
-      // Do not allow multiline text fields.
-        multiline={false}
-        {...repeatingProps}
-      />
-    ) : (
+    return (
       <Field
         label={undefined}
         parentPath={parentPath}

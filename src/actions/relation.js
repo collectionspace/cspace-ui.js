@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 import { defineMessages } from 'react-intl';
 import get from 'lodash/get';
-import pLimit from 'p-limit';
 import getSession from '../helpers/session';
 import { showNotification } from './notification';
 import getErrorDescription from '../helpers/getErrorDescription';
@@ -54,33 +53,9 @@ const messages = defineMessages({
     description: 'Message shown when unrelating multiple records fails.',
     defaultMessage: 'Some records could not be unrelated: {error}',
   },
-  multipleSubjectsRelated: {
-    id: 'searchToRelateModal.multipleSubjectsRelated',
-    description: 'Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.',
-    defaultMessage: `{objectCount, plural,
-      =0 {No records}
-      one {# record}
-      other {# records}
-    } related to each of {subjectCount, number} search results.`,
-  },
 });
 
 const notificationID = 'action.relation';
-
-const relatePayload = ({ csid: subjectCsid }, { csid: objectCsid }, relationshipType) => ({
-  data: {
-    document: {
-      'rel:relations_common': {
-        '@xmlns:rel': 'http://collectionspace.org/services/relation',
-        subjectCsid,
-        objectCsid,
-        relationshipType,
-      },
-    },
-  },
-});
-
-export const CONCURRENCY_LIMIT = 6;
 
 export const showRelationNotification = (message, values) => showNotification({
   items: [{
@@ -90,7 +65,7 @@ export const showRelationNotification = (message, values) => showNotification({
   date: new Date(),
   status: STATUS_SUCCESS,
   autoClose: true,
-});
+}, notificationID);
 
 /*
  * Find a relation, given at least the subject csid and object csid, and optionally the subject
@@ -357,7 +332,20 @@ const doCreate = (subject, object, predicate) => (dispatch) => {
     },
   });
 
-  return getSession().create('/relations', relatePayload(subject, object, predicate))
+  const config = {
+    data: {
+      document: {
+        'rel:relations_common': {
+          '@xmlns:rel': 'http://collectionspace.org/services/relation',
+          subjectCsid: subject.csid,
+          objectCsid: object.csid,
+          relationshipType: predicate,
+        },
+      },
+    },
+  };
+
+  return getSession().create('/relations', config)
     .then((response) => dispatch({
       type: RELATION_SAVE_FULFILLED,
       payload: response,
@@ -416,76 +404,33 @@ export const batchCreate = (subject, objects, predicate) => (dispatch) => (
     })
 );
 
-export const batchCreateBidirectional = (subjects, objects, predicate) => (dispatch) => {
-  dispatch({
-    type: RELATION_SAVE_STARTED,
-    meta: {
-      subjects,
-      objects,
-      predicate,
-    },
-  });
-
-  const limit = pLimit(CONCURRENCY_LIMIT);
-
-  const promises = subjects.flatMap(
-    (subject) => objects.map(
-      (object) => limit(() => dispatch(checkForRelations(subject.csid, predicate, object.csid))
-        .then((relationExists) => {
-          if (relationExists) {
-            return Promise.reject(new Error('Relation already exists'));
-          }
-          return getSession().create('/relations', relatePayload(subject, object, predicate))
-            .then(() => getSession().create('/relations', relatePayload(object, subject, predicate)));
-        })),
-    ),
-  );
-
-  return Promise.all(promises)
-    .then(() => {
-      const shorterArray = objects.length < subjects.length ? objects : subjects;
-      const longerArray = objects.length >= subjects.length ? objects : subjects;
-
-      if (shorterArray.length > 5) {
-        // when the shorterArray length is more than 5,
-        // a single multipleSubjectsRelated notification is shown
-        dispatch(showRelationNotification(messages.multipleSubjectsRelated, {
-          objectCount: objects.length,
-          subjectCount: subjects.length,
-        }));
-      } else {
-        // otherwise for each subject, a notification is shown
-        shorterArray.forEach((item) => {
-          dispatch(showRelationNotification(messages.related, {
-            objectCount: longerArray.length,
-            subjectTitle: item.title,
-          }));
-        });
+export const batchCreateBidirectional = (subject, objects, predicate) => (dispatch) => (
+  // Send these requests one at a time, to avoid DOSing the server.
+  objects.reduce((promise, object) => promise
+    .then(() => dispatch(checkForRelations(subject.csid, predicate, object.csid)))
+    .then((relationExists) => {
+      if (relationExists) {
+        return Promise.resolve();
       }
 
-      shorterArray.forEach((item) => {
-        dispatch({
-          type: SUBJECT_RELATIONS_UPDATED,
-          meta: {
-            subject: item,
-            updatedTime: (new Date()).toISOString(),
-          },
-        });
+      return dispatch(doCreate(subject, object, predicate))
+        .then(() => dispatch(doCreate(object, subject, predicate)));
+    }), Promise.resolve())
+    .then(() => {
+      dispatch(showRelationNotification(messages.related, {
+        objectCount: objects.length,
+        subjectTitle: subject.title,
+      }));
+
+      dispatch({
+        type: SUBJECT_RELATIONS_UPDATED,
+        meta: {
+          subject,
+          updatedTime: (new Date()).toISOString(),
+        },
       });
     })
     .catch((error) => {
-      dispatch({
-        type: RELATION_SAVE_REJECTED,
-        payload: {
-          code: ERR_API,
-          error,
-        },
-        meta: {
-          subjects,
-          objects,
-          predicate,
-        },
-      });
       dispatch(showNotification({
         items: [{
           message: messages.batchCreateError,
@@ -496,8 +441,8 @@ export const batchCreateBidirectional = (subjects, objects, predicate) => (dispa
         date: new Date(),
         status: STATUS_ERROR,
       }, notificationID));
-    });
-};
+    })
+);
 
 export const create = (subject, object, predicate) => (dispatch) => (
   dispatch(doCreate(subject, object, predicate))

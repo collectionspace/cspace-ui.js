@@ -621,11 +621,13 @@ describe('SearchResultTraverser', () => {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (configArg, searchNameArg, searchDescriptorArg, listTypeArg) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
     };
 
     const csid = '2222';
@@ -647,17 +649,20 @@ describe('SearchResultTraverser', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(searchDescriptor);
+    searchedListType.should.equal('common');
   });
 
   it('should call search when updated if a search state is not provided', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (configArg, searchNameArg, searchDescriptorArg, listTypeArg) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
     };
 
     const csid = '2222';
@@ -696,17 +701,20 @@ describe('SearchResultTraverser', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(searchDescriptor);
+    searchedListType.should.equal('common');
   });
 
   it('should call search when mounted if a previous page search state is not provided, and the current item is the first on its page', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (configArg, searchNameArg, searchDescriptorArg, listTypeArg) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
     };
 
     const csid = '1111';
@@ -730,17 +738,20 @@ describe('SearchResultTraverser', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(prevPageSearchDescriptor);
+    searchedListType.should.equal('common');
   });
 
   it('should call search when mounted if a next page search state is not provided, and the current item is the last on its page', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (configArg, searchNameArg, searchDescriptorArg, listTypeArg) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
     };
 
     const csid = '3333';
@@ -764,17 +775,20 @@ describe('SearchResultTraverser', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(nextPageSearchDescriptor);
+    searchedListType.should.equal('common');
   });
 
   it('should handle a single item (non-list) search result when deciding if the next page should be retrieved', function test() {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
 
-    const search = (configArg, searchNameArg, searchDescriptorArg) => {
+    const search = (configArg, searchNameArg, searchDescriptorArg, listTypeArg) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
     };
 
     const csid = '1111';
@@ -814,5 +828,6 @@ describe('SearchResultTraverser', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(nextPageSearchDescriptor);
+    searchedListType.should.equal('common');
   });
 });

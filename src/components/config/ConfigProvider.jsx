@@ -1,4 +1,4 @@
-import React, { Component, Children, useContext } from 'react';
+import { Component, Children } from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -11,8 +11,6 @@ const childContextTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   config: PropTypes.object,
 };
-
-export const ConfigContext = React.createContext(null);
 
 export default class ConfigProvider extends Component {
   getChildContext() {
@@ -27,20 +25,11 @@ export default class ConfigProvider extends Component {
 
   render() {
     const {
-      config,
       children,
     } = this.props;
 
-    return (
-      <ConfigContext.Provider value={config}>
-        {Children.only(children)}
-      </ConfigContext.Provider>
-    );
+    return Children.only(children);
   }
-}
-
-export function useConfig() {
-  return useContext(ConfigContext);
 }
 
 ConfigProvider.propTypes = propTypes;

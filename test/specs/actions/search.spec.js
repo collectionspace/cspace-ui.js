@@ -98,7 +98,6 @@ describe('search action creator', () => {
       },
       subresources: {
         terms: {
-          listType: 'common',
           serviceConfig: {
             servicePath: termsServicePath,
           },

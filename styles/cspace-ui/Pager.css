@@ -1,5 +1,4 @@
 @value inputHeight from '../dimensions.css';
-@value inputBg from '../colors.css';
 
 .common {
   font-size: 12px;
@@ -56,11 +55,4 @@
 
 .common > nav > :global(.cspace-input-MiniButton--common) {
   padding: 0 10px;
-}
-
-.current > :global(.cspace-input-MiniButton--common) {
-  background-color: inputBg;
-  font-weight: bold;
-  border: 1px solid black;
-  color: black;
 }

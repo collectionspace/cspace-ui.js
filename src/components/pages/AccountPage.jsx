@@ -12,7 +12,6 @@ import { canCreate, canRead } from '../../helpers/permissionHelpers';
 import AdminTabButtonBar from '../admin/AdminTabButtonBar';
 import AccountSearchBar from '../admin/AccountSearchBar';
 import styles from '../../../styles/cspace-ui/AdminTab.css';
-import { SEARCH_RESULT_ACCOUNT_PAGE } from '../../constants/searchNames';
 
 const propTypes = {
   history: PropTypes.shape({
@@ -296,7 +295,7 @@ export default class AccountPage extends Component {
             isFiltered={!!filterValue}
             linkItems={false}
             listType="account"
-            name={SEARCH_RESULT_ACCOUNT_PAGE}
+            name="accountPage"
             pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
             title={title}

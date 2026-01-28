@@ -158,14 +158,16 @@ describe('MediaViewerPanel', () => {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, columnSetNameArg,
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
       searchedColumnSetName = columnSetNameArg;
     };
 
@@ -183,6 +185,7 @@ describe('MediaViewerPanel', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(searchDescriptor);
+    searchedListType.should.equal('common');
     searchedColumnSetName.should.equal('default');
   });
 
@@ -190,14 +193,16 @@ describe('MediaViewerPanel', () => {
     let searchedConfig = null;
     let searchedSearchName = null;
     let searchedSearchDescriptor = null;
+    let searchedListType = null;
     let searchedColumnSetName = null;
 
     const search = (
-      configArg, searchNameArg, searchDescriptorArg, columnSetNameArg,
+      configArg, searchNameArg, searchDescriptorArg, listTypeArg, columnSetNameArg,
     ) => {
       searchedConfig = configArg;
       searchedSearchName = searchNameArg;
       searchedSearchDescriptor = searchDescriptorArg;
+      searchedListType = listTypeArg;
       searchedColumnSetName = columnSetNameArg;
     };
 
@@ -234,6 +239,7 @@ describe('MediaViewerPanel', () => {
     searchedConfig.should.equal(config);
     searchedSearchName.should.equal(searchName);
     searchedSearchDescriptor.should.equal(newSearchDescriptor);
+    searchedListType.should.equal('common');
     searchedColumnSetName.should.equal('default');
   });
 });

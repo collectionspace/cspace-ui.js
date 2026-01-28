@@ -157,17 +157,17 @@ describe('SearchToRelateModal', () => {
   it('should call createRelations followed by onRelationsCreated when the selection is accepted', () => {
     const recordType = 'collectionobject';
 
-    const subjects = [{
+    const subject = {
       csid: '1234',
       recordType: 'group',
-    }];
+    };
 
-    let createdSubjects = null;
+    let createdSubject = null;
     let createdObjects = null;
     let createdPredicate = null;
 
-    const createRelations = (subjectsArg, objectsArg, predicateArg) => {
-      createdSubjects = subjectsArg;
+    const createRelations = (subjectArg, objectsArg, predicateArg) => {
+      createdSubject = subjectArg;
       createdObjects = objectsArg;
       createdPredicate = predicateArg;
 
@@ -184,7 +184,7 @@ describe('SearchToRelateModal', () => {
 
     shallowRenderer.render(
       <SearchToRelateModal
-        subjects={subjects}
+        subjects={[subject]}
         createRelations={createRelations}
         onRelationsCreated={handleRelationsCreated}
       />,
@@ -199,7 +199,7 @@ describe('SearchToRelateModal', () => {
 
     result.props.onAccept(selectedItems, Immutable.Map({ recordType }));
 
-    createdSubjects.should.deep.equal(subjects);
+    createdSubject.should.deep.equal(subject);
 
     createdObjects.should.deep.equal([
       { recordType, csid: '1111' },
@@ -248,20 +248,73 @@ describe('SearchToRelateModal', () => {
     created.should.equal(false);
   });
 
+  it('should call showRelationNotification if multiple subjects are successfully related', () => {
+    const recordType = 'collectionobject';
+
+    const subjects = [
+      {
+        csid: '1234',
+        recordType: 'group',
+      },
+      {
+        csid: '5678',
+        recordType: 'group',
+      },
+    ];
+
+    const createRelations = () => {};
+
+    let notificationValues = null;
+
+    const showRelationNotification = (messageArg, valuesArg) => {
+      notificationValues = valuesArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchToRelateModal
+        subjects={subjects}
+        createRelations={createRelations}
+        showRelationNotification={showRelationNotification}
+      />,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    const selectedItems = Immutable.fromJS({
+      1111: { recordType, csid: '1111' },
+      2222: { recordType, csid: '2222' },
+    });
+
+    result.props.onAccept(selectedItems, Immutable.Map({ recordType }));
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        notificationValues.should.deep.equal({
+          subjectCount: 2,
+          objectCount: 2,
+        });
+
+        resolve();
+      }, 0);
+    });
+  });
+
   it('should call subjects to retrieve subjects if it is a function', () => {
     const recordType = 'collectionobject';
 
-    const subjects = [{
+    const subject = {
       csid: '1234',
       recordType: 'group',
-    }];
+    };
 
-    const getSubjects = () => subjects;
+    const getSubjects = () => [subject];
 
-    let createdSubjects = null;
+    let createdSubject = null;
 
-    const createRelations = (subjectsArg) => {
-      createdSubjects = subjectsArg;
+    const createRelations = (subjectArg) => {
+      createdSubject = subjectArg;
 
       return Promise.resolve();
     };
@@ -284,7 +337,7 @@ describe('SearchToRelateModal', () => {
 
     result.props.onAccept(selectedItems, Immutable.Map({ recordType }));
 
-    createdSubjects.should.deep.equal(subjects);
+    createdSubject.should.deep.equal(subject);
   });
 
   it('should not show a checkbox on items that are locked, already related to, or the same as the subject', () => {
@@ -362,33 +415,5 @@ describe('SearchToRelateModal', () => {
     const message = findWithType(result, FormattedMessage);
 
     message.props.defaultMessage.should.contain('Locked records are selected');
-  });
-
-  it('should render a Modal containing an error message with the error.values being passed', () => {
-    const error = {
-      code: 'notPermitted',
-      values: {
-        selectedCount: 3,
-        name: 'Object record',
-        collectionName: 'Objects',
-      },
-    };
-
-    const shallowRenderer = createRenderer();
-
-    shallowRenderer.render(
-      <SearchToRelateModal
-        isOpen
-        error={error}
-      />,
-    );
-
-    const result = shallowRenderer.getRenderOutput();
-
-    result.type.should.equal(Modal);
-
-    const message = findWithType(result, FormattedMessage);
-
-    message.props.values.should.equal(error.values);
   });
 });

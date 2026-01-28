@@ -3,6 +3,7 @@ import SearchToRelateModal from '../../components/search/SearchToRelateModal';
 
 import {
   batchCreateBidirectional,
+  showRelationNotification,
 } from '../../actions/relation';
 
 import {
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  showRelationNotification,
   createRelations: batchCreateBidirectional,
 };
 

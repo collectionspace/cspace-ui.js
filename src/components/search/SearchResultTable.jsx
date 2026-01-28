@@ -8,7 +8,6 @@ import { Table } from 'cspace-layout';
 import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
-import { getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 
@@ -186,12 +185,12 @@ export default class SearchResultTable extends Component {
   handleRowClick(index) {
     const {
       config,
+      listType,
       searchResult,
       onItemClick,
     } = this.props;
 
     if (onItemClick) {
-      const listType = getListTypeFromResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -235,12 +234,11 @@ export default class SearchResultTable extends Component {
     const {
       config,
       linkState,
+      listType,
       perms,
-      searchResult,
       searchDescriptor,
     } = this.props;
 
-    const listType = getListTypeFromResult(config, searchResult);
     const getItemLocationPath = get(config, ['listTypes', listType, 'getItemLocationPath']);
 
     if (!getItemLocationPath) {
@@ -344,6 +342,7 @@ export default class SearchResultTable extends Component {
       config,
       formatCellData,
       formatColumnLabel,
+      listType,
       searchDescriptor,
       searchResult,
       showCheckboxColumn,
@@ -351,7 +350,6 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     if (searchResult) {
-      const listType = getListTypeFromResult(config, searchResult);
       const searchQuery = searchDescriptor.get('searchQuery');
 
       const listTypeConfig = config.listTypes[listType];

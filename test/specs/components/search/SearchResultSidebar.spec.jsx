@@ -1,4 +1,5 @@
 import React from 'react';
+import { createRenderer } from 'react-test-renderer/shallow';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider as StoreProvider } from 'react-redux';
@@ -18,41 +19,35 @@ const config = {
   },
 };
 
-const mockStore = configureMockStore([thunk]);
-const store = mockStore({
-  prefs: Immutable.Map({
-    searchResultSidebarOpen: false,
-  }),
-  search: Immutable.Map({
-    selected: Immutable.Map(),
-  }),
-  user: Immutable.Map({
-    prefs: Immutable.Map(),
-  }),
-});
-
 describe('SearchResultSidebar', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
-    render(
-      <IntlProvider locale="en">
-        <StoreProvider store={store}>
-          <SearchResultSidebar
-            config={config}
-            recordType="group"
-            isOpen
-          />
-        </StoreProvider>
-      </IntlProvider>, this.container,
+  it('should render as a div', () => {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchResultSidebar
+        config={config}
+        recordType="group"
+        isOpen
+      />,
     );
 
-    this.container.querySelector('.cspace-ui-SearchResultSidebar--common').nodeName.should.equal('DIV');
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.should.equal('div');
   });
 
   it('should only render the sidebar toggle if isOpen is false', function test() {
+    const mockStore = configureMockStore([thunk]);
+    const store = mockStore({
+      prefs: Immutable.Map({
+        searchResultSidebarOpen: false,
+      }),
+    });
+
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>

@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 import SearchResultItemLink from './SearchResultItemLink';
 
 import {
-  deriveSearchType,
+  getListType,
   searchDescriptorToLocation,
 } from '../../helpers/searchHelpers';
 
@@ -82,11 +82,11 @@ export default class SearchResultTraverser extends Component {
         // maintained in history state, but the search state is gone, since the app has been
         // reloaded. Initiate the search.
 
-        search(config, searchName, searchDescriptor);
+        search(config, searchName, searchDescriptor, getListType(config, searchDescriptor));
       }
 
       if (searchState && !searchState.get('isPending') && searchState.get('result')) {
-        const { listType } = deriveSearchType(config, searchName, searchDescriptor);
+        const listType = getListType(config, searchDescriptor);
         const listTypeConfig = config.listTypes[listType];
         const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -125,6 +125,7 @@ export default class SearchResultTraverser extends Component {
             config,
             searchName,
             prevPageSearchDescriptor,
+            getListType(config, prevPageSearchDescriptor),
           );
         }
 
@@ -141,13 +142,14 @@ export default class SearchResultTraverser extends Component {
             config,
             searchName,
             nextPageSearchDescriptor,
+            getListType(config, nextPageSearchDescriptor),
           );
         }
       }
     }
   }
 
-  renderPrevLink(items, index, currentNum, totalItems, locationState, listType) {
+  renderPrevLink(items, index, currentNum, totalItems, locationState) {
     const {
       config,
       searchName,
@@ -173,6 +175,7 @@ export default class SearchResultTraverser extends Component {
       // We're at the beginning of the current page, but we have data for the previous page. Link
       // to the last item in its results.
 
+      const listType = getListType(config, prevPageSearchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -207,7 +210,7 @@ export default class SearchResultTraverser extends Component {
     return <FormattedMessage {...messages.prev} />;
   }
 
-  renderNextLink(items, index, currentNum, totalItems, locationState, listType) {
+  renderNextLink(items, index, currentNum, totalItems, locationState) {
     const {
       config,
       searchName,
@@ -233,6 +236,7 @@ export default class SearchResultTraverser extends Component {
       // We're at the end of the current page, but we have data for the next page. Link to the
       // first item in its results.
 
+      const listType = getListType(config, nextPageSearchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -292,7 +296,7 @@ export default class SearchResultTraverser extends Component {
     ) {
       resultMessage = <FormattedMessage {...messages.resultPending} />;
     } else {
-      const { listType } = deriveSearchType(config, searchName, searchDescriptor);
+      const listType = getListType(config, searchDescriptor);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
@@ -328,8 +332,8 @@ export default class SearchResultTraverser extends Component {
         originSearchPage: originSearchPageState,
       };
 
-      prevLink = this.renderPrevLink(items, index, currentNum, totalItems, locationState, listType);
-      nextLink = this.renderNextLink(items, index, currentNum, totalItems, locationState, listType);
+      prevLink = this.renderPrevLink(items, index, currentNum, totalItems, locationState);
+      nextLink = this.renderNextLink(items, index, currentNum, totalItems, locationState);
     }
 
     const searchLocation = Object.assign(searchDescriptorToLocation(searchDescriptor), {

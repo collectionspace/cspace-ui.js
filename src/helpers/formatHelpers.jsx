@@ -42,14 +42,6 @@ export const formatDate = (date) => {
   return date;
 };
 
-export const formatNameRole = (name, role) => {
-  if (name && role) {
-    return `${name} (${role})`;
-  }
-
-  return name;
-};
-
 export const formatServiceObjectName = (serviceObjectName, { intl, config }) => {
   const recordTypeConfig = getRecordTypeConfigByServiceObjectName(config, serviceObjectName);
 
@@ -61,13 +53,6 @@ export const formatServiceObjectName = (serviceObjectName, { intl, config }) => 
 };
 
 export const formatRefName = (refName) => getDisplayName(refName);
-
-/**
- * Attempt to format a RefName. If it cannot be formatted, return the initial value.
- * @param {string} maybeRef a string which could be a refname
- * @returns the formatted value of maybeRef or the initial value maybeRef
- */
-export const formatRefNameWithDefault = (maybeRef) => formatRefName(maybeRef) || maybeRef;
 
 export const formatRefNameAsRecordType = (refName, { intl, config }) => {
   const recordServicePath = getServicePath(refName);
@@ -166,41 +151,16 @@ export const formatExtensionFieldName = (intl, fieldConfig, messageName = 'fullN
   return [formattedParentName, formattedName].filter((part) => !!part).join(' - ');
 };
 
-export const derivativeImage = (blobCsid, derivative, rowData) => {
-  if (!blobCsid || !rowData) {
-    return null;
-  }
-
-  const alt = rowData.get('altText') || rowData.get('identificationNumber');
-  return <BlobImage csid={blobCsid} derivative={derivative} alt={alt} />;
-};
-
-export const thumbnailImage = (blobCsid, { rowData } = {}) => derivativeImage(
-  blobCsid,
-  DERIVATIVE_THUMBNAIL,
-  rowData,
+export const derivativeImage = (blobCsid, derivative) => (
+  blobCsid ? <BlobImage csid={blobCsid} derivative={derivative} /> : null
 );
 
-export const smallImage = (blobCsid, { rowData } = {}) => derivativeImage(
-  blobCsid,
-  DERIVATIVE_SMALL,
-  rowData,
-);
+export const thumbnailImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_THUMBNAIL);
 
-export const mediumImage = (blobCsid, { rowData } = {}) => derivativeImage(
-  blobCsid,
-  DERIVATIVE_MEDIUM,
-  rowData,
-);
+export const smallImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_SMALL);
 
-export const originalJpegImage = (blobCsid, { rowData } = {}) => derivativeImage(
-  blobCsid,
-  DERIVATIVE_ORIGINAL_JPEG,
-  rowData,
-);
+export const mediumImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_MEDIUM);
 
-export const originalImage = (blobCsid, { rowData } = {}) => derivativeImage(
-  blobCsid,
-  DERIVATIVE_ORIGINAL,
-  rowData,
-);
+export const originalJpegImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_ORIGINAL_JPEG);
+
+export const originalImage = (blobCsid) => derivativeImage(blobCsid, DERIVATIVE_ORIGINAL);

@@ -11,7 +11,7 @@ const messages = defineMessages({
   title: {
     id: 'dashboardPage.title',
     description: 'Title of the dashboard page.',
-    defaultMessage: 'Recent Activity',
+    defaultMessage: 'My CollectionSpace',
   },
   recentPanelTitle: {
     id: 'dashboardPage.recentPanelTitle',

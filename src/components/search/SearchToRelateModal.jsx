@@ -24,13 +24,22 @@ const messages = defineMessages({
     id: 'searchToRelateModal.relating',
     defaultMessage: 'Relating…',
   },
+  multipleSubjectsRelated: {
+    id: 'searchToRelateModal.multipleSubjectsRelated',
+    description: 'Message shown when the record(s) selected in the search to relate modal were related to multiple (> 1) subject records.',
+    defaultMessage: `{objectCount, plural,
+      =0 {No records}
+      one {# record}
+      other {# records}
+    } related to each of {subjectCount, number} search results.`,
+  },
   title: {
     id: 'searchToRelateModal.title',
     defaultMessage: 'Relate {typeName} {query}',
   },
   errorTitle: {
     id: 'searchToRelateModal.errorTitle',
-    defaultMessage: 'Permission Denied',
+    defaultMessage: 'Can\'t Relate',
   },
 });
 
@@ -41,7 +50,7 @@ const errorMessages = defineMessages({
   },
   notPermitted: {
     id: 'searchToRelateModal.error.notPermitted',
-    defaultMessage: '{selectedCount, plural, one {{name} record is} other {{name} records are}} selected. You are not permitted to create relations to {collectionName}.',
+    defaultMessage: '{name} records are selected. You are not permitted to create relations to {collectionName}.',
   },
 });
 
@@ -55,7 +64,6 @@ const propTypes = {
   }),
   error: PropTypes.shape({
     code: PropTypes.string,
-    values: PropTypes.object,
   }),
   isOpen: PropTypes.bool,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -71,6 +79,7 @@ const propTypes = {
     PropTypes.func,
   ]),
   createRelations: PropTypes.func,
+  showRelationNotification: PropTypes.func,
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
   onRelationsCreated: PropTypes.func,
@@ -122,8 +131,19 @@ export default class SearchToRelateModal extends Component {
           recordType: searchDescriptor.get('recordType'),
         })).toJS();
 
-        return createRelations(subjects, objects, 'affects')
+        return Promise.all(subjects.map((subject) => createRelations(subject, objects, 'affects')))
           .then(() => {
+            if (subjects.length > 1) {
+              const { showRelationNotification } = this.props;
+
+              if (showRelationNotification) {
+                showRelationNotification(messages.multipleSubjectsRelated, {
+                  objectCount: objects.length,
+                  subjectCount: subjects.length,
+                });
+              }
+            }
+
             if (onRelationsCreated) {
               onRelationsCreated();
             }
@@ -161,6 +181,7 @@ export default class SearchToRelateModal extends Component {
       error,
       subjects,
       createRelations,
+      showRelationNotification,
       onRelationsCreated,
       ...remainingProps
     } = this.props;
@@ -180,7 +201,7 @@ export default class SearchToRelateModal extends Component {
           onAcceptButtonClick={onCancelButtonClick}
           onCloseButtonClick={onCloseButtonClick}
         >
-          <FormattedMessage {...errorMessages[error.code]} values={error.values || {}} />
+          <FormattedMessage {...errorMessages[error.code]} />
         </Modal>
       );
     }

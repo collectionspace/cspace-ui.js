@@ -1,7 +1,7 @@
 /* global document, window */
 
 import React from 'react';
-import ReactDOM, { render } from 'react-dom';
+import { render } from 'react-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { addLocaleData, IntlProvider } from 'react-intl';
@@ -131,21 +131,5 @@ export default (uiConfig) => {
     Modal.setAppElement(mountNode);
 
     render(<AppContainer {...props} />, mountNode);
-
-    // HMR related: https://webpack.js.org/concepts/hot-module-replacement/
-    if (module.hot) {
-      module.hot.accept('./containers/AppContainer', () => {
-        render(<AppContainer {...props} />, mountNode);
-      });
-    }
-
-    // Run accessibility checks in dev and log issues in console
-    if (process.env.NODE_ENV === 'development') {
-      (async () => {
-        // eslint-disable-next-line import/no-extraneous-dependencies
-        const axe = await import('@axe-core/react');
-        await axe.default(React, ReactDOM, 1000);
-      })();
-    }
   }
 };

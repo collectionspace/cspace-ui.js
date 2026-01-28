@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import { getSearchResult, isSearchDirty, isSearchPending } from '../reducers';
 import getSession from '../helpers/session';
-import { convertAdvancedSearchConditionToNXQL, deriveSearchType } from '../helpers/searchHelpers';
+import { convertAdvancedSearchConditionToNXQL } from '../helpers/searchHelpers';
 
 import {
   ERR_UNKNOWN_RECORD_TYPE,
@@ -33,14 +33,6 @@ const getSortParam = (config, searchDescriptor, columnSetName) => {
     return null;
   }
 
-  // prefer the new sort.js config
-  const sort = get(config,
-    ['recordTypes', searchDescriptor.get('recordType'), 'sort', sortColumnName]);
-
-  if (sort && sort.sortBy) {
-    return sort.sortBy + (sortDir ? ' DESC' : '');
-  }
-
   const column = get(config,
     ['recordTypes', searchDescriptor.get('recordType'), 'columns', columnSetName, sortColumnName]);
 
@@ -65,53 +57,7 @@ export const clearSearchResults = (searchName) => ({
   },
 });
 
-/**
- * The search path for each individual service
- * @param {*} csid the csid of the resource, if it exists
- * @param {*} subresource the subresource, if it exists
- * @param {*} config the cspace config
- * @param {*} recordServicePath the service path of the record type
- * @param {*} vocabularyServicePath the service path of vocabulary type
- * @returns
- */
-const buildSearchPath = (csid, subresource, config, recordServicePath, vocabularyServicePath) => {
-  const pathParts = [recordServicePath];
-
-  if (vocabularyServicePath) {
-    pathParts.push(vocabularyServicePath);
-    pathParts.push('items');
-  }
-
-  if (csid) {
-    pathParts.push(csid);
-  }
-
-  if (subresource) {
-    const subresourceConfig = config.subresources[subresource];
-    const subresourceServicePath = subresourceConfig.serviceConfig.servicePath;
-
-    pathParts.push(subresourceServicePath);
-  }
-
-  return pathParts.join('/');
-};
-
-/**
- * The search path for the 'advanced search' service
- * @returns
- */
-const buildAdvancedSearchPath = () => '/advancedsearch';
-
-/**
- * Build and dispatch a search
- *
- * @param {*} config The cspace configuration
- * @param {*} searchName The search being executed (e.g. SEARCH_RESULT_PAGE_SEARCH_NAME)
- * @param {*} searchDescriptor The search descriptor (record type, query params, etc)
- * @param {*} columnSetName The columns for the view being returned, used for sort fields
- * @returns
- */
-export const search = (config, searchName, searchDescriptor, columnSetName = 'default') => (dispatch, getState) => {
+export const search = (config, searchName, searchDescriptor, listType = 'common', columnSetName = 'default') => (dispatch, getState) => {
   const recordType = searchDescriptor.get('recordType');
   const vocabulary = searchDescriptor.get('vocabulary');
   const csid = searchDescriptor.get('csid');
@@ -137,11 +83,6 @@ export const search = (config, searchName, searchDescriptor, columnSetName = 'de
 
     return Promise.resolve();
   }
-
-  const {
-    listType,
-    searchType,
-  } = deriveSearchType(config, searchName, searchDescriptor);
 
   const listTypeConfig = config.listTypes[listType];
 
@@ -291,9 +232,7 @@ export const search = (config, searchName, searchDescriptor, columnSetName = 'de
     pathParts.push(subresourceServicePath);
   }
 
-  const path = searchType === 'advanced'
-    ? buildAdvancedSearchPath()
-    : buildSearchPath(csid, subresource, config, recordTypeServicePath, vocabularyServicePath);
+  const path = pathParts.join('/');
 
   return getSession().read(path, requestConfig)
   // Insert an artificial delay for testing.

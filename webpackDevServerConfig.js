@@ -123,10 +123,10 @@ module.exports = async ({
     console.info();
 
     return {
-      historyApiFallback: {
-        index: publicPath,
+      static: {
+        directory: __dirname,
       },
-      hot: 'only',
+      historyApiFallback: true,
     };
   }
 
@@ -313,7 +313,10 @@ module.exports = async ({
   });
 
   return {
-    hot: 'only',
+    static: {
+      directory: __dirname,
+      publicPath,
+    },
     setupMiddlewares: (middlewares) => {
       middlewares.push({
         name: 'cspace-proxy',

@@ -17,7 +17,7 @@ const messages = defineMessages({
   },
   dashboard: {
     id: 'navBar.dashboard',
-    defaultMessage: 'Recent Activity',
+    defaultMessage: 'My CollectionSpace',
   },
   search: {
     id: 'navBar.search',

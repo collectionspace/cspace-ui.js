@@ -1,22 +1,27 @@
 import { connect } from 'react-redux';
+import Immutable from 'immutable';
+import qs from 'qs';
 import ReportViewerPage from '../../components/pages/ReportViewerPage';
 import withConfig from '../../enhancers/withConfig';
 
 import {
   invoke,
 } from '../../actions/report';
-import { loadReportInvocation } from '../../helpers/invocationHelpers';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  readContent: () => {
-    const loaded = loadReportInvocation(true);
+  readContent: (location, match) => {
+    const queryParams = qs.parse(location.search, { ignoreQueryPrefix: true });
 
-    if (!loaded) return Promise.reject();
+    const {
+      params: paramsJson,
+      ...invocationDescriptorObject
+    } = queryParams;
 
-    const { invocationDescriptor, params } = loaded;
+    const params = paramsJson && JSON.parse(paramsJson);
+    const invocationDescriptor = Immutable.fromJS(invocationDescriptorObject);
 
     return dispatch(
-      invoke(ownProps.config, ownProps.match.params.reportCsid, invocationDescriptor, params),
+      invoke(ownProps.config, match.params.reportCsid, invocationDescriptor, params),
     );
   },
 });

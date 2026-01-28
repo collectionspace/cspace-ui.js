@@ -22,9 +22,6 @@ import {
   OP_GT,
   OP_RANGE,
 } from '../../../../src/constants/searchOperators';
-import {
-  SEARCH_TERMS_GROUP_SEARCH_TERMS,
-} from '../../../../src/constants/searchNames';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -130,17 +127,6 @@ const config = {
             },
           },
         },
-      },
-    },
-    all: {
-      advancedSearch: {
-        op: OP_OR,
-        value: [
-          {
-            op: OP_EQ,
-            path: 'ns2:collectionobjects_common/objectNumber',
-          },
-        ],
       },
     },
   },
@@ -352,65 +338,6 @@ describe('AdvancedSearchBuilder', () => {
           },
         ],
       }));
-  });
-
-  it('should normalize an undefined condition to an empty condition for search terms group when recordType is collectionobject', function test() {
-    let committedCondition = null;
-
-    const handleConditionCommit = (conditionArg) => {
-      committedCondition = conditionArg;
-    };
-
-    render(
-      <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <StoreProvider store={store}>
-            <AdvancedSearchBuilder
-              config={config}
-              recordType="collectionobject"
-              searchTermsGroup={SEARCH_TERMS_GROUP_SEARCH_TERMS}
-              onConditionCommit={handleConditionCommit}
-            />
-          </StoreProvider>
-        </ConfigProvider>
-      </IntlProvider>, this.container,
-    );
-
-    committedCondition.should
-      .equal(
-        Immutable.fromJS({
-          op: OP_OR,
-          value: [],
-        }),
-      );
-  });
-
-  it('should normalize an undefined condition to the default condition for search terms group when recordType is not collectionobject', function test() {
-    let committedCondition = null;
-
-    const handleConditionCommit = (conditionArg) => {
-      committedCondition = conditionArg;
-    };
-
-    render(
-      <IntlProvider locale="en">
-        <ConfigProvider config={config}>
-          <StoreProvider store={store}>
-            <AdvancedSearchBuilder
-              config={config}
-              recordType="all"
-              searchTermsGroup={SEARCH_TERMS_GROUP_SEARCH_TERMS}
-              onConditionCommit={handleConditionCommit}
-            />
-          </StoreProvider>
-        </ConfigProvider>
-      </IntlProvider>, this.container,
-    );
-
-    committedCondition.should
-      .equal(
-        Immutable.fromJS(config.recordTypes.all.advancedSearch),
-      );
   });
 
   it('should render a field condition as a FieldConditionInput if onConditionCommit is not supplied', function test() {

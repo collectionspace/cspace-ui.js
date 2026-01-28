@@ -47,11 +47,3 @@
 .error {
   composes: common;
 }
-
-.flex {
-  display: flex;
-}
-
-.flexInitial {
-  flex: 0 auto;
-}

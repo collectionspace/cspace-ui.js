@@ -3,13 +3,11 @@ import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
-import * as axe from 'axe-core';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import VocabularyUsedByPanel from '../../../../src/components/admin/VocabularyUsedByPanel';
 import { configKey } from '../../../../src/helpers/configHelpers';
 import { OptionPickerInput, TermPickerInput } from '../../../../src/helpers/configContextInputs';
-import throwAxeViolationsError from '../../../helpers/utils';
 
 const { expect } = chai;
 
@@ -94,7 +92,7 @@ describe('VocabularyUsedByPanel', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render a panel without a11y violations', async function test() {
+  it('should render a panel', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -104,12 +102,6 @@ describe('VocabularyUsedByPanel', () => {
     );
 
     this.container.querySelector('.cspace-layout-Panel--common').should.not.equal(null);
-
-    const results = await axe.run(this.container);
-    if (results.violations.length > 0) {
-      throwAxeViolationsError(results.violations);
-    }
-    results.violations.length.should.equal(0);
   });
 
   it('should render a list of uses', function test() {

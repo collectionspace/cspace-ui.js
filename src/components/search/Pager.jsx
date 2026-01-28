@@ -169,7 +169,7 @@ export default class Pager extends Component {
     }
 
     const items = pages.map((page) => (
-      <li key={page.pageNum} className={page.pageNum === currentPage ? styles.current : ''}>
+      <li key={page.pageNum}>
         <MiniButton
           data-pagenum={page.pageNum}
           disabled={page.pageNum === currentPage}
