@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import qs from 'qs';
 import get from 'lodash/get';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import classNames from 'classnames';
 import {
   SEARCH_RESULT_GRID_VIEW,
   SEARCH_RESULT_LIST_VIEW,
@@ -196,18 +197,18 @@ function normalizeQuery(props, config) {
 const messages = defineMessages({
   table: {
     id: 'search.result.view.table',
-    description: 'The table button aria-label',
-    defaultMessage: 'table',
+    description: 'The table button label',
+    defaultMessage: 'Switch to table view',
   },
   detailList: {
     id: 'search.result.view.detailList',
-    description: 'The detailList button aria-label',
-    defaultMessage: 'list',
+    description: 'The detailList button label',
+    defaultMessage: 'Switch to detail list view',
   },
   grid: {
     id: 'search.result.view.grid',
-    description: 'The grid button aria-label',
-    defaultMessage: 'grid',
+    description: 'The grid button label',
+    defaultMessage: 'Switch to grid view',
   },
 });
 
@@ -287,13 +288,15 @@ function SearchResults(props) {
     />
   );
 
-  const gridAriaLabel = intl.formatMessage(messages.grid);
-  const detailListAriaLabel = intl.formatMessage(messages.detailList);
-  const tableAriaLabel = intl.formatMessage(messages.table);
+  const gridLabel = intl.formatMessage(messages.grid);
+  const tableLabel = intl.formatMessage(messages.table);
+  const detailListLabel = intl.formatMessage(messages.detailList);
   const toggles = [
-    { key: SEARCH_RESULT_TABLE_VIEW, label: tableAriaLabel },
-    { key: SEARCH_RESULT_GRID_VIEW, label: gridAriaLabel },
-    { key: SEARCH_RESULT_LIST_VIEW, label: detailListAriaLabel },
+    { key: SEARCH_RESULT_TABLE_VIEW, label: tableLabel, icon: 'format_list_bulleted' },
+    { key: SEARCH_RESULT_GRID_VIEW, label: gridLabel, icon: 'grid_view' },
+    {
+      key: SEARCH_RESULT_LIST_VIEW, label: detailListLabel, icon: 'vertical_split', class: styles.detailList,
+    },
   ];
 
   const displayToggles = (
@@ -301,11 +304,11 @@ function SearchResults(props) {
       items={toggles}
       renderButton={(item) => (
         <ToggleButton
-          disabled={false}
+          icon={item.icon}
           key={item.key}
           name={item.key}
-          label={item.label}
-          style={styles[item.key]}
+          title={item.label}
+          className={classNames(styles.toggle, item.class)}
           onClick={() => dispatch(setSearchResultPageView(item.key))}
         />
       )}
