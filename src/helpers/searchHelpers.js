@@ -512,7 +512,9 @@ export function normalizeSearchQueryParams(
     fallback,
   });
 
-  if (parseInt(query.size, 10) !== normalizedPageSize) {
+  // here is necessary to check using regex instead of Number.isNaN(parseInt())
+  // because the parseInt('123asd') still parses successfully even though parameter is not a number.
+  if (!/^-?\d+$/.test(query.size) || parseInt(query.size, 10) !== normalizedPageSize) {
     normalizedQuery.size = normalizedPageSize.toString();
     changed = true;
   }
