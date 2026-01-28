@@ -2,6 +2,39 @@
 
 ## v10.2.0
 
+### Breaking Changes
+
+- Search now uses a new search API supported in CollectionSpace v8.3. If this version of cspace-ui is used with an older CollectionSpace server, users will not be able to get search results.
+
+### Non-Breaking Changes
+
+- Search Results
+  - Create alternate views of search results that a user can toggle between depending on needs for the given query.
+    - User can view search results in table format.
+    - User can view search results in grid (image-centric) format.
+    - User can view search results in detail format.
+    - User can sort the results.
+- New Advanced Search form
+  - A new search form with simpler layout is available along the classic one.
+  - Add "is not blank/is blank" operators to structured date fields.
+  - Add "contain/match" operators to authority fields.
+- Rename "MyCollectionSpace" to "Recent Activity".
+- Fix performance issue when relating m:n records.
+- Enabled Hot Module Replacement for faster development.
+
+### Accessibility
+
+- Display alt text with thumbnail images (Criteria 1.1.1).
+- Add link to User Manual in Footer (Criteria 3.2.6).
+- ARIA/WCAG updates for search table.
+
+### Bug Fixes
+
+- Fix report invocation failure when some number of records over 190 are selected.
+- Fix placeholders displayed in error message when user does not have permission to create relationships.
+
+**Full Changelog**: [`v10.1.0...v10.2.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.1.0-rc.0...v10.2.0-rc1.0)
+
 ## v10.1.0
 
 v10.1.0 adds support for CollectionSpace 8.2.
