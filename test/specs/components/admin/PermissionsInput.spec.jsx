@@ -3,10 +3,12 @@ import { Simulate } from 'react-dom/test-utils';
 import { IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
+import * as axe from 'axe-core';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import PermissionsInput from '../../../../src/components/admin/PermissionsInput';
 import ConfigProvider from '../../../../src/components/config/ConfigProvider';
+import throwAxeViolationsError from '../../../helpers/utils';
 
 chai.use(chaiImmutable);
 chai.should();
@@ -151,7 +153,7 @@ describe('PermissionsInput', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a div without a11y violations', async function test() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
@@ -163,6 +165,12 @@ describe('PermissionsInput', () => {
     );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
+
+    const results = await axe.run(this.container);
+    if (results.violations.length > 0) {
+      throwAxeViolationsError(results.violations);
+    }
+    results.violations.length.should.equal(0);
   });
 
   it('should call readPerms when mounted if resourceNames is not supplied', function test() {

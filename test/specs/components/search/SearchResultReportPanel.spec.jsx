@@ -68,6 +68,9 @@ const perms = Immutable.fromJS({
   report: {
     data: 'CRUDL',
   },
+  reportinvocation: {
+    data: 'CRUDL',
+  },
 });
 
 const selectedItems = Immutable.fromJS({
@@ -382,5 +385,33 @@ describe('SearchResultReportPanel', () => {
     searchPanel = findWithType(result, SearchPanelContainer);
 
     searchPanel.props.searchDescriptor.should.equal(newSearchDescriptor);
+  });
+
+  it('should not be clickable if invocation write permissions are not set', () => {
+    const recordType = 'group';
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SearchResultReportPanel
+        config={config}
+        recordData={recordData}
+        recordType={recordType}
+        selectedItems={selectedItems}
+        perms={Immutable.fromJS({
+          report: {
+            data: 'CRUDL',
+          },
+          reportinvocation: {
+            data: 'L',
+          },
+        })}
+      />,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const searchPanel = findWithType(result, SearchPanelContainer);
+
+    expect(searchPanel.props.onItemClick).to.equal(undefined);
   });
 });

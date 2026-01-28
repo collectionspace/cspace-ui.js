@@ -13,8 +13,13 @@
   padding: 0 10px;
 }
 
+.common > ul li {
+  line-height: 24px;
+}
+
 .common, .common a {
   color: rgb(115, 115, 115);
+  padding: 4px 0;
 }
 
 .common > ul:last-of-type {

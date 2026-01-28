@@ -4,9 +4,13 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import get from 'lodash/get';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 import PageSizeChooser from './PageSizeChooser';
 import { ERR_API, ERR_NOT_ALLOWED } from '../../constants/errorCodes';
 import styles from '../../../styles/cspace-ui/SearchResultSummary.css';
+import { getSearchError, getSearchResult } from '../../reducers';
+import { getListTypeFromResult } from '../../helpers/searchHelpers';
 
 const messages = defineMessages({
   error: {
@@ -27,13 +31,12 @@ const propTypes = {
   config: PropTypes.shape({
     listTypes: PropTypes.object,
   }),
-  listType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
-  searchError: PropTypes.instanceOf(Immutable.Map),
-  searchResult: PropTypes.instanceOf(Immutable.Map),
+  searchName: PropTypes.string,
   renderEditLink: PropTypes.func,
   onEditSearchLinkClick: PropTypes.func,
   onPageSizeChange: PropTypes.func,
+  renderSortBy: PropTypes.func,
 };
 
 const defaultProps = {
@@ -65,14 +68,16 @@ const defaultProps = {
 export default function SearchResultSummary(props) {
   const {
     config,
-    listType,
     searchDescriptor,
-    searchError,
-    searchResult,
+    searchName,
     renderEditLink,
+    renderSortBy,
     onEditSearchLinkClick,
     onPageSizeChange,
   } = props;
+
+  const searchError = useSelector((state) => getSearchError(state, searchName, searchDescriptor));
+  const searchResult = useSelector((state) => getSearchResult(state, searchName, searchDescriptor));
 
   if (searchError) {
     const error = searchError.toJS();
@@ -103,6 +108,7 @@ export default function SearchResultSummary(props) {
   let pageSize = null;
 
   if (searchResult) {
+    const listType = getListTypeFromResult(config, searchResult);
     const listTypeConfig = config.listTypes[listType];
     const { listNodeName } = listTypeConfig;
 
@@ -158,11 +164,15 @@ export default function SearchResultSummary(props) {
   );
 
   const className = isSearching ? styles.searching : styles.normal;
+  const groupedClassName = classNames(styles.flex, styles.flexInitial);
 
   return (
     <div className={className}>
       {content}
-      {pageSizeChooser}
+      <div className={groupedClassName}>
+        {renderSortBy?.()}
+        {pageSizeChooser}
+      </div>
     </div>
   );
 }

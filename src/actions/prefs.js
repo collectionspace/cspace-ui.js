@@ -23,12 +23,15 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_RESULT_PAGE_VIEW,
   SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
   TOGGLE_RECORD_SIDEBAR,
   TOGGLE_SEARCH_RESULT_SIDEBAR,
   SET_STICKY_FIELDS,
+  TOGGLE_USE_NEW_SEARCH,
+  SET_NEW_SEARCH_SHOWN,
 } from '../constants/actionCodes';
 
 export const storageKey = 'cspace-ui';
@@ -98,6 +101,11 @@ export const setSearchResultPagePageSize = (pageSize) => ({
   payload: pageSize,
 });
 
+export const setSearchResultPageView = (view) => ({
+  type: SET_SEARCH_RESULT_PAGE_VIEW,
+  payload: view,
+});
+
 export const setSearchToSelectPageSize = (pageSize) => ({
   type: SET_SEARCH_TO_SELECT_PAGE_SIZE,
   payload: pageSize,
@@ -139,6 +147,14 @@ export const setStickyFields = (recordTypeConfig, csid) => (dispatch, getState) 
     });
   }
 };
+
+export const toggleUseNewSearch = () => ({
+  type: TOGGLE_USE_NEW_SEARCH,
+});
+
+export const setNewSearchShown = () => ({
+  type: SET_NEW_SEARCH_SHOWN,
+});
 
 export const loadPrefs = (config, username) => (dispatch) => {
   // TODO: Load prefs from server (requires adding services layer support).

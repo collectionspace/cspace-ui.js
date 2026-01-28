@@ -139,7 +139,7 @@ export default class SearchResultReportPanel extends Component {
       return null;
     }
 
-    const canRun = canCreate('report', perms);
+    const canRun = canCreate('reportinvocation', perms);
 
     return (
       <div>

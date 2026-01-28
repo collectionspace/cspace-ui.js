@@ -10,6 +10,7 @@ import { DATA_TYPE_STRUCTURED_DATE } from '../constants/dataTypes';
 export const VIEWER_WINDOW_NAME = undefined;
 
 export const storageKey = 'cspace-ui-invocation';
+export const reportStorageKey = 'cspace-ui-report-invocation';
 
 const prepareIncludeFields = (config, recordType, includeFields) => {
   if (includeFields) {
@@ -165,19 +166,15 @@ export const normalizeInvocationDescriptor = (invocationDescriptor, invocationMe
   return normalizedInvocationDescriptor;
 };
 
-export const getReportViewerPath = (config, reportCsid, invocationDescriptor, reportParams) => {
+export const getReportViewerPath = (config, reportCsid, invocationDescriptor) => {
   const {
     basename,
   } = config;
 
-  const reportParamsJson = reportParams && JSON.stringify(reportParams);
-
   const queryParams = {
     mode: invocationDescriptor.get('mode'),
-    csid: invocationDescriptor.get('csid'),
     outputMIME: invocationDescriptor.get('outputMIME'),
     recordType: invocationDescriptor.get('recordType'),
-    params: reportParamsJson,
   };
 
   return `${basename || ''}/report/${reportCsid}?${qs.stringify(queryParams, { arrayFormat: 'brackets' })}`;
@@ -233,4 +230,35 @@ export const loadInvocationDescriptor = (deleteAfterLoad) => {
   }
 
   return invocationDescriptor;
+};
+
+export const storeReportInvocation = (invocationDescriptor, params) => {
+  window.localStorage.setItem(reportStorageKey, JSON.stringify({
+    invocationDescriptor: invocationDescriptor.toJS(),
+    params,
+  }));
+};
+
+export const loadReportInvocation = (deleteAfterLoad) => {
+  const serialized = window.localStorage.getItem(reportStorageKey);
+
+  let result = null;
+
+  if (serialized) {
+    try {
+      const parsed = JSON.parse(serialized);
+      result = {
+        invocationDescriptor: Immutable.fromJS(parsed.invocationDescriptor),
+        params: parsed.params,
+      };
+    } catch (error) {
+      result = null;
+    }
+  }
+
+  if (deleteAfterLoad) {
+    window.localStorage.removeItem(reportStorageKey);
+  }
+
+  return result;
 };

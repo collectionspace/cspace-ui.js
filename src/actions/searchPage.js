@@ -1,11 +1,15 @@
 import get from 'lodash/get';
 import qs from 'qs';
 
+import Immutable from 'immutable';
 import {
   getSearchPageAdvanced,
+  getSearchPageAdvancedLimitBy,
+  getSearchPageAdvancedSearchTerms,
   getSearchPageKeyword,
   getSearchPageRecordType,
   getSearchPageVocabulary,
+  getUseNewSearch,
 } from '../reducers';
 
 import { normalizeCondition } from '../helpers/searchHelpers';
@@ -14,7 +18,14 @@ import {
   CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_KEYWORD,
   SET_SEARCH_PAGE_ADVANCED,
+  SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
+  SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
 } from '../constants/actionCodes';
+import { OP_AND } from '../constants/searchOperators';
+import {
+  SEARCH_TERMS_GROUP_LIMIT_BY,
+  SEARCH_TERMS_GROUP_SEARCH_TERMS,
+} from '../constants/searchNames';
 
 export const clearSearchPage = () => ({
   type: CLEAR_SEARCH_PAGE,
@@ -37,14 +48,48 @@ export const setSearchPageAdvanced = (condition) => (dispatch, getState) => {
   });
 };
 
+export const setSearchPageAdvancedLimitBy = (condition) => (dispatch, getState) => {
+  const recordType = getSearchPageRecordType(getState());
+
+  dispatch({
+    type: SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
+    payload: condition,
+    meta: {
+      searchTermsGroup: SEARCH_TERMS_GROUP_LIMIT_BY,
+      recordType,
+    },
+  });
+};
+
+export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getState) => {
+  const recordType = getSearchPageRecordType(getState());
+
+  dispatch({
+    type: SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
+    payload: condition,
+    meta: {
+      searchTermsGroup: SEARCH_TERMS_GROUP_SEARCH_TERMS,
+      recordType,
+    },
+  });
+};
+
 export const initiateSearch = (config, push) => (dispatch, getState) => {
   const state = getState();
 
   const recordType = getSearchPageRecordType(state);
   const vocabulary = getSearchPageVocabulary(state, recordType);
   const keyword = getSearchPageKeyword(state);
-  const advancedSearchCondition = getSearchPageAdvanced(state);
-
+  const useNewSearch = getUseNewSearch(state);
+  const advancedSearchCondition = useNewSearch || typeof useNewSearch === 'undefined'
+    ? Immutable.Map({
+      op: OP_AND,
+      value: Immutable.List.of(
+        getSearchPageAdvancedSearchTerms(state),
+        getSearchPageAdvancedLimitBy(state),
+      ),
+    })
+    : getSearchPageAdvanced(state);
   const query = {};
   const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
   const pathname = `/list/${recordType}${vocabularyPath}`;

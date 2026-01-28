@@ -1,0 +1,34 @@
+.common {
+  background: rgb(250, 250, 250);
+}
+
+.body {
+  display: flex;
+}
+
+.full {
+  composes: body;
+}
+
+.results {
+  flex: 1 1 auto;
+  background-color: white;
+}
+
+.body > .results {
+  padding: 0 10px 10px 0;
+  width: 70%;
+}
+
+.full > .results {
+  padding: 0 0 10px 0;
+}
+
+.detailList {
+  transform: rotate(180deg);
+}
+
+.toggle {
+  padding: 6px;
+  font-size: 18px;
+}

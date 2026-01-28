@@ -410,13 +410,9 @@ describe('invocationHelpers', () => {
       recordType,
     });
 
-    const params = {
-      foo: 'abc',
-    };
-
-    it('should prepend the basename and \'report\' to the report csid, and add query parameters', () => {
-      getReportViewerPath(config, reportCsid, invocationDescriptor, params).should
-        .equal(`${config.basename}/report/${reportCsid}?csid=${csid}&recordType=${recordType}&params=%7B%22foo%22%3A%22abc%22%7D`);
+    it('should prepend the basename and \'report\' to the report csid', () => {
+      getReportViewerPath(config, reportCsid, invocationDescriptor).should
+        .equal(`${config.basename}/report/${reportCsid}?recordType=${recordType}`);
     });
 
     it('should not prepend the basename if it is falsy', () => {
@@ -426,7 +422,7 @@ describe('invocationHelpers', () => {
       };
 
       getReportViewerPath(nullBasenameConfig, reportCsid, invocationDescriptor).should
-        .equal(`/report/${reportCsid}?csid=${csid}&recordType=${recordType}`);
+        .equal(`/report/${reportCsid}?recordType=${recordType}`);
     });
   });
 
