@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
-import { Panel } from 'cspace-layout';
 import Dock from '../sections/Dock';
 import SearchButtonBar from './SearchButtonBar';
-import AdvancedSearchBuilderContainer from '../../containers/search/AdvancedSearchBuilderContainer';
-import { ConnectedPanel } from '../../containers/layout/PanelContainer';
-import styles from '../../../styles/cspace-ui/SearchForm.css';
 import recordTypeStyles from '../../../styles/cspace-ui/SearchFormRecordType.css';
 import vocabStyles from '../../../styles/cspace-ui/SearchFormVocab.css';
 
@@ -20,11 +16,11 @@ import {
   getRecordFieldOptionListName,
   getRecordGroupOptionListName,
 } from '../../helpers/configHelpers';
+import SearchFormContent from './SearchFormContent';
+import SearchFormContentNew from './SearchFormContentNew';
 
 const {
   Label,
-  LineInput,
-  RecordTypeInput,
   VocabularyInput,
 } = inputComponents;
 
@@ -45,6 +41,18 @@ const messages = defineMessages({
     id: 'searchForm.fullTextSearch',
     defaultMessage: 'Full Text Search',
   },
+  enterSearchTerms: {
+    id: 'searchForm.enterSearchTerms',
+    defaultMessage: 'Enter keyword search terms:',
+  },
+  limitBySpecificFields: {
+    id: 'searchForm.limitBySpecificFields',
+    defaultMessage: 'Limit by:',
+  },
+  and: {
+    id: 'searchForm.and',
+    defaultMessage: 'And',
+  },
 });
 
 const propTypes = {
@@ -57,6 +65,8 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionLimitBy: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionSearchTerms: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   recordTypeInputReadOnly: PropTypes.bool,
   recordTypeInputRootType: PropTypes.string,
@@ -67,7 +77,10 @@ const propTypes = {
   getAuthorityVocabCsid: PropTypes.func,
   buildRecordFieldOptionLists: PropTypes.func,
   deleteOptionList: PropTypes.func,
+  showNewSearch: PropTypes.bool,
   onAdvancedSearchConditionCommit: PropTypes.func,
+  onAdvancedSearchConditionLimitByCommit: PropTypes.func,
+  onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
@@ -85,6 +98,7 @@ export default class SearchForm extends Component {
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
+    this.renderVocabularyInput = this.renderVocabularyInput.bind(this);
   }
 
   componentDidMount() {
@@ -225,6 +239,8 @@ export default class SearchForm extends Component {
   render() {
     const {
       advancedSearchCondition,
+      advancedSearchConditionLimitBy,
+      advancedSearchConditionSearchTerms,
       config,
       dockTop,
       intl,
@@ -238,7 +254,10 @@ export default class SearchForm extends Component {
       recordTypeInputServiceTypes,
       showButtons,
       getAuthorityVocabCsid,
+      showNewSearch,
       onAdvancedSearchConditionCommit,
+      onAdvancedSearchConditionLimitByCommit,
+      onAdvancedSearchConditionSearchTermsCommit,
       onClearButtonClick,
     } = this.props;
 
@@ -292,46 +311,55 @@ export default class SearchForm extends Component {
       recordTypes = searchableRecordTypes;
     }
 
-    return (
-      <form autoComplete="off" className={styles.common} onSubmit={this.handleFormSubmit}>
-        {header}
-        <Panel>
-          <div className={recordTypeStyles.common}>
-            <RecordTypeInput
-              label={intl.formatMessage(messages.recordType)}
-              recordTypes={recordTypes}
-              rootType={recordTypeInputRootType}
-              serviceTypes={recordTypeInputServiceTypes}
-              value={recordTypeValue}
-              formatRecordTypeLabel={this.formatRecordTypeLabel}
-              onCommit={this.handleRecordTypeDropdownCommit}
-              readOnly={recordTypeInputReadOnly}
-            />
-            {this.renderVocabularyInput(recordTypes)}
-          </div>
-          <ConnectedPanel
-            collapsible
-            header={fullTextPanelHeader}
-            name="fullTextSearch"
-            recordType={recordTypeValue}
-          >
-            <LineInput
-              label={intl.formatMessage(messages.keyword)}
-              value={keywordValue}
-              onCommit={this.handleKeywordInputCommit}
-            />
-          </ConnectedPanel>
-          <AdvancedSearchBuilderContainer
-            condition={advancedSearchCondition}
-            config={config}
-            preferredBooleanOp={preferredAdvancedSearchBooleanOp}
-            recordType={recordTypeValue}
-            onConditionCommit={onAdvancedSearchConditionCommit}
-          />
-        </Panel>
-        {footer}
-      </form>
-    );
+    return showNewSearch
+      ? (
+        <SearchFormContentNew
+          header={header}
+          footer={footer}
+          recordTypes={recordTypes}
+          recordTypeInputRootType={recordTypeInputRootType}
+          recordTypeInputServiceTypes={recordTypeInputServiceTypes}
+          recordTypeValue={recordTypeValue}
+          intl={intl}
+          messages={messages}
+          config={config}
+          formatRecordTypeLabel={this.formatRecordTypeLabel}
+          handleRecordTypeDropdownCommit={this.handleRecordTypeDropdownCommit}
+          renderVocabularyInput={this.renderVocabularyInput}
+          keywordValue={keywordValue}
+          handleKeywordInputCommit={this.handleKeywordInputCommit}
+          advancedSearchConditionSearchTerms={advancedSearchConditionSearchTerms}
+          advancedSearchConditionLimitBy={advancedSearchConditionLimitBy}
+          onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
+          onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
+          handleFormSubmit={this.handleFormSubmit}
+        />
+      )
+      : (
+        <SearchFormContent
+          header={header}
+          footer={footer}
+          recordTypeStyles={recordTypeStyles}
+          recordTypes={recordTypes}
+          recordTypeInputRootType={recordTypeInputRootType}
+          recordTypeInputServiceTypes={recordTypeInputServiceTypes}
+          recordTypeValue={recordTypeValue}
+          intl={intl}
+          messages={messages}
+          formatRecordTypeLabel={this.formatRecordTypeLabel}
+          handleRecordTypeDropdownCommit={this.handleRecordTypeDropdownCommit}
+          renderVocabularyInput={this.renderVocabularyInput}
+          fullTextPanelHeader={fullTextPanelHeader}
+          keywordValue={keywordValue}
+          handleKeywordInputCommit={this.handleKeywordInputCommit}
+          advancedSearchCondition={advancedSearchCondition}
+          config={config}
+          preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
+          onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+          handleFormSubmit={this.handleFormSubmit}
+          recordTypeInputReadOnly={recordTypeInputReadOnly}
+        />
+      );
   }
 }
 

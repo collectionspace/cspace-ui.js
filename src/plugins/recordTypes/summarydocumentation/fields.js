@@ -191,7 +191,7 @@ export default (configContext) => {
               messages: defineMessages({
                 name: {
                   id: 'field.summarydocumentations_common.partiesInvolvedGroup.name',
-                  defaultMessage: 'Party involved',
+                  defaultMessage: 'Parties involved',
                 },
               }),
               repeating: true,
@@ -207,7 +207,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.involvedParty.fullName',
-                    defaultMessage: 'Party involved person',
+                    defaultMessage: 'Parties involved person',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.involvedParty.name',
@@ -227,7 +227,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.involvedOnBehalfOf.fullName',
-                    defaultMessage: 'Party involved on behalf of',
+                    defaultMessage: 'Parties involved on behalf of',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.involvedOnBehalfOf.name',
@@ -247,7 +247,7 @@ export default (configContext) => {
                 messages: defineMessages({
                   fullName: {
                     id: 'field.summarydocumentations_common.involvedRole.fullName',
-                    defaultMessage: 'Party involved role',
+                    defaultMessage: 'Parties involved role',
                   },
                   name: {
                     id: 'field.summarydocumentations_common.involvedRole.name',

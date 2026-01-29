@@ -20,6 +20,11 @@ import {
 } from '../constants/dataTypes';
 
 import {
+  SEARCH_RESULT_ACCOUNT_PAGE,
+  SEARCH_RESULT_AUTH_ROLE_PAGE,
+} from '../constants/searchNames';
+
+import {
   OP_AND,
   OP_OR,
   OP_COMPLETE,
@@ -46,8 +51,95 @@ import {
 import {
   NS_PREFIX,
 } from '../constants/xmlNames';
+import {
+  ALL_FIELDS,
+  EARLIEST_SCALAR_DATE_FIELD,
+  LATEST_SCALAR_DATE_FIELD,
+} from '../constants/structuredDateFields';
 
-const opsByDataType = {
+const opsByDataTypeMapNew = {
+  [DATA_TYPE_STRING]: [
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_CONTAIN,
+    OP_NOT_CONTAIN,
+    OP_MATCH,
+    OP_NOT_MATCH,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_INT]: [
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+    OP_GTE,
+    OP_LTE,
+    OP_GT,
+    OP_LT,
+    OP_RANGE,
+    OP_NOT_RANGE,
+  ],
+  [DATA_TYPE_FLOAT]: [
+    OP_EQ,
+    OP_NOT_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+    OP_GTE,
+    OP_LTE,
+    OP_GT,
+    OP_LT,
+    OP_RANGE,
+    OP_NOT_RANGE,
+  ],
+  [DATA_TYPE_BOOL]: [
+    OP_EQ,
+    OP_NULL,
+    OP_NOT_NULL,
+  ],
+  [DATA_TYPE_DATE]: [
+    OP_EQ,
+    OP_NOT_EQ,
+    // OP_CONTAIN, TODO: needs backend update
+    // OP_NOT_CONTAIN, TODO: needs backend update
+    OP_NULL,
+    OP_NOT_NULL,
+    OP_GTE,
+    OP_LTE,
+    OP_GT,
+    OP_LT,
+    OP_RANGE,
+    OP_NOT_RANGE,
+  ],
+  [DATA_TYPE_DATETIME]: [
+    OP_EQ,
+    OP_NOT_EQ,
+    // OP_CONTAIN, TODO: needs backend update
+    // OP_NOT_CONTAIN, TODO: needs backend update
+    OP_NULL,
+    OP_NOT_NULL,
+    OP_GTE,
+    OP_LTE,
+    OP_GT,
+    OP_LT,
+    OP_RANGE,
+    OP_NOT_RANGE,
+  ],
+  [DATA_TYPE_STRUCTURED_DATE]: [
+    OP_NULL,
+    OP_NOT_NULL,
+    OP_GTC,
+    OP_LTC,
+    OP_GT,
+    OP_LT,
+    OP_RANGE,
+    OP_NOT_RANGE,
+    OP_COMPLETE,
+    OP_NOT_COMPLETE,
+  ],
+};
+
+const opsByDataTypeMap = {
   [DATA_TYPE_STRING]: [
     OP_CONTAIN,
     OP_NOT_CONTAIN,
@@ -133,9 +225,16 @@ const opsByDataType = {
   ],
 };
 
-// For controlled lists, comparison/range operators will not necessarily produce results that
-// users expect, since they are comparing database values/ref names, not display names. Don't
-// show those operators on controlled list fields, until we have a way to deal with this.
+const autocompleteOps = [
+  OP_EQ,
+  OP_NOT_EQ,
+  OP_CONTAIN,
+  OP_NOT_CONTAIN,
+  OP_MATCH,
+  OP_NOT_MATCH,
+  OP_NULL,
+  OP_NOT_NULL,
+];
 
 const controlledListOps = [
   OP_EQ,
@@ -144,9 +243,20 @@ const controlledListOps = [
   OP_NOT_NULL,
 ];
 
-export const getOperatorsForDataType = (dataType = DATA_TYPE_STRING, isControlled) => (
-  isControlled ? controlledListOps : (opsByDataType[dataType] || [])
-);
+export const getOperatorsForDataType = (
+  dataType = DATA_TYPE_STRING,
+  isControlled,
+  isNewSearchForm,
+  isAutocomplete,
+) => {
+  if (isAutocomplete && isNewSearchForm) return autocompleteOps;
+  if (isControlled) return controlledListOps;
+
+  const opsByDataType = isNewSearchForm
+    ? opsByDataTypeMapNew[dataType] : opsByDataTypeMap[dataType];
+
+  return opsByDataType ?? [];
+};
 
 export const operatorExpectsValue = (op) => (
   op !== OP_NULL
@@ -373,6 +483,66 @@ export const normalizeFieldCondition = (fieldDescriptor, condition) => {
   return condition.delete('value');
 };
 
+export function normalizePageSize(pageSize, { min = 1, max = 2500, fallback = 20 } = {}) {
+  const normalized = parseInt(pageSize, 10);
+
+  if (Number.isNaN(normalized) || normalized < min) {
+    return fallback;
+  }
+  if (normalized > max) {
+    return max;
+  }
+  return normalized;
+}
+
+export function normalizeSearchQueryParams(
+  query,
+  preferredPageSize,
+  defaultPageSize,
+  maxPageSize = 2500,
+) {
+  const normalizedQuery = { ...query };
+  let changed = false;
+
+  // Normalize page size
+  const fallback = preferredPageSize || defaultPageSize || 20;
+  const normalizedPageSize = normalizePageSize(query.size, {
+    min: 1,
+    max: maxPageSize,
+    fallback,
+  });
+
+  // here is necessary to check using regex instead of Number.isNaN(parseInt())
+  // because the parseInt('123asd') still parses successfully even though parameter is not a number.
+  if (!/^-?\d+$/.test(query.size) || parseInt(query.size, 10) !== normalizedPageSize) {
+    normalizedQuery.size = normalizedPageSize.toString();
+    changed = true;
+  }
+
+  // Normalize page number
+  const pageNum = parseInt(query.p, 10);
+
+  if (Number.isNaN(pageNum) || pageNum < 1) {
+    normalizedQuery.p = '1';
+    changed = true;
+  } else if (pageNum.toString() !== query.p) {
+    normalizedQuery.p = pageNum.toString();
+    changed = true;
+  }
+
+  return { normalizedQuery, changed };
+}
+
+export const isFieldAutocomplete = (fieldDescriptor, path) => {
+  let viewType = get(fieldDescriptor, [configKey, 'view', 'type']);
+
+  if (path) {
+    viewType = get(fieldDescriptor, ['document', ...path.split('/'), configKey, 'view', 'type']);
+  }
+
+  return viewType?.toJSON() === 'AutocompleteInput';
+};
+
 export const normalizeCondition = (fieldDescriptor, condition) => {
   if (condition) {
     const operator = condition.get('op');
@@ -530,6 +700,10 @@ export const booleanConditionToNXQL = (fieldDescriptor, condition, counter) => {
 
 const correlatePath = (nxql, nxqlPath, counter) => {
   if (!nxqlPath.endsWith('*')) {
+    if (nxqlPath.includes('*')) {
+      const index = nxqlPath.lastIndexOf('*');
+      return correlatePath(nxql, nxqlPath.substring(0, index + 1), counter);
+    }
     return nxql;
   }
 
@@ -569,8 +743,8 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
   const operator = condition.get('op');
   const value = condition.get('value');
 
-  const earliestScalarDatePath = `${path}/dateEarliestScalarValue`;
-  const latestScalarDatePath = `${path}/dateLatestScalarValue`;
+  const earliestScalarDatePath = `${path}${EARLIEST_SCALAR_DATE_FIELD}`;
+  const latestScalarDatePath = `${path}${LATEST_SCALAR_DATE_FIELD}`;
 
   let convertedCondition;
 
@@ -597,6 +771,30 @@ export const structuredDateFieldConditionToNXQL = (fieldDescriptor, condition, c
             value: rangeStart,
           },
         ],
+      },
+    });
+  } else if (operator === OP_NULL) {
+    convertedCondition = Immutable.fromJS({
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_AND,
+        value: ALL_FIELDS.map((field) => ({
+          path: `${path}${field}`,
+          op: OP_NULL,
+        })),
+      },
+    });
+  } else if (operator === OP_NOT_NULL) {
+    convertedCondition = Immutable.fromJS({
+      path,
+      op: OP_GROUP,
+      value: {
+        op: OP_OR,
+        value: ALL_FIELDS.map((field) => ({
+          path: `${path}${field}`,
+          op: OP_NOT_NULL,
+        })),
       },
     });
   } else if (operator === OP_NOT_RANGE) {
@@ -890,7 +1088,19 @@ export const fieldConditionToNXQL = (fieldDescriptor, fieldCondition, counter) =
     }
   }
 
-  if (operator === OP_CONTAIN) {
+  const isAutocomplete = isFieldAutocomplete(fieldDescriptor, path);
+
+  if (isAutocomplete) {
+    if (operator === OP_CONTAIN) {
+      operator = OP_MATCH;
+      value = `%'%${value}%'%`;
+    } else if (operator === OP_NOT_CONTAIN) {
+      operator = OP_NOT_MATCH;
+      value = `%'%${value}%'%`;
+    } else if (operator === OP_MATCH || operator === OP_NOT_MATCH) {
+      value = `%'${value}'%`;
+    }
+  } else if (operator === OP_CONTAIN) {
     operator = OP_MATCH;
     value = `%${value}%`;
   } else if (operator === OP_NOT_CONTAIN) {
@@ -985,16 +1195,54 @@ export const searchDescriptorToLocation = (searchDescriptor) => {
   };
 };
 
-export const getListType = (config, searchDescriptor) => {
+/**
+ * Attempt to derive list type and search type from a search's name and descriptor.
+ *
+ * @param {*} config the cspace configuration
+ * @param {*} searchName the name of the search
+ * @param {*} searchDescriptor the search descriptor
+ * @returns an object with the listType and searchType set
+ */
+export const deriveSearchType = (config, searchName, searchDescriptor) => {
+  let listType = 'common';
+  let searchType = 'default';
+
   if (searchDescriptor) {
+    const recordType = searchDescriptor.get('recordType');
     const subresource = searchDescriptor.get('subresource');
 
-    if (subresource) {
-      return get(config, ['subresources', subresource, 'listType']);
+    // there are a few search apis which return different lists, so we account for them first
+    // because they should only need the listType.
+    // Note that we use the name of the key for the listType (role, account, etc).
+    // todo: it would be nice to update the backend to send a single paginated list type instead
+    if (SEARCH_RESULT_ACCOUNT_PAGE === searchName) {
+      listType = 'account';
+    } else if (SEARCH_RESULT_AUTH_ROLE_PAGE === searchName) {
+      listType = 'role';
+    } else if (subresource) {
+      listType = get(config, ['subresources', subresource, 'listType']) || 'common';
+    } else if (get(config, ['recordTypes', recordType, 'serviceConfig', 'features', 'updatedSearch'])) {
+      listType = 'search';
+      searchType = 'advanced';
     }
   }
 
-  return 'common';
+  return {
+    listType,
+    searchType,
+  };
+};
+
+export const getListTypeFromResult = (config, searchResult) => {
+  let listType;
+  if (searchResult) {
+    listType = Object.keys(get(config, ['listTypes'])).find((key) => {
+      const listNodeName = get(config, ['listTypes', key, 'listNodeName']);
+      return searchResult.has(listNodeName);
+    });
+  }
+
+  return listType || 'common';
 };
 
 /**
@@ -1140,4 +1388,151 @@ export const clearAdvancedSearchConditionValues = (condition) => {
   }
 
   return condition.delete('value');
+};
+
+/**
+ * Creates a reusable page size change handler that updates URL query parameters and navigation
+ * history. This function handles the common pattern of resetting to page 1 and updating the
+ * page size in the URL.
+ */
+export const createPageSizeChangeHandler = ({
+  history,
+  location,
+  dispatch,
+  setPreferredPageSize,
+  maxPageSize = 2500,
+  minPageSize = 1,
+}) => (pageSize) => {
+  // Normalize page size
+  const normalizedPageSize = normalizePageSize(pageSize, {
+    min: minPageSize,
+    max: maxPageSize,
+    fallback: minPageSize,
+  });
+
+  if (dispatch && setPreferredPageSize) {
+    dispatch(() => setPreferredPageSize(normalizedPageSize));
+  }
+
+  if (history && location) {
+    const { search } = location;
+    const query = qs.parse(search.substring(1));
+
+    query.p = '1';
+    query.size = normalizedPageSize.toString();
+
+    const queryString = qs.stringify(query);
+
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
+
+  return normalizedPageSize;
+};
+
+/**
+ * Creates a reusable page change handler that updates URL query parameters and navigation
+ * history. This function handles navigation between pages while preserving other query
+ * parameters.
+ */
+export const createPageChangeHandler = ({
+  history,
+  location,
+  zeroIndexed = true,
+}) => (page) => {
+  if (!history || !location) {
+    return;
+  }
+
+  const { search } = location;
+
+  const query = qs.parse(search.substring(1));
+
+  // Convert page number based on indexing (URL uses 1-based, internal logic may use 0-based)
+  query.p = zeroIndexed ? (page + 1).toString() : page.toString();
+
+  const queryString = qs.stringify(query);
+
+  history.push({
+    pathname: location.pathname,
+    search: `?${queryString}`,
+    state: location.state,
+  });
+};
+
+export const extractAdvancedSearchGroupedTerms = (searchQuery) => {
+  if (searchQuery?.get('op') === OP_AND) {
+    const conditions = (searchQuery.get('value'));
+    return {
+      searchTerms: conditions.get(0),
+      limitBy: conditions.get(1),
+    };
+  }
+  return {
+    searchTerms: searchQuery,
+    limitBy: null,
+  };
+};
+
+/**
+ * Handler which updates the sortBy portion of the sort string. This preserves
+ * the sort direction previously applied to the query.
+ */
+export const createSortByHandler = ({ history, location }) => (sort) => {
+  if (!history || !location) {
+    return;
+  }
+
+  const { search } = location;
+  const query = qs.parse(search.substring(1));
+
+  if (query) {
+    const { sort: currentSort } = query;
+
+    const sortDir = currentSort?.split(' ')[1] ?? undefined;
+    query.sort = sortDir === undefined ? sort : `${sort} ${sortDir}`;
+    const queryString = qs.stringify(query);
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
+};
+
+/**
+ * Handler which updates the sort direction portion of the sort string. This
+ * inverts based on the existence of the previous sort direction as undefined/null
+ * is used for ascending.
+ *
+ * Note: if no parameters are present, the API defaults to updatedAt descending.
+ */
+export const createSortDirHandler = ({
+  history,
+  location,
+  defaultSortBy = 'updatedAt',
+  defaultSortDir = 'desc',
+}) => () => {
+  if (!history || !location) {
+    return;
+  }
+
+  const { search } = location;
+  const query = qs.parse(search.substring(1));
+
+  if (query) {
+    const { sort } = query;
+
+    const [sortColumn, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDir];
+    query.sort = sortDir === undefined ? `${sortColumn} desc` : sortColumn;
+    const queryString = qs.stringify(query);
+    history.push({
+      pathname: location.pathname,
+      search: `?${queryString}`,
+      state: location.state,
+    });
+  }
 };

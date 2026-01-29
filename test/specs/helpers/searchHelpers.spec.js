@@ -63,12 +63,16 @@ import {
   structuredDateFieldConditionToNXQL,
   advancedSearchConditionToNXQL,
   searchDescriptorToLocation,
-  getListType,
   getNextPageSearchDescriptor,
   getPreviousPageSearchDescriptor,
   getFirstItem,
   getSubrecordSearchName,
+  deriveSearchType,
+  getListTypeFromResult,
+  createSortByHandler,
+  createSortDirHandler,
 } from '../../../src/helpers/searchHelpers';
+import { SEARCH_RESULT_ACCOUNT_PAGE, SEARCH_RESULT_AUTH_ROLE_PAGE } from '../../../src/constants/searchNames';
 
 const { expect } = chai;
 
@@ -961,6 +965,10 @@ describe('searchHelpers', () => {
                   geordi: {},
                   worf: {},
                 },
+                nonRepeatingNestedGroup: {
+                  qux: {},
+                  quux: {},
+                },
               },
             },
           },
@@ -1021,6 +1029,31 @@ describe('searchHelpers', () => {
 
       groupConditionToNXQL(fields, condition, createCounter()).should
         .equal('(part:groupList/*2/nestedGroupList/*1/worf > "val1" OR part:groupList/*2/nestedGroupList/*1/geordi < "val2")');
+    });
+
+    it('should correlate paths to the fields in nested groups, when group is not repeating but parent group is', () => {
+      const condition = Immutable.fromJS({
+        op: OP_GROUP,
+        path: 'ns2:part/groupList/group/nestedGroupList/nonRepeatingNestedGroup',
+        value: {
+          op: OP_OR,
+          value: [
+            {
+              op: OP_GT,
+              path: 'ns2:part/groupList/group/nestedGroupList/nonRepeatingNestedGroup/qux',
+              value: 'val1',
+            },
+            {
+              op: OP_LT,
+              path: 'ns2:part/groupList/group/nestedGroupList/nonRepeatingNestedGroup/quux',
+              value: 'val2',
+            },
+          ],
+        },
+      });
+
+      groupConditionToNXQL(fields, condition, createCounter()).should
+        .equal('(part:groupList/*1/nestedGroupList/nonRepeatingNestedGroup/qux > "val1" OR part:groupList/*1/nestedGroupList/nonRepeatingNestedGroup/quux < "val2")');
     });
   });
 
@@ -1559,8 +1592,8 @@ describe('searchHelpers', () => {
     });
   });
 
-  describe('getListType', () => {
-    it('should return the list type of the given search descriptor\'s subresource, if it has one', () => {
+  describe('deriveListType', () => {
+    it('should get the list type from a subresource', () => {
       const config = {
         subresources: {
           refs: {
@@ -1575,23 +1608,153 @@ describe('searchHelpers', () => {
         subresource: 'refs',
       });
 
-      getListType(config, searchDescriptor).should.equal('refDoc');
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, undefined, searchDescriptor);
+
+      listType.should.equal('refDoc');
+      searchType.should.equal('default');
     });
 
-    it('should return \'common\' if the given search desriptor does not have a subresource', () => {
+    it('should get the account list type when the account page is used', () => {
       const config = {
-        subresources: {
-          refs: {
-            listType: 'refDoc',
+        recordTypes: {
+          account: {
           },
         },
       };
 
       const searchDescriptor = Immutable.fromJS({
-        recordType: 'group',
+        recordType: 'account',
       });
 
-      getListType(config, searchDescriptor).should.equal('common');
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, SEARCH_RESULT_ACCOUNT_PAGE, searchDescriptor);
+
+      listType.should.equal('account');
+      searchType.should.equal('default');
+    });
+
+    it('should get the role list type when the auth role page is used', () => {
+      const config = {
+        recordTypes: {
+          authRole: {
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'authRole',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, SEARCH_RESULT_AUTH_ROLE_PAGE, searchDescriptor);
+
+      listType.should.equal('role');
+      searchType.should.equal('default');
+    });
+
+    it('should get the advanced search type when present', () => {
+      const config = {
+        recordTypes: {
+          acquisition: {
+            serviceConfig: {
+              features: {
+                updatedSearch: true,
+              },
+            },
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'acquisition',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, 'searchpage', searchDescriptor);
+
+      listType.should.equal('search');
+      searchType.should.equal('advanced');
+    });
+
+    it('should default to common when no search descriptor is present', () => {
+      const config = {
+      };
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, '', undefined);
+      listType.should.equal('common');
+      searchType.should.equal('default');
+    });
+
+    it('should default to common when a subresource doesn\'t specify a listType', () => {
+      const config = {
+        subresources: {
+          refs: {
+          },
+        },
+      };
+
+      const searchDescriptor = Immutable.fromJS({
+        recordType: 'collectionobject',
+        subresource: 'refs',
+      });
+
+      const {
+        listType,
+        searchType,
+      } = deriveSearchType(config, undefined, searchDescriptor);
+
+      listType.should.equal('common');
+      searchType.should.equal('default');
+    });
+  });
+
+  describe('getListTypeFromResults', () => {
+    const config = {
+      listTypes: {
+        common: {
+          listNodeName: 'ns2:abstract-common-list',
+        },
+        account: {
+          listNodeName: 'ns2:accounts-common-list',
+        },
+      },
+    };
+    it('should return the list type based on the search result', () => {
+      const searchResult = Immutable.fromJS({
+        'ns2:accounts-common-list': {
+          itemsInPage: 0,
+          size: 0,
+        },
+      });
+
+      getListTypeFromResult(config, searchResult).should.equal('account');
+    });
+
+    it('should default to common when no match is found', () => {
+      const searchResult = Immutable.fromJS({
+        unnamedlist: {
+          itemsInPage: 0,
+          size: 0,
+        },
+      });
+
+      getListTypeFromResult(config, searchResult).should.equal('common');
+    });
+
+    it('should default to common when result is undefined', () => {
+      getListTypeFromResult(config, undefined).should.equal('common');
     });
   });
 
@@ -1927,6 +2090,129 @@ describe('searchHelpers', () => {
     it('should return the condition if it is null or undefined', () => {
       expect(clearAdvancedSearchConditionValues(null)).to.equal(null);
       expect(clearAdvancedSearchConditionValues(undefined)).to.equal(undefined);
+    });
+  });
+
+  describe('createSortByHandler', () => {
+    const path = '/collectionobjects';
+
+    it('should update the sort when no querystring exists', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: '',
+      };
+
+      const sort = 'updatedAt';
+      const handler = createSortByHandler({ history, location });
+      handler(sort);
+      expect(updatedSearch).to.contain(sort);
+    });
+
+    it('should preserve the sort direction of the pervious query', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const direction = 'desc';
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: `?sort=objectNumber ${direction}`,
+      };
+
+      const sort = 'updatedAt';
+      const handler = createSortByHandler({ history, location });
+      handler(sort);
+      expect(updatedSearch).to.contain(sort);
+      expect(updatedSearch).to.contain(direction);
+    });
+  });
+
+  describe('createSortDirHandler', () => {
+    const path = '/collectionobjects';
+
+    it('should switch to descending when the sort direction is empty', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: '?sort=objectNumber',
+      };
+
+      const handler = createSortDirHandler({ history, location });
+      handler();
+
+      const direction = 'desc';
+      expect(updatedSearch).to.contain(direction);
+    });
+
+    it('should switch to ascending when the sort direction is desc', () => {
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const direction = 'desc';
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: `?sort=objectNumber ${direction}`,
+      };
+
+      const handler = createSortDirHandler({ history, location });
+      handler();
+
+      // ascending is an empty string, so we check that it doesn't contain the previous direction
+      expect(updatedSearch).to.not.contain(direction);
+    });
+
+    it('should use the default sort parameters when the query string is empty', () => {
+      const defaultSortBy = 'updatedAt';
+      const defaultSortDir = 'desc';
+
+      let updatedSearch = null;
+      const history = {
+        push: ({ search }) => {
+          updatedSearch = search;
+        },
+      };
+
+      const location = {
+        pathname: path,
+        state: 'state',
+        search: '',
+      };
+
+      const handler = createSortDirHandler({
+        history,
+        location,
+        defaultSortBy,
+        defaultSortDir,
+      });
+      handler();
+
+      expect(updatedSearch).to.contain(defaultSortBy);
+      // we still switch from descending to ascending, so check that the dir is not present
+      expect(updatedSearch).to.not.contain(defaultSortDir);
     });
   });
 });

@@ -147,7 +147,7 @@ function ServiceLoginPage(props) {
               <FormattedMessage {...messages.username} />
 
               <input
-                autoComplete="username email"
+                autoComplete="email"
                 name="username"
                 type="text"
               />

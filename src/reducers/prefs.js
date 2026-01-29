@@ -14,6 +14,7 @@ import {
   SET_QUICK_SEARCH_VOCABULARY,
   SET_SEARCH_PANEL_PAGE_SIZE,
   SET_SEARCH_RESULT_PAGE_PAGE_SIZE,
+  SET_SEARCH_RESULT_PAGE_VIEW,
   SET_SEARCH_TO_SELECT_PAGE_SIZE,
   SET_FORM,
   SET_UPLOAD_TYPE,
@@ -22,10 +23,14 @@ import {
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_TO_SELECT_ADVANCED,
+  TOGGLE_USE_NEW_SEARCH,
+  SET_NEW_SEARCH_SHOWN,
+  SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
+  SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
-  const { recordType } = action.meta;
+  const { recordType, searchTermsGroup } = action.meta;
 
   if (!recordType) {
     return state;
@@ -37,11 +42,15 @@ const handleAdvancedSearchConditionChange = (state, action) => {
   let nextState = state;
 
   if (op === OP_AND || op === OP_OR) {
-    nextState = nextState.set('advancedSearchBooleanOp', op);
+    nextState = searchTermsGroup
+      ? nextState.setIn(['advancedSearchNewBooleanOp', searchTermsGroup], op)
+      : nextState.set('advancedSearchBooleanOp', op);
   }
 
   nextState = nextState.setIn(
-    ['searchCond', recordType],
+    searchTermsGroup
+      ? ['searchNewCond', recordType, searchTermsGroup]
+      : ['searchCond', recordType],
     clearAdvancedSearchConditionValues(condition),
   );
 
@@ -111,6 +120,8 @@ export default (state = Immutable.Map(), action) => {
       );
     case SET_SEARCH_RESULT_PAGE_PAGE_SIZE:
       return state.set('searchResultPagePageSize', action.payload);
+    case SET_SEARCH_RESULT_PAGE_VIEW:
+      return state.set('searchResultPageView', action.payload);
     case SET_SEARCH_TO_SELECT_PAGE_SIZE:
       return state.set('searchToSelectPageSize', action.payload);
     case SET_FORM:
@@ -119,6 +130,8 @@ export default (state = Immutable.Map(), action) => {
       return state.set('uploadType', action.payload);
     case SET_SEARCH_PAGE_ADVANCED:
     case SET_SEARCH_TO_SELECT_ADVANCED:
+    case SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS:
+    case SET_SEARCH_PAGE_ADVANCED_LIMIT_BY:
       return handleAdvancedSearchConditionChange(state, action);
     case TOGGLE_RECORD_SIDEBAR:
       return handleToggleRecordSidebar(state, action);
@@ -126,6 +139,11 @@ export default (state = Immutable.Map(), action) => {
       return handleToggleSearchResultSidebar(state, action);
     case SET_STICKY_FIELDS:
       return setStickyFields(state, action);
+    case TOGGLE_USE_NEW_SEARCH:
+      return state.set('useNewSearch', typeof state.get('useNewSearch') === 'undefined' ? false
+        : !state.get('useNewSearch'));
+    case SET_NEW_SEARCH_SHOWN:
+      return state.set('newSearchShown', true);
     default:
       return state;
   }
@@ -134,6 +152,10 @@ export default (state = Immutable.Map(), action) => {
 export const getAdvancedSearchBooleanOp = (state) => state.get('advancedSearchBooleanOp');
 
 export const getSearchCondition = (state, recordType) => state.getIn(['searchCond', recordType]);
+
+export const getAdvancedSearchNewBooleanOp = (state, searchTermsGroup) => state.getIn(['advancedSearchNewBooleanOp', searchTermsGroup]);
+
+export const getSearchNewCondition = (state, recordType, searchTermsGroup) => state.getIn(['searchNewCond', recordType, searchTermsGroup]);
 
 export const getSearchPageRecordType = (state) => state.getIn(['searchPage', 'recordType']);
 
@@ -146,6 +168,8 @@ export const getQuickSearchVocabulary = (state, recordType) => state.getIn(['qui
 export const getSearchPanelPageSize = (state, recordType, name) => state.getIn(['panels', recordType, name, 'pageSize']);
 
 export const getSearchResultPagePageSize = (state) => state.get('searchResultPagePageSize');
+
+export const getSearchResultPageView = (state) => state.get('searchResultPageView');
 
 export const getSearchToSelectPageSize = (state) => state.get('searchToSelectPageSize');
 
@@ -160,6 +184,10 @@ export const getUploadType = (state) => state.get('uploadType');
 export const getAdminTab = (state) => state.get('adminTab');
 
 export const getToolTab = (state) => state.get('toolTab');
+
+export const getNewSearchShown = (state) => state.get('newSearchShown');
+
+export const getUseNewSearch = (state) => state.get('useNewSearch');
 
 export const isRecordSidebarOpen = (state) => state.get('recordSidebarOpen');
 

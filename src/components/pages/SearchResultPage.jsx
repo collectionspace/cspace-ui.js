@@ -2,47 +2,42 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import qs from 'qs';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import ErrorPage from './ErrorPage';
-import ExportButton from '../search/ExportButton';
-import RelateButton from '../record/RelateButton';
 import Pager from '../search/Pager';
 import SearchResultSidebar from '../search/SearchResultSidebar';
 import SearchResultSummary from '../search/SearchResultSummary';
 import SearchResultTitleBar from '../search/SearchResultTitleBar';
 import SelectBar from '../search/SelectBar';
-import ExportModalContainer from '../../containers/search/ExportModalContainer';
 import WatchedSearchResultTableContainer from '../../containers/search/WatchedSearchResultTableContainer';
-import SearchToRelateModalContainer from '../../containers/search/SearchToRelateModalContainer';
-import { canRelate } from '../../helpers/permissionHelpers';
-import { getListType } from '../../helpers/searchHelpers';
+import {
+  deriveSearchType,
+  getListTypeFromResult,
+  createPageSizeChangeHandler,
+  createPageChangeHandler,
+  extractAdvancedSearchGroupedTerms,
+  createSortByHandler,
+  createSortDirHandler,
+  normalizeSearchQueryParams,
+} from '../../helpers/searchHelpers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../constants/searchNames';
 
 import {
-  getFirstColumnName,
-  getRecordTypeNameByServiceObjectName,
-  getRecordTypeNameByUri,
   validateLocation,
 } from '../../helpers/configHelpers';
 
 import styles from '../../../styles/cspace-ui/SearchResultPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import ExportResults from '../search/ExportResults';
+import RelateResults from '../search/RelateResults';
+import SortBy from '../search/SortBy';
 
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
 // };
-
-const messages = defineMessages({
-  relate: {
-    id: 'searchResultPage.relate',
-    description: 'Label of the relate button on the search result page.',
-    defaultMessage: 'Relate…',
-  },
-});
 
 const propTypes = {
   isSidebarOpen: PropTypes.bool,
@@ -58,13 +53,14 @@ const propTypes = {
   match: PropTypes.shape({
     params: PropTypes.object,
   }),
-  openExport: PropTypes.func,
   perms: PropTypes.instanceOf(Immutable.Map),
   preferredPageSize: PropTypes.number,
   search: PropTypes.func,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   setPreferredPageSize: PropTypes.func,
   setSearchPageAdvanced: PropTypes.func,
+  setSearchPageAdvancedSearchTerms: PropTypes.func,
+  setSearchPageAdvancedLimitBy: PropTypes.func,
   setSearchPageKeyword: PropTypes.func,
   setSearchPageRecordType: PropTypes.func,
   setSearchPageVocabulary: PropTypes.func,
@@ -86,28 +82,18 @@ export default class SearchResultPage extends Component {
   constructor() {
     super();
 
-    this.getSearchToRelateSubjects = this.getSearchToRelateSubjects.bind(this);
     this.handleCheckboxClick = this.handleCheckboxClick.bind(this);
     this.handleCheckboxCommit = this.handleCheckboxCommit.bind(this);
     this.handleEditSearchLinkClick = this.handleEditSearchLinkClick.bind(this);
-    this.handleExportButtonClick = this.handleExportButtonClick.bind(this);
-    this.handleExportOpened = this.handleExportOpened.bind(this);
     this.handleModalCancelButtonClick = this.handleModalCancelButtonClick.bind(this);
     this.handleModalCloseButtonClick = this.handleModalCloseButtonClick.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-    this.handleRelateButtonClick = this.handleRelateButtonClick.bind(this);
-    this.handleRelationsCreated = this.handleRelationsCreated.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.renderCheckbox = this.renderCheckbox.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
     this.search = this.search.bind(this);
-
-    this.state = {
-      isExportModalOpen: false,
-      isSearchToRelateModalOpen: false,
-    };
   }
 
   componentDidMount() {
@@ -207,7 +193,9 @@ export default class SearchResultPage extends Component {
 
     if (onItemSelectChange) {
       const searchDescriptor = this.getSearchDescriptor();
-      const listType = this.getListType(searchDescriptor);
+      const {
+        listType,
+      } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
 
       onItemSelectChange(
         config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType, index, selected,
@@ -226,6 +214,8 @@ export default class SearchResultPage extends Component {
     const {
       location,
       setSearchPageAdvanced,
+      setSearchPageAdvancedLimitBy,
+      setSearchPageAdvancedSearchTerms,
       setSearchPageKeyword,
       setSearchPageRecordType,
       setSearchPageVocabulary,
@@ -254,16 +244,14 @@ export default class SearchResultPage extends Component {
     if (setSearchPageAdvanced) {
       setSearchPageAdvanced(searchQuery.get('as'));
     }
-  }
 
-  handleExportButtonClick() {
-    this.setState({
-      isExportModalOpen: true,
-    });
-  }
+    if (setSearchPageAdvancedSearchTerms) {
+      setSearchPageAdvancedSearchTerms(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).searchTerms);
+    }
 
-  handleExportOpened() {
-    this.closeModal();
+    if (setSearchPageAdvancedLimitBy) {
+      setSearchPageAdvancedLimitBy(extractAdvancedSearchGroupedTerms(searchQuery.get('as')).limitBy);
+    }
   }
 
   handleModalCancelButtonClick() {
@@ -280,23 +268,11 @@ export default class SearchResultPage extends Component {
       location,
     } = this.props;
 
-    if (history) {
-      const {
-        search,
-      } = location;
-
-      const query = qs.parse(search.substring(1));
-
-      query.p = (pageNum + 1).toString();
-
-      const queryString = qs.stringify(query);
-
-      history.push({
-        pathname: location.pathname,
-        search: `?${queryString}`,
-        state: location.state,
-      });
-    }
+    const handler = createPageChangeHandler({
+      history,
+      location,
+    });
+    return handler(pageNum);
   }
 
   handlePageSizeChange(pageSize) {
@@ -306,39 +282,17 @@ export default class SearchResultPage extends Component {
       setPreferredPageSize,
     } = this.props;
 
+    // Call setPreferredPageSize directly (not through dispatch)
     if (setPreferredPageSize) {
       setPreferredPageSize(pageSize);
     }
 
-    if (history) {
-      const {
-        search,
-      } = location;
-
-      const query = qs.parse(search.substring(1));
-
-      query.p = '1';
-      query.size = pageSize.toString();
-
-      const queryString = qs.stringify(query);
-
-      history.push({
-        pathname: location.pathname,
-        search: `?${queryString}`,
-        state: location.state,
-      });
-    }
-  }
-
-  handleRelateButtonClick() {
-    this.setState({
-      isSearchToRelateModalOpen: true,
-      selectionValidationError: this.validateSelectedItemsRelatable(),
+    // Use helper for URL navigation
+    const handler = createPageSizeChangeHandler({
+      history,
+      location,
     });
-  }
-
-  handleRelationsCreated() {
-    this.closeModal();
+    return handler(pageSize);
   }
 
   handleSortChange(sort) {
@@ -364,14 +318,6 @@ export default class SearchResultPage extends Component {
         state: location.state,
       });
     }
-  }
-
-  getListType(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    return getListType(config, searchDescriptor);
   }
 
   getSearchDescriptor() {
@@ -421,84 +367,6 @@ export default class SearchResultPage extends Component {
     return Immutable.fromJS(searchDescriptor);
   }
 
-  getSearchToRelateSubjects() {
-    const {
-      selectedItems,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (!selectedItems) {
-      return null;
-    }
-
-    const searchDescriptor = this.getSearchDescriptor();
-
-    const recordType = searchDescriptor.get('recordType');
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-    const itemRecordType = (serviceType === 'utility') ? undefined : recordType;
-
-    const titleColumnName = getFirstColumnName(config, recordType);
-
-    return selectedItems.valueSeq().map((item) => ({
-      csid: item.get('csid'),
-      recordType: itemRecordType || getRecordTypeNameByServiceObjectName(config, item.get('docType')),
-      title: item.get(titleColumnName),
-    })).toJS();
-  }
-
-  isResultExportable(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    const recordType = searchDescriptor.get('recordType');
-    const subresource = searchDescriptor.get('subresource');
-
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-    return (
-      subresource !== 'terms'
-      && subresource !== 'refs'
-      && (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || serviceType === 'authority'
-      )
-    );
-  }
-
-  isResultRelatable(searchDescriptor) {
-    const {
-      config,
-    } = this.context;
-
-    const recordType = searchDescriptor.get('recordType');
-    const subresource = searchDescriptor.get('subresource');
-
-    const serviceType = get(config, ['recordTypes', recordType, 'serviceConfig', 'serviceType']);
-
-    return (
-      subresource !== 'terms'
-      && (
-        serviceType === 'procedure'
-        || serviceType === 'object'
-        || recordType === 'procedure'
-        || recordType === 'object'
-      )
-    );
-  }
-
-  closeModal() {
-    this.setState({
-      isExportModalOpen: false,
-      isSearchToRelateModalOpen: false,
-      selectionValidationError: undefined,
-    });
-  }
-
   normalizeQuery() {
     const {
       config,
@@ -515,43 +383,22 @@ export default class SearchResultPage extends Component {
     } = location;
 
     const query = qs.parse(search.substring(1));
+    const { normalizedQuery, changed } = normalizeSearchQueryParams(
+      query,
+      preferredPageSize,
+      config.defaultSearchPageSize,
+    );
 
-    if (history) {
-      const normalizedQueryParams = {};
+    if (history && changed) {
+      const queryString = qs.stringify(normalizedQuery);
 
-      const pageSize = parseInt(query.size, 10);
+      history.replace({
+        pathname: location.pathname,
+        search: `?${queryString}`,
+        state: location.state,
+      });
 
-      if (Number.isNaN(pageSize) || pageSize < 1) {
-        const normalizedPageSize = preferredPageSize || config.defaultSearchPageSize || 20;
-
-        normalizedQueryParams.size = normalizedPageSize.toString();
-      } else if (pageSize > 2500) {
-        // Services layer max is 2500
-        normalizedQueryParams.size = '2500';
-      } else if (pageSize.toString() !== query.size) {
-        normalizedQueryParams.size = pageSize.toString();
-      }
-
-      const pageNum = parseInt(query.p, 10);
-
-      if (Number.isNaN(pageNum) || pageNum < 1) {
-        normalizedQueryParams.p = '1';
-      } else if (pageNum.toString() !== query.p) {
-        normalizedQueryParams.p = pageNum.toString();
-      }
-
-      if (Object.keys(normalizedQueryParams).length > 0) {
-        const newQuery = { ...query, ...normalizedQueryParams };
-        const queryString = qs.stringify(newQuery);
-
-        history.replace({
-          pathname: location.pathname,
-          search: `?${queryString}`,
-          state: location.state,
-        });
-
-        return true;
-      }
+      return true;
     }
 
     return false;
@@ -574,59 +421,8 @@ export default class SearchResultPage extends Component {
     // has set them to the defaults.
 
     if (!Number.isNaN(searchQuery.get('p')) && !Number.isNaN(searchQuery.get('size')) && search) {
-      const listType = this.getListType(searchDescriptor);
-
-      search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor, listType);
+      search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
     }
-  }
-
-  validateSelectedItemsRelatable() {
-    const {
-      perms,
-      selectedItems,
-    } = this.props;
-
-    const {
-      config,
-    } = this.context;
-
-    if (selectedItems) {
-      let err;
-
-      selectedItems.valueSeq().find((item) => {
-        if (item.get('workflowState') === 'locked') {
-          err = {
-            code: 'locked',
-          };
-
-          return true;
-        }
-
-        const recordType = getRecordTypeNameByUri(config, item.get('uri'));
-
-        if (!canRelate(recordType, perms, config)) {
-          const recordMessages = get(config, ['recordTypes', recordType, 'messages', 'record']);
-
-          err = {
-            code: 'notPermitted',
-            values: {
-              name: <FormattedMessage {...recordMessages.name} />,
-              collectionName: <FormattedMessage {...recordMessages.collectionName} />,
-            },
-          };
-
-          return true;
-        }
-
-        return false;
-      });
-
-      if (err) {
-        return err;
-      }
-    }
-
-    return undefined;
   }
 
   renderCheckbox({ rowData, rowIndex }) {
@@ -654,8 +450,11 @@ export default class SearchResultPage extends Component {
 
   renderHeader({ searchError, searchResult }) {
     const {
+      history,
+      location,
       selectedItems,
       setAllItemsSelected,
+      perms,
     } = this.props;
 
     const {
@@ -663,38 +462,29 @@ export default class SearchResultPage extends Component {
     } = this.context;
 
     const searchDescriptor = this.getSearchDescriptor();
-    const listType = this.getListType(searchDescriptor);
+    const { listType } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
 
     let selectBar;
 
     if (!searchError) {
-      const selectedCount = selectedItems ? selectedItems.size : 0;
+      const relateButton = (
+        <RelateResults
+          config={config}
+          selectedItems={selectedItems}
+          searchDescriptor={searchDescriptor}
+          perms={perms}
+          disabled={false}
+          key="relate"
+        />
+      );
 
-      let relateButton;
-
-      if (this.isResultRelatable(searchDescriptor)) {
-        relateButton = (
-          <RelateButton
-            disabled={selectedCount < 1}
-            key="relate"
-            label={<FormattedMessage {...messages.relate} />}
-            name="relate"
-            onClick={this.handleRelateButtonClick}
-          />
-        );
-      }
-
-      let exportButton;
-
-      if (this.isResultExportable(searchDescriptor)) {
-        exportButton = (
-          <ExportButton
-            disabled={selectedCount < 1}
-            key="export"
-            onClick={this.handleExportButtonClick}
-          />
-        );
-      }
+      const exportButton = (
+        <ExportResults
+          config={config}
+          selectedItems={selectedItems}
+          searchDescriptor={searchDescriptor}
+        />
+      );
 
       selectBar = (
         <SelectBar
@@ -710,16 +500,33 @@ export default class SearchResultPage extends Component {
       );
     }
 
+    const {
+      search,
+    } = location;
+
+    const query = qs.parse(search.substring(1));
+    const sortChangeHandler = createSortByHandler({ history, location });
+    const sortDirChangeHandler = createSortDirHandler({ history, location });
+
+    const renderSortBy = () => (
+      <SortBy
+        onSortChange={sortChangeHandler}
+        onSortDirChange={sortDirChangeHandler}
+        sort={query?.sort}
+        recordType={searchDescriptor.get('recordType')}
+      />
+    );
+
     return (
       <header>
         <SearchResultSummary
           config={config}
           listType={listType}
+          searchName={SEARCH_RESULT_PAGE_SEARCH_NAME}
           searchDescriptor={searchDescriptor}
-          searchError={searchError}
-          searchResult={searchResult}
           onEditSearchLinkClick={this.handleEditSearchLinkClick}
           onPageSizeChange={this.handlePageSizeChange}
+          renderSortBy={() => renderSortBy()}
         />
         {selectBar}
       </header>
@@ -732,8 +539,7 @@ export default class SearchResultPage extends Component {
         config,
       } = this.context;
 
-      const searchDescriptor = this.getSearchDescriptor();
-      const listType = this.getListType(searchDescriptor);
+      const listType = getListTypeFromResult(config, searchResult);
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName } = listTypeConfig;
 
@@ -769,22 +575,15 @@ export default class SearchResultPage extends Component {
       location,
       history,
       isSidebarOpen,
-      selectedItems,
     } = this.props;
 
     const {
       config,
     } = this.context;
 
-    const {
-      isExportModalOpen,
-      isSearchToRelateModalOpen,
-      selectionValidationError,
-    } = this.state;
-
     const searchDescriptor = this.getSearchDescriptor();
 
-    const listType = this.getListType(searchDescriptor);
+    const { listType } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
 
     const recordType = searchDescriptor.get('recordType');
     const vocabulary = searchDescriptor.get('vocabulary');
@@ -798,41 +597,6 @@ export default class SearchResultPage extends Component {
     if (validation.error) {
       return (
         <ErrorPage error={validation.error} />
-      );
-    }
-
-    let searchToRelateModal;
-
-    if (this.isResultRelatable(searchDescriptor)) {
-      searchToRelateModal = (
-        <SearchToRelateModalContainer
-          allowedServiceTypes={['object', 'procedure']}
-          subjects={this.getSearchToRelateSubjects}
-          config={config}
-          isOpen={isSearchToRelateModalOpen}
-          defaultRecordTypeValue="collectionobject"
-          error={selectionValidationError}
-          onCancelButtonClick={this.handleModalCancelButtonClick}
-          onCloseButtonClick={this.handleModalCloseButtonClick}
-          onRelationsCreated={this.handleRelationsCreated}
-        />
-      );
-    }
-
-    let exportModal;
-
-    if (this.isResultExportable(searchDescriptor)) {
-      exportModal = (
-        <ExportModalContainer
-          config={config}
-          isOpen={isExportModalOpen}
-          recordType={recordType}
-          vocabulary={vocabulary}
-          selectedItems={selectedItems}
-          onCancelButtonClick={this.handleModalCancelButtonClick}
-          onCloseButtonClick={this.handleModalCloseButtonClick}
-          onExportOpened={this.handleExportOpened}
-        />
       );
     }
 
@@ -866,12 +630,8 @@ export default class SearchResultPage extends Component {
             history={history}
             isOpen={isSidebarOpen}
             recordType={recordType}
-            selectedItems={selectedItems}
           />
         </div>
-
-        {searchToRelateModal}
-        {exportModal}
       </div>
     );
   }

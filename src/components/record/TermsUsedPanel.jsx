@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import SearchPanelContainer from '../../containers/search/SearchPanelContainer';
+import { SEARCH_RESULT_TERMS_USED_PANEL } from '../../constants/searchNames';
 
 const messages = defineMessages({
   title: {
@@ -121,7 +122,7 @@ export default class TermsUsedPanel extends Component {
         config={config}
         csid={csid}
         listType="authRef"
-        name="termsUsedPanel"
+        name={SEARCH_RESULT_TERMS_USED_PANEL}
         searchDescriptor={searchDescriptor}
         recordType={recordType}
         vocabulary={vocabulary}
