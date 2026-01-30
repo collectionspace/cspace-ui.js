@@ -562,6 +562,7 @@ describe('SearchToSelectModal', () => {
         advancedSearchCondition={advancedSearchCondition}
         subjects={[subject]}
         search={search}
+        useNewSearch={false}
       />,
     );
 
@@ -627,6 +628,7 @@ describe('SearchToSelectModal', () => {
         subjects={[subject]}
         search={search}
         customizeSearchDescriptor={(searchDescriptor) => searchDescriptor.set('foo', 'bar')}
+        useNewSearch={false}
       />,
     );
 
