@@ -14,17 +14,17 @@
   margin-right: 5px;
 }
 
-.sortByButton {
-  height: inputHeight;
-  width: inputHeight;
+.flex input {
+  height: calc(inputHeight + 1px);
+}
+
+/* Override the SearchResultSummary button styling */
+.flex button {
+  height: calc(inputHeight + 1px);
+  width: calc(inputHeight + 1px);
   border-radius: 0 3px 3px 0;
-  background-color: buttonBg !important;
-}
-
-.ascending {
-  background-image: url(../../images/collapseWhite.svg) !important;
-}
-
-.descending {
-  background-image: url(../../images/expandWhite.svg) !important;
+  background-color: buttonBg;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
