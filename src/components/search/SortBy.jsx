@@ -60,8 +60,10 @@ function SortBy({
     });
 
   const [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDir];
+  const inputId = 'sortBy';
   const input = (
     <DropdownMenuInput
+      id={inputId}
       options={options}
       value={sortBy}
       onCommit={(path, value) => onSortChange(value)}
@@ -81,7 +83,11 @@ function SortBy({
   );
 
   const prefixMessage = intl.formatMessage(messages.sortBy);
-  const prefix = <span className={classNames(styles.mt2, styles.mr5)}>{prefixMessage}</span>;
+  const prefix = (
+    <label htmlFor={inputId} className={classNames(styles.mt2, styles.mr5)}>
+      {prefixMessage}
+    </label>
+  );
 
   return (
     <div className={styles.flex}>
