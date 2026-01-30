@@ -21,6 +21,7 @@ import SelectBar from './SelectBar';
 import SearchResultTableContainer from '../../containers/search/SearchResultTableContainer';
 import { deriveSearchType, getListTypeFromResult, normalizeCondition } from '../../helpers/searchHelpers';
 import styles from '../../../styles/cspace-ui/SearchToSelectModal.css';
+import { OP_AND } from '../../constants/searchOperators';
 
 export const searchName = 'searchToSelect';
 
@@ -59,6 +60,8 @@ const propTypes = {
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   advancedSearchCondition: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionLimitBy: PropTypes.instanceOf(Immutable.Map),
+  advancedSearchConditionSearchTerms: PropTypes.instanceOf(Immutable.Map),
   preferredAdvancedSearchBooleanOp: PropTypes.string,
   preferredPageSize: PropTypes.number,
   perms: PropTypes.instanceOf(Immutable.Map),
@@ -69,6 +72,8 @@ const propTypes = {
   buildRecordFieldOptionLists: PropTypes.func,
   deleteOptionList: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
+  onAdvancedSearchConditionLimitByCommit: PropTypes.func,
+  onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
@@ -85,6 +90,7 @@ const propTypes = {
   setAllItemsSelected: PropTypes.func,
   setPreferredPageSize: PropTypes.func,
   shouldShowCheckbox: PropTypes.func,
+  useNewSearch: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -364,8 +370,11 @@ export class BaseSearchToSelectModal extends Component {
       vocabularyValue: vocabulary,
       keywordValue: keyword,
       advancedSearchCondition,
+      advancedSearchConditionLimitBy,
+      advancedSearchConditionSearchTerms,
       preferredPageSize,
       customizeSearchDescriptor,
+      useNewSearch,
     } = this.props;
 
     const {
@@ -380,6 +389,16 @@ export class BaseSearchToSelectModal extends Component {
       size: pageSize,
     };
 
+    const searchCondition = useNewSearch || typeof useNewSearch === 'undefined'
+      ? Immutable.Map({
+        op: OP_AND,
+        value: Immutable.List.of(
+          advancedSearchConditionSearchTerms,
+          advancedSearchConditionLimitBy,
+        ),
+      })
+      : advancedSearchCondition;
+
     if (sort) {
       searchQuery.sort = sort;
     }
@@ -391,7 +410,7 @@ export class BaseSearchToSelectModal extends Component {
     }
 
     const fields = get(config, ['recordTypes', recordType, 'fields']);
-    const condition = normalizeCondition(fields, advancedSearchCondition);
+    const condition = normalizeCondition(fields, searchCondition);
 
     if (condition) {
       searchQuery.as = condition;
@@ -488,13 +507,18 @@ export class BaseSearchToSelectModal extends Component {
       perms,
       preferredAdvancedSearchBooleanOp,
       advancedSearchCondition,
+      advancedSearchConditionLimitBy,
+      advancedSearchConditionSearchTerms,
       getAuthorityVocabCsid,
       buildRecordFieldOptionLists,
       deleteOptionList,
       onAdvancedSearchConditionCommit,
+      onAdvancedSearchConditionLimitByCommit,
+      onAdvancedSearchConditionSearchTermsCommit,
       onKeywordCommit,
       onRecordTypeCommit,
       onVocabularyCommit,
+      useNewSearch,
     } = this.props;
 
     let recordTypeInputReadOnly = true;
@@ -518,6 +542,8 @@ export class BaseSearchToSelectModal extends Component {
         vocabularyValue={vocabularyValue}
         keywordValue={keywordValue}
         advancedSearchCondition={advancedSearchCondition}
+        advancedSearchConditionLimitBy={advancedSearchConditionLimitBy}
+        advancedSearchConditionSearchTerms={advancedSearchConditionSearchTerms}
         perms={perms}
         preferredAdvancedSearchBooleanOp={preferredAdvancedSearchBooleanOp}
         recordTypeInputReadOnly={recordTypeInputReadOnly}
@@ -528,10 +554,13 @@ export class BaseSearchToSelectModal extends Component {
         buildRecordFieldOptionLists={buildRecordFieldOptionLists}
         deleteOptionList={deleteOptionList}
         onAdvancedSearchConditionCommit={onAdvancedSearchConditionCommit}
+        onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
+        onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
         onKeywordCommit={onKeywordCommit}
         onRecordTypeCommit={onRecordTypeCommit}
         onVocabularyCommit={onVocabularyCommit}
         onSearch={this.handleFormSearch}
+        showNewSearch={useNewSearch || typeof useNewSearch === 'undefined'}
       />
     );
   }
