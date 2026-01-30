@@ -17,11 +17,11 @@ const messages = defineMessages({
     id: 'search.sortBy',
     defaultMessage: 'Sort By',
   },
-  ascendingAriaLabel: {
+  ascendingLabel: {
     id: 'search.sortDir.ascending.label',
     defaultMessage: 'Current sort: ascending',
   },
-  descendingAriaLabel: {
+  descendingLabel: {
     id: 'search.sortDir.descending.label',
     defaultMessage: 'Current sort: descending',
   },
@@ -68,15 +68,16 @@ function SortBy({
     />
   );
 
-  const sortDirClass = sortDir ? styles.descending : styles.ascending;
-  const sortDirLabel = sortDir ? intl.formatMessage(messages.descendingAriaLabel)
-    : intl.formatMessage(messages.ascendingAriaLabel);
+  const sortDirLabel = sortDir ? intl.formatMessage(messages.descendingLabel)
+    : intl.formatMessage(messages.ascendingLabel);
   const sortDirButton = (
     <Button
-      aria-label={sortDirLabel}
-      className={classNames(sortDirClass, styles.sortByButton)}
+      title={sortDirLabel}
+      className="material-icons"
       onClick={() => onSortDirChange()}
-    />
+    >
+      sort_by_alpha
+    </Button>
   );
 
   const prefixMessage = intl.formatMessage(messages.sortBy);
