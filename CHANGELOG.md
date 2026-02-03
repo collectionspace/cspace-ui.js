@@ -22,6 +22,11 @@
 - Fix performance issue when relating m:n records.
 - Enabled Hot Module Replacement for faster development.
 
+### New Fields 
+
+- On the record editor for Objects
+  - The Controlled Content Place repeating field `controlledContentPlaces/controlledContentPlace` has been added
+
 ### Accessibility
 
 - Display alt text with thumbnail images (Criteria 1.1.1).
