@@ -273,6 +273,14 @@ export const getSearchToSelectAdvanced = (state) => (
   fromSearchToSelect.getAdvanced(state.searchToSelect)
 );
 
+export const getSearchToSelectAdvancedLimitBy = (state) => (
+  fromSearchToSelect.getAdvancedLimitBy(state.searchToSelect)
+);
+
+export const getSearchToSelectAdvancedSearchTerms = (state) => (
+  fromSearchToSelect.getAdvancedSearchTerms(state.searchToSelect)
+);
+
 export const getSearchToSelectKeyword = (state) => (
   fromSearchToSelect.getKeyword(state.searchToSelect)
 );
