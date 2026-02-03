@@ -14,6 +14,8 @@ import {
 import {
   clearSearchToSelect,
   setSearchToSelectAdvanced,
+  setSearchToSelectAdvancedLimitBy,
+  setSearchToSelectAdvancedSearchTerms,
   setSearchToSelectKeyword,
   setSearchToSelectRecordType,
   setSearchToSelectVocabulary,
@@ -36,6 +38,9 @@ import {
   getSearchToSelectPageSize,
   getSearchSelectedItems,
   getUserPerms,
+  getUseNewSearch,
+  getSearchToSelectAdvancedLimitBy,
+  getSearchToSelectAdvancedSearchTerms,
 } from '../../reducers';
 
 const mapStateToProps = (state, ownProps) => {
@@ -46,6 +51,8 @@ const mapStateToProps = (state, ownProps) => {
     recordTypeValue: searchToSelectRecordType,
     vocabularyValue: getSearchToSelectVocabulary(state, searchToSelectRecordType),
     advancedSearchCondition: getSearchToSelectAdvanced(state),
+    advancedSearchConditionLimitBy: getSearchToSelectAdvancedLimitBy(state),
+    advancedSearchConditionSearchTerms: getSearchToSelectAdvancedSearchTerms(state),
     perms: getUserPerms(state),
     preferredAdvancedSearchBooleanOp:
       getAdvancedSearchBooleanOp(state)
@@ -55,6 +62,7 @@ const mapStateToProps = (state, ownProps) => {
     getAuthorityVocabCsid: (recordType, vocabulary) => getAuthorityVocabCsid(
       state, recordType, vocabulary,
     ),
+    useNewSearch: getUseNewSearch(state),
   };
 };
 
@@ -64,6 +72,8 @@ const mapDispatchToProps = {
   deleteOptionList,
   search,
   onAdvancedSearchConditionCommit: setSearchToSelectAdvanced,
+  onAdvancedSearchConditionSearchTermsCommit: setSearchToSelectAdvancedSearchTerms,
+  onAdvancedSearchConditionLimitByCommit: setSearchToSelectAdvancedLimitBy,
   onClearButtonClick: clearSearchToSelect,
   onKeywordCommit: setSearchToSelectKeyword,
   onRecordTypeCommit: setSearchToSelectRecordType,
