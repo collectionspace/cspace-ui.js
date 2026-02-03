@@ -66,7 +66,11 @@ const propTypes = {
   }).isRequired,
   isSearchPending: PropTypes.bool,
   listType: PropTypes.string,
-  ownBlobCsid: PropTypes.string,
+  ownFields: PropTypes.shape({
+    ownBlobCsid: PropTypes.string,
+    ownAltText: PropTypes.string,
+    ownIdentificationNumber: PropTypes.string,
+  }),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   readRecord: PropTypes.func,
 };
@@ -113,7 +117,7 @@ export default class MediaViewer extends Component {
       .then((blobData) => getContentPath(config, 'blob', undefined, blobCsid, popupSubresource, blobData));
   }
 
-  createGalleryImage(blobCsid) {
+  createGalleryImage(blobCsid, altText, identificationNumber) {
     const {
       config,
     } = this.props;
@@ -128,6 +132,8 @@ export default class MediaViewer extends Component {
       // move from snapshot to original here to keep similar semantics
       original: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
       snapshot: getContentPath(config, 'blob', undefined, blobCsid, snapshotSubresource),
+      snapshotAlt: altText ?? identificationNumber,
+      snapshotTitle: identificationNumber,
       thumbnail: getContentPath(config, 'blob', undefined, blobCsid, thumbnailSubresource),
     };
   }
@@ -137,14 +143,15 @@ export default class MediaViewer extends Component {
       config,
       isSearchPending,
       listType,
-      ownBlobCsid,
+      ownFields,
       searchResult,
     } = this.props;
 
     const images = [];
 
-    if (ownBlobCsid) {
-      images.push(this.createGalleryImage(ownBlobCsid));
+    if (ownFields) {
+      const { ownBlobCsid, ownAltText, ownIdentificationNumber } = ownFields;
+      images.push(this.createGalleryImage(ownBlobCsid, ownAltText, ownIdentificationNumber));
     }
 
     if (searchResult) {
@@ -168,9 +175,11 @@ export default class MediaViewer extends Component {
 
           items.forEach((item) => {
             const blobCsid = item.get('blobCsid');
+            const altText = item.get('altText');
+            const identificationNumber = item.get('identificationNumber');
 
             if (blobCsid) {
-              images.push(this.createGalleryImage(blobCsid));
+              images.push(this.createGalleryImage(blobCsid, altText, identificationNumber));
             }
           });
         }
