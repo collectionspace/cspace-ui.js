@@ -135,6 +135,8 @@ export default class MediaViewer extends Component {
       snapshotAlt: altText ?? identificationNumber,
       snapshotTitle: identificationNumber,
       thumbnail: getContentPath(config, 'blob', undefined, blobCsid, thumbnailSubresource),
+      thumbnailAlt: altText ?? identificationNumber,
+      thumbnailTitle: identificationNumber,
     };
   }
 
