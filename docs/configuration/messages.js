@@ -1451,6 +1451,10 @@ export default {
 
   "field.collectionobjects_common.contentPerson.name": "Person",
 
+  "field.collectionobjects_common.controlledContentPlace.fullName": "Content place (controlled)",
+
+  "field.collectionobjects_common.controlledContentPlace.name": "Place (controlled)",
+
   "field.collectionobjects_common.contentPlace.fullName": "Content place",
 
   "field.collectionobjects_common.contentPlace.name": "Place",
