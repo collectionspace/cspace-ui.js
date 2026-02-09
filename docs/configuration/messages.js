@@ -677,6 +677,8 @@ export default {
 
   "field.acquisitions_common.acquisitionProvisos.name": "Provisos",
 
+  "field.acquisitions_common.acquisitionDescription.name": "Acquisition description",
+
   "field.acquisitions_common.acquisitionReason.name": "Acquisition reason",
 
   "field.acquisitions_common.acquisitionReferenceNumber.inUse": "The reference number {value} is in use by another record.",
@@ -1448,6 +1450,10 @@ export default {
   "field.collectionobjects_common.contentPerson.fullName": "Content person",
 
   "field.collectionobjects_common.contentPerson.name": "Person",
+
+  "field.collectionobjects_common.controlledContentPlace.fullName": "Content place (controlled)",
+
+  "field.collectionobjects_common.controlledContentPlace.name": "Place (controlled)",
 
   "field.collectionobjects_common.contentPlace.fullName": "Content place",
 
