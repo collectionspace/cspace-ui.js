@@ -22,7 +22,11 @@ const propTypes = {
     listTypes: PropTypes.object,
   }),
   name: PropTypes.string,
-  ownBlobCsid: PropTypes.string,
+  ownFields: PropTypes.shape({
+    ownBlobCsid: PropTypes.string,
+    ownAltText: PropTypes.string,
+    ownIdentificationNumber: PropTypes.string,
+  }),
   recordType: PropTypes.string,
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
@@ -79,10 +83,12 @@ export default class MediaViewerPanel extends Component {
     const {
       config,
       listType,
-      ownBlobCsid,
+      ownFields,
       searchResult,
       title,
     } = this.props;
+
+    const ownBlobCsid = ownFields?.ownBlobCsid;
 
     const listTypeConfig = config.listTypes[listType];
 
@@ -122,10 +128,12 @@ export default class MediaViewerPanel extends Component {
       config,
       listType,
       name,
-      ownBlobCsid,
+      ownFields,
       recordType,
       searchDescriptor,
     } = this.props;
+
+    const ownBlobCsid = ownFields?.ownBlobCsid;
 
     return (
       <Panel
@@ -142,7 +150,7 @@ export default class MediaViewerPanel extends Component {
           columnSetName={columnSetName}
           config={config}
           listType={listType}
-          ownBlobCsid={isCsid(ownBlobCsid) ? ownBlobCsid : undefined}
+          ownFields={isCsid(ownBlobCsid) ? ownFields : undefined}
           recordType={recordType}
           searchName={name}
           searchDescriptor={searchDescriptor}

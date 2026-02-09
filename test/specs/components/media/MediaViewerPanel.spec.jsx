@@ -124,7 +124,7 @@ describe('MediaViewerPanel', () => {
     shallowRenderer.render(
       <MediaViewerPanel
         config={config}
-        ownBlobCsid="84471689-9a99-4687-9c66"
+        ownFields={{ ownBlobCsid: '84471689-9a99-4687-9c66' }}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,
@@ -142,7 +142,7 @@ describe('MediaViewerPanel', () => {
     shallowRenderer.render(
       <MediaViewerPanel
         config={config}
-        ownBlobCsid="/blob"
+        ownFields={{ ownBlobCsid: '/blob' }}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,

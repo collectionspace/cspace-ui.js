@@ -120,6 +120,8 @@ describe('MediaSnapshotPanel', () => {
     const recordType = 'media';
     const csid = '1234';
     const blobCsid = '5678';
+    const altText = 'this is an alt text';
+    const identificationNumber = '91011';
 
     const mediaRecordData = Immutable.fromJS({
       document: {
@@ -128,6 +130,8 @@ describe('MediaSnapshotPanel', () => {
         },
         'ns2:media_common': {
           blobCsid,
+          altText,
+          identificationNumber,
         },
       },
     });
@@ -146,6 +150,8 @@ describe('MediaSnapshotPanel', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.props.ownBlobCsid.should.equal(blobCsid);
+    result.props.ownFields.ownBlobCsid.should.equal(blobCsid);
+    result.props.ownFields.ownIdentificationNumber.should.equal(identificationNumber);
+    result.props.ownFields.ownAltText.should.equal(altText);
   });
 });
