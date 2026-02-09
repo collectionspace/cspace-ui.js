@@ -26,6 +26,8 @@
 
 - On the record editor for Objects
   - The Controlled Content Place repeating field `controlledContentPlaces/controlledContentPlace` has been added
+- On the record editor for Acquisitions
+  - The Acquisition description free text field `acquisitionDescription` has been added
 
 ### Accessibility
 
