@@ -216,8 +216,14 @@ const currentView = (props) => {
   if (query) {
     current = query.view;
 
+    const hasCurrent = current && (
+      current === SEARCH_RESULT_GRID_VIEW
+      || current === SEARCH_RESULT_LIST_VIEW
+      || current === SEARCH_RESULT_TABLE_VIEW
+    );
+
     // update the query parameter to include our view
-    if (preferred && !current) {
+    if (preferred && !hasCurrent) {
       query.view = preferred;
       history.push({
         pathname: location.pathname,
