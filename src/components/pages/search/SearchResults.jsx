@@ -138,6 +138,12 @@ const getSearchDescriptor = (query, props) => {
     ...query,
     p: parseInt(query.p, 10) - 1,
     size: parseInt(query.size, 10),
+  const { view, ...queryWithoutView } = query;
+
+  const searchQuery = {
+    ...queryWithoutView,
+    p: parseInt(query.p, 10) - 1,
+    size: parseInt(query.size, 10),
   };
 
   const advancedSearchCondition = query.as;
