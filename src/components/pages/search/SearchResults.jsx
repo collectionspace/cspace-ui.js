@@ -134,10 +134,6 @@ const getSearchDescriptor = (query, props) => {
     params,
   } = match;
 
-  const searchQuery = {
-    ...query,
-    p: parseInt(query.p, 10) - 1,
-    size: parseInt(query.size, 10),
   const { view, ...queryWithoutView } = query;
 
   const searchQuery = {
