@@ -74,6 +74,27 @@ export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getSta
   });
 };
 
+const buildAdvancedSearchCondition = (
+  useNewSearch,
+  advancedLimitBy,
+  advancedSearchTerms,
+  advanced,
+) => {
+  if (useNewSearch || typeof useNewSearch === 'undefined') {
+    if (advancedLimitBy == null) {
+      return advancedSearchTerms;
+    }
+    return Immutable.Map({
+      op: OP_AND,
+      value: Immutable.List.of(
+        advancedSearchTerms,
+        advancedLimitBy,
+      ),
+    });
+  }
+  return advanced;
+};
+
 export const initiateSearch = (config, push) => (dispatch, getState) => {
   const state = getState();
 
@@ -81,15 +102,6 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
   const vocabulary = getSearchPageVocabulary(state, recordType);
   const keyword = getSearchPageKeyword(state);
   const useNewSearch = getUseNewSearch(state);
-  const advancedSearchCondition = useNewSearch || typeof useNewSearch === 'undefined'
-    ? Immutable.Map({
-      op: OP_AND,
-      value: Immutable.List.of(
-        getSearchPageAdvancedSearchTerms(state),
-        getSearchPageAdvancedLimitBy(state),
-      ),
-    })
-    : getSearchPageAdvanced(state);
   const query = {};
   const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
   const pathname = `/list/${recordType}${vocabularyPath}`;
@@ -99,6 +111,16 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
   if (kw) {
     query.kw = kw;
   }
+
+  const advancedSearchTerms = getSearchPageAdvancedSearchTerms(state);
+  const advancedLimitBy = getSearchPageAdvancedLimitBy(state);
+  const advanced = getSearchPageAdvanced(state);
+  const advancedSearchCondition = buildAdvancedSearchCondition(
+    useNewSearch,
+    advancedLimitBy,
+    advancedSearchTerms,
+    advanced,
+  );
 
   const fields = get(config, ['recordTypes', recordType, 'fields']);
   const condition = normalizeCondition(fields, advancedSearchCondition);
