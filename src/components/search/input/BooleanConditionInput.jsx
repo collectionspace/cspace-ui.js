@@ -26,6 +26,7 @@ const propTypes = {
   recordType: PropTypes.string,
   rootPath: PropTypes.string,
   showInlineParens: PropTypes.bool,
+  showMiniButtonFooter: PropTypes.bool,
   showRemoveButton: PropTypes.bool,
   isNewSearchForm: PropTypes.bool,
   getSearchConditionInputComponent: PropTypes.func.isRequired,
@@ -410,6 +411,7 @@ export default class BooleanConditionInput extends Component {
     const {
       inline,
       showInlineParens,
+      showMiniButtonFooter,
     } = this.props;
 
     let openParen;
@@ -420,15 +422,15 @@ export default class BooleanConditionInput extends Component {
       closeParen = <div>)</div>;
     }
 
-    const className = inline ? styles.inline : styles.normal;
+    const classNames = `${inline ? styles.inline : styles.normal} ${!showMiniButtonFooter ? styles.withoutMiniButtonFooter : null}`;
 
     return (
-      <div className={className} ref={this.handleRef}>
+      <div className={classNames} ref={this.handleRef}>
         {this.renderHeader()}
         {openParen}
         {this.renderChildConditions()}
         {closeParen}
-        {this.renderFooter()}
+        {showMiniButtonFooter && this.renderFooter()}
       </div>
     );
   }

@@ -27,6 +27,7 @@ const propTypes = {
   recordType: PropTypes.string,
   searchTermsGroup: PropTypes.string,
   onConditionCommit: PropTypes.func,
+  isBroadSearch: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -116,6 +117,7 @@ export default class AdvancedSearchBuilder extends Component {
       recordType,
       onConditionCommit,
       searchTermsGroup,
+      isBroadSearch,
     } = this.props;
 
     if (recordType && onConditionCommit) {
@@ -128,21 +130,18 @@ export default class AdvancedSearchBuilder extends Component {
         const isNewSearchForm = searchTermsGroup === SEARCH_TERMS_GROUP_LIMIT_BY
           || searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS;
 
-        const recordTypesWithDefaultFields = ['all', 'procedure', 'authority'];
-
         // use preferred condition when not using new search form
         if (!isNewSearchForm) {
           initialCondition = preferredCondition;
         }
 
         // use config condition when there is no preferred condition
-        // and not using new search form or for new search terms group
-        // when recordType is with default fields
+        // and not using new search form or for new search terms group when is broad search
         if (
           !initialCondition && (
             !isNewSearchForm
             || (searchTermsGroup === SEARCH_TERMS_GROUP_SEARCH_TERMS
-              && recordTypesWithDefaultFields.includes(recordType))
+              && isBroadSearch)
           )
         ) {
           initialCondition = Immutable.fromJS(
@@ -173,6 +172,7 @@ export default class AdvancedSearchBuilder extends Component {
       recordType,
       withoutPanel,
       searchTermsGroup,
+      isBroadSearch,
     } = this.props;
 
     if (!condition) {
@@ -195,6 +195,7 @@ export default class AdvancedSearchBuilder extends Component {
         recordType={recordType}
         showInlineParens={false}
         showRemoveButton={false}
+        showMiniButtonFooter={!(isBroadSearch && isNewSearchForm)}
         getSearchConditionInputComponent={getSearchConditionInputComponent}
         onCommit={this.handleConditionCommit}
       />
