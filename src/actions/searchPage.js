@@ -74,7 +74,7 @@ export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getSta
   });
 };
 
-const buildAdvancedSearchCondition = (
+export const buildAdvancedSearchCondition = (
   useNewSearch,
   advancedLimitBy,
   advancedSearchTerms,

@@ -37,6 +37,7 @@ const propTypes = {
 const defaultProps = {
   showInlineParens: true,
   showRemoveButton: true,
+  showMiniButtonFooter: true,
 };
 
 const {
