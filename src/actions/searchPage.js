@@ -73,17 +73,29 @@ export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getSta
     },
   });
 };
-
+/**
+ * Builds the advanced search condition, conditionally.
+ * @param {boolean} useNewSearch whether new search is being used
+ * @param {Map} advancedLimitBy the condition of the limit by panel
+ * @param {Map} advancedSearchTerms the condition of the searchTerms panel
+ * @param {Map} advanced the condition of the classic search form
+ * @returns {Map} the built advanced search condition;
+ */
 export const buildAdvancedSearchCondition = (
   useNewSearch,
   advancedLimitBy,
   advancedSearchTerms,
   advanced,
 ) => {
+  // When using new search
   if (useNewSearch || typeof useNewSearch === 'undefined') {
+    // and only search terms panel is populated,
     if (advancedLimitBy == null) {
+      // then it returns the advancedSearchTerms condition
       return advancedSearchTerms;
     }
+    // and both search panels are populated,
+    // then it combines advancedLimitBy and advancedSearchTerms using AND operator.
     return Immutable.Map({
       op: OP_AND,
       value: Immutable.List.of(
@@ -92,6 +104,7 @@ export const buildAdvancedSearchCondition = (
       ),
     });
   }
+  // When not using new search, it returns the advanced condition.
   return advanced;
 };
 
