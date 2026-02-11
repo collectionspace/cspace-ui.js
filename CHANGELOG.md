@@ -27,6 +27,7 @@
 - On the record editor for Objects
   - The Controlled Content Place repeating field `controlledContentPlaces/controlledContentPlace` has been added
 - On the record editor for Acquisition
+  - The Acquisition description free text field `acquisitionDescription` has been added
   - The Parties Involved repeating group `partiesInvolvedGroupList/partiesInvolvedGroup` has been added
 - On the record editor for Deaccession
   - The Parties Involved repeating group `partiesInvolvedGroupList/partiesInvolvedGroup` has been added

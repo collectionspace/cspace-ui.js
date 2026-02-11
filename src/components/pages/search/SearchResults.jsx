@@ -134,8 +134,10 @@ const getSearchDescriptor = (query, props) => {
     params,
   } = match;
 
+  const { view, ...queryWithoutView } = query;
+
   const searchQuery = {
-    ...query,
+    ...queryWithoutView,
     p: parseInt(query.p, 10) - 1,
     size: parseInt(query.size, 10),
   };
@@ -194,6 +196,48 @@ function normalizeQuery(props, config) {
   return normalizedQuery;
 }
 
+/**
+ * Gets the current view which we want to display. We prioritize
+ * query parameters first, then the last view a user was on (in redux),
+ * and finally fall back to the table view.
+ */
+const currentView = (props) => {
+  const {
+    history,
+    location,
+  } = props;
+
+  const {
+    search: searchFromLoc,
+  } = location;
+
+  const preferred = useSelector((state) => getSearchResultPageView(state));
+
+  let current;
+  const query = qs.parse(searchFromLoc.substring(1));
+  if (query) {
+    current = query.view;
+
+    const hasCurrent = current && (
+      current === SEARCH_RESULT_GRID_VIEW
+      || current === SEARCH_RESULT_LIST_VIEW
+      || current === SEARCH_RESULT_TABLE_VIEW
+    );
+
+    // update the query parameter to include our view
+    if (preferred && !hasCurrent) {
+      query.view = preferred;
+      history.push({
+        pathname: location.pathname,
+        search: `?${qs.stringify(query)}`,
+        state: location.state,
+      });
+    }
+  }
+
+  return current || preferred || SEARCH_RESULT_TABLE_VIEW;
+};
+
 const messages = defineMessages({
   table: {
     id: 'search.result.view.table',
@@ -238,7 +282,7 @@ function SearchResults(props) {
     SEARCH_RESULT_PAGE_SEARCH_NAME,
     searchDescriptor));
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
-  const display = useSelector((state) => getSearchResultPageView(state));
+  const display = currentView(props);
 
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
@@ -299,6 +343,23 @@ function SearchResults(props) {
     },
   ];
 
+  const updatePageView = (key) => {
+    if (history && location) {
+      const { search: searchFromLoc } = location;
+      const query = qs.parse(searchFromLoc.substring(1));
+
+      query.view = key;
+      const queryString = qs.stringify(query);
+
+      history.push({
+        pathname: location.pathname,
+        search: `?${queryString}`,
+        state: location.state,
+      });
+    }
+    dispatch(setSearchResultPageView(key));
+  };
+
   const displayToggles = (
     <ToggleButtonContainer
       items={toggles}
@@ -309,7 +370,7 @@ function SearchResults(props) {
           name={item.key}
           title={item.label}
           className={classNames(styles.toggle, item.class)}
-          onClick={() => dispatch(setSearchResultPageView(item.key))}
+          onClick={() => updatePageView(item.key)}
         />
       )}
     />

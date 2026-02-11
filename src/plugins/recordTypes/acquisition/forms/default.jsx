@@ -75,6 +75,8 @@ const template = (configContext) => {
               </InputTable>
             </Panel>
 
+            <Field name="acquisitionDescription" />
+
             <Field name="acquisitionReason" />
           </Col>
         </Cols>

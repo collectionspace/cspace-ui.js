@@ -311,7 +311,7 @@ describe('MediaViewer', () => {
 
     shallowRenderer.render(
       <MediaViewer
-        ownBlobCsid="1234"
+        ownFields={{ ownBlobCsid: '1234' }}
         config={config}
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}

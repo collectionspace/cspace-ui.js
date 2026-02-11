@@ -549,6 +549,22 @@ export default (configContext) => {
             },
           },
         },
+        acquisitionDescription: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.acquisitions_common.acquisitionDescription.name',
+                defaultMessage: 'Acquisition description',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
         acquisitionReason: {
           [config]: {
             messages: defineMessages({
