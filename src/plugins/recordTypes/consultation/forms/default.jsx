@@ -55,6 +55,10 @@ const template = (configContext) => {
             </Panel>
           </Field>
         </Field>
+
+        <Field name="consultationOutcomes">
+          <Field name="consultationOutcome" />
+        </Field>
       </Panel>
     </Field>
   );

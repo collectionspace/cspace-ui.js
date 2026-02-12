@@ -339,6 +339,30 @@ export default (configContext) => {
             },
           },
         },
+        consultationOutcomes: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          consultationOutcome: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.consultations_common.consultationOutcome.name',
+                  defaultMessage: 'Consultation outcome',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: TextInput,
+                props: {
+                  multiline: true,
+                },
+              },
+            },
+          },
+        },
       },
     },
   };

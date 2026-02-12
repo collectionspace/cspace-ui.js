@@ -29,6 +29,8 @@
 - On the record editor for Acquisition
   - The Acquisition description free text field `acquisitionDescription` has been added
   - The Parties Involved repeating group `partiesInvolvedGroupList/partiesInvolvedGroup` has been added
+- On the record editor for Consultation
+  - The repeating field `consultationOutcomes/consultationOutcome` has been added
 - On the record editor for Deaccession
   - The Parties Involved repeating group `partiesInvolvedGroupList/partiesInvolvedGroup` has been added
 
