@@ -43,6 +43,8 @@ const SearchFormContentNew = ({
   const reduxNewSearchShown = useSelector((state) => getNewSearchShown(state));
   const [newSearchShown] = useState(reduxNewSearchShown);
 
+  const isBroadSearch = ['all', 'procedure', 'authority'].includes(recordTypeValue);
+
   useEffect(() => {
     if (!newSearchShown) {
       // TODO: message needs to be specified
@@ -98,27 +100,32 @@ const SearchFormContentNew = ({
             onConditionCommit={onAdvancedSearchConditionSearchTermsCommit}
             searchTermsGroup={SEARCH_TERMS_GROUP_SEARCH_TERMS}
             withoutPanel
+            isBroadSearch={isBroadSearch}
           />
         </ConnectedPanel>
-        <div className={styles.mb12}><b>{intl.formatMessage(messages.and)}</b></div>
-        <ConnectedPanel
-          collapsible
-          name="limitByPanel"
-          header={<h3>{intl.formatMessage(messages.limitBySpecificFields)}</h3>}
-        >
-          <AdvancedSearchBuilderContainer
-            condition={advancedSearchConditionLimitBy}
-            config={config}
-            hasChildGroups
-            name="advancedSearch"
-            recordType={recordTypeValue}
-            showInlineParens={false}
-            showRemoveButton={false}
-            onConditionCommit={onAdvancedSearchConditionLimitByCommit}
-            searchTermsGroup={SEARCH_TERMS_GROUP_LIMIT_BY}
-            withoutPanel
-          />
-        </ConnectedPanel>
+        {!isBroadSearch && (
+          <>
+            <div className={styles.mb12}><b>{intl.formatMessage(messages.and)}</b></div>
+            <ConnectedPanel
+              collapsible
+              name="limitByPanel"
+              header={<h3>{intl.formatMessage(messages.limitBySpecificFields)}</h3>}
+            >
+              <AdvancedSearchBuilderContainer
+                condition={advancedSearchConditionLimitBy}
+                config={config}
+                hasChildGroups
+                name="advancedSearch"
+                recordType={recordTypeValue}
+                showInlineParens={false}
+                showRemoveButton={false}
+                onConditionCommit={onAdvancedSearchConditionLimitByCommit}
+                searchTermsGroup={SEARCH_TERMS_GROUP_LIMIT_BY}
+                withoutPanel
+              />
+            </ConnectedPanel>
+          </>
+        )}
       </Panel>
       {footer}
     </form>

@@ -12,6 +12,7 @@ import {
   setSearchPageAdvanced,
   setSearchPageKeyword,
   initiateSearch,
+  buildAdvancedSearchCondition,
 } from '../../../src/actions/searchPage';
 
 chai.should();
@@ -129,6 +130,35 @@ describe('search page action creator', () => {
         pathname: '/list/loanin',
         search: `?${expectedQueryString}`,
       });
+    });
+  });
+
+  describe('buildAdvancedSearchCondition', () => {
+    it('should return advancedSearchTerms if useNewSearch is true and advancedLimitBy is null', () => {
+      const advancedSearchTerms = Immutable.Map({ op: 'eq', path: 'field1', value: 'foo' });
+      const result = buildAdvancedSearchCondition(true, null, advancedSearchTerms, null);
+
+      result.should.equal(advancedSearchTerms);
+    });
+
+    it('should return an AND condition if useNewSearch is true and advancedLimitBy is not null', () => {
+      const advancedSearchTerms = Immutable.Map({ op: 'eq', path: 'field1', value: 'foo' });
+      const advancedLimitBy = Immutable.Map({ op: 'eq', path: 'field2', value: 'bar' });
+
+      const result = buildAdvancedSearchCondition(true, advancedLimitBy, advancedSearchTerms, null);
+
+      result.should.equal(Immutable.Map({
+        op: 'and',
+        value: Immutable.List.of(advancedSearchTerms, advancedLimitBy),
+      }));
+    });
+
+    it('should return advanced if useNewSearch is false', () => {
+      const advanced = Immutable.Map({ op: 'eq', path: 'field3', value: 'baz' });
+
+      const result = buildAdvancedSearchCondition(false, null, null, advanced);
+
+      result.should.equal(advanced);
     });
   });
 });

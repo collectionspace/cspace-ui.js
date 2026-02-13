@@ -45,6 +45,10 @@
   margin-bottom: searchConditionPaddingTop;
 }
 
+.withoutMiniButtonFooter > ul > li:last-child > div {
+  border-bottom: none;
+}
+
 .normal > ul > li > *:first-child {
   flex: 0 0 auto;
   width: searchBooleanOpWidth;

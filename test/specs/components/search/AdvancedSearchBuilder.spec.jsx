@@ -385,7 +385,7 @@ describe('AdvancedSearchBuilder', () => {
       );
   });
 
-  it('should normalize an undefined condition to the default condition for search terms group when recordType is not collectionobject', function test() {
+  it('should normalize an undefined condition to the default condition for search terms group when broad searching', function test() {
     let committedCondition = null;
 
     const handleConditionCommit = (conditionArg) => {
@@ -399,6 +399,7 @@ describe('AdvancedSearchBuilder', () => {
             <AdvancedSearchBuilder
               config={config}
               recordType="all"
+              isBroadSearch
               searchTermsGroup={SEARCH_TERMS_GROUP_SEARCH_TERMS}
               onConditionCommit={handleConditionCommit}
             />
