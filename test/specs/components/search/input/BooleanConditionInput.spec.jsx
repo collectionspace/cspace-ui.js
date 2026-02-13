@@ -275,6 +275,52 @@ describe('BooleanConditionInput', () => {
     expect(this.container.querySelector('.cspace-ui-RemoveConditionButton--common')).to.equal(null);
   });
 
+  it('should not render the footer when showMiniButtonFooter is false', function test() {
+    const condition = Immutable.fromJS({
+      op: OP_AND,
+      value: [],
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTypeProvider recordType="collectionobject">
+            <BooleanConditionInput
+              condition={condition}
+              showMiniButtonFooter={false}
+              getSearchConditionInputComponent={getSearchConditionInputComponent}
+            />
+          </RecordTypeProvider>
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    expect(this.container.querySelector('footer')).to.equal(null);
+  });
+
+  it('should render the footer when showMiniButtonFooter is true', function test() {
+    const condition = Immutable.fromJS({
+      op: OP_AND,
+      value: [],
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTypeProvider recordType="collectionobject">
+            <BooleanConditionInput
+              condition={condition}
+              showMiniButtonFooter
+              getSearchConditionInputComponent={getSearchConditionInputComponent}
+            />
+          </RecordTypeProvider>
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    expect(this.container.querySelector('footer')).to.not.equal(null);
+  });
+
   it('should call onRemove when the remove button is clicked', function test() {
     const condition = Immutable.fromJS({
       op: OP_AND,
