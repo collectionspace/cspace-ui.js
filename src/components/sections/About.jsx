@@ -8,6 +8,11 @@ const messages = defineMessages({
     description: 'Title of the about page.',
     defaultMessage: 'Welcome to CollectionSpace',
   },
+  subtitle: {
+    id: 'about.subtitle',
+    description: 'Subtitle of the about page.',
+    defaultMessage: 'Sign in to your CollectionSpace',
+  },
   contentHTML: {
     id: 'about.contentHTML',
     description: 'Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.',
@@ -24,6 +29,7 @@ export default function About() {
   return (
     <div className={styles.common}>
       <h1><FormattedMessage {...messages.title} /></h1>
+      <h2><FormattedMessage {...messages.subtitle} /></h2>
       <FormattedHTMLMessage {...messages.contentHTML} tagName="div" />
     </div>
   );
