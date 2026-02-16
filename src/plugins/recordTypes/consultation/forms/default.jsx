@@ -23,6 +23,9 @@ const template = (configContext) => {
           <Col>
             <Field name="consultationNumber" />
             <Field name="consultationDate" />
+            <Field name="consultationOutcomes">
+              <Field name="consultationOutcome" />
+            </Field>
           </Col>
           <Col>
             <Field name="reason" />
@@ -54,10 +57,6 @@ const template = (configContext) => {
               <Field name="consultNote" />
             </Panel>
           </Field>
-        </Field>
-
-        <Field name="consultationOutcomes">
-          <Field name="consultationOutcome" />
         </Field>
       </Panel>
     </Field>
