@@ -42,8 +42,14 @@ a:visited * {
   border-color: currentColor;
 }
 
-h1, h2 {
+h1 {
   font-size: 24px;
+  font-weight: 400;
+  margin: 16px 0;
+}
+
+h2 {
+  font-size: 20px;
   font-weight: 400;
   margin: 16px 0;
 }
