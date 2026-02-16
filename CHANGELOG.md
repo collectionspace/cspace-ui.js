@@ -21,6 +21,7 @@
 - Rename "MyCollectionSpace" to "Recent Activity".
 - Fix performance issue when relating m:n records.
 - Enabled Hot Module Replacement for faster development.
+- Add 'repatriation preparation' to the movement static term list `moveReasons`
 
 ### New Fields 
 

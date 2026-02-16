@@ -36,6 +36,7 @@ export default {
       'loan',
       'newstoragelocation',
       'photography',
+      'repatriation-preparation',
       'research',
     ],
     messages: defineMessages({
@@ -66,6 +67,10 @@ export default {
       photography: {
         id: 'option.moveReasons.photography',
         defaultMessage: 'photography',
+      },
+      'repatriation-preparation': {
+        id: 'option.moveReasons.repatriation-preparation',
+        defaultMessage: 'repatriation preparation',
       },
       research: {
         id: 'option.moveReasons.research',
