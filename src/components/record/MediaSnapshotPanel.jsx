@@ -58,6 +58,8 @@ const propTypes = {
   csid: PropTypes.string,
   mediaRecordType: PropTypes.string,
   mediaRecordBlobCsidField: PropTypes.string,
+  mediaRecordAltTextField: PropTypes.string,
+  mediaRecordIdentificationNumberField: PropTypes.string,
   name: PropTypes.string,
   perms: PropTypes.instanceOf(Immutable.Map),
   recordData: PropTypes.instanceOf(Immutable.Map),
@@ -76,6 +78,8 @@ const propTypes = {
 const defaultProps = {
   mediaRecordType: 'media',
   mediaRecordBlobCsidField: 'ns2:media_common/blobCsid',
+  mediaRecordAltTextField: 'ns2:media_common/altText',
+  mediaRecordIdentificationNumberField: 'ns2:media_common/identificationNumber',
   name: 'mediaSnapshotPanel',
   sort: 'title',
   titleMessage: messages.title,
@@ -88,6 +92,8 @@ export default function MediaSnapshotPanel(props) {
     csid,
     mediaRecordType,
     mediaRecordBlobCsidField,
+    mediaRecordAltTextField,
+    mediaRecordIdentificationNumberField,
     name,
     perms,
     recordData,
@@ -105,12 +111,16 @@ export default function MediaSnapshotPanel(props) {
   }
 
   let ownBlobCsid;
+  let ownAltText;
+  let ownIdentificationNumber;
 
   if (recordType === mediaRecordType) {
     // For media records, pass in the record's own blobCsid. Other types only have related media
     // blobs.
 
     ownBlobCsid = recordData.getIn(['document', ...mediaRecordBlobCsidField.split('/')]);
+    ownAltText = recordData.getIn(['document', ...mediaRecordAltTextField.split('/')]);
+    ownIdentificationNumber = recordData.getIn(['document', ...mediaRecordIdentificationNumberField.split('/')]);
   }
 
   return (
@@ -120,7 +130,7 @@ export default function MediaSnapshotPanel(props) {
       config={config}
       csid={csid}
       name={name}
-      ownBlobCsid={ownBlobCsid}
+      ownFields={{ ownBlobCsid, ownAltText, ownIdentificationNumber }}
       searchDescriptor={searchDescriptor}
       recordType={recordType}
       title={<FormattedMessage {...titleMessage} />}

@@ -136,8 +136,8 @@ export default (configContext) => {
             id: 'detailList.tags.collectionobject.concepts',
             description: 'The prefix for content concept tags in the search detail view',
             defaultMessage: `{count, plural,
-              one {CONCEPT TAG: }
-              other {CONCEPT TAGS: }
+              one {Concept Tag: }
+              other {Concept Tags: }
             }`,
           },
         });

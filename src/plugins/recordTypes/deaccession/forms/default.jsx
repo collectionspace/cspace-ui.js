@@ -39,6 +39,13 @@ const template = (configContext) => {
             </Panel>
           </Field>
         </Field>
+        <Field name="partiesInvolvedGroupList">
+          <Field name="partiesInvolvedGroup">
+            <Field name="involvedParty" />
+            <Field name="involvedOnBehalfOf" />
+            <Field name="involvedRole" />
+          </Field>
+        </Field>
       </Panel>
 
       <Panel name="exit" collapsible>

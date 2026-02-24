@@ -549,6 +549,22 @@ export default (configContext) => {
             },
           },
         },
+        acquisitionDescription: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.acquisitions_common.acquisitionDescription.name',
+                defaultMessage: 'Acquisition description',
+              },
+            }),
+            view: {
+              type: TextInput,
+              props: {
+                multiline: true,
+              },
+            },
+          },
+        },
         acquisitionReason: {
           [config]: {
             messages: defineMessages({
@@ -717,6 +733,91 @@ export default (configContext) => {
             },
           },
         },
+        partiesInvolvedGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          partiesInvolvedGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.acquisitions_common.partiesInvolvedGroup.name',
+                  defaultMessage: 'Parties involved',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            involvedParty: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.involvedParty.fullName',
+                    defaultMessage: 'Parties involved person',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.involvedParty.name',
+                    defaultMessage: 'Person',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local',
+                  },
+                },
+              },
+            },
+            involvedOnBehalfOf: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.involvedOnBehalfOf.fullName',
+                    defaultMessage: 'Parties involved on behalf of',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.involvedOnBehalfOf.name',
+                    defaultMessage: 'On behalf of',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local',
+                  },
+                },
+              },
+            },
+            involvedRole: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.involvedRole.fullName',
+                    defaultMessage: 'Parties involved role',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.involvedRole.name',
+                    defaultMessage: 'Role',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'nagprainvolvedrole',
+                  },
+                },
+              },
+            },
+          },
+        },
+
       },
     },
   };

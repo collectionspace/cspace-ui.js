@@ -1589,6 +1589,34 @@ export default (configContext) => {
             },
           },
         },
+        controlledContentPlaces: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          controlledContentPlace: {
+            [config]: {
+              messages: defineMessages({
+                fullName: {
+                  id: 'field.collectionobjects_common.controlledContentPlace.fullName',
+                  defaultMessage: 'Content place (controlled)',
+                },
+                name: {
+                  id: 'field.collectionobjects_common.controlledContentPlace.name',
+                  defaultMessage: 'Place (controlled)',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: AutocompleteInput,
+                props: {
+                  source: 'place/local',
+                },
+              },
+            },
+          },
+        },
         contentPlaces: {
           [config]: {
             view: {

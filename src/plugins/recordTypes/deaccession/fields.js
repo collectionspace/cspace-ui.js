@@ -321,6 +321,91 @@ export default (configContext) => {
             },
           },
         },
+        partiesInvolvedGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          partiesInvolvedGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.deaccessions_common.partiesInvolvedGroup.name',
+                  defaultMessage: 'Parties involved',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            involvedParty: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.deaccessions_common.involvedParty.fullName',
+                    defaultMessage: 'Parties involved person',
+                  },
+                  name: {
+                    id: 'field.deaccessions_common.involvedParty.name',
+                    defaultMessage: 'Person',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'person/local',
+                  },
+                },
+              },
+            },
+            involvedOnBehalfOf: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.deaccessions_common.involvedOnBehalfOf.fullName',
+                    defaultMessage: 'Parties involved on behalf of',
+                  },
+                  name: {
+                    id: 'field.deaccessions_common.involvedOnBehalfOf.name',
+                    defaultMessage: 'On behalf of',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'organization/local',
+                  },
+                },
+              },
+            },
+            involvedRole: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.deaccessions_common.involvedRole.fullName',
+                    defaultMessage: 'Parties involved role',
+                  },
+                  name: {
+                    id: 'field.deaccessions_common.involvedRole.name',
+                    defaultMessage: 'Role',
+                  },
+                }),
+                view: {
+                  type: TermPickerInput,
+                  props: {
+                    source: 'nagprainvolvedrole',
+                  },
+                },
+              },
+            },
+          },
+        },
+
       },
     },
   };

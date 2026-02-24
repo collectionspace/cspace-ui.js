@@ -75,6 +75,8 @@ const template = (configContext) => {
               </InputTable>
             </Panel>
 
+            <Field name="acquisitionDescription" />
+
             <Field name="acquisitionReason" />
           </Col>
         </Cols>
@@ -105,6 +107,14 @@ const template = (configContext) => {
             </Field>
           </Field>
         </Row>
+
+        <Field name="partiesInvolvedGroupList">
+          <Field name="partiesInvolvedGroup">
+            <Field name="involvedParty" />
+            <Field name="involvedOnBehalfOf" />
+            <Field name="involvedRole" />
+          </Field>
+        </Field>
 
         <Field name="creditLine" />
       </Panel>

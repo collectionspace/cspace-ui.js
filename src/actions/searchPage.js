@@ -73,6 +73,40 @@ export const setSearchPageAdvancedSearchTerms = (condition) => (dispatch, getSta
     },
   });
 };
+/**
+ * Builds the advanced search condition, conditionally.
+ * @param {boolean} useNewSearch whether new search is being used
+ * @param {Map} advancedLimitBy the condition of the limit by panel
+ * @param {Map} advancedSearchTerms the condition of the searchTerms panel
+ * @param {Map} advanced the condition of the classic search form
+ * @returns {Map} the built advanced search condition;
+ */
+export const buildAdvancedSearchCondition = (
+  useNewSearch,
+  advancedLimitBy,
+  advancedSearchTerms,
+  advanced,
+) => {
+  // When using new search
+  if (useNewSearch || typeof useNewSearch === 'undefined') {
+    // and only search terms panel is populated,
+    if (advancedLimitBy == null) {
+      // then it returns the advancedSearchTerms condition
+      return advancedSearchTerms;
+    }
+    // and both search panels are populated,
+    // then it combines advancedLimitBy and advancedSearchTerms using AND operator.
+    return Immutable.Map({
+      op: OP_AND,
+      value: Immutable.List.of(
+        advancedSearchTerms,
+        advancedLimitBy,
+      ),
+    });
+  }
+  // When not using new search, it returns the advanced condition.
+  return advanced;
+};
 
 export const initiateSearch = (config, push) => (dispatch, getState) => {
   const state = getState();
@@ -81,15 +115,6 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
   const vocabulary = getSearchPageVocabulary(state, recordType);
   const keyword = getSearchPageKeyword(state);
   const useNewSearch = getUseNewSearch(state);
-  const advancedSearchCondition = useNewSearch || typeof useNewSearch === 'undefined'
-    ? Immutable.Map({
-      op: OP_AND,
-      value: Immutable.List.of(
-        getSearchPageAdvancedSearchTerms(state),
-        getSearchPageAdvancedLimitBy(state),
-      ),
-    })
-    : getSearchPageAdvanced(state);
   const query = {};
   const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
   const pathname = `/list/${recordType}${vocabularyPath}`;
@@ -99,6 +124,16 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
   if (kw) {
     query.kw = kw;
   }
+
+  const advancedSearchTerms = getSearchPageAdvancedSearchTerms(state);
+  const advancedLimitBy = getSearchPageAdvancedLimitBy(state);
+  const advanced = getSearchPageAdvanced(state);
+  const advancedSearchCondition = buildAdvancedSearchCondition(
+    useNewSearch,
+    advancedLimitBy,
+    advancedSearchTerms,
+    advanced,
+  );
 
   const fields = get(config, ['recordTypes', recordType, 'fields']);
   const condition = normalizeCondition(fields, advancedSearchCondition);
