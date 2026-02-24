@@ -49,7 +49,7 @@
 - Fix report invocation failure when some number of records over 190 are selected.
 - Fix placeholders displayed in error message when user does not have permission to create relationships.
 
-**Full Changelog**: [`v10.1.0...v10.2.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.1.0-rc.0...v10.2.0-rc1.0)
+**Full Changelog**: [`v10.1.0...v10.2.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.1.0-rc.0...release-10.2.0-rc2.0)
 
 ## v10.1.0
 
