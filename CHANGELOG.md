@@ -41,6 +41,8 @@
 - Add link to User Manual in Footer (Criteria 3.2.6).
 - ARIA/WCAG updates for search table.
 - Fix Contrast for Selected Page in search results paginator (Criteria 1.4.3)
+- Add H1 tag to the Login Screen (Criteria 1.3.1)
+- Display alt text and title with images of image gallery (Criteria 1.1.1)
 
 ### Bug Fixes
 
