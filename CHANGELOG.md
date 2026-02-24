@@ -41,13 +41,15 @@
 - Add link to User Manual in Footer (Criteria 3.2.6).
 - ARIA/WCAG updates for search table.
 - Fix Contrast for Selected Page in search results paginator (Criteria 1.4.3)
+- Add H1 tag to the Login Screen (Criteria 1.3.1)
+- Display alt text and title with images of image gallery (Criteria 1.1.1)
 
 ### Bug Fixes
 
 - Fix report invocation failure when some number of records over 190 are selected.
 - Fix placeholders displayed in error message when user does not have permission to create relationships.
 
-**Full Changelog**: [`v10.1.0...v10.2.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.1.0-rc.0...v10.2.0-rc1.0)
+**Full Changelog**: [`v10.1.0...v10.2.0`](https://github.com/collectionspace/cspace-ui.js/compare/v10.1.0-rc.0...release-10.2.0-rc2.0)
 
 ## v10.1.0
 
