@@ -18,6 +18,7 @@ const propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }),
+  onInvokeComplete: PropTypes.func,
   recordType: PropTypes.string,
   isOpen: PropTypes.bool,
 };
@@ -38,6 +39,7 @@ export default function SearchResultSidebar(props) {
   const {
     config,
     history,
+    onInvokeComplete,
     recordType,
     isOpen,
   } = props;
@@ -69,6 +71,7 @@ export default function SearchResultSidebar(props) {
         color={panelColor}
         config={config}
         history={history}
+        onInvokeComplete={onInvokeComplete}
         recordType={recordType}
         selectedItems={selectedItems}
       />

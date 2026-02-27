@@ -42,6 +42,7 @@ const propTypes = {
   recordType: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   invoke: PropTypes.func,
+  onInvokeComplete: PropTypes.func,
 };
 
 export default class SearchResultBatchPanel extends Component {
@@ -145,6 +146,12 @@ export default class SearchResultBatchPanel extends Component {
 
             if (location) {
               history.push(location);
+            }
+          } else {
+            const { onInvokeComplete } = this.props;
+
+            if (onInvokeComplete) {
+              onInvokeComplete();
             }
           }
         });
