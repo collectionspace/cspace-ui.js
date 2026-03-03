@@ -44,7 +44,7 @@ function SortBy({
 
   const {
     defaultSortBy = 'updatedAt',
-    defaultSortDir = 'desc',
+    defaultSortDirection = 'desc',
   } = sortConfig;
 
   const options = Object.keys(sortConfig)
@@ -59,7 +59,7 @@ function SortBy({
       };
     });
 
-  const [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDir];
+  const [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDirection];
   const inputId = 'sortBy';
   const input = (
     <DropdownMenuInput
@@ -70,7 +70,7 @@ function SortBy({
     />
   );
 
-  const sortDirLabel = sortDir ? intl.formatMessage(messages.descendingLabel)
+  const sortDirLabel = sortDir === 'desc' ? intl.formatMessage(messages.descendingLabel)
     : intl.formatMessage(messages.ascendingLabel);
   const sortDirButton = (
     <Button
