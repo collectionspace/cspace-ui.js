@@ -66,6 +66,8 @@ export default (configContext) => {
         sortBy: 'collectionspace_core:updatedAt',
         width: 150,
       },
+      defaultSortBy: 'termDisplayName',
+      defaultSortDirection: 'asc',
     },
   };
 };

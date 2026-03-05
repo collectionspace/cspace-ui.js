@@ -50,7 +50,6 @@ import {
   createSortByHandler,
   createSortDirHandler,
   normalizeSearchQueryParams,
-  deriveSearchType,
 } from '../../../helpers/searchHelpers';
 import {
   setSearchPageAdvanced,
@@ -58,7 +57,6 @@ import {
   setSearchPageAdvancedSearchTerms,
   setSearchPageKeyword,
 } from '../../../actions/searchPage';
-import { readListItems } from '../../search/searchResultHelpers';
 
 const selectBarPropTypes = {
   toggleBar: PropTypes.object,
@@ -286,15 +284,10 @@ function SearchResults(props) {
   const isSidebarOpen = useSelector((state) => isSearchResultSidebarOpen(state));
   const display = currentView(props);
 
-  // use the list items size to handle the seeded empty result conflicting with errors
-  const { listType } = deriveSearchType(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor);
-  const { items } = readListItems(config, listType, searchResults);
-  const searchResultsSize = items?.size ?? 0;
-
   useEffect(() => {
     setPreferredPageSize(props, dispatch);
     dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
-  }, [searchDescriptor.toString(), searchResultsSize]);
+  }, [searchDescriptor.toString()]);
 
   const handlePageSizeChange = createPageSizeChangeHandler({
     history,
@@ -392,11 +385,16 @@ function SearchResults(props) {
     searchDisplay = <SearchResultTable searchDescriptor={searchDescriptor} />;
   }
 
+  const handleBatchInvokeComplete = () => {
+    dispatch(search(config, SEARCH_RESULT_PAGE_SEARCH_NAME, searchDescriptor));
+  };
+
   const sidebar = (
     <SearchResultSidebar
       config={config}
       history={history}
       isOpen={isSidebarOpen}
+      onInvokeComplete={handleBatchInvokeComplete}
       recordType={searchDescriptor.get('recordType')}
     />
   );
