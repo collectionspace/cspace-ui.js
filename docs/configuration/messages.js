@@ -11,6 +11,9 @@ export default {
   // Content of the about page. This message is interpreted as HTML, so HTML rules apply. For example, newlines are ignored, and <, >, and & must be escaped.
   "about.contentHTML": "<p> CollectionSpace is a community-supported collections management application for museums, historical societies, natural science collections, and more. </p>",
 
+  // Subtitle of the about page.
+  "about.subtitle": "Sign in to your CollectionSpace",
+
   // Title of the about page.
   "about.title": "Welcome to CollectionSpace",
 
@@ -144,6 +147,9 @@ export default {
 
   // Notification message shown when a batch job is running.
   "batch.running": "Running {name}…",
+
+  // Error message when no image can be displayed
+  "blob.notFound": "No Preview Image Available",
 
   // Label of the button to add a new boolean constraint to a boolean search
   "booleanConditionInput.addBoolean.label": "+ Any/All",
@@ -559,7 +565,7 @@ export default {
   "dashboardPage.recentPanelTitle": "Records Updated in Last 7 Days",
 
   // Title of the dashboard page.
-  "dashboardPage.title": "My CollectionSpace",
+  "dashboardPage.title": "Recent Activity",
 
   // Tip to display for interacting with the DateInput
   "dateInput.tooltip": "Use the down arrow key or mouse to open the calendar",
@@ -572,6 +578,21 @@ export default {
 
   // Label of the deprecate button.
   "deprecateButton.label": "Deactivate",
+
+  // The prefix for current location in the search detail view
+  "detailList.aside.collectionobject.currentLocation": "Current Storage Location:",
+
+  // The text when the computedCurrentLocation is null or empty
+  "detailList.aside.collectionobject.locationNotFound": "Storage Location not assigned",
+
+  // The prefix for responsible department in the search detail view
+  "detailList.aside.collectionobject.responsibleDepartment": "Responsible Department:",
+
+  // The prefix for the updateAt display
+  "detailList.footer.collectionobject.updatedAt": "Modified: {value}",
+
+  // The prefix for content concept tags in the search detail view
+  "detailList.tags.collectionobject.concepts": "{count, plural, one {Concept Tag: } other {Concept Tags: }}",
 
   "errorPage.ERR_INVALID_CSID": "\"{csid}\" is not a valid CSID.",
 
@@ -625,6 +646,12 @@ export default {
 
   "field.accounts_common.email.name": "Email address",
 
+  // Message to display when the description is too large
+  "field.accounts_common.errorInvalidDescription": "Description must be under {maxLength} characters",
+
+  // Message to display when the description is too large
+  "field.accounts_common.errorInvalidDisplayName": "Name must be under {maxLength} characters",
+
   // Message to display when the password confirmation does not match the password on a user account record.
   "field.accounts_common.errorNotConfirmed": "Password and confirm password must be identical.",
 
@@ -653,6 +680,8 @@ export default {
 
   "field.acquisitions_common.acquisitionDateGroup.name": "Acquisition date",
 
+  "field.acquisitions_common.acquisitionDescription.name": "Acquisition description",
+
   "field.acquisitions_common.acquisitionFunding.name": "Funding",
 
   "field.acquisitions_common.acquisitionFundingCurrency.fullName": "Funding currency",
@@ -676,8 +705,6 @@ export default {
   "field.acquisitions_common.acquisitionNote.name": "Note",
 
   "field.acquisitions_common.acquisitionProvisos.name": "Provisos",
-
-  "field.acquisitions_common.acquisitionDescription.name": "Acquisition description",
 
   "field.acquisitions_common.acquisitionReason.name": "Acquisition reason",
 
@@ -721,6 +748,18 @@ export default {
 
   "field.acquisitions_common.groupPurchasePriceValue.name": "Value",
 
+  "field.acquisitions_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
+
+  "field.acquisitions_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.acquisitions_common.involvedParty.fullName": "Parties involved person",
+
+  "field.acquisitions_common.involvedParty.name": "Person",
+
+  "field.acquisitions_common.involvedRole.fullName": "Parties involved role",
+
+  "field.acquisitions_common.involvedRole.name": "Role",
+
   "field.acquisitions_common.objectOfferPriceCurrency.fullName": "Object offer price currency",
 
   "field.acquisitions_common.objectOfferPriceCurrency.name": "Currency",
@@ -754,6 +793,8 @@ export default {
   "field.acquisitions_common.originalObjectPurchasePriceValue.name": "Value",
 
   "field.acquisitions_common.owner.name": "Owner",
+
+  "field.acquisitions_common.partiesInvolvedGroup.name": "Parties involved",
 
   "field.acquisitions_common.transferOfTitleNumber.name": "Transfer of title number",
 
@@ -1451,10 +1492,6 @@ export default {
 
   "field.collectionobjects_common.contentPerson.name": "Person",
 
-  "field.collectionobjects_common.controlledContentPlace.fullName": "Content place (controlled)",
-
-  "field.collectionobjects_common.controlledContentPlace.name": "Place (controlled)",
-
   "field.collectionobjects_common.contentPlace.fullName": "Content place",
 
   "field.collectionobjects_common.contentPlace.name": "Place",
@@ -1466,6 +1503,10 @@ export default {
   "field.collectionobjects_common.contentScript.fullName": "Content script",
 
   "field.collectionobjects_common.contentScript.name": "Script",
+
+  "field.collectionobjects_common.controlledContentPlace.fullName": "Content place (controlled)",
+
+  "field.collectionobjects_common.controlledContentPlace.name": "Place (controlled)",
 
   "field.collectionobjects_common.copyNumber.name": "Copy number",
 
@@ -1809,7 +1850,7 @@ export default {
 
   "field.collectionobjects_common.objectNumber.name": "Identification number",
 
-  "field.collectionobjects_common.objectNumber.name": "Identification number",
+  "field.collectionobjects_common.objectProductionAgent.name": "Production agent (verbatim)",
 
   "field.collectionobjects_common.objectProductionDateGroup.name": "Production date",
 
@@ -1914,6 +1955,8 @@ export default {
   "field.collectionobjects_common.programmingLanguageVersion.fullName": "Programming language version",
 
   "field.collectionobjects_common.programmingLanguageVersion.name": "Version",
+
+  "field.collectionobjects_common.publishedRelatedLinkGroup.name": "Published related link",
 
   "field.collectionobjects_common.publishTo.name": "Publish to",
 
@@ -2439,6 +2482,8 @@ export default {
 
   "field.consultations_common.consultationNumber.name": "Consultation number",
 
+  "field.consultations_common.consultationOutcome.name": "Consultation outcome",
+
   "field.consultations_common.consultDate.fullName": "Consultation log date",
 
   "field.consultations_common.consultDate.name": "Date",
@@ -2557,6 +2602,20 @@ export default {
 
   "field.deaccessions_common.exitRecipient.name": "Exit recipient",
 
+  "field.deaccessions_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
+
+  "field.deaccessions_common.involvedOnBehalfOf.name": "On behalf of",
+
+  "field.deaccessions_common.involvedParty.fullName": "Parties involved person",
+
+  "field.deaccessions_common.involvedParty.name": "Person",
+
+  "field.deaccessions_common.involvedRole.fullName": "Parties involved role",
+
+  "field.deaccessions_common.involvedRole.name": "Role",
+
+  "field.deaccessions_common.partiesInvolvedGroup.name": "Parties involved",
+
   "field.dutiesofcare_common.detailDeterminationDate.fullName": "Duty of care detail determination date",
 
   "field.dutiesofcare_common.detailDeterminationDate.name": "Determination date",
@@ -2585,15 +2644,15 @@ export default {
 
   "field.dutiesofcare_common.dutyOfCareTitle.name": "Title",
 
-  "field.dutiesofcare_common.involvedOnBehalfOf.fullName": "Party involved on behalf of",
+  "field.dutiesofcare_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
 
   "field.dutiesofcare_common.involvedOnBehalfOf.name": "On behalf of",
 
-  "field.dutiesofcare_common.involvedParty.fullName": "Party involved person",
+  "field.dutiesofcare_common.involvedParty.fullName": "Parties involved person",
 
   "field.dutiesofcare_common.involvedParty.name": "Person",
 
-  "field.dutiesofcare_common.involvedRole.fullName": "Party involved roles",
+  "field.dutiesofcare_common.involvedRole.fullName": "Parties involved roles",
 
   "field.dutiesofcare_common.involvedRole.name": "Role",
 
@@ -2601,7 +2660,7 @@ export default {
 
   "field.dutiesofcare_common.originationDate.name": "Origination date",
 
-  "field.dutiesofcare_common.partiesInvolvedGroup.name": "Party involved",
+  "field.dutiesofcare_common.partiesInvolvedGroup.name": "Parties involved",
 
   "field.exhibitions_common.boilerplateText.name": "Boilerplate text",
 
@@ -2808,6 +2867,8 @@ export default {
   "field.exits_common.individual.name": "Individual",
 
   "field.exits_common.method.name": "Exit method",
+
+  "field.exits_common.note.name": "Note",
 
   "field.exits_common.owner.name": "Owner after exit",
 
@@ -3198,6 +3259,8 @@ export default {
   "field.heldintrusts_common.limitationType.fullName": "Access limitation type",
 
   "field.heldintrusts_common.limitationType.name": "Type",
+
+  "field.heldintrusts_common.note.name": "Note",
 
   "field.heldintrusts_common.owner.name": "Owner",
 
@@ -3999,19 +4062,19 @@ export default {
 
   "field.nagprainventories_common.includeInNotice.name": "Include in notice",
 
-  "field.nagprainventories_common.inventoryDate.fullName": "Inventory status date",
+  "field.nagprainventories_common.inventoryDate.fullName": "Inventory documentation status date",
 
   "field.nagprainventories_common.inventoryDate.name": "Date",
 
-  "field.nagprainventories_common.inventoryGroup.fullName": "Inventory status group",
+  "field.nagprainventories_common.inventoryGroup.fullName": "Inventory documentation status group",
 
   "field.nagprainventories_common.inventoryGroup.name": "Group",
 
-  "field.nagprainventories_common.inventoryIndividual.fullName": "Inventory status individual",
+  "field.nagprainventories_common.inventoryIndividual.fullName": "Inventory documentation status individual",
 
   "field.nagprainventories_common.inventoryIndividual.name": "Individual",
 
-  "field.nagprainventories_common.inventoryNote.fullName": "Inventory status note",
+  "field.nagprainventories_common.inventoryNote.fullName": "Inventory documentation status note",
 
   "field.nagprainventories_common.inventoryNote.name": "Note",
 
@@ -4019,11 +4082,11 @@ export default {
 
   "field.nagprainventories_common.inventoryNumber.name": "Inventory/documentation Number",
 
-  "field.nagprainventories_common.inventoryStatus.fullName": "Inventory status",
+  "field.nagprainventories_common.inventoryStatus.fullName": "Inventory documentation status",
 
   "field.nagprainventories_common.inventoryStatus.name": "Status",
 
-  "field.nagprainventories_common.inventoryStatusGroup.name": "Inventory status",
+  "field.nagprainventories_common.inventoryStatusGroup.name": "Inventory documentation status",
 
   "field.nagprainventories_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
 
@@ -4036,6 +4099,8 @@ export default {
   "field.nagprainventories_common.involvedRole.fullName": "Parties involved role",
 
   "field.nagprainventories_common.involvedRole.name": "Role",
+
+  "field.nagprainventories_common.note.name": "Note",
 
   "field.nagprainventories_common.noticeType.name": "Notice type",
 
@@ -4683,8 +4748,6 @@ export default {
 
   "field.places_common.vUnitofMeasure.name": "Unit of measure",
 
-  "field.procedure.publishedRelatedLinkGroup.name": "Published related link",
-
   "field.repatriationrequests_common.alternativeIdentifier.fullName": "Alternative identifier",
 
   "field.repatriationrequests_common.alternativeIdentifier.name": "Identifier",
@@ -4965,41 +5028,43 @@ export default {
 
   "field.summarydocumentations_common.includeInNotice.name": "Include in notice",
 
-  "field.summarydocumentations_common.involvedOnBehalfOf.fullName": "Party involved on behalf of",
+  "field.summarydocumentations_common.involvedOnBehalfOf.fullName": "Parties involved on behalf of",
 
   "field.summarydocumentations_common.involvedOnBehalfOf.name": "On behalf of",
 
-  "field.summarydocumentations_common.involvedParty.fullName": "Party involved person",
+  "field.summarydocumentations_common.involvedParty.fullName": "Parties involved person",
 
   "field.summarydocumentations_common.involvedParty.name": "Person",
 
-  "field.summarydocumentations_common.involvedRole.fullName": "Party involved role",
+  "field.summarydocumentations_common.involvedRole.fullName": "Parties involved role",
 
   "field.summarydocumentations_common.involvedRole.name": "Role",
 
+  "field.summarydocumentations_common.note.name": "Note",
+
   "field.summarydocumentations_common.originationDate.name": "Origination date",
 
-  "field.summarydocumentations_common.partiesInvolvedGroup.name": "Party involved",
+  "field.summarydocumentations_common.partiesInvolvedGroup.name": "Parties involved",
 
-  "field.summarydocumentations_common.status.fullName": "Summary status",
+  "field.summarydocumentations_common.status.fullName": "Summary documentation status",
 
   "field.summarydocumentations_common.status.name": "Status",
 
-  "field.summarydocumentations_common.statusDate.fullName": "Summary status date",
+  "field.summarydocumentations_common.statusDate.fullName": "Summary documentation status date",
 
   "field.summarydocumentations_common.statusDate.name": "Date",
 
-  "field.summarydocumentations_common.statusGroup.name": "Summary status",
+  "field.summarydocumentations_common.statusGroup.name": "Summary documentation status",
 
-  "field.summarydocumentations_common.statusGroupType.fullName": "Summary status group",
+  "field.summarydocumentations_common.statusGroupType.fullName": "Summary documentation status group",
 
   "field.summarydocumentations_common.statusGroupType.name": "Group",
 
-  "field.summarydocumentations_common.statusIndividual.fullName": "Summary status individual",
+  "field.summarydocumentations_common.statusIndividual.fullName": "Summary documentation status individual",
 
   "field.summarydocumentations_common.statusIndividual.name": "Individual",
 
-  "field.summarydocumentations_common.statusNote.fullName": "Summary status note",
+  "field.summarydocumentations_common.statusNote.fullName": "Summary documentation status note",
 
   "field.summarydocumentations_common.statusNote.name": "Note",
 
@@ -5211,10 +5276,6 @@ export default {
 
   "field.uoc_common.feeValue.name": "Value",
 
-  "field.uoc_common.useDateHoursSpent.fullName": "Start/ongoing date hours spent",
-
-  "field.uoc_common.useDateHoursSpent.name": "Hours spent",
-
   "field.uoc_common.location.name": "Location",
 
   "field.uoc_common.materialType.name": "Material type",
@@ -5266,6 +5327,10 @@ export default {
   "field.uoc_common.useDate.name": "Date",
 
   "field.uoc_common.useDateGroup.name": "Start/ongoing date",
+
+  "field.uoc_common.useDateHoursSpent.fullName": "Start/ongoing date hours spent",
+
+  "field.uoc_common.useDateHoursSpent.name": "Hours spent",
 
   "field.uoc_common.useDateNumberOfVisitors.fullName": "Start/ongoing date no. of visitors",
 
@@ -5432,16 +5497,18 @@ export default {
 
   "fields.transports_common.courierGroup.name": "Courier",
 
-  "footer.about": "About CollectionSpace",
+  "footer.about": "Visit the CollectionSpace Website",
 
   // The name of the application, displayed in the footer.
   "footer.appName": "UI",
 
   "footer.copyright": "Copyright © {startYear}–{endYear} CollectionSpace",
 
-  "footer.feedback": "Leave Feedback",
+  "footer.documentation": "Access the CollectionSpace Documentation",
 
-  "footer.feedbackUrl": "http://www.collectionspace.org/contact",
+  "footer.feedback": "Share Feedback with the CollectionSpace Program",
+
+  "footer.feedbackUrl": "https://www.collectionspace.org/contact",
 
   // Message shown in the footer when a connection to the CollectionSpace server can not be established.
   "footer.notConnected": "Not connected to {serverUrl}",
@@ -5846,6 +5913,10 @@ export default {
 
   "list.role.searching": "Finding roles...",
 
+  "list.search.resultCount": "{totalItems, plural, =0 {No records} one {1 record} other {{startNum, number}–{endNum, number} of {totalItems, number} records}} found",
+
+  "list.search.searching": "Finding records...",
+
   // Label of the cancel button in the lock record modal.
   "lockRecordModal.cancel": "Cancel",
 
@@ -5910,7 +5981,7 @@ export default {
 
   "navBar.create": "Create New",
 
-  "navBar.dashboard": "My CollectionSpace",
+  "navBar.dashboard": "Recent Activity",
 
   "navBar.search": "Search",
 
@@ -7037,6 +7108,8 @@ export default {
 
   "option.moveReasons.photography": "photography",
 
+  "option.moveReasons.repatriation-preparation": "repatriation preparation",
+
   "option.moveReasons.research": "research",
 
   "option.nameCurrencies.archaic": "archaic",
@@ -7831,6 +7904,12 @@ export default {
   "record.acquisition.collectionName": "Acquisitions",
 
   // The name of a collection of records of the type.
+  "record.advancedsearch.collectionName": "Advanced Search",
+
+  // The name of the record type.
+  "record.advancedsearch.name": "Advanced Search",
+
+  // The name of a collection of records of the type.
   "record.all.collectionName": "All Records",
 
   // The name of the record type.
@@ -8228,24 +8307,54 @@ export default {
   // Text of the tooltip shown when the save button is disabled due to field validation errors.
   "saveButton.validationErrors": "Field validation errors must be corrected before this record can be saved.",
 
+  // The detailList button label
+  "search.result.view.detailList": "Switch to detail list view",
+
+  // The grid button label
+  "search.result.view.grid": "Switch to grid view",
+
+  // The table button label
+  "search.result.view.table": "Switch to table view",
+
+  "search.sortBy": "Sort By",
+
+  "search.sortDir.ascending.label": "Current sort: ascending",
+
+  "search.sortDir.descending.label": "Current sort: descending",
+
   // Label of the search button.
   "searchButton.label": "Search",
 
   // Label of the search clear button.
   "searchClearButton.label": "Clear",
 
+  // Label of the edit record button.
+  "searchDetailList.editLabel": "Edit Record",
+
   // The label used to indicate search terms that are or'ed together.
   "searchField.or": "or",
+
+  "searchForm.and": "And",
+
+  "searchForm.enterSearchTerms": "Enter keyword search terms:",
 
   "searchForm.fullTextSearch": "Full Text Search",
 
   "searchForm.keyword": "Keywords",
 
+  "searchForm.limitBySpecificFields": "Limit by:",
+
   "searchForm.recordType": "Find",
 
   "searchForm.vocabulary": "in vocabulary",
 
+  "searchPage.provideFeedback": "Provide feedback",
+
   "searchPage.title": "Search",
+
+  "searchPage.toggleButtonNewSearch": "Return to New Search",
+
+  "searchPage.toggleButtonOldSearch": "Revert to Classic Search",
 
   // Label of the open as search link in the search panel header.
   "searchPanel.openSearch": "Open",
@@ -8254,7 +8363,13 @@ export default {
 
   "searchPanel.titleWithCountFiltered": "{title}: {totalItems, number} (filtered)",
 
+  // The aria-label for a checkbox input
+  "searchResult.checkboxAriaLabel": "Select item {index}",
+
   "searchResultBatchPanel.title": "Data Updates",
+
+  // Default alt text for thumbnails in search results
+  "searchResultImage.altText": "Edit record {csid}",
 
   "searchResultLink.error": "...",
 
@@ -8280,6 +8395,9 @@ export default {
 
   "searchResultTable.searchPending": "⋯",
 
+  // The aria-label for a row
+  "searchResultTableRow.rowAriaLabel": "Row {index} of {total} - {primary}",
+
   "searchResultTitleBar.keyword": "containing \"{keyword}\"",
 
   "searchResultTitleBar.related": "related to {record}",
@@ -8300,6 +8418,9 @@ export default {
 
   // Label of the search save button.
   "searchSaveButton.label": "Save",
+
+  // Label for select table header
+  "searchTable.selectHeaderAll": "Selected",
 
   // Label of the accept selection button in the search to relate modal.
   "searchToRelateModal.accept": "Relate selected",
@@ -8364,6 +8485,20 @@ export default {
 
   // Label of the button to show the sidebar.
   "sidebarToggleButton.show": "Show sidebar",
+
+  "sortBy.collectionobjects.computedCurrentLocation": "Computed current location",
+
+  "sortBy.collectionobjects.createdAt": "Created at",
+
+  "sortBy.collectionobjects.objectName": "Object name",
+
+  "sortBy.collectionobjects.objectNameControlled": "Object name controlled",
+
+  "sortBy.collectionobjects.objectNumber": "Identification number",
+
+  "sortBy.collectionobjects.title": "Title",
+
+  "sortBy.collectionobjects.updatedAt": "Updated at",
 
   "structuredDateInput.parseFailed": "Unrecognized display date format. Try a different format, or enter values in the fields below.",
 
