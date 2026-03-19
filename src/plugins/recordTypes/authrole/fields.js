@@ -65,7 +65,7 @@ export default (configContext) => {
             },
             errorInvalidDisplayName: {
               id: 'field.accounts_common.errorInvalidDisplayName',
-              description: 'Message to display when the description is too large',
+              description: 'Message to display when the display name is too large',
               defaultMessage: 'Name must be under {maxLength} characters',
             },
           }),
