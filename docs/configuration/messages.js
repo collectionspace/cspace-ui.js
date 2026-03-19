@@ -649,7 +649,7 @@ export default {
   // Message to display when the description is too large
   "field.accounts_common.errorInvalidDescription": "Description must be under {maxLength} characters",
 
-  // Message to display when the description is too large
+  // Message to display when the display name is too large
   "field.accounts_common.errorInvalidDisplayName": "Name must be under {maxLength} characters",
 
   // Message to display when the password confirmation does not match the password on a user account record.
