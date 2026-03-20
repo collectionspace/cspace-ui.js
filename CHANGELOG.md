@@ -1,5 +1,7 @@
 # Change Log
 
+## v11.0.0
+
 ## v10.2.0
 
 ### Breaking Changes
