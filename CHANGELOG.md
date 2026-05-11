@@ -2,6 +2,10 @@
 
 ## v11.0.0
 
+### Accessibility
+
+- Resolved orphaned form labels issue (Criteria 3.3.2).
+
 ## v10.2.0
 
 ### Breaking Changes
