@@ -13,6 +13,8 @@ import {
   dataPathToFieldDescriptorPath,
 } from '../../helpers/configHelpers';
 
+import buildInputId from '../../helpers/inputIdHelper';
+
 const {
   Label,
   InputTable: BaseInputTable,
@@ -32,10 +34,11 @@ const renderTableLabel = (recordTypeConfig, name) => {
   return (message ? renderMessageLabel(message) : null);
 };
 
-const renderFieldLabel = (fieldConfig, inputProps) => {
+const renderFieldLabel = (fieldConfig, inputProps, labelProps) => {
   const message = get(fieldConfig, ['messages', 'name']);
 
   const props = {
+    ...labelProps,
     readOnly: inputProps.readOnly,
     required: inputProps.required,
   };
@@ -60,6 +63,7 @@ const contextTypes = {
   config: PropTypes.shape({
     recordTypes: PropTypes.object,
   }),
+  formName: PropTypes.string,
   intl: intlShape,
   recordType: PropTypes.string,
 };
@@ -72,6 +76,7 @@ export default function InputTable(props, context) {
 
   const {
     config,
+    formName,
     intl,
     recordType,
   } = context;
@@ -80,11 +85,21 @@ export default function InputTable(props, context) {
   const fields = get(recordTypeConfig, 'fields');
 
   const renderLabel = (input) => {
-    const path = dataPathToFieldDescriptorPath(pathHelpers.getPath(input.props));
+    const fullPath = pathHelpers.getPath(input.props);
+    const path = dataPathToFieldDescriptorPath(fullPath);
     const field = get(fields, path);
     const fieldConfig = get(field, configKey);
 
-    return (fieldConfig && renderFieldLabel(fieldConfig, input.props));
+    if (!fieldConfig) {
+      return null;
+    }
+
+    const inputId = buildInputId(recordType, formName, fullPath);
+
+    return renderFieldLabel(fieldConfig, input.props, {
+      htmlFor: inputId,
+      id: `${inputId}-label`,
+    });
   };
 
   const renderAriaLabel = (input) => {

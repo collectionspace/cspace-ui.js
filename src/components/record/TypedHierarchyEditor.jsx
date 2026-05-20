@@ -5,10 +5,12 @@ import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import MiniViewPopupAutocompleteInputContainer from '../../containers/record/MiniViewPopupAutocompleteInputContainer';
 import OptionPickerInputContainer from '../../containers/record/OptionPickerInputContainer';
+import buildInputId from '../../helpers/inputIdHelper';
 
 const {
   CompoundInput,
   InputTable,
+  Label,
 } = inputComponents;
 
 const propTypes = {
@@ -152,9 +154,21 @@ export class BaseTypedHierarchyEditor extends Component {
     const parentRefName = value.getIn(['parent', 'refName']);
     const parentType = value.getIn(['parent', 'type']);
 
+    const parentRefNameId = buildInputId(recordType, undefined, ['hierarchy', 'parent', 'parentRefName']);
+    const parentTypeId = buildInputId(recordType, undefined, ['hierarchy', 'parent', 'parentType']);
+
+    const renderParentLabel = (input) => {
+      const { id, label } = input.props;
+      return <Label htmlFor={id}>{label}</Label>;
+    };
+
     return (
-      <InputTable label={intl.formatMessage(messages.parent)}>
+      <InputTable
+        label={intl.formatMessage(messages.parent)}
+        renderLabel={renderParentLabel}
+      >
         <MiniViewPopupAutocompleteInputContainer
+          id={parentRefNameId}
           label={intl.formatMessage(messages.parentName)}
           name="parentRefName"
           source={source}
@@ -166,6 +180,7 @@ export class BaseTypedHierarchyEditor extends Component {
           matchFilter={this.filterMatch}
         />
         <OptionPickerInputContainer
+          id={parentTypeId}
           label={intl.formatMessage(messages.parentType)}
           name="parentType"
           source={parentTypeOptionListName}
@@ -197,6 +212,16 @@ export class BaseTypedHierarchyEditor extends Component {
     const source = [recordType, vocabulary].join('/');
     const children = value.get('children');
 
+    const childrenTemplateId = buildInputId(recordType, undefined, ['hierarchy', 'children', 'template']);
+
+    // point the label to the first input.
+    const renderChildInputLabel = (input) => {
+      const { name, label } = input.props;
+      const childInputId = `${childrenTemplateId}-0-${name}`;
+
+      return <Label htmlFor={childInputId}>{label}</Label>;
+    };
+
     return (
       <CompoundInput
         label={intl.formatMessage(messages.children)}
@@ -204,9 +229,11 @@ export class BaseTypedHierarchyEditor extends Component {
         readOnly={readOnly}
       >
         <CompoundInput
+          id={childrenTemplateId}
           tabular
           repeating
           reorderable={false}
+          renderChildInputLabel={renderChildInputLabel}
           onAddInstance={this.handleAddChild}
           onRemoveInstance={this.handleRemoveChild}
         >
