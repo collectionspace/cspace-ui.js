@@ -1,4 +1,4 @@
-@value deleteButtonBg, deleteButtonBgActive from '../colors.css';
+@value deleteButtonBg, deleteButtonBgActive from 'cspace-input/styles/colors.css';
 @value activeEdgeWidth from '../dimensions.css';
 
 .common {
