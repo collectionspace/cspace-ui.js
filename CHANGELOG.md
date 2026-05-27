@@ -5,6 +5,7 @@
 ### Accessibility
 
 - Resolved orphaned form labels issue (Criteria 3.3.2).
+- Resolved very low contrast buttons issue (Criteria 1.4.3)
 
 ## v10.2.0
 
