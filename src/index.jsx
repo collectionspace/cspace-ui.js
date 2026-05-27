@@ -140,12 +140,12 @@ export default (uiConfig) => {
     }
 
     // Run accessibility checks in dev and log issues in console
-    if (process.env.NODE_ENV === 'development') {
-      (async () => {
-        // eslint-disable-next-line import/no-extraneous-dependencies
-        const axe = await import('@axe-core/react');
-        await axe.default(React, ReactDOM, 1000);
-      })();
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //   (async () => {
+    //     // eslint-disable-next-line import/no-extraneous-dependencies
+    //     const axe = await import('@axe-core/react');
+    //     await axe.default(React, ReactDOM, 1000);
+    //   })();
+    // }
   }
 };

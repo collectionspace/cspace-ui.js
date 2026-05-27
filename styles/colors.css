@@ -5,6 +5,8 @@
 
 @value inputBg: rgb(255, 255, 255);
 
-@value buttonBg: #73AA4F;
+@value buttonBg: #003366;
 @value buttonOutlinedBg: rgb(255, 255, 255);
 @value buttonOutlinedBgActive: rgb(220, 220, 220);
+@value deleteButtonBg: #660000;
+@value deleteButtonBgActive: #990000;
