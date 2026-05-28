@@ -1,3 +1,5 @@
+@value textDark from '../colors.css';
+
 .common {
   display: inline-block;
   height: 31px;
@@ -6,7 +8,7 @@
   border-top-right-radius: 3px;
   padding: 6px 10px 3px 10px;
   text-decoration: none;
-  color: #73AA4F;
+  color: textDark;
   cursor: default;
 }
 
