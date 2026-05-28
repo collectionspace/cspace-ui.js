@@ -89,7 +89,7 @@ function SearchResultTableRow({
         const key = `${csid}-${column.dataKey}`;
 
         // Wrap the value in a link if it's in a linkable column and the location is available.
-        const linkableColumns = ['title', 'objectNumber'];
+        const linkableColumns = ['objectNumber'];
         if (linkableColumns.includes(column.dataKey) && location) {
           return (
             <td key={key}>
