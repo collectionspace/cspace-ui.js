@@ -73,6 +73,7 @@ const template = (configContext) => {
             </Field>
 
             <Field name="computedCurrentLocation" />
+            <Field name="homeStorageLocation" />
           </Col>
         </Row>
 

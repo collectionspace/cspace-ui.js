@@ -513,6 +513,28 @@ export default (configContext) => {
             },
           },
         },
+        homeStorageLocation: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.homeStorageLocation.name',
+                defaultMessage: 'Home storage location',
+              },
+            }),
+            searchView: {
+              type: AutocompleteInput,
+              props: {
+                source: 'location/local,location/offsite,organization/local,organization/shared',
+              },
+            },
+            view: {
+              type: AutocompleteInput,
+              props: {
+                source: 'location/local,location/offsite,organization/local,organization/shared',
+              },
+            },
+          },
+        },
         titleGroupList: {
           [config]: {
             view: {
