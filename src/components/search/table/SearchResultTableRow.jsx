@@ -2,7 +2,7 @@ import React from 'react';
 import { defineMessages, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 import { useConfig } from '../../config/ConfigProvider';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
@@ -29,13 +29,6 @@ const messages = defineMessages({
   },
 });
 
-function renderColumn(column, item) {
-  const data = item.get(column.dataKey);
-  const formatted = data ? column.formatValue(data) : null;
-  const key = `${item.get('csid')}-${column.dataKey}`;
-  return <td key={key}>{formatted}</td>;
-}
-
 function createRowLabel(column, item, index, total, intl) {
   const data = item.get(column.dataKey);
   return data
@@ -48,7 +41,6 @@ function SearchResultTableRow({
   item, index, totalItems, renderContext, intl,
 }) {
   const config = useConfig();
-  const history = useHistory();
 
   const {
     listType,
@@ -62,38 +54,26 @@ function SearchResultTableRow({
   const listTypeConfig = config.listTypes[listType];
   const { getItemLocationPath } = listTypeConfig;
   let location;
+  let state;
   if (getItemLocationPath) {
     location = getItemLocationPath(item, { config, searchDescriptor });
+    state = {
+      searchDescriptor: searchDescriptor.toJS(),
+      // The search traverser on records will always link to the search result page, so use
+      // its search name.
+      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
+      listType,
+    };
   }
 
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const rowAriaLabel = createRowLabel(columns[0], item, index, totalItems, intl);
 
-  function handleRowClick() {
-    // from SearchResultTable:
-    // Create a location with the item location path, along with enough state to reproduce this
-    // search. The search descriptor is converted to an object in order to reliably store it in
-    // location state. Also merge in any object that was passed in via the linkState prop.
-    const state = {
-      searchDescriptor: searchDescriptor.toJS(),
-      // The search traverser on records will always link to the search result page, so use
-      // its search name.
-      searchName: SEARCH_RESULT_PAGE_SEARCH_NAME,
-      listType,
-      // ...linkState,
-    };
-
-    history.push(location, state);
-  }
-
   return (
     <tr
       aria-label={rowAriaLabel}
-      role="link"
-      tabIndex={0}
       className={index % 2 === 0 ? styles.even : styles.odd}
-      onClick={handleRowClick}
     >
       <td>
         <SearchResultCheckbox
@@ -103,7 +83,25 @@ function SearchResultTableRow({
           selected={selected}
         />
       </td>
-      {columns.map((column) => renderColumn(column, item, location))}
+      {columns.map((column) => {
+        const data = item.get(column.dataKey);
+        const formatted = data ? column.formatValue(data) : null;
+        const key = `${csid}-${column.dataKey}`;
+
+        // Wrap the value in a link if it's in a linkable column and the location is available.
+        const linkableColumns = ['objectNumber'];
+        if (linkableColumns.includes(column.dataKey) && location) {
+          return (
+            <td key={key}>
+              <Link to={{ pathname: location, state }}>
+                {formatted}
+              </Link>
+            </td>
+          );
+        }
+
+        return <td key={key}>{formatted}</td>;
+      })}
     </tr>
   );
 }
