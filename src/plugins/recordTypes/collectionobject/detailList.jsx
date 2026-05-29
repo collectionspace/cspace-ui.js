@@ -189,7 +189,7 @@ export default (configContext) => {
         });
 
         const locationData = formatRefNameWithDefault(data.get('computedCurrentLocation'));
-        const responsibleDepartmentData = data.get('responsibleDepartment');
+        const responsibleDepartmentData = formatRefNameWithDefault(data.get('responsibleDepartment'));
 
         const location = locationData ? (
           <div>
