@@ -13,7 +13,7 @@ const getTestFiles = (config) => {
 
 module.exports = function karma(config) {
   const localBrowsers = ['Chrome'];
-  const githubBrowsers = ['Chrome'];
+  const githubBrowsers = ['ChromeHeadlessNoSandbox'];
 
   let browsers;
 
@@ -35,6 +35,12 @@ module.exports = function karma(config) {
 
   config.set({
     browsers,
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-setuid-sandbox'],
+      },
+    },
     concurrency: 1,
 
     files: [

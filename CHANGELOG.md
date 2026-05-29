@@ -1,5 +1,11 @@
 # Change Log
 
+## v10.2.1
+
+### Bug Fixes
+
+- Fix urned Responsible Department value shown in the full detail view of search results.
+
 ## v10.2.0
 
 ### Breaking Changes
