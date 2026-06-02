@@ -4,6 +4,7 @@
 
 ### Accessibility
 
+- Resolved text contrast issue in Administration and Tools sections (Criteria 1.4.3).
 - Resolved orphaned form labels issue (Criteria 3.3.2).
 
 ## v10.2.1
