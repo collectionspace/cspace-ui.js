@@ -1,8 +1,10 @@
+@value buttonBg, buttonBgActive from 'cspace-input/styles/colors.css';
+
 .common {
   display: inline-block;
   border-radius: 5px;
   padding: 10px 20px 10px 50px;
-  background-color: #73AA4F;
+  background-color: buttonBg;
   background-image: url(../../images/login.svg);
   background-size: 28px 28px;
   background-position: 16px center;
@@ -14,9 +16,9 @@
 }
 
 .common:hover {
-  background-color: #4A7F28;
+  background-color: buttonBgActive;
 }
 
 .common:focus {
-  box-shadow: 0 0 0 2px #4A7F28;
+  box-shadow: 0 0 0 2px buttonBgActive;
 }

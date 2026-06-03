@@ -1,3 +1,15 @@
+@value deleteButtonBg, deleteButtonBgActive from 'cspace-input/styles/colors.css';
+@value activeEdgeWidth from '../dimensions.css';
+
 .common {
   background-image: url(../../images/delete.svg);
+  background-color: deleteButtonBg;
+}
+
+.common:hover:not(:disabled) {
+  background-color: deleteButtonBgActive;
+}
+
+.common:focus {
+  box-shadow: 0 0 0 activeEdgeWidth deleteButtonBgActive;
 }

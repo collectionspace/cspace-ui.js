@@ -1,4 +1,4 @@
-@value buttonBg from '../colors.css';
+@value buttonBg from 'cspace-input/styles/colors.css';
 @value inputHeight from '../dimensions.css';
 
 .flex {
