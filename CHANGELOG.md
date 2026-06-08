@@ -2,6 +2,11 @@
 
 ## v11.0.0
 
+### New Fields
+
+- On the record editor for Objects
+  - The Home Location repeating group of fields `homeLocationGroupList/homeLocationGroup` has been added
+
 ### Accessibility
 
 - Resolved orphaned form labels issue (Criteria 3.3.2).
