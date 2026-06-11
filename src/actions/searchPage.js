@@ -15,6 +15,11 @@ import {
 import { normalizeCondition } from '../helpers/searchHelpers';
 
 import {
+  setSearchPageRecordType,
+  setSearchPageVocabulary,
+} from './prefs';
+
+import {
   CLEAR_SEARCH_PAGE,
   SET_SEARCH_PAGE_KEYWORD,
   SET_SEARCH_PAGE_ADVANCED,
@@ -162,4 +167,21 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
       },
     },
   });
+};
+
+export const loadSavedSearchQuery = (query) => (dispatch) => {
+  // Set the record type first: changing it clears any existing advanced search conditions, and
+  // the condition setters read it from state.
+  dispatch(setSearchPageRecordType(query.get('recordType')));
+
+  const vocabulary = query.get('vocabulary');
+
+  if (vocabulary) {
+    dispatch(setSearchPageVocabulary(vocabulary));
+  }
+
+  dispatch(setSearchPageKeyword(query.get('keyword')));
+  dispatch(setSearchPageAdvanced(query.get('advanced')));
+  dispatch(setSearchPageAdvancedLimitBy(query.get('advancedLimitBy')));
+  dispatch(setSearchPageAdvancedSearchTerms(query.get('advancedSearchTerms')));
 };

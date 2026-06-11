@@ -9,6 +9,11 @@ import {
   getPrefs,
   getRecordData,
   getSearchPageRecordType,
+  getSearchPageVocabulary,
+  getSearchPageKeyword,
+  getSearchPageAdvanced,
+  getSearchPageAdvancedLimitBy,
+  getSearchPageAdvancedSearchTerms,
 } from '../reducers';
 
 import {
@@ -32,6 +37,8 @@ import {
   SET_STICKY_FIELDS,
   TOGGLE_USE_NEW_SEARCH,
   SET_NEW_SEARCH_SHOWN,
+  SAVE_SEARCH_QUERY,
+  DELETE_SAVED_SEARCH_QUERY,
 } from '../constants/actionCodes';
 
 export const storageKey = 'cspace-ui';
@@ -213,4 +220,40 @@ export const savePrefs = () => (dispatch, getState) => {
 
     window.localStorage.setItem(storageKey, JSON.stringify(prefs));
   }
+};
+
+const createSavedSearchQueryId = () => (
+  `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+);
+
+export const saveSearchQuery = (name, description) => (dispatch, getState) => {
+  const state = getState();
+  const recordType = getSearchPageRecordType(state);
+
+  dispatch({
+    type: SAVE_SEARCH_QUERY,
+    payload: Immutable.Map({
+      id: createSavedSearchQueryId(),
+      name: name.trim(),
+      description,
+      recordType,
+      vocabulary: getSearchPageVocabulary(state, recordType),
+      keyword: getSearchPageKeyword(state),
+      advanced: getSearchPageAdvanced(state),
+      advancedLimitBy: getSearchPageAdvancedLimitBy(state),
+      advancedSearchTerms: getSearchPageAdvancedSearchTerms(state),
+      createdTime: (new Date()).toISOString(),
+    }),
+  });
+
+  dispatch(savePrefs());
+};
+
+export const deleteSavedSearchQuery = (id) => (dispatch) => {
+  dispatch({
+    type: DELETE_SAVED_SEARCH_QUERY,
+    payload: id,
+  });
+
+  dispatch(savePrefs());
 };
