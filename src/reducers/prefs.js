@@ -27,6 +27,8 @@ import {
   SET_NEW_SEARCH_SHOWN,
   SET_SEARCH_PAGE_ADVANCED_SEARCH_TERMS,
   SET_SEARCH_PAGE_ADVANCED_LIMIT_BY,
+  SAVE_SEARCH_QUERY,
+  DELETE_SAVED_SEARCH_QUERY,
 } from '../constants/actionCodes';
 
 const handleAdvancedSearchConditionChange = (state, action) => {
@@ -83,6 +85,22 @@ const setStickyFields = (state, action) => {
 
   return state.setIn(['stickyFields', recordTypeConfig.name], data);
 };
+
+const saveSearchQuery = (state, action) => {
+  const query = action.payload;
+
+  return state.update('savedSearchQueries', Immutable.List(), (queries) => {
+    const index = queries.findIndex((q) => q.get('name') === query.get('name'));
+
+    return (index >= 0) ? queries.set(index, query) : queries.push(query);
+  });
+};
+
+const deleteSavedSearchQuery = (state, action) => state.update(
+  'savedSearchQueries',
+  Immutable.List(),
+  (queries) => queries.filter((q) => q.get('id') !== action.payload),
+);
 
 export default (state = Immutable.Map(), action) => {
   switch (action.type) {
@@ -144,6 +162,10 @@ export default (state = Immutable.Map(), action) => {
         : !state.get('useNewSearch'));
     case SET_NEW_SEARCH_SHOWN:
       return state.set('newSearchShown', true);
+    case SAVE_SEARCH_QUERY:
+      return saveSearchQuery(state, action);
+    case DELETE_SAVED_SEARCH_QUERY:
+      return deleteSavedSearchQuery(state, action);
     default:
       return state;
   }
@@ -200,3 +222,5 @@ export const getStickyFields = (state, recordType) => {
 
   return state.getIn(['stickyFields', recordType]);
 };
+
+export const getSavedSearchQueries = (state) => state.get('savedSearchQueries', Immutable.List());
