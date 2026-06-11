@@ -82,6 +82,8 @@ const propTypes = {
   onAdvancedSearchConditionLimitByCommit: PropTypes.func,
   onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
+  onSaveButtonClick: PropTypes.func,
+  onSavedQueriesButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
@@ -259,6 +261,8 @@ export default class SearchForm extends Component {
       onAdvancedSearchConditionLimitByCommit,
       onAdvancedSearchConditionSearchTermsCommit,
       onClearButtonClick,
+      onSaveButtonClick,
+      onSavedQueriesButtonClick,
     } = this.props;
 
     const fullTextPanelHeader = (
@@ -269,8 +273,16 @@ export default class SearchForm extends Component {
     // button will exist on the page, invisibly. This allows pressing enter on fields to submit the
     // form.
 
+    // Saved queries are only available on the new search form.
+    const saveButtonClickHandler = showNewSearch ? onSaveButtonClick : undefined;
+    const savedQueriesButtonClickHandler = showNewSearch ? onSavedQueriesButtonClick : undefined;
+
     const topButtonBar = (
-      <SearchButtonBar onClearButtonClick={onClearButtonClick} />
+      <SearchButtonBar
+        onClearButtonClick={onClearButtonClick}
+        onSaveButtonClick={saveButtonClickHandler}
+        onSavedQueriesButtonClick={savedQueriesButtonClickHandler}
+      />
     );
 
     let header;
@@ -290,7 +302,11 @@ export default class SearchForm extends Component {
     if (showButtons) {
       footer = (
         <footer>
-          <SearchButtonBar onClearButtonClick={onClearButtonClick} />
+          <SearchButtonBar
+            onClearButtonClick={onClearButtonClick}
+            onSaveButtonClick={saveButtonClickHandler}
+            onSavedQueriesButtonClick={savedQueriesButtonClickHandler}
+          />
         </footer>
       );
     }

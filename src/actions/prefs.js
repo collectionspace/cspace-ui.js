@@ -11,7 +11,6 @@ import {
   getSearchPageRecordType,
   getSearchPageVocabulary,
   getSearchPageKeyword,
-  getSearchPageAdvanced,
   getSearchPageAdvancedLimitBy,
   getSearchPageAdvancedSearchTerms,
 } from '../reducers';
@@ -239,7 +238,6 @@ export const saveSearchQuery = (name, description) => (dispatch, getState) => {
       recordType,
       vocabulary: getSearchPageVocabulary(state, recordType),
       keyword: getSearchPageKeyword(state),
-      advanced: getSearchPageAdvanced(state),
       advancedLimitBy: getSearchPageAdvancedLimitBy(state),
       advancedSearchTerms: getSearchPageAdvancedSearchTerms(state),
       createdTime: (new Date()).toISOString(),

@@ -181,7 +181,6 @@ export const loadSavedSearchQuery = (query) => (dispatch) => {
   }
 
   dispatch(setSearchPageKeyword(query.get('keyword')));
-  dispatch(setSearchPageAdvanced(query.get('advanced')));
   dispatch(setSearchPageAdvancedLimitBy(query.get('advancedLimitBy')));
   dispatch(setSearchPageAdvancedSearchTerms(query.get('advancedSearchTerms')));
 };

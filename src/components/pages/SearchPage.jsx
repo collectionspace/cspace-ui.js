@@ -19,6 +19,8 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import SaveQueryModalContainer from '../../containers/search/SaveQueryModalContainer';
+import SavedQueriesModalContainer from '../../containers/search/SavedQueriesModalContainer';
 
 const { Button } = inputComponents;
 
@@ -72,6 +74,7 @@ const propTypes = {
   clearSearchPage: PropTypes.func,
   deleteOptionList: PropTypes.func,
   initiateSearch: PropTypes.func,
+  loadSavedSearchQuery: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onAdvancedSearchConditionLimitByCommit: PropTypes.func,
   onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
@@ -99,8 +102,16 @@ class SearchPage extends Component {
     this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
     this.handleToggleSearch = this.handleToggleSearch.bind(this);
 
+    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
+    this.handleSaveQueryModalClose = this.handleSaveQueryModalClose.bind(this);
+    this.handleSavedQueriesButtonClick = this.handleSavedQueriesButtonClick.bind(this);
+    this.handleSavedQueriesModalClose = this.handleSavedQueriesModalClose.bind(this);
+    this.handleLoadQuery = this.handleLoadQuery.bind(this);
+
     this.state = ({
       headerDockPosition: null,
+      isSaveQueryModalOpen: false,
+      isSavedQueriesModalOpen: false,
     });
   }
 
@@ -223,6 +234,55 @@ class SearchPage extends Component {
     });
   }
 
+  handleSaveButtonClick() {
+    this.setState({
+      isSaveQueryModalOpen: true,
+    });
+  }
+
+  handleSaveQueryModalClose() {
+    this.setState({
+      isSaveQueryModalOpen: false,
+    });
+  }
+
+  handleSavedQueriesButtonClick() {
+    this.setState({
+      isSavedQueriesModalOpen: true,
+    });
+  }
+
+  handleSavedQueriesModalClose() {
+    this.setState({
+      isSavedQueriesModalOpen: false,
+    });
+  }
+
+  handleLoadQuery(query) {
+    const {
+      history,
+      loadSavedSearchQuery,
+    } = this.props;
+
+    if (loadSavedSearchQuery) {
+      // Set the search page state before replacing the URL, so that the URL sync in
+      // componentDidUpdate sees them in agreement.
+      loadSavedSearchQuery(query);
+    }
+
+    const recordType = query.get('recordType');
+    const vocabulary = query.get('vocabulary');
+    const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
+
+    history.replace({
+      pathname: `/search/${recordType}${vocabularyPath}`,
+    });
+
+    this.setState({
+      isSavedQueriesModalOpen: false,
+    });
+  }
+
   getSearchDescriptor() {
     const {
       match,
@@ -311,6 +371,8 @@ class SearchPage extends Component {
 
     const {
       headerDockPosition,
+      isSaveQueryModalOpen,
+      isSavedQueriesModalOpen,
     } = this.state;
 
     const {
@@ -375,10 +437,24 @@ class SearchPage extends Component {
             onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
             onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
             onClearButtonClick={onClearButtonClick}
+            onSaveButtonClick={this.handleSaveButtonClick}
+            onSavedQueriesButtonClick={this.handleSavedQueriesButtonClick}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
             onVocabularyCommit={this.handleVocabularyCommit}
             onSearch={this.handleSearch}
+          />
+          <SaveQueryModalContainer
+            isOpen={isSaveQueryModalOpen}
+            onQuerySaved={this.handleSaveQueryModalClose}
+            onCancelButtonClick={this.handleSaveQueryModalClose}
+            onCloseButtonClick={this.handleSaveQueryModalClose}
+          />
+          <SavedQueriesModalContainer
+            config={config}
+            isOpen={isSavedQueriesModalOpen}
+            onLoadQuery={this.handleLoadQuery}
+            onCloseButtonClick={this.handleSavedQueriesModalClose}
           />
         </div>
       </div>
