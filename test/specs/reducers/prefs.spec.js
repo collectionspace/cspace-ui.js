@@ -23,6 +23,8 @@ import {
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_TO_SELECT_ADVANCED,
+  SAVE_SEARCH_QUERY,
+  DELETE_SAVED_SEARCH_QUERY,
 } from '../../../src/constants/actionCodes';
 
 import reducer, {
@@ -30,6 +32,7 @@ import reducer, {
   getAdvancedSearchBooleanOp,
   getForm,
   getRecordBrowserNavBarItems,
+  getSavedSearchQueries,
   getSearchCondition,
   getSearchPageRecordType,
   getSearchPageVocabulary,
@@ -516,5 +519,74 @@ describe('prefs reducer', () => {
     }));
 
     getStickyFields(state, recordType).should.equal(stickyFields);
+  });
+
+  it('should handle SAVE_SEARCH_QUERY', () => {
+    const query = Immutable.Map({
+      id: '1234',
+      name: 'my query',
+      recordType: 'collectionobject',
+    });
+
+    const state = reducer(undefined, {
+      type: SAVE_SEARCH_QUERY,
+      payload: query,
+    });
+
+    getSavedSearchQueries(state).should.equal(Immutable.List.of(query));
+  });
+
+  it('should replace an existing saved query with the same name on SAVE_SEARCH_QUERY', () => {
+    const existingQuery = Immutable.Map({
+      id: '1234',
+      name: 'my query',
+      recordType: 'collectionobject',
+    });
+
+    const otherQuery = Immutable.Map({
+      id: '5678',
+      name: 'other query',
+      recordType: 'person',
+    });
+
+    const updatedQuery = Immutable.Map({
+      id: '9012',
+      name: 'my query',
+      recordType: 'loanin',
+    });
+
+    const state = reducer(Immutable.fromJS({
+      savedSearchQueries: Immutable.List.of(existingQuery, otherQuery),
+    }), {
+      type: SAVE_SEARCH_QUERY,
+      payload: updatedQuery,
+    });
+
+    getSavedSearchQueries(state).should.equal(Immutable.List.of(updatedQuery, otherQuery));
+  });
+
+  it('should handle DELETE_SAVED_SEARCH_QUERY', () => {
+    const query = Immutable.Map({
+      id: '1234',
+      name: 'my query',
+    });
+
+    const otherQuery = Immutable.Map({
+      id: '5678',
+      name: 'other query',
+    });
+
+    const state = reducer(Immutable.fromJS({
+      savedSearchQueries: Immutable.List.of(query, otherQuery),
+    }), {
+      type: DELETE_SAVED_SEARCH_QUERY,
+      payload: '1234',
+    });
+
+    getSavedSearchQueries(state).should.equal(Immutable.List.of(otherQuery));
+  });
+
+  it('should return an empty list of saved queries by default', () => {
+    getSavedSearchQueries(Immutable.Map()).should.equal(Immutable.List());
   });
 });

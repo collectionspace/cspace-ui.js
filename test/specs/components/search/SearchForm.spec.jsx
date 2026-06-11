@@ -418,4 +418,50 @@ describe('SearchForm', () => {
       '_fieldgroup_group',
     ]);
   });
+
+  it('should render save and saved queries buttons on the new search form', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            perms={perms}
+            showButtons
+            showNewSearch
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+            onSaveButtonClick={() => {}}
+            onSavedQueriesButtonClick={() => {}}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
+
+    this.container.querySelector('button[name="save"]').should.not.equal(null);
+    this.container.querySelector('button[name="savedQueries"]').should.not.equal(null);
+  });
+
+  it('should not render save and saved queries buttons on the classic search form', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <SearchForm
+            config={config}
+            intl={intl}
+            recordTypeValue="group"
+            perms={perms}
+            showButtons
+            showNewSearch={false}
+            getAuthorityVocabCsid={getAuthorityVocabCsid}
+            onSaveButtonClick={() => {}}
+            onSavedQueriesButtonClick={() => {}}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
+
+    expect(this.container.querySelector('button[name="save"]')).to.equal(null);
+    expect(this.container.querySelector('button[name="savedQueries"]')).to.equal(null);
+  });
 });
