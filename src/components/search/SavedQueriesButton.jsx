@@ -1,24 +1,24 @@
 import React from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { components as inputComponents } from 'cspace-input';
-import styles from '../../../styles/cspace-ui/SearchSaveButton.css';
+import styles from '../../../styles/cspace-ui/SavedQueriesButton.css';
 
 const { Button } = inputComponents;
 
 const messages = defineMessages({
   label: {
-    id: 'searchSaveButton.label',
-    description: 'Label of the search save button.',
-    defaultMessage: 'Save',
+    id: 'savedQueriesButton.label',
+    description: 'Label of the saved queries button.',
+    defaultMessage: 'My Saved Queries',
   },
 });
 
-export default function SearchSaveButton(props) {
+export default function SavedQueriesButton(props) {
   return (
     <Button
-      className={styles.normal}
+      className={styles.common}
       icon
-      name="save"
+      name="savedQueries"
       type="button"
       {...props}
     >
