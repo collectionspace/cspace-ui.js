@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import { Modal } from 'cspace-layout';
 import { components as inputComponents } from 'cspace-input';
 import CancelButton from '../navigation/CancelButton';
+import searchTableStyles from '../../../styles/cspace-ui/SearchTable.css';
 import styles from '../../../styles/cspace-ui/SavedQueriesModal.css';
 
 const { MiniButton } = inputComponents;
@@ -21,10 +22,20 @@ const messages = defineMessages({
     description: 'The message shown in the saved queries modal when there are no saved queries.',
     defaultMessage: 'No saved queries.',
   },
-  load: {
-    id: 'savedQueriesModal.load',
-    description: 'Label of the load button for a saved query in the saved queries modal.',
-    defaultMessage: 'Load',
+  nameColumn: {
+    id: 'savedQueriesModal.column.name',
+    description: 'Label of the name column in the saved queries modal.',
+    defaultMessage: 'Name',
+  },
+  typeColumn: {
+    id: 'savedQueriesModal.column.type',
+    description: 'Label of the record type column in the saved queries modal.',
+    defaultMessage: 'Type',
+  },
+  descriptionColumn: {
+    id: 'savedQueriesModal.column.description',
+    description: 'Label of the description column in the saved queries modal.',
+    defaultMessage: 'Description',
   },
   delete: {
     id: 'savedQueriesModal.delete',
@@ -72,6 +83,12 @@ const contextTypes = {
   intl: intlShape,
 };
 
+const renderEmpty = () => (
+  <div className={styles.empty}>
+    <FormattedMessage {...messages.empty} />
+  </div>
+);
+
 export default class SavedQueriesModal extends Component {
   constructor(props) {
     super(props);
@@ -114,6 +131,31 @@ export default class SavedQueriesModal extends Component {
     });
   }
 
+  handleLoadQuery(query) {
+    const {
+      onLoadQuery,
+    } = this.props;
+
+    if (onLoadQuery && this.isRecordTypeKnown(query)) {
+      onLoadQuery(query);
+    }
+  }
+
+  handleRowKeyDown(event, query) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.handleLoadQuery(query);
+    }
+  }
+
+  isRecordTypeKnown(query) {
+    const {
+      config,
+    } = this.props;
+
+    return !!get(config, ['recordTypes', query.get('recordType')]);
+  }
+
   formatRecordTypeLabel(recordType) {
     const {
       config,
@@ -134,14 +176,14 @@ export default class SavedQueriesModal extends Component {
     return recordType;
   }
 
-  renderQueryActions(query) {
-    const {
-      onLoadQuery,
-    } = this.props;
-
+  renderActionsCell(query) {
     const {
       confirmDeleteId,
     } = this.state;
+
+    const {
+      intl,
+    } = this.context;
 
     const id = query.get('id');
 
@@ -151,19 +193,27 @@ export default class SavedQueriesModal extends Component {
           <FormattedMessage {...messages.confirmDelete} />
 
           <MiniButton
-            autoWidth
+            aria-label={intl.formatMessage(messages.confirm)}
             name="confirmDeleteQuery"
-            onClick={() => this.handleConfirmDeleteButtonClick(id)}
+            title={intl.formatMessage(messages.confirm)}
+            onClick={(event) => {
+              event.stopPropagation();
+              this.handleConfirmDeleteButtonClick(id);
+            }}
           >
-            <FormattedMessage {...messages.confirm} />
+            ✓
           </MiniButton>
 
           <MiniButton
-            autoWidth
+            aria-label={intl.formatMessage(messages.cancel)}
             name="cancelDeleteQuery"
-            onClick={() => this.setState({ confirmDeleteId: null })}
+            title={intl.formatMessage(messages.cancel)}
+            onClick={(event) => {
+              event.stopPropagation();
+              this.setState({ confirmDeleteId: null });
+            }}
           >
-            <FormattedMessage {...messages.cancel} />
+            ✕
           </MiniButton>
         </div>
       );
@@ -172,46 +222,69 @@ export default class SavedQueriesModal extends Component {
     return (
       <div className={styles.actions}>
         <MiniButton
-          autoWidth
-          name="loadQuery"
-          onClick={() => onLoadQuery && onLoadQuery(query)}
-        >
-          <FormattedMessage {...messages.load} />
-        </MiniButton>
-
-        <MiniButton
-          autoWidth
+          aria-label={intl.formatMessage(messages.delete)}
           name="deleteQuery"
-          onClick={() => this.setState({ confirmDeleteId: id })}
+          title={intl.formatMessage(messages.delete)}
+          onClick={(event) => {
+            event.stopPropagation();
+            this.setState({ confirmDeleteId: id });
+          }}
         >
-          <FormattedMessage {...messages.delete} />
+          −
         </MiniButton>
       </div>
     );
   }
 
-  renderQueryList() {
+  renderQueryRow(query, index) {
+    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+    /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+    return (
+      <tr
+        className={index % 2 === 0 ? searchTableStyles.even : searchTableStyles.odd}
+        key={query.get('id')}
+        tabIndex={0}
+        onClick={() => this.handleLoadQuery(query)}
+        onKeyDown={(event) => this.handleRowKeyDown(event, query)}
+      >
+        <td>{query.get('name')}</td>
+        <td>{this.formatRecordTypeLabel(query.get('recordType'))}</td>
+        <td>{query.get('description')}</td>
+        <td>{this.renderActionsCell(query)}</td>
+      </tr>
+    );
+    /* eslint-enable */
+  }
+
+  renderQueryTable() {
     const {
       savedQueries,
     } = this.props;
 
+    const {
+      intl,
+    } = this.context;
+
     if (savedQueries.isEmpty()) {
-      return <p><FormattedMessage {...messages.empty} /></p>;
+      return renderEmpty();
     }
 
     return (
-      <ul className={styles.queryList}>
-        {savedQueries.map((query) => (
-          <li key={query.get('id')}>
-            <div className={styles.querySummary}>
-              <strong>{query.get('name')}</strong>
-              <span>{this.formatRecordTypeLabel(query.get('recordType'))}</span>
-              {query.get('description') && <div>{query.get('description')}</div>}
-            </div>
-            {this.renderQueryActions(query)}
-          </li>
-        ))}
-      </ul>
+      <div className={`${searchTableStyles.results} ${styles.tableContainer}`}>
+        <table className={styles.queryTable}>
+          <thead>
+            <tr>
+              <th scope="col">{intl.formatMessage(messages.nameColumn)}</th>
+              <th scope="col">{intl.formatMessage(messages.typeColumn)}</th>
+              <th scope="col">{intl.formatMessage(messages.descriptionColumn)}</th>
+              <th scope="col" />
+            </tr>
+          </thead>
+          <tbody>
+            {savedQueries.map((query, index) => this.renderQueryRow(query, index)).toArray()}
+          </tbody>
+        </table>
+      </div>
     );
   }
 
@@ -246,7 +319,7 @@ export default class SavedQueriesModal extends Component {
         renderButtonBar={this.renderButtonBar}
         onCloseButtonClick={onCloseButtonClick}
       >
-        {this.renderQueryList()}
+        {this.renderQueryTable()}
       </Modal>
     );
   }

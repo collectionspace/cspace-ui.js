@@ -8,6 +8,8 @@ import SavedQueriesModal from '../../../../src/components/search/SavedQueriesMod
 
 const { MiniButton } = inputComponents;
 
+const { expect } = chai;
+
 chai.should();
 
 const intl = {
@@ -50,11 +52,15 @@ const savedQueries = Immutable.fromJS([
   },
 ]);
 
+const fakeEvent = {
+  stopPropagation: () => {},
+};
+
 const findButtons = (result, name) => findAllWithType(result, MiniButton)
   .filter((button) => button.props.name === name);
 
 describe('SavedQueriesModal', () => {
-  it('should render a Modal containing a row for each saved query', () => {
+  it('should render a Modal containing a table with a row for each saved query', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -65,11 +71,14 @@ describe('SavedQueriesModal', () => {
 
     result.type.should.equal(Modal);
 
-    findButtons(result, 'loadQuery').should.have.lengthOf(2);
-    findButtons(result, 'deleteQuery').should.have.lengthOf(2);
+    findAllWithType(result, 'table').should.have.lengthOf(1);
+
+    // One header row, plus one row per saved query.
+
+    findAllWithType(result, 'tr').should.have.lengthOf(3);
   });
 
-  it('should call onLoadQuery when a load button is clicked', () => {
+  it('should call onLoadQuery when a row is clicked', () => {
     let loadedQuery = null;
 
     const handleLoadQuery = (queryArg) => {
@@ -87,8 +96,44 @@ describe('SavedQueriesModal', () => {
     );
 
     const result = shallowRenderer.getRenderOutput();
+    const rows = findAllWithType(result, 'tr');
 
-    findButtons(result, 'loadQuery')[0].props.onClick();
+    rows[1].props.onClick();
+
+    loadedQuery.should.equal(savedQueries.get(0));
+  });
+
+  it('should call onLoadQuery when enter is pressed on a row', () => {
+    let loadedQuery = null;
+
+    const handleLoadQuery = (queryArg) => {
+      loadedQuery = queryArg;
+    };
+
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(
+      <SavedQueriesModal
+        config={config}
+        savedQueries={savedQueries}
+        onLoadQuery={handleLoadQuery}
+      />, { intl },
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+    const rows = findAllWithType(result, 'tr');
+
+    rows[1].props.onKeyDown({
+      key: 'a',
+      preventDefault: () => {},
+    });
+
+    expect(loadedQuery).to.equal(null);
+
+    rows[1].props.onKeyDown({
+      key: 'Enter',
+      preventDefault: () => {},
+    });
 
     loadedQuery.should.equal(savedQueries.get(0));
   });
@@ -112,7 +157,7 @@ describe('SavedQueriesModal', () => {
 
     let result = shallowRenderer.getRenderOutput();
 
-    findButtons(result, 'deleteQuery')[0].props.onClick();
+    findButtons(result, 'deleteQuery')[0].props.onClick(fakeEvent);
 
     result = shallowRenderer.getRenderOutput();
 
@@ -120,7 +165,7 @@ describe('SavedQueriesModal', () => {
 
     confirmButtons.should.have.lengthOf(1);
 
-    confirmButtons[0].props.onClick();
+    confirmButtons[0].props.onClick(fakeEvent);
 
     deletedId.should.equal('1234');
   });
@@ -144,11 +189,11 @@ describe('SavedQueriesModal', () => {
 
     let result = shallowRenderer.getRenderOutput();
 
-    findButtons(result, 'deleteQuery')[0].props.onClick();
+    findButtons(result, 'deleteQuery')[0].props.onClick(fakeEvent);
 
     result = shallowRenderer.getRenderOutput();
 
-    findButtons(result, 'cancelDeleteQuery')[0].props.onClick();
+    findButtons(result, 'cancelDeleteQuery')[0].props.onClick(fakeEvent);
 
     result = shallowRenderer.getRenderOutput();
 
@@ -158,7 +203,7 @@ describe('SavedQueriesModal', () => {
     deleteQueryCalled.should.equal(false);
   });
 
-  it('should render an empty message when there are no saved queries', () => {
+  it('should render an empty message instead of a table when there are no saved queries', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
@@ -167,7 +212,7 @@ describe('SavedQueriesModal', () => {
 
     const result = shallowRenderer.getRenderOutput();
 
+    findAllWithType(result, 'table').should.have.lengthOf(0);
     findAllWithType(result, MiniButton).should.have.lengthOf(0);
-    findAllWithType(result, 'ul').should.have.lengthOf(0);
   });
 });

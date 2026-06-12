@@ -1,33 +1,48 @@
 .common :global(.cspace-layout-Modal--common) {
-    width: 40%;
+    width: 50%;
 }
 
-.queryList {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.tableContainer > .queryTable {
+    table-layout: fixed;
 }
 
-.queryList > li {
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
+.tableContainer > .queryTable th {
+    cursor: default;
+    padding: 4px 10px;
+    text-align: left;
+    text-decoration: none;
 }
 
-.querySummary > strong {
-    margin-right: 8px;
+.tableContainer > .queryTable th:nth-child(1) {
+    width: 28%;
 }
 
-.querySummary > span {
-    color: #595959;
+.tableContainer > .queryTable th:nth-child(2) {
+    width: 15%;
+}
+
+.tableContainer > .queryTable th:nth-child(3) {
+    width: 42%;
+}
+
+.tableContainer > .queryTable th:nth-child(4) {
+    width: 15%;
+}
+
+.tableContainer > .queryTable td {
+    overflow-wrap: break-word;
+    padding: 4px 10px;
+    vertical-align: top;
 }
 
 .actions {
     align-items: center;
     display: flex;
-    flex-shrink: 0;
+    flex-wrap: wrap;
     gap: 4px;
-    margin-left: 8px;
+    justify-content: flex-end;
+}
+
+.empty {
+    padding: 8px;
 }
