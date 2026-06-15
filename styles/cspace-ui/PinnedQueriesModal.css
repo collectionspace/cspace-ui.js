@@ -1,4 +1,4 @@
-@value textMedium from 'cspace-input/styles/colors.css';
+@value textDark from 'cspace-input/styles/colors.css';
 
 .common :global(.cspace-layout-Modal--common) {
     width: 80%;
@@ -51,7 +51,7 @@
 }
 
 .note {
-    color: textMedium;
+    color: textDark;
     font-size: 12px;
     margin: 16px 0 0;
 }

@@ -67,6 +67,11 @@ const messages = defineMessages({
     description: 'The tooltip shown when hovering a pinned query row that can be loaded.',
     defaultMessage: 'Click to execute',
   },
+  actionsColumn: {
+    id: 'pinnedQueriesModal.column.actions',
+    description: 'The accessible label of the (visually empty) actions column header in the pinned queries modal.',
+    defaultMessage: 'Actions',
+  },
   deviceNote: {
     id: 'pinnedQueriesModal.deviceNote',
     description: 'The note shown in the pinned queries modal explaining that pinned queries are stored per device and browser.',
@@ -304,7 +309,7 @@ export default class PinnedQueriesModal extends Component {
               <th scope="col">{intl.formatMessage(messages.nameColumn)}</th>
               <th scope="col">{intl.formatMessage(messages.typeColumn)}</th>
               <th scope="col">{intl.formatMessage(messages.descriptionColumn)}</th>
-              <th scope="col" />
+              <th scope="col" aria-label={intl.formatMessage(messages.actionsColumn)} />
             </tr>
           </thead>
           <tbody>

@@ -159,12 +159,14 @@ export default class PinQueryModal extends Component {
         onCloseButtonClick={onCloseButtonClick}
       >
         <LineInput
+          id="pinQueryModal-name"
           label={intl.formatMessage(messages.name)}
           value={name}
           onCommit={this.handleNameCommit}
         />
 
         <MultilineInput
+          id="pinQueryModal-description"
           label={intl.formatMessage(messages.description)}
           value={description}
           onCommit={this.handleDescriptionCommit}
