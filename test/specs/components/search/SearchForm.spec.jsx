@@ -419,7 +419,7 @@ describe('SearchForm', () => {
     ]);
   });
 
-  it('should render save and saved queries buttons on the new search form', function test() {
+  it('should render save and pinned queries buttons on the new search form', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -431,18 +431,18 @@ describe('SearchForm', () => {
             showButtons
             showNewSearch
             getAuthorityVocabCsid={getAuthorityVocabCsid}
-            onSaveButtonClick={() => {}}
-            onSavedQueriesButtonClick={() => {}}
+            onPinButtonClick={() => {}}
+            onPinnedQueriesButtonClick={() => {}}
           />
         </StoreProvider>
       </IntlProvider>, this.container,
     );
 
-    this.container.querySelector('button[name="save"]').should.not.equal(null);
-    this.container.querySelector('button[name="savedQueries"]').should.not.equal(null);
+    this.container.querySelector('button[name="pin"]').should.not.equal(null);
+    this.container.querySelector('button[name="pinnedQueries"]').should.not.equal(null);
   });
 
-  it('should not render save and saved queries buttons on the classic search form', function test() {
+  it('should not render save and pinned queries buttons on the classic search form', function test() {
     render(
       <IntlProvider locale="en">
         <StoreProvider store={store}>
@@ -454,14 +454,14 @@ describe('SearchForm', () => {
             showButtons
             showNewSearch={false}
             getAuthorityVocabCsid={getAuthorityVocabCsid}
-            onSaveButtonClick={() => {}}
-            onSavedQueriesButtonClick={() => {}}
+            onPinButtonClick={() => {}}
+            onPinnedQueriesButtonClick={() => {}}
           />
         </StoreProvider>
       </IntlProvider>, this.container,
     );
 
-    expect(this.container.querySelector('button[name="save"]')).to.equal(null);
-    expect(this.container.querySelector('button[name="savedQueries"]')).to.equal(null);
+    expect(this.container.querySelector('button[name="pin"]')).to.equal(null);
+    expect(this.container.querySelector('button[name="pinnedQueries"]')).to.equal(null);
   });
 });

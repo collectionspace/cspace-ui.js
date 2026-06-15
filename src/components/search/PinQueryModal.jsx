@@ -4,38 +4,38 @@ import { defineMessages, FormattedMessage, intlShape } from 'react-intl';
 import { Modal } from 'cspace-layout';
 import { components as inputComponents } from 'cspace-input';
 import CancelButton from '../navigation/CancelButton';
-import SearchSaveButton from './SearchSaveButton';
-import styles from '../../../styles/cspace-ui/SaveQueryModal.css';
+import SearchPinButton from './SearchPinButton';
+import styles from '../../../styles/cspace-ui/PinQueryModal.css';
 
 const { LineInput, MultilineInput } = inputComponents;
 
 const messages = defineMessages({
   title: {
-    id: 'saveQueryModal.title',
-    description: 'Title of the save query modal.',
-    defaultMessage: 'Save Query',
+    id: 'pinQueryModal.title',
+    description: 'Title of the pin query modal.',
+    defaultMessage: 'Pin Query',
   },
   name: {
-    id: 'saveQueryModal.name',
-    description: 'Label of the name field in the save query modal.',
+    id: 'pinQueryModal.name',
+    description: 'Label of the name field in the pin query modal.',
     defaultMessage: 'Name',
   },
   description: {
-    id: 'saveQueryModal.description',
-    description: 'Label of the description field in the save query modal.',
+    id: 'pinQueryModal.description',
+    description: 'Label of the description field in the pin query modal.',
     defaultMessage: 'Description',
   },
   cancel: {
-    id: 'saveQueryModal.cancel',
-    description: 'Label of the cancel button in the save query modal.',
+    id: 'pinQueryModal.cancel',
+    description: 'Label of the cancel button in the pin query modal.',
     defaultMessage: 'Cancel',
   },
 });
 
 const propTypes = {
   isOpen: PropTypes.bool,
-  saveQuery: PropTypes.func,
-  onQuerySaved: PropTypes.func,
+  pinQuery: PropTypes.func,
+  onQueryPinned: PropTypes.func,
   onCancelButtonClick: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
 };
@@ -44,13 +44,13 @@ const contextTypes = {
   intl: intlShape,
 };
 
-export default class SaveQueryModal extends Component {
+export default class PinQueryModal extends Component {
   constructor(props) {
     super(props);
 
     this.handleDescriptionCommit = this.handleDescriptionCommit.bind(this);
     this.handleNameCommit = this.handleNameCommit.bind(this);
-    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
+    this.handlePinButtonClick = this.handlePinButtonClick.bind(this);
     this.renderButtonBar = this.renderButtonBar.bind(this);
 
     this.state = {
@@ -89,10 +89,10 @@ export default class SaveQueryModal extends Component {
     });
   }
 
-  handleSaveButtonClick() {
+  handlePinButtonClick() {
     const {
-      saveQuery,
-      onQuerySaved,
+      pinQuery,
+      onQueryPinned,
     } = this.props;
 
     const {
@@ -100,12 +100,12 @@ export default class SaveQueryModal extends Component {
       description,
     } = this.state;
 
-    if (saveQuery) {
-      saveQuery(name, description);
+    if (pinQuery) {
+      pinQuery(name, description);
     }
 
-    if (onQuerySaved) {
-      onQuerySaved();
+    if (onQueryPinned) {
+      onQueryPinned();
     }
   }
 
@@ -125,9 +125,9 @@ export default class SaveQueryModal extends Component {
           onClick={onCancelButtonClick}
         />
 
-        <SearchSaveButton
+        <SearchPinButton
           disabled={!name.trim()}
-          onClick={this.handleSaveButtonClick}
+          onClick={this.handlePinButtonClick}
         />
       </div>
     );
@@ -174,5 +174,5 @@ export default class SaveQueryModal extends Component {
   }
 }
 
-SaveQueryModal.propTypes = propTypes;
-SaveQueryModal.contextTypes = contextTypes;
+PinQueryModal.propTypes = propTypes;
+PinQueryModal.contextTypes = contextTypes;

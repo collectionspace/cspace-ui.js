@@ -82,8 +82,8 @@ const propTypes = {
   onAdvancedSearchConditionLimitByCommit: PropTypes.func,
   onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
   onClearButtonClick: PropTypes.func,
-  onSaveButtonClick: PropTypes.func,
-  onSavedQueriesButtonClick: PropTypes.func,
+  onPinButtonClick: PropTypes.func,
+  onPinnedQueriesButtonClick: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
@@ -261,8 +261,8 @@ export default class SearchForm extends Component {
       onAdvancedSearchConditionLimitByCommit,
       onAdvancedSearchConditionSearchTermsCommit,
       onClearButtonClick,
-      onSaveButtonClick,
-      onSavedQueriesButtonClick,
+      onPinButtonClick,
+      onPinnedQueriesButtonClick,
     } = this.props;
 
     const fullTextPanelHeader = (
@@ -273,15 +273,15 @@ export default class SearchForm extends Component {
     // button will exist on the page, invisibly. This allows pressing enter on fields to submit the
     // form.
 
-    // Saved queries are only available on the new search form.
-    const saveButtonClickHandler = showNewSearch ? onSaveButtonClick : undefined;
-    const savedQueriesButtonClickHandler = showNewSearch ? onSavedQueriesButtonClick : undefined;
+    // Pinned queries are only available on the new search form.
+    const pinButtonClickHandler = showNewSearch ? onPinButtonClick : undefined;
+    const pinnedQueriesButtonClickHandler = showNewSearch ? onPinnedQueriesButtonClick : undefined;
 
     const topButtonBar = (
       <SearchButtonBar
         onClearButtonClick={onClearButtonClick}
-        onSaveButtonClick={saveButtonClickHandler}
-        onSavedQueriesButtonClick={savedQueriesButtonClickHandler}
+        onPinButtonClick={pinButtonClickHandler}
+        onPinnedQueriesButtonClick={pinnedQueriesButtonClickHandler}
       />
     );
 
@@ -304,8 +304,6 @@ export default class SearchForm extends Component {
         <footer>
           <SearchButtonBar
             onClearButtonClick={onClearButtonClick}
-            onSaveButtonClick={saveButtonClickHandler}
-            onSavedQueriesButtonClick={savedQueriesButtonClickHandler}
           />
         </footer>
       );

@@ -7,60 +7,80 @@ import { Modal } from 'cspace-layout';
 import { components as inputComponents } from 'cspace-input';
 import CancelButton from '../navigation/CancelButton';
 import searchTableStyles from '../../../styles/cspace-ui/SearchTable.css';
-import styles from '../../../styles/cspace-ui/SavedQueriesModal.css';
+import styles from '../../../styles/cspace-ui/PinnedQueriesModal.css';
 
 const { MiniButton } = inputComponents;
 
 const messages = defineMessages({
   title: {
-    id: 'savedQueriesModal.title',
-    description: 'Title of the saved queries modal.',
-    defaultMessage: 'My Saved Queries',
+    id: 'pinnedQueriesModal.title',
+    description: 'Title of the pinned queries modal.',
+    defaultMessage: 'Pinned Queries',
   },
   empty: {
-    id: 'savedQueriesModal.empty',
-    description: 'The message shown in the saved queries modal when there are no saved queries.',
-    defaultMessage: 'No saved queries.',
+    id: 'pinnedQueriesModal.empty',
+    description: 'The message shown in the pinned queries modal when there are no pinned queries.',
+    defaultMessage: 'No pinned queries.',
   },
   nameColumn: {
-    id: 'savedQueriesModal.column.name',
-    description: 'Label of the name column in the saved queries modal.',
+    id: 'pinnedQueriesModal.column.name',
+    description: 'Label of the name column in the pinned queries modal.',
     defaultMessage: 'Name',
   },
   typeColumn: {
-    id: 'savedQueriesModal.column.type',
-    description: 'Label of the record type column in the saved queries modal.',
+    id: 'pinnedQueriesModal.column.type',
+    description: 'Label of the record type column in the pinned queries modal.',
     defaultMessage: 'Type',
   },
   descriptionColumn: {
-    id: 'savedQueriesModal.column.description',
-    description: 'Label of the description column in the saved queries modal.',
+    id: 'pinnedQueriesModal.column.description',
+    description: 'Label of the description column in the pinned queries modal.',
     defaultMessage: 'Description',
   },
   delete: {
-    id: 'savedQueriesModal.delete',
-    description: 'Label of the delete button for a saved query in the saved queries modal.',
+    id: 'pinnedQueriesModal.delete',
+    description: 'Label of the delete button for a pinned query in the pinned queries modal.',
     defaultMessage: 'Delete',
   },
   confirmDelete: {
-    id: 'savedQueriesModal.confirmDelete',
-    description: 'The prompt shown to confirm deletion of a saved query in the saved queries modal.',
+    id: 'pinnedQueriesModal.confirmDelete',
+    description: 'The prompt shown to confirm deletion of a pinned query in the pinned queries modal.',
     defaultMessage: 'Delete?',
   },
   confirm: {
-    id: 'savedQueriesModal.confirm',
-    description: 'Label of the button confirming deletion of a saved query in the saved queries modal.',
+    id: 'pinnedQueriesModal.confirm',
+    description: 'Label of the button confirming deletion of a pinned query in the pinned queries modal.',
     defaultMessage: 'Confirm',
   },
   cancel: {
-    id: 'savedQueriesModal.cancel',
-    description: 'Label of the button canceling deletion of a saved query in the saved queries modal.',
+    id: 'pinnedQueriesModal.cancel',
+    description: 'Label of the button canceling deletion of a pinned query in the pinned queries modal.',
     defaultMessage: 'Cancel',
   },
   close: {
-    id: 'savedQueriesModal.close',
-    description: 'Label of the close button in the saved queries modal.',
+    id: 'pinnedQueriesModal.close',
+    description: 'Label of the close button in the pinned queries modal.',
     defaultMessage: 'Close',
+  },
+  execute: {
+    id: 'pinnedQueriesModal.execute',
+    description: 'The tooltip shown when hovering a pinned query row that can be loaded.',
+    defaultMessage: 'Click to execute',
+  },
+  deviceNote: {
+    id: 'pinnedQueriesModal.deviceNote',
+    description: 'The note shown in the pinned queries modal explaining that pinned queries are stored per device and browser.',
+    defaultMessage: 'Currently, pinned queries are available from the same device and browser combination. Please see the {userManualLink} for additional information.',
+  },
+  userManual: {
+    id: 'pinnedQueriesModal.userManual',
+    description: 'The text of the user manual link in the pinned queries modal.',
+    defaultMessage: 'User Manual',
+  },
+  userManualUrl: {
+    id: 'pinnedQueriesModal.userManualUrl',
+    description: 'The URL of the user manual page describing Pinned Queries.',
+    defaultMessage: 'https://collectionspace.atlassian.net/wiki/spaces/CO/overview',
   },
 });
 
@@ -69,14 +89,14 @@ const propTypes = {
     recordTypes: PropTypes.object,
   }),
   isOpen: PropTypes.bool,
-  savedQueries: PropTypes.instanceOf(Immutable.List),
+  pinnedQueries: PropTypes.instanceOf(Immutable.List),
   deleteQuery: PropTypes.func,
   onLoadQuery: PropTypes.func,
   onCloseButtonClick: PropTypes.func,
 };
 
 const defaultProps = {
-  savedQueries: Immutable.List(),
+  pinnedQueries: Immutable.List(),
 };
 
 const contextTypes = {
@@ -89,7 +109,7 @@ const renderEmpty = () => (
   </div>
 );
 
-export default class SavedQueriesModal extends Component {
+export default class PinnedQueriesModal extends Component {
   constructor(props) {
     super(props);
 
@@ -237,6 +257,12 @@ export default class SavedQueriesModal extends Component {
   }
 
   renderQueryRow(query, index) {
+    const {
+      intl,
+    } = this.context;
+
+    const executable = this.isRecordTypeKnown(query);
+
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
     return (
@@ -244,6 +270,7 @@ export default class SavedQueriesModal extends Component {
         className={index % 2 === 0 ? searchTableStyles.even : searchTableStyles.odd}
         key={query.get('id')}
         tabIndex={0}
+        title={executable ? intl.formatMessage(messages.execute) : undefined}
         onClick={() => this.handleLoadQuery(query)}
         onKeyDown={(event) => this.handleRowKeyDown(event, query)}
       >
@@ -258,14 +285,14 @@ export default class SavedQueriesModal extends Component {
 
   renderQueryTable() {
     const {
-      savedQueries,
+      pinnedQueries,
     } = this.props;
 
     const {
       intl,
     } = this.context;
 
-    if (savedQueries.isEmpty()) {
+    if (pinnedQueries.isEmpty()) {
       return renderEmpty();
     }
 
@@ -281,10 +308,31 @@ export default class SavedQueriesModal extends Component {
             </tr>
           </thead>
           <tbody>
-            {savedQueries.map((query, index) => this.renderQueryRow(query, index)).toArray()}
+            {pinnedQueries.map((query, index) => this.renderQueryRow(query, index)).toArray()}
           </tbody>
         </table>
       </div>
+    );
+  }
+
+  renderDeviceNote() {
+    const {
+      intl,
+    } = this.context;
+
+    return (
+      <p className={styles.note}>
+        <FormattedMessage
+          {...messages.deviceNote}
+          values={{
+            userManualLink: (
+              <a href={intl.formatMessage(messages.userManualUrl)} rel="noreferrer" target="_blank">
+                <FormattedMessage {...messages.userManual} />
+              </a>
+            ),
+          }}
+        />
+      </p>
     );
   }
 
@@ -320,11 +368,12 @@ export default class SavedQueriesModal extends Component {
         onCloseButtonClick={onCloseButtonClick}
       >
         {this.renderQueryTable()}
+        {this.renderDeviceNote()}
       </Modal>
     );
   }
 }
 
-SavedQueriesModal.propTypes = propTypes;
-SavedQueriesModal.defaultProps = defaultProps;
-SavedQueriesModal.contextTypes = contextTypes;
+PinnedQueriesModal.propTypes = propTypes;
+PinnedQueriesModal.defaultProps = defaultProps;
+PinnedQueriesModal.contextTypes = contextTypes;

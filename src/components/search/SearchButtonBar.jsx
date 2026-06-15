@@ -2,33 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SearchButton from './SearchButton';
 import SearchClearButton from './SearchClearButton';
-import SearchSaveButton from './SearchSaveButton';
+import SearchPinButton from './SearchPinButton';
 import styles from '../../../styles/cspace-ui/ButtonBar.css';
-import SavedQueriesButton from './SavedQueriesButton';
+import PinnedQueriesButton from './PinnedQueriesButton';
 
 const propTypes = {
   onClearButtonClick: PropTypes.func,
-  onSaveButtonClick: PropTypes.func,
-  onSavedQueriesButtonClick: PropTypes.func,
+  onPinButtonClick: PropTypes.func,
+  onPinnedQueriesButtonClick: PropTypes.func,
 };
 
 const defaultProps = {
   onClearButtonClick: undefined,
-  onSaveButtonClick: undefined,
-  onSavedQueriesButtonClick: undefined,
+  onPinButtonClick: undefined,
+  onPinnedQueriesButtonClick: undefined,
 };
 
 export default function SearchButtonBar(props) {
   const {
     onClearButtonClick,
-    onSaveButtonClick,
-    onSavedQueriesButtonClick,
+    onPinButtonClick,
+    onPinnedQueriesButtonClick,
   } = props;
 
   return (
     <div className={styles.common}>
-      {onSavedQueriesButtonClick && <SavedQueriesButton onClick={onSavedQueriesButtonClick} />}
-      {onSaveButtonClick && <SearchSaveButton onClick={onSaveButtonClick} />}
+      {onPinnedQueriesButtonClick && <PinnedQueriesButton onClick={onPinnedQueriesButtonClick} />}
+      {onPinButtonClick && <SearchPinButton onClick={onPinButtonClick} />}
       <SearchButton />
       <SearchClearButton onClick={onClearButtonClick} />
     </div>

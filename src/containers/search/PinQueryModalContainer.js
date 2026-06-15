@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
-import SaveQueryModal from '../../components/search/SaveQueryModal';
+import PinQueryModal from '../../components/search/PinQueryModal';
 
 import {
-  saveSearchQuery,
+  pinQuery,
 } from '../../actions/prefs';
 
 const mapDispatchToProps = {
-  saveQuery: saveSearchQuery,
+  pinQuery,
 };
 
 export default connect(
   undefined,
   mapDispatchToProps,
-)(SaveQueryModal);
+)(PinQueryModal);

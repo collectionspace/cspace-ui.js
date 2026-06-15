@@ -19,8 +19,8 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
-import SaveQueryModalContainer from '../../containers/search/SaveQueryModalContainer';
-import SavedQueriesModalContainer from '../../containers/search/SavedQueriesModalContainer';
+import PinQueryModalContainer from '../../containers/search/PinQueryModalContainer';
+import PinnedQueriesModalContainer from '../../containers/search/PinnedQueriesModalContainer';
 
 const { Button } = inputComponents;
 
@@ -74,7 +74,7 @@ const propTypes = {
   clearSearchPage: PropTypes.func,
   deleteOptionList: PropTypes.func,
   initiateSearch: PropTypes.func,
-  loadSavedSearchQuery: PropTypes.func,
+  loadPinnedQuery: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onAdvancedSearchConditionLimitByCommit: PropTypes.func,
   onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
@@ -102,16 +102,16 @@ class SearchPage extends Component {
     this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
     this.handleToggleSearch = this.handleToggleSearch.bind(this);
 
-    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
-    this.handleSaveQueryModalClose = this.handleSaveQueryModalClose.bind(this);
-    this.handleSavedQueriesButtonClick = this.handleSavedQueriesButtonClick.bind(this);
-    this.handleSavedQueriesModalClose = this.handleSavedQueriesModalClose.bind(this);
+    this.handlePinButtonClick = this.handlePinButtonClick.bind(this);
+    this.handlePinQueryModalClose = this.handlePinQueryModalClose.bind(this);
+    this.handlePinnedQueriesButtonClick = this.handlePinnedQueriesButtonClick.bind(this);
+    this.handlePinnedQueriesModalClose = this.handlePinnedQueriesModalClose.bind(this);
     this.handleLoadQuery = this.handleLoadQuery.bind(this);
 
     this.state = ({
       headerDockPosition: null,
-      isSaveQueryModalOpen: false,
-      isSavedQueriesModalOpen: false,
+      isPinQueryModalOpen: false,
+      isPinnedQueriesModalOpen: false,
     });
   }
 
@@ -234,40 +234,40 @@ class SearchPage extends Component {
     });
   }
 
-  handleSaveButtonClick() {
+  handlePinButtonClick() {
     this.setState({
-      isSaveQueryModalOpen: true,
+      isPinQueryModalOpen: true,
     });
   }
 
-  handleSaveQueryModalClose() {
+  handlePinQueryModalClose() {
     this.setState({
-      isSaveQueryModalOpen: false,
+      isPinQueryModalOpen: false,
     });
   }
 
-  handleSavedQueriesButtonClick() {
+  handlePinnedQueriesButtonClick() {
     this.setState({
-      isSavedQueriesModalOpen: true,
+      isPinnedQueriesModalOpen: true,
     });
   }
 
-  handleSavedQueriesModalClose() {
+  handlePinnedQueriesModalClose() {
     this.setState({
-      isSavedQueriesModalOpen: false,
+      isPinnedQueriesModalOpen: false,
     });
   }
 
   handleLoadQuery(query) {
     const {
       history,
-      loadSavedSearchQuery,
+      loadPinnedQuery,
     } = this.props;
 
-    if (loadSavedSearchQuery) {
+    if (loadPinnedQuery) {
       // Set the search page state before replacing the URL, so that the URL sync in
       // componentDidUpdate sees them in agreement.
-      loadSavedSearchQuery(query);
+      loadPinnedQuery(query);
     }
 
     const recordType = query.get('recordType');
@@ -279,7 +279,7 @@ class SearchPage extends Component {
     });
 
     this.setState({
-      isSavedQueriesModalOpen: false,
+      isPinnedQueriesModalOpen: false,
     });
   }
 
@@ -371,8 +371,8 @@ class SearchPage extends Component {
 
     const {
       headerDockPosition,
-      isSaveQueryModalOpen,
-      isSavedQueriesModalOpen,
+      isPinQueryModalOpen,
+      isPinnedQueriesModalOpen,
     } = this.state;
 
     const {
@@ -437,24 +437,24 @@ class SearchPage extends Component {
             onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
             onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
             onClearButtonClick={onClearButtonClick}
-            onSaveButtonClick={this.handleSaveButtonClick}
-            onSavedQueriesButtonClick={this.handleSavedQueriesButtonClick}
+            onPinButtonClick={this.handlePinButtonClick}
+            onPinnedQueriesButtonClick={this.handlePinnedQueriesButtonClick}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
             onVocabularyCommit={this.handleVocabularyCommit}
             onSearch={this.handleSearch}
           />
-          <SaveQueryModalContainer
-            isOpen={isSaveQueryModalOpen}
-            onQuerySaved={this.handleSaveQueryModalClose}
-            onCancelButtonClick={this.handleSaveQueryModalClose}
-            onCloseButtonClick={this.handleSaveQueryModalClose}
+          <PinQueryModalContainer
+            isOpen={isPinQueryModalOpen}
+            onQueryPinned={this.handlePinQueryModalClose}
+            onCancelButtonClick={this.handlePinQueryModalClose}
+            onCloseButtonClick={this.handlePinQueryModalClose}
           />
-          <SavedQueriesModalContainer
+          <PinnedQueriesModalContainer
             config={config}
-            isOpen={isSavedQueriesModalOpen}
+            isOpen={isPinnedQueriesModalOpen}
             onLoadQuery={this.handleLoadQuery}
-            onCloseButtonClick={this.handleSavedQueriesModalClose}
+            onCloseButtonClick={this.handlePinnedQueriesModalClose}
           />
         </div>
       </div>

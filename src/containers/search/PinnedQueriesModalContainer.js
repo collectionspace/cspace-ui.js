@@ -1,23 +1,23 @@
 import { connect } from 'react-redux';
-import SavedQueriesModal from '../../components/search/SavedQueriesModal';
+import PinnedQueriesModal from '../../components/search/PinnedQueriesModal';
 
 import {
-  deleteSavedSearchQuery,
+  deletePinnedQuery,
 } from '../../actions/prefs';
 
 import {
-  getSavedSearchQueries,
+  getPinnedQueries,
 } from '../../reducers';
 
 const mapStateToProps = (state) => ({
-  savedQueries: getSavedSearchQueries(state),
+  pinnedQueries: getPinnedQueries(state),
 });
 
 const mapDispatchToProps = {
-  deleteQuery: deleteSavedSearchQuery,
+  deleteQuery: deletePinnedQuery,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(SavedQueriesModal);
+)(PinnedQueriesModal);

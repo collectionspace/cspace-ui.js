@@ -4,7 +4,7 @@ import { findAllWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import { Modal } from 'cspace-layout';
-import SavedQueriesModal from '../../../../src/components/search/SavedQueriesModal';
+import PinnedQueriesModal from '../../../../src/components/search/PinnedQueriesModal';
 
 const { MiniButton } = inputComponents;
 
@@ -38,7 +38,7 @@ const config = {
   },
 };
 
-const savedQueries = Immutable.fromJS([
+const pinnedQueries = Immutable.fromJS([
   {
     id: '1234',
     name: 'my query',
@@ -59,12 +59,12 @@ const fakeEvent = {
 const findButtons = (result, name) => findAllWithType(result, MiniButton)
   .filter((button) => button.props.name === name);
 
-describe('SavedQueriesModal', () => {
-  it('should render a Modal containing a table with a row for each saved query', () => {
+describe('PinnedQueriesModal', () => {
+  it('should render a Modal containing a table with a row for each pinned query', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SavedQueriesModal config={config} savedQueries={savedQueries} />, { intl },
+      <PinnedQueriesModal config={config} pinnedQueries={pinnedQueries} />, { intl },
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -73,7 +73,7 @@ describe('SavedQueriesModal', () => {
 
     findAllWithType(result, 'table').should.have.lengthOf(1);
 
-    // One header row, plus one row per saved query.
+    // One header row, plus one row per pinned query.
 
     findAllWithType(result, 'tr').should.have.lengthOf(3);
   });
@@ -88,9 +88,9 @@ describe('SavedQueriesModal', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SavedQueriesModal
+      <PinnedQueriesModal
         config={config}
-        savedQueries={savedQueries}
+        pinnedQueries={pinnedQueries}
         onLoadQuery={handleLoadQuery}
       />, { intl },
     );
@@ -100,7 +100,7 @@ describe('SavedQueriesModal', () => {
 
     rows[1].props.onClick();
 
-    loadedQuery.should.equal(savedQueries.get(0));
+    loadedQuery.should.equal(pinnedQueries.get(0));
   });
 
   it('should call onLoadQuery when enter is pressed on a row', () => {
@@ -113,9 +113,9 @@ describe('SavedQueriesModal', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SavedQueriesModal
+      <PinnedQueriesModal
         config={config}
-        savedQueries={savedQueries}
+        pinnedQueries={pinnedQueries}
         onLoadQuery={handleLoadQuery}
       />, { intl },
     );
@@ -135,7 +135,7 @@ describe('SavedQueriesModal', () => {
       preventDefault: () => {},
     });
 
-    loadedQuery.should.equal(savedQueries.get(0));
+    loadedQuery.should.equal(pinnedQueries.get(0));
   });
 
   it('should call deleteQuery when a delete button is clicked and confirmed', () => {
@@ -148,9 +148,9 @@ describe('SavedQueriesModal', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SavedQueriesModal
+      <PinnedQueriesModal
         config={config}
-        savedQueries={savedQueries}
+        pinnedQueries={pinnedQueries}
         deleteQuery={deleteQuery}
       />, { intl },
     );
@@ -180,9 +180,9 @@ describe('SavedQueriesModal', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SavedQueriesModal
+      <PinnedQueriesModal
         config={config}
-        savedQueries={savedQueries}
+        pinnedQueries={pinnedQueries}
         deleteQuery={deleteQuery}
       />, { intl },
     );
@@ -203,11 +203,11 @@ describe('SavedQueriesModal', () => {
     deleteQueryCalled.should.equal(false);
   });
 
-  it('should render an empty message instead of a table when there are no saved queries', () => {
+  it('should render an empty message instead of a table when there are no pinned queries', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <SavedQueriesModal config={config} />, { intl },
+      <PinnedQueriesModal config={config} />, { intl },
     );
 
     const result = shallowRenderer.getRenderOutput();

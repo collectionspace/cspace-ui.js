@@ -169,7 +169,7 @@ export const initiateSearch = (config, push) => (dispatch, getState) => {
   });
 };
 
-export const loadSavedSearchQuery = (query) => (dispatch) => {
+export const loadPinnedQuery = (query) => (dispatch) => {
   // Set the record type first: changing it clears any existing advanced search conditions, and
   // the condition setters read it from state.
   dispatch(setSearchPageRecordType(query.get('recordType')));

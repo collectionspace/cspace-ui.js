@@ -15,7 +15,7 @@ import {
   initiateSearch,
   setSearchPageAdvancedLimitBy,
   setSearchPageAdvancedSearchTerms,
-  loadSavedSearchQuery,
+  loadPinnedQuery,
 } from '../../actions/searchPage';
 
 import {
@@ -63,7 +63,7 @@ const mapDispatchToProps = {
   clearSearchPage,
   deleteOptionList,
   initiateSearch,
-  loadSavedSearchQuery,
+  loadPinnedQuery,
   toggleUseNewSearch,
   onAdvancedSearchConditionCommit: setSearchPageAdvanced,
   onAdvancedSearchConditionLimitByCommit: setSearchPageAdvancedLimitBy,

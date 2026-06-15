@@ -23,8 +23,8 @@ import {
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_TO_SELECT_ADVANCED,
-  SAVE_SEARCH_QUERY,
-  DELETE_SAVED_SEARCH_QUERY,
+  PIN_QUERY,
+  DELETE_PINNED_QUERY,
 } from '../../../src/constants/actionCodes';
 
 import reducer, {
@@ -32,7 +32,7 @@ import reducer, {
   getAdvancedSearchBooleanOp,
   getForm,
   getRecordBrowserNavBarItems,
-  getSavedSearchQueries,
+  getPinnedQueries,
   getSearchCondition,
   getSearchPageRecordType,
   getSearchPageVocabulary,
@@ -521,7 +521,7 @@ describe('prefs reducer', () => {
     getStickyFields(state, recordType).should.equal(stickyFields);
   });
 
-  it('should handle SAVE_SEARCH_QUERY', () => {
+  it('should handle PIN_QUERY', () => {
     const query = Immutable.Map({
       id: '1234',
       name: 'my query',
@@ -529,14 +529,14 @@ describe('prefs reducer', () => {
     });
 
     const state = reducer(undefined, {
-      type: SAVE_SEARCH_QUERY,
+      type: PIN_QUERY,
       payload: query,
     });
 
-    getSavedSearchQueries(state).should.equal(Immutable.List.of(query));
+    getPinnedQueries(state).should.equal(Immutable.List.of(query));
   });
 
-  it('should replace an existing saved query with the same name on SAVE_SEARCH_QUERY', () => {
+  it('should replace an existing pinned query with the same name on PIN_QUERY', () => {
     const existingQuery = Immutable.Map({
       id: '1234',
       name: 'my query',
@@ -556,16 +556,16 @@ describe('prefs reducer', () => {
     });
 
     const state = reducer(Immutable.fromJS({
-      savedSearchQueries: Immutable.List.of(existingQuery, otherQuery),
+      pinnedQueries: Immutable.List.of(existingQuery, otherQuery),
     }), {
-      type: SAVE_SEARCH_QUERY,
+      type: PIN_QUERY,
       payload: updatedQuery,
     });
 
-    getSavedSearchQueries(state).should.equal(Immutable.List.of(updatedQuery, otherQuery));
+    getPinnedQueries(state).should.equal(Immutable.List.of(updatedQuery, otherQuery));
   });
 
-  it('should handle DELETE_SAVED_SEARCH_QUERY', () => {
+  it('should handle DELETE_PINNED_QUERY', () => {
     const query = Immutable.Map({
       id: '1234',
       name: 'my query',
@@ -577,16 +577,16 @@ describe('prefs reducer', () => {
     });
 
     const state = reducer(Immutable.fromJS({
-      savedSearchQueries: Immutable.List.of(query, otherQuery),
+      pinnedQueries: Immutable.List.of(query, otherQuery),
     }), {
-      type: DELETE_SAVED_SEARCH_QUERY,
+      type: DELETE_PINNED_QUERY,
       payload: '1234',
     });
 
-    getSavedSearchQueries(state).should.equal(Immutable.List.of(otherQuery));
+    getPinnedQueries(state).should.equal(Immutable.List.of(otherQuery));
   });
 
-  it('should return an empty list of saved queries by default', () => {
-    getSavedSearchQueries(Immutable.Map()).should.equal(Immutable.List());
+  it('should return an empty list of pinned queries by default', () => {
+    getPinnedQueries(Immutable.Map()).should.equal(Immutable.List());
   });
 });

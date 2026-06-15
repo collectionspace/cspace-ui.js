@@ -185,7 +185,7 @@ export const getNewSearchShown = (state) => fromPrefs.getNewSearchShown(state.pr
 
 export const getUseNewSearch = (state) => fromPrefs.getUseNewSearch(state.prefs);
 
-export const getSavedSearchQueries = (state) => fromPrefs.getSavedSearchQueries(state.prefs);
+export const getPinnedQueries = (state) => fromPrefs.getPinnedQueries(state.prefs);
 
 export const getOptionList = (state, optionListName) => (
   fromOptionList.get(state.optionList, optionListName)

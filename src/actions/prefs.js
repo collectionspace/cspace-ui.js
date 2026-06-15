@@ -36,8 +36,8 @@ import {
   SET_STICKY_FIELDS,
   TOGGLE_USE_NEW_SEARCH,
   SET_NEW_SEARCH_SHOWN,
-  SAVE_SEARCH_QUERY,
-  DELETE_SAVED_SEARCH_QUERY,
+  PIN_QUERY,
+  DELETE_PINNED_QUERY,
 } from '../constants/actionCodes';
 
 export const storageKey = 'cspace-ui';
@@ -221,18 +221,18 @@ export const savePrefs = () => (dispatch, getState) => {
   }
 };
 
-const createSavedSearchQueryId = () => (
+const createPinnedQueryId = () => (
   `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
 );
 
-export const saveSearchQuery = (name, description) => (dispatch, getState) => {
+export const pinQuery = (name, description) => (dispatch, getState) => {
   const state = getState();
   const recordType = getSearchPageRecordType(state);
 
   dispatch({
-    type: SAVE_SEARCH_QUERY,
+    type: PIN_QUERY,
     payload: Immutable.Map({
-      id: createSavedSearchQueryId(),
+      id: createPinnedQueryId(),
       name: name.trim(),
       description,
       recordType,
@@ -247,9 +247,9 @@ export const saveSearchQuery = (name, description) => (dispatch, getState) => {
   dispatch(savePrefs());
 };
 
-export const deleteSavedSearchQuery = (id) => (dispatch) => {
+export const deletePinnedQuery = (id) => (dispatch) => {
   dispatch({
-    type: DELETE_SAVED_SEARCH_QUERY,
+    type: DELETE_PINNED_QUERY,
     payload: id,
   });
 
