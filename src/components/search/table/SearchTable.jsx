@@ -107,6 +107,7 @@ function SearchResultTable({ searchDescriptor, intl }) {
           }
           return data;
         },
+        linkable: column.linkable,
         label: () => {
           const message = get(column, ['messages', 'label']);
           return message ? intl.formatMessage(message) : '';

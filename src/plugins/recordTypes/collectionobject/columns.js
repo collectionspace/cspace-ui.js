@@ -17,6 +17,7 @@ export default (configContext) => {
         order: 10,
         sortBy: 'collectionobjects_common:objectNumber',
         width: 200,
+        linkable: true,
       },
       title: {
         messages: defineMessages({
