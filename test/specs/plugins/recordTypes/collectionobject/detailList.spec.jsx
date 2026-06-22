@@ -410,8 +410,8 @@ describe('collectionobject detail list layout', () => {
       departmentDiv.should.contain(responsibleDepartment);
     });
 
-    it('should display \'Storage Location not found\' when no location data is present', function test() {
-      const noLocationText = 'Storage Location not assigned';
+    it('should display \'Current Location not assigned\' when no location data is present', function test() {
+      const noLocationText = 'Current Location not assigned';
       const formatted = formatter(Immutable.fromJS({
         objectNumber,
       }), { intl });
