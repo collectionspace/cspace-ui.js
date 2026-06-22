@@ -513,6 +513,67 @@ export default (configContext) => {
             },
           },
         },
+        homeLocationGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          homeLocationGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.homeLocationGroup.name',
+                  defaultMessage: 'Home location',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            homeLocation: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.homeLocation.fullName',
+                    defaultMessage: 'Home location',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.homeLocation.name',
+                    defaultMessage: 'Location',
+                  },
+                }),
+                view: {
+                  type: AutocompleteInput,
+                  props: {
+                    source: 'location/local,location/offsite,organization/local,organization/shared',
+                  },
+                },
+              },
+            },
+            homeLocationNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.collectionobjects_common.homeLocationNote.fullName',
+                    defaultMessage: 'Home location note',
+                  },
+                  name: {
+                    id: 'field.collectionobjects_common.homeLocationNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
         titleGroupList: {
           [config]: {
             view: {

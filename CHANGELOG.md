@@ -2,6 +2,11 @@
 
 ## v11.0.0
 
+### New Fields
+
+- On the record editor for Objects
+  - The Home Location repeating group of fields `homeLocationGroupList/homeLocationGroup` has been added
+
 ### Accessibility
 
 - Resolved text contrast issue in Administration and Tools sections (Criteria 1.4.3).
