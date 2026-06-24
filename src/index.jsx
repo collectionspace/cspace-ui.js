@@ -43,7 +43,7 @@ const defaultConfig = mergeConfig({
       },
     },
   },
-  disableAltTerms: false,
+  disableAltTerms: true,
   index: '/search',
   locale: 'en-US',
   logo: logoUrl,
