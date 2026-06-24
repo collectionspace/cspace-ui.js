@@ -107,8 +107,18 @@ export default (uiConfig) => {
       applyMiddleware(thunk.withExtraArgument(intl)),
     ));
 
-    window.addEventListener('beforeunload', () => {
+    // beforeunload is not reliably fired on mobile browsers (notably iOS Safari) or on tab
+    // discard/crash, so also save on visibilitychange/pagehide
+
+    const handleSavePrefs = () => {
       store.dispatch(savePrefs());
+    };
+    window.addEventListener('beforeunload', handleSavePrefs);
+    window.addEventListener('pagehide', handleSavePrefs);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        handleSavePrefs();
+      }
     });
 
     // A callback for logins occurring in a separate window.
