@@ -13,6 +13,10 @@
 - Resolved orphaned form labels issue (Criteria 3.3.2).
 - Resolved very low contrast buttons issue (Criteria 1.4.3).
 
+### Bug Fixes
+
+- When viewing related records, sorting on complex fields is now disabled. These searches use CMIS, which can only sort on simple fields, and would otherwise return an error.
+
 ## v10.2.1
 
 ### Bug Fixes

@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import qs from 'qs';
+import styles from '../../../../styles/cspace-ui/SearchTable.css';
 
 const propTypes = {
   column: PropTypes.shape({
@@ -9,12 +10,26 @@ const propTypes = {
     formatValue: PropTypes.func,
     label: PropTypes.func,
   }),
+  sortable: PropTypes.bool,
   sort: PropTypes.string,
 };
 
-export default function SearchResultTableHeader({ column, sort }) {
+const defaultProps = {
+  sortable: true,
+};
+
+export default function SearchResultTableHeader({ column, sortable, sort }) {
   const history = useHistory();
   const location = useLocation();
+
+  // CSPACE-5366: related-record searches use CMIS, which can't sort on complex fields.
+  if (!sortable) {
+    return (
+      <th style={{ textAlign: 'left' }}>
+        {column.label()}
+      </th>
+    );
+  }
 
   function handleSortChange() {
     let newSort;
@@ -56,7 +71,12 @@ export default function SearchResultTableHeader({ column, sort }) {
   }
 
   return (
-    <th style={{ textAlign: 'left' }} onClick={() => handleSortChange()} tabIndex={0}>
+    <th
+      className={styles.sortable}
+      style={{ textAlign: 'left' }}
+      onClick={() => handleSortChange()}
+      tabIndex={0}
+    >
       {column.label()}
       {arrow}
     </th>
@@ -64,3 +84,4 @@ export default function SearchResultTableHeader({ column, sort }) {
 }
 
 SearchResultTableHeader.propTypes = propTypes;
+SearchResultTableHeader.defaultProps = defaultProps;
