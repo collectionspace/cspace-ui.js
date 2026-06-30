@@ -65,7 +65,7 @@ const messages = defineMessages({
   execute: {
     id: 'pinnedQueriesModal.execute',
     description: 'The tooltip shown when hovering a pinned query row that can be loaded.',
-    defaultMessage: 'Click to execute',
+    defaultMessage: 'Click to load',
   },
   actionsColumn: {
     id: 'pinnedQueriesModal.column.actions',
