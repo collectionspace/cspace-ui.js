@@ -2,6 +2,11 @@
 
 ## v11.0.0
 
+### Non-Breaking Changes
+
+- New Advanced Search form
+  - Pinned queries feature is introduced. Users are able to pin advanced search query parameters with a name and description, re-run them later, and delete them, all from the Advanced Search page. Queries are stored locally, so they are available only from the same device + browser combination.
+
 ### New Fields
 
 - On the record editor for Objects

@@ -23,6 +23,8 @@ import {
   SET_STICKY_FIELDS,
   SET_SEARCH_PAGE_ADVANCED,
   SET_SEARCH_TO_SELECT_ADVANCED,
+  PIN_QUERY,
+  DELETE_PINNED_QUERY,
 } from '../../../src/constants/actionCodes';
 
 import reducer, {
@@ -30,6 +32,7 @@ import reducer, {
   getAdvancedSearchBooleanOp,
   getForm,
   getRecordBrowserNavBarItems,
+  getPinnedQueries,
   getSearchCondition,
   getSearchPageRecordType,
   getSearchPageVocabulary,
@@ -516,5 +519,74 @@ describe('prefs reducer', () => {
     }));
 
     getStickyFields(state, recordType).should.equal(stickyFields);
+  });
+
+  it('should handle PIN_QUERY', () => {
+    const query = Immutable.Map({
+      id: '1234',
+      name: 'my query',
+      recordType: 'collectionobject',
+    });
+
+    const state = reducer(undefined, {
+      type: PIN_QUERY,
+      payload: query,
+    });
+
+    getPinnedQueries(state).should.equal(Immutable.List.of(query));
+  });
+
+  it('should replace an existing pinned query with the same name on PIN_QUERY', () => {
+    const existingQuery = Immutable.Map({
+      id: '1234',
+      name: 'my query',
+      recordType: 'collectionobject',
+    });
+
+    const otherQuery = Immutable.Map({
+      id: '5678',
+      name: 'other query',
+      recordType: 'person',
+    });
+
+    const updatedQuery = Immutable.Map({
+      id: '9012',
+      name: 'my query',
+      recordType: 'loanin',
+    });
+
+    const state = reducer(Immutable.fromJS({
+      pinnedQueries: Immutable.List.of(existingQuery, otherQuery),
+    }), {
+      type: PIN_QUERY,
+      payload: updatedQuery,
+    });
+
+    getPinnedQueries(state).should.equal(Immutable.List.of(updatedQuery, otherQuery));
+  });
+
+  it('should handle DELETE_PINNED_QUERY', () => {
+    const query = Immutable.Map({
+      id: '1234',
+      name: 'my query',
+    });
+
+    const otherQuery = Immutable.Map({
+      id: '5678',
+      name: 'other query',
+    });
+
+    const state = reducer(Immutable.fromJS({
+      pinnedQueries: Immutable.List.of(query, otherQuery),
+    }), {
+      type: DELETE_PINNED_QUERY,
+      payload: '1234',
+    });
+
+    getPinnedQueries(state).should.equal(Immutable.List.of(otherQuery));
+  });
+
+  it('should return an empty list of pinned queries by default', () => {
+    getPinnedQueries(Immutable.Map()).should.equal(Immutable.List());
   });
 });
