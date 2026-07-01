@@ -84,13 +84,17 @@ function SearchResultTableRow({
         />
       </td>
       {columns.map((column) => {
-        const data = item.get(column.dataKey);
-        const formatted = data ? column.formatValue(data) : null;
-        const key = `${csid}-${column.dataKey}`;
+        const {
+          dataKey,
+          linkable,
+          formatValue,
+        } = column;
+        const data = item.get(dataKey);
+        const formatted = data ? formatValue(data) : null;
+        const key = `${csid}-${dataKey}`;
 
         // Wrap the value in a link if it's in a linkable column and the location is available.
-        const linkableColumns = ['objectNumber'];
-        if (linkableColumns.includes(column.dataKey) && location) {
+        if (linkable && location) {
           return (
             <td key={key}>
               <Link to={{ pathname: location, state }}>
