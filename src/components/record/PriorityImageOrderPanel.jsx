@@ -33,6 +33,10 @@ const messages = defineMessages({
     id: 'priorityImageOrderPanel.title',
     defaultMessage: 'Media Priority',
   },
+  titleWithCount: {
+    id: 'priorityImageOrderPanel.titleWithCount',
+    defaultMessage: '{title}: {count, number}',
+  },
 });
 
 const propTypes = {
@@ -94,8 +98,8 @@ export default function PriorityImageOrderPanel(props) {
   const save = () => dispatch(saveRecord(config, recordTypeConfig, undefined, csid))
     .catch(() => {});
 
-  const labelsByRefName = useMemo(() => {
-    const { items } = readListItems(config, listType, searchResult);
+  const { labelsByRefName, searchLoaded } = useMemo(() => {
+    const { list, items } = readListItems(config, listType, searchResult);
     const labels = new Map();
 
     if (items) {
@@ -108,11 +112,14 @@ export default function PriorityImageOrderPanel(props) {
       });
     }
 
-    return labels;
+    return {
+      labelsByRefName: labels,
+      searchLoaded: list?.get('totalItems') != null,
+    };
   }, [config, searchResult]);
 
   const mergedValue = useMemo(() => {
-    if (labelsByRefName.size === 0) return null;
+    if (!searchLoaded) return null;
 
     const orderedRefNames = toRefNameArray(storedValue)
       .filter((refName) => labelsByRefName.has(refName));
@@ -124,7 +131,7 @@ export default function PriorityImageOrderPanel(props) {
     });
 
     return Immutable.List(orderedRefNames);
-  }, [labelsByRefName, storedValue]);
+  }, [labelsByRefName, searchLoaded, storedValue]);
 
   useEffect(() => {
     if (mergedValue && !mergedValue.equals(Immutable.List(toRefNameArray(storedValue)))) {
@@ -145,27 +152,41 @@ export default function PriorityImageOrderPanel(props) {
     </MiniButton>
   );
 
+  const title = <FormattedMessage {...messages.title} />;
+
+  const header = (
+    <h3>
+      {
+        mergedValue.size === 0
+          ? <FormattedMessage {...messages.titleWithCount} values={{ title, count: 0 }} />
+          : title
+      }
+    </h3>
+  );
+
   return (
     <Panel
-      buttons={[saveButton]}
+      buttons={mergedValue.size > 0 ? [saveButton] : []}
       color={color}
       collapsible
       collapsed
       config={config}
-      header={<h3><FormattedMessage {...messages.title} /></h3>}
+      header={header}
       name="mediaPriorityPanel"
       recordType={recordType}
     >
       <div className={styles.panel}>
-        <RepeatingInput
-          name="priorityImage"
-          parentPath={parentDataPath}
-          value={mergedValue}
-          onCommit={onCommit}
-          onMoveInstance={onMoveInstance}
-        >
-          <PriorityImageRow labelsByRefName={labelsByRefName} />
-        </RepeatingInput>
+        {mergedValue.size > 0 && (
+          <RepeatingInput
+            name="priorityImage"
+            parentPath={parentDataPath}
+            value={mergedValue}
+            onCommit={onCommit}
+            onMoveInstance={onMoveInstance}
+          >
+            <PriorityImageRow labelsByRefName={labelsByRefName} />
+          </RepeatingInput>
+        )}
       </div>
     </Panel>
   );

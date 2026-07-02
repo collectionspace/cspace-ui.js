@@ -66,7 +66,6 @@ const sortByPriority = (items, priorityOrder) => {
 
   // sortBy is stable, so items not in the priority order keep their relative
   // positions at the end.
-
   return items.sortBy((item) => indexByRefName.get(item.get('refName'), Infinity));
 };
 
