@@ -2,6 +2,15 @@
 
 ## v11.0.0
 
+### Non-Breaking Changes
+
+- Media Priority
+  - On the record editor for Objects a new Media Priority sidebar panel has been added 
+  - The panel lists all related Media Handling records and lets the user reorder them
+  - The order drives:
+    - The order of images in the media snapshot gallery in cspace-ui (prioritized media first, un-prioritized media appended in the default sort order)
+    - The search-result thumbnail and detail-view image gallery in the public browser
+
 ### New Fields
 
 - On the record editor for Objects
