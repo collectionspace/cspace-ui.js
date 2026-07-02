@@ -425,6 +425,27 @@ export default (configContext) => {
             },
           },
         },
+        priorityImageList: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.priorityImageList.name',
+                defaultMessage: 'Priority image list',
+              },
+            }),
+          },
+          priorityImage: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.priorityImage.name',
+                  defaultMessage: 'Priority image',
+                },
+              }),
+              repeating: true,
+            },
+          },
+        },
         briefDescriptions: {
           [config]: {
             view: {
