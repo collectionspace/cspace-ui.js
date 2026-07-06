@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import { getRecordTypeNameByUri } from '../../helpers/configHelpers';
@@ -19,6 +19,11 @@ const messages = defineMessages({
   title: {
     id: 'relatedRecordPanel.title',
     defaultMessage: 'Related {collectionName}',
+  },
+  selectItem: {
+    id: 'relatedRecordPanel.selectItem',
+    description: 'The accessible label of the checkbox to select a related record.',
+    defaultMessage: 'Select item {index}',
   },
 });
 
@@ -268,8 +273,11 @@ export default class RelatedRecordPanel extends Component {
       const itemCsid = rowData.get('csid');
       const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
+      const { intl } = this.context;
+
       return (
         <CheckboxInput
+          aria-label={intl.formatMessage(messages.selectItem, { index: rowIndex + 1 })}
           embedded
           name={`${rowIndex}`}
           value={selected}
@@ -457,3 +465,6 @@ export default class RelatedRecordPanel extends Component {
 
 RelatedRecordPanel.propTypes = propTypes;
 RelatedRecordPanel.defaultProps = defaultProps;
+RelatedRecordPanel.contextTypes = {
+  intl: intlShape,
+};

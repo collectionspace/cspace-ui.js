@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import styles from '../../../styles/cspace-ui/SelectBar.css';
 import buttonBarStyles from '../../../styles/cspace-ui/ButtonBar.css';
 
 const messages = defineMessages({
+  selectAll: {
+    id: 'selectBar.selectAll',
+    description: 'The accessible label of the checkbox to select all items on the page.',
+    defaultMessage: 'Select all items on this page',
+  },
   selected: {
     id: 'selectBar.selected',
     description: 'Label showing the number of selected items.',
@@ -124,11 +129,14 @@ export default class SelectBar extends Component {
       );
     }
 
+    const { intl } = this.context;
+
     const selectedItemCount = selectedItems ? selectedItems.size : 0;
 
     return (
       <div className={styles.common}>
         <CheckboxInput
+          aria-label={intl.formatMessage(messages.selectAll)}
           embedded
           readOnly={items.size === 0}
           transition={{
@@ -148,3 +156,6 @@ export default class SelectBar extends Component {
 }
 
 SelectBar.propTypes = propTypes;
+SelectBar.contextTypes = {
+  intl: intlShape,
+};

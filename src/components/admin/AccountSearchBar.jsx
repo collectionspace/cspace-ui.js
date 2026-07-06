@@ -68,6 +68,7 @@ export default class AccountSearchBar extends Component {
     return (
       <div className={styles.common}>
         <LineInput
+          id="accountSearchBarFilter"
           label={intl.formatMessage(messages.filter)}
           onChange={this.handleInputChange}
           value={value}

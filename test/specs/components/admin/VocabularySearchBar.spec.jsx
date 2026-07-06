@@ -14,8 +14,7 @@ describe('VocabularySearchBar', () => {
     this.container = createTestContainer(this);
   });
 
-  // TODO: fix a11y violations
-  it.skip('should render as a div without a11y violations', async function test() {
+  it('should render as a div without a11y violations', async function test() {
     render(
       <IntlProvider locale="en">
         <VocabularySearchBar />

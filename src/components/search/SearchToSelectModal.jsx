@@ -34,6 +34,11 @@ const messages = defineMessages({
     id: 'searchToSelectModal.label',
     defaultMessage: 'Select records',
   },
+  selectItem: {
+    id: 'searchToSelectModal.selectItem',
+    description: 'The accessible label of the checkbox to select a search result.',
+    defaultMessage: 'Select item {index}',
+  },
 });
 
 // FIXME: Make default page size configurable
@@ -479,8 +484,11 @@ export class BaseSearchToSelectModal extends Component {
       const itemCsid = rowData.get('csid');
       const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
+      const { intl } = this.props;
+
       return (
         <CheckboxInput
+          aria-label={intl.formatMessage(messages.selectItem, { index: rowIndex + 1 })}
           embedded
           name={`${rowIndex}`}
           value={selected}

@@ -1,10 +1,12 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType, findAllWithType } from 'react-shallow-testutils';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 import Immutable from 'immutable';
 import CheckboxInput from 'cspace-input/lib/components/CheckboxInput';
 import SelectBar from '../../../../src/components/search/SelectBar';
+
+const intlContext = new IntlProvider({ locale: 'en' }, {}).getChildContext();
 
 const { expect } = chai;
 
@@ -52,6 +54,7 @@ describe('SelectBar', () => {
         listType={listType}
         searchResult={searchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -68,6 +71,7 @@ describe('SelectBar', () => {
         config={config}
         listType={listType}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -88,6 +92,7 @@ describe('SelectBar', () => {
         listType={listType}
         searchResult={emptyResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -110,6 +115,7 @@ describe('SelectBar', () => {
         searchResult={searchResult}
         buttons={buttons}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -133,6 +139,7 @@ describe('SelectBar', () => {
         searchResult={searchResult}
         selectedItems={selectedItems}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -153,6 +160,7 @@ describe('SelectBar', () => {
         searchResult={searchResult}
         selectedItems={selectedItems}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -175,6 +183,7 @@ describe('SelectBar', () => {
         searchResult={searchResult}
         selectedItems={selectedItems}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -209,6 +218,7 @@ describe('SelectBar', () => {
         searchResult={singleItemSearchResult}
         selectedItems={selectedItems}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -234,6 +244,7 @@ describe('SelectBar', () => {
         selectedItems={selectedItems}
         showCheckboxFilter={showCheckboxFilter}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -276,6 +287,7 @@ describe('SelectBar', () => {
         setAllItemsSelected={setAllItemsSelected}
         showCheckboxFilter={showCheckboxFilter}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();

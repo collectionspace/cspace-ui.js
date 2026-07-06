@@ -68,6 +68,7 @@ export default class InvocableSearchBar extends Component {
     return (
       <div className={styles.common}>
         <LineInput
+          id="invocableSearchBarFilter"
           label={intl.formatMessage(messages.filter)}
           onChange={this.handleInputChange}
           value={value}

@@ -18,6 +18,21 @@ const messages = defineMessages({
     description: 'The label of the search button in the quick search input.',
     defaultMessage: 'Search',
   },
+  keywordInputLabel: {
+    id: 'quickSearchForm.keywordInputLabel',
+    description: 'The accessible label of the keyword field in the quick search input.',
+    defaultMessage: 'Search keywords',
+  },
+  recordTypeInputLabel: {
+    id: 'quickSearchForm.recordTypeInputLabel',
+    description: 'The accessible label of the record type dropdown in the quick search input.',
+    defaultMessage: 'Record type to search',
+  },
+  vocabularyInputLabel: {
+    id: 'quickSearchForm.vocabularyInputLabel',
+    description: 'The accessible label of the vocabulary dropdown in the quick search input.',
+    defaultMessage: 'Vocabulary to search',
+  },
 });
 
 const propTypes = {
@@ -52,9 +67,12 @@ export default function QuickSearchForm(props) {
         {...remainingProps}
         formatRecordTypeLabel={formatRecordTypeLabel}
         formatVocabularyLabel={formatVocabularyLabel}
+        keywordInputLabel={intl.formatMessage(messages.keywordInputLabel)}
         placeholder={intl.formatMessage(messages.placeholder)}
+        recordTypeInputLabel={intl.formatMessage(messages.recordTypeInputLabel)}
         recordTypes={getSearchableRecordTypes(getAuthorityVocabCsid, config, perms)}
         searchButtonLabel={intl.formatMessage(messages.search)}
+        vocabularyInputLabel={intl.formatMessage(messages.vocabularyInputLabel)}
       />
     </fieldset>
   );

@@ -174,7 +174,9 @@ export default function Field(props, context) {
       return;
     }
 
-    if (propName in basePropTypes) {
+    // Always forward aria-* props, since base components pass them through to rendered
+    // inputs without declaring them in propTypes.
+    if (propName.startsWith('aria-') || propName in basePropTypes) {
       // eslint-disable-next-line react/destructuring-assignment
       providedProps[propName] = props[propName];
     }
@@ -245,6 +247,17 @@ export default function Field(props, context) {
         id: `${childInputId}-label`,
         readOnly: effectiveReadOnly,
       }));
+    };
+  }
+
+  if ('renderAriaLabel' in basePropTypes) {
+    computedProps.renderAriaLabel = (childInput) => {
+      const childName = childInput.props.name;
+      const childField = field[childName];
+      const childMessages = get(childField, [configKey, 'messages']);
+      const message = childMessages && (childMessages.fullName || childMessages.name);
+
+      return (message && intl.formatMessage(message));
     };
   }
 

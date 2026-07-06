@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import FieldInput from './FieldInput';
@@ -59,6 +59,11 @@ const messages = defineMessages({
     description: 'Message displayed in advanced search when a field is not found',
     defaultMessage: 'field not found',
   },
+  searchValue: {
+    id: 'fieldConditionInput.searchValue',
+    description: 'The accessible label of the value input in an advanced search condition.',
+    defaultMessage: 'Search value',
+  },
 });
 
 const isFieldControlled = (fieldDescriptor) => {
@@ -74,6 +79,10 @@ const isFieldControlled = (fieldDescriptor) => {
 const isOperatorMatchOrContain = (operator) => (
   [OP_MATCH, OP_NOT_MATCH, OP_CONTAIN, OP_NOT_CONTAIN].includes(operator)
 );
+
+const contextTypes = {
+  intl: intlShape,
+};
 
 export default class FieldConditionInput extends Component {
   constructor() {
@@ -367,8 +376,11 @@ export default class FieldConditionInput extends Component {
           ? RangeSearchField
           : SearchField;
 
+        const { intl } = this.context;
+
         valueSearchField = (
           <ValueSearchFieldComponent
+            aria-label={intl.formatMessage(messages.searchValue)}
             inline={inline}
             parentPath={parentPath}
             name={name}
@@ -425,3 +437,4 @@ export default class FieldConditionInput extends Component {
 }
 
 FieldConditionInput.propTypes = propTypes;
+FieldConditionInput.contextTypes = contextTypes;

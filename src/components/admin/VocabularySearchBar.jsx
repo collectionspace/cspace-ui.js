@@ -68,6 +68,7 @@ export default class VocabularySearchBar extends Component {
     return (
       <div className={styles.common}>
         <LineInput
+          id="vocabularySearchBarFilter"
           label={intl.formatMessage(messages.filter)}
           onChange={this.handleInputChange}
           value={value}
