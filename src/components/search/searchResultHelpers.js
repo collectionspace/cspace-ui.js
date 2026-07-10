@@ -81,7 +81,7 @@ const complexFieldPattern = /\/\d+(\/|$)/;
 /**
  * Determines if a column is sortable for a given search. A column is sortable if sortBy is truthy,
  * and the search is not constrained by a related record, or if it is, the field to sort by is not
- * complex. This is here to deal with CSPACE-5366 (searches with related record constraints are
+ * complex. This is here to deal with DRYD-2136 (searches with related record constraints are
  * done using CMIS, which can't see into complex fields). If that bug is ever fixed, then it will
  * suffice just to check sortBy.
  *

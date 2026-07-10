@@ -22,7 +22,7 @@ export default function SearchResultTableHeader({ column, sortable, sort }) {
   const history = useHistory();
   const location = useLocation();
 
-  // CSPACE-5366: related-record searches use CMIS, which can't sort on complex fields.
+  // DRYD-2136: related-record searches use CMIS, which can't sort on complex fields.
   if (!sortable) {
     return (
       <th style={{ textAlign: 'left' }}>
