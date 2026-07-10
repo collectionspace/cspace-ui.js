@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, readListItems } from '../searchResultHelpers';
+import { getColumnConfig, isSortable, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
@@ -95,6 +95,7 @@ function SearchResultTable({ searchDescriptor, intl }) {
       const column = columnConfig[name];
       return {
         dataKey: column.dataKey || name,
+        sortable: isSortable(column, searchDescriptor),
         formatValue: (data) => {
           if (column.formatValue) {
             const formatterContext = {
@@ -134,8 +135,21 @@ function SearchResultTable({ searchDescriptor, intl }) {
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} aria-label={selectLabel} />
             {columns.map((column) => (sortColumnName === column.dataKey
-              ? <SearchResultTableHeader key={column.dataKey} column={column} sort={sortDir} />
-              : <SearchResultTableHeader key={column.dataKey} column={column} />
+              ? (
+                <SearchResultTableHeader
+                  key={column.dataKey}
+                  column={column}
+                  sortable={column.sortable}
+                  sort={sortDir}
+                />
+              )
+              : (
+                <SearchResultTableHeader
+                  key={column.dataKey}
+                  column={column}
+                  sortable={column.sortable}
+                />
+              )
             ))}
           </tr>
         </thead>

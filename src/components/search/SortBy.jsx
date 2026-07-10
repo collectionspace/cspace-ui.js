@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import classNames from 'classnames';
 import styles from '../../../styles/cspace-ui/SortBy.css';
 import { useConfig } from '../config/ConfigProvider';
+import { isSortable } from './searchResultHelpers';
 
 const { DropdownMenuInput, Button } = components;
 
@@ -32,6 +33,7 @@ function SortBy({
   onSortChange,
   onSortDirChange,
   recordType,
+  searchDescriptor,
   sort,
 }) {
   const config = useConfig();
@@ -48,7 +50,9 @@ function SortBy({
   } = sortConfig;
 
   const options = Object.keys(sortConfig)
-    .filter((key) => sortConfig[key].sortBy !== undefined)
+    .filter((key) => (searchDescriptor
+      ? isSortable(sortConfig[key], searchDescriptor)
+      : sortConfig[key].sortBy !== undefined))
     .map((key) => {
       const option = sortConfig[key];
       const label = intl.formatMessage(option.messages.label) ?? key;
@@ -103,6 +107,7 @@ SortBy.propTypes = {
   onSortChange: PropTypes.func,
   onSortDirChange: PropTypes.func,
   recordType: PropTypes.string,
+  searchDescriptor: PropTypes.object,
   sort: PropTypes.string,
 };
 

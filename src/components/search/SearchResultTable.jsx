@@ -9,6 +9,7 @@ import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 import { getListTypeFromResult } from '../../helpers/searchHelpers';
+import { isSortable } from './searchResultHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 
@@ -23,19 +24,6 @@ const messages = defineMessages({
     defaultMessage: '{primary} selected row {index} of {total}',
   },
 });
-
-/**
- * Determines if a column is sortable for a given search. A column is sortable if sortBy is truthy,
- * and the search is not constrained by a related record, or if it is, the field to sort by is not
- * complex. This is here to deal with CSPACE-5366 (searches with related record constraints are
- * done using CMIS, which can't see into complex fields). If that bug is ever fixed, then it will
- * suffice just to check sortBy.
- */
-const isSortable = (column, searchDescriptor) => {
-  const { sortBy } = column;
-
-  return (sortBy && (!searchDescriptor.getIn(['searchQuery', 'rel']) || sortBy.indexOf('/0/') === -1));
-};
 
 const rowRenderer = (params, location, ariaLabel) => {
   // This is a fork of react-virtualized's default row renderer:
