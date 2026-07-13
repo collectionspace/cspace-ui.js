@@ -127,7 +127,7 @@ body {
   color: rgb(220, 0, 0);
 }
 
-.common ul {
+.common :global(.validation) {
   text-align: left;
   list-style: none;
 }
