@@ -172,7 +172,7 @@ function PasswordResetPage(props) {
 
     if (!valid) {
       const errorMessages = errors.map(({ errorCode, values }) => (
-        <li>
+        <li key={errorCode}>
           <FormattedMessage {...messages[errorCode]} values={values} />
         </li>
       ));
@@ -275,10 +275,10 @@ function PasswordResetPage(props) {
     ) : undefined;
   const errorMessage = error
     ? (
-      <p className="status error">
+      <div className="status error">
         {error}
         {validationMessage}
-      </p>
+      </div>
     )
     : undefined;
 
