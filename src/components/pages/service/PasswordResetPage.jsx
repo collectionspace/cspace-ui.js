@@ -54,8 +54,13 @@ const messages = defineMessages({
     description: 'Message to display when the password is invalid on the password reset page.',
     defaultMessage: 'The password is missing the following requirements:',
   },
-  errorInvalidLength: {
-    id: 'passwordResetPage.errorInvalidLength',
+  errorTooLong: {
+    id: 'passwordResetPage.errorTooLong',
+    description: 'Message to display when the password exceeds length requirements.',
+    defaultMessage: 'The password must be at most {maxLength} characters',
+  },
+  errorTooShort: {
+    id: 'passwordResetPage.errorTooShort',
     description: 'Message to display when the password does not meet length requirements.',
     defaultMessage: 'The password must be at least {minLength} characters',
   },

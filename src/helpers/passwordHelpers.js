@@ -5,9 +5,16 @@ export const isValidPassword = (password, passwordRequirements) => {
   const special = /[!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/;
   const errors = [];
 
+  // max length check for bcrypt which only accepts up to 72 bytes
+  const maxLength = 72;
+  const encoder = new TextEncoder();
+  if (encoder.encode(password).length > maxLength) {
+    errors.push({ errorCode: 'errorTooLong', values: { maxLength } });
+  }
+
   if (passwordRequirements) {
     if (passwordRequirements.minLength && password.length < passwordRequirements.minLength) {
-      errors.push({ errorCode: 'errorInvalidLength', values: { minLength: passwordRequirements.minLength } });
+      errors.push({ errorCode: 'errorTooShort', values: { minLength: passwordRequirements.minLength } });
     }
     if (passwordRequirements.requireLowerCase && !lower.test(password)) {
       errors.push({ errorCode: 'errorMissingLower' });
