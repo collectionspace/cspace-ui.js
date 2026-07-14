@@ -107,7 +107,7 @@ export default function MediaPriorityOrderPanel(props) {
         const refName = item.get('refName');
 
         if (refName) {
-          labels.set(refName, item.get('identificationNumber') || item.get('title'));
+          labels.set(refName, item.get('identificationNumber'));
         }
       });
     }
