@@ -11,6 +11,10 @@
   margin-left: 10px;
 }
 
+.common > button[name=pinnedQueries] {
+  margin-left: 20px;
+}
+
 .loading {
   composes: common;
   visibility: hidden;

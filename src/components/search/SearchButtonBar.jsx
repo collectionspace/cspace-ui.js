@@ -27,10 +27,10 @@ export default function SearchButtonBar(props) {
 
   return (
     <div className={styles.common}>
-      {onPinnedQueriesButtonClick && <PinnedQueriesButton onClick={onPinnedQueriesButtonClick} />}
-      {onPinButtonClick && <SearchPinButton onClick={onPinButtonClick} />}
       <SearchButton />
       <SearchClearButton onClick={onClearButtonClick} />
+      {onPinnedQueriesButtonClick && <PinnedQueriesButton onClick={onPinnedQueriesButtonClick} />}
+      {onPinButtonClick && <SearchPinButton onClick={onPinButtonClick} />}
     </div>
   );
 }
