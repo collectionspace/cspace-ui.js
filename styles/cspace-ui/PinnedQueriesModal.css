@@ -1,0 +1,57 @@
+@value textDark from 'cspace-input/styles/colors.css';
+
+.common :global(.cspace-layout-Modal--common) {
+    width: 80%;
+    max-width: 900px;
+}
+
+.tableContainer > .queryTable {
+    table-layout: fixed;
+}
+
+.tableContainer > .queryTable th {
+    cursor: default;
+    padding: 4px 10px;
+    text-align: left;
+    text-decoration: none;
+}
+
+.tableContainer > .queryTable th:nth-child(1) {
+    width: 28%;
+}
+
+.tableContainer > .queryTable th:nth-child(2) {
+    width: 15%;
+}
+
+.tableContainer > .queryTable th:nth-child(3) {
+    width: 42%;
+}
+
+.tableContainer > .queryTable th:nth-child(4) {
+    width: 15%;
+}
+
+.tableContainer > .queryTable td {
+    overflow-wrap: break-word;
+    padding: 4px 10px;
+    vertical-align: top;
+}
+
+.actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+.empty {
+    padding: 8px;
+}
+
+.note {
+    color: textDark;
+    font-size: 12px;
+    margin: 16px 0 0;
+}

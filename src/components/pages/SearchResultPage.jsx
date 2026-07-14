@@ -514,6 +514,7 @@ export default class SearchResultPage extends Component {
         onSortDirChange={sortDirChangeHandler}
         sort={query?.sort}
         recordType={searchDescriptor.get('recordType')}
+        searchDescriptor={searchDescriptor}
       />
     );
 

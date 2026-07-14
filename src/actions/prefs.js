@@ -9,6 +9,10 @@ import {
   getPrefs,
   getRecordData,
   getSearchPageRecordType,
+  getSearchPageVocabulary,
+  getSearchPageKeyword,
+  getSearchPageAdvancedLimitBy,
+  getSearchPageAdvancedSearchTerms,
 } from '../reducers';
 
 import {
@@ -32,6 +36,8 @@ import {
   SET_STICKY_FIELDS,
   TOGGLE_USE_NEW_SEARCH,
   SET_NEW_SEARCH_SHOWN,
+  PIN_QUERY,
+  DELETE_PINNED_QUERY,
 } from '../constants/actionCodes';
 
 export const storageKey = 'cspace-ui';
@@ -213,4 +219,39 @@ export const savePrefs = () => (dispatch, getState) => {
 
     window.localStorage.setItem(storageKey, JSON.stringify(prefs));
   }
+};
+
+const createPinnedQueryId = () => (
+  `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`
+);
+
+export const pinQuery = (name, description) => (dispatch, getState) => {
+  const state = getState();
+  const recordType = getSearchPageRecordType(state);
+
+  dispatch({
+    type: PIN_QUERY,
+    payload: Immutable.Map({
+      id: createPinnedQueryId(),
+      name: name.trim(),
+      description,
+      recordType,
+      vocabulary: getSearchPageVocabulary(state, recordType),
+      keyword: getSearchPageKeyword(state),
+      advancedLimitBy: getSearchPageAdvancedLimitBy(state),
+      advancedSearchTerms: getSearchPageAdvancedSearchTerms(state),
+      createdTime: (new Date()).toISOString(),
+    }),
+  });
+
+  dispatch(savePrefs());
+};
+
+export const deletePinnedQuery = (id) => (dispatch) => {
+  dispatch({
+    type: DELETE_PINNED_QUERY,
+    payload: id,
+  });
+
+  dispatch(savePrefs());
 };

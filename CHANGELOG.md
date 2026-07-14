@@ -10,6 +10,8 @@
   - The order drives:
     - The order of images in the media snapshot gallery in cspace-ui (prioritized media first, un-prioritized media appended in the default sort order)
     - The search-result thumbnail and detail-view image gallery in the public browser
+- New Advanced Search form
+  - Pinned queries feature is introduced. Users are able to pin advanced search query parameters with a name and description, re-run them later, and delete them, all from the Advanced Search page. Queries are stored locally, so they are available only from the same device + browser combination.
 
 ### New Fields
 
@@ -22,6 +24,10 @@
 - Resolved text contrast issue in Administration and Tools sections (Criteria 1.4.3).
 - Resolved orphaned form labels issue (Criteria 3.3.2).
 - Resolved very low contrast buttons issue (Criteria 1.4.3).
+
+### Bug Fixes
+
+- When viewing related records, sorting on complex fields is now disabled. These searches use CMIS, which can only sort on simple fields, and would otherwise return an error.
 
 ## v10.2.1
 
