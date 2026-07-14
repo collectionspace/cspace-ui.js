@@ -51,6 +51,24 @@ const renderThumbInner = (item) => (
   </div>
 );
 
+const sortByPriority = (items, priorityOrder) => {
+  if (!priorityOrder) {
+    return items;
+  }
+
+  const priorityRefNames = Immutable.List.isList(priorityOrder)
+    ? priorityOrder
+    : Immutable.List.of(priorityOrder);
+
+  const indexByRefName = Immutable.Map(
+    priorityRefNames.map((refName, index) => [refName, index]),
+  );
+
+  // sortBy is stable, so items not in the priority order keep their relative
+  // positions at the end.
+  return items.sortBy((item) => indexByRefName.get(item.get('refName'), Infinity));
+};
+
 const renderLeftNav = (onClick, disabled) => (
   <MiniButton name="mediaViewerPrev" disabled={disabled} onClick={onClick}>&lt;</MiniButton>
 );
@@ -71,6 +89,9 @@ const propTypes = {
     ownAltText: PropTypes.string,
     ownIdentificationNumber: PropTypes.string,
   }),
+  priorityOrder: PropTypes.oneOfType(
+    [PropTypes.string, PropTypes.instanceOf(Immutable.List)],
+  ),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   readRecord: PropTypes.func,
 };
@@ -146,6 +167,7 @@ export default class MediaViewer extends Component {
       isSearchPending,
       listType,
       ownFields,
+      priorityOrder,
       searchResult,
     } = this.props;
 
@@ -175,7 +197,7 @@ export default class MediaViewer extends Component {
             items = Immutable.List.of(items);
           }
 
-          items.forEach((item) => {
+          sortByPriority(items, priorityOrder).forEach((item) => {
             const blobCsid = item.get('blobCsid');
             const altText = item.get('altText');
             const identificationNumber = item.get('identificationNumber');

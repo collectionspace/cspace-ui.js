@@ -33,6 +33,7 @@ const propTypes = {
   listType: PropTypes.string,
   title: PropTypes.node,
   search: PropTypes.func,
+  priorityOrder: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Immutable.List)]),
 };
 
 const defaultProps = {
@@ -129,6 +130,7 @@ export default class MediaViewerPanel extends Component {
       listType,
       name,
       ownFields,
+      priorityOrder,
       recordType,
       searchDescriptor,
     } = this.props;
@@ -151,6 +153,7 @@ export default class MediaViewerPanel extends Component {
           config={config}
           listType={listType}
           ownFields={isCsid(ownBlobCsid) ? ownFields : undefined}
+          priorityOrder={priorityOrder}
           recordType={recordType}
           searchName={name}
           searchDescriptor={searchDescriptor}

@@ -4,7 +4,10 @@ import Immutable from 'immutable';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { canList } from '../../helpers/permissionHelpers';
 import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
+import { MEDIA_SNAPSHOT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 import MediaViewerPanelContainer from '../../containers/media/MediaViewerPanelContainer';
+
+export const mediaPriorityPath = ['document', 'ns2:collectionobjects_common', 'mediaPriorityList', 'mediaPriority'];
 
 const messages = defineMessages({
   title: {
@@ -13,7 +16,7 @@ const messages = defineMessages({
   },
 });
 
-const getSearchDescriptor = (props) => {
+export const getSearchDescriptor = (props) => {
   const {
     csid,
     mediaRecordType,
@@ -80,7 +83,7 @@ const defaultProps = {
   mediaRecordBlobCsidField: 'ns2:media_common/blobCsid',
   mediaRecordAltTextField: 'ns2:media_common/altText',
   mediaRecordIdentificationNumberField: 'ns2:media_common/identificationNumber',
-  name: 'mediaSnapshotPanel',
+  name: MEDIA_SNAPSHOT_PANEL_SEARCH_NAME,
   sort: 'title',
   titleMessage: messages.title,
 };
@@ -123,6 +126,10 @@ export default function MediaSnapshotPanel(props) {
     ownIdentificationNumber = recordData.getIn(['document', ...mediaRecordIdentificationNumberField.split('/')]);
   }
 
+  const priorityOrder = recordType === 'collectionobject'
+    ? recordData?.getIn(mediaPriorityPath)
+    : undefined;
+
   return (
     <MediaViewerPanelContainer
       collapsed
@@ -133,6 +140,7 @@ export default function MediaSnapshotPanel(props) {
       ownFields={{ ownBlobCsid, ownAltText, ownIdentificationNumber }}
       searchDescriptor={searchDescriptor}
       recordType={recordType}
+      priorityOrder={priorityOrder}
       title={<FormattedMessage {...titleMessage} />}
     />
   );

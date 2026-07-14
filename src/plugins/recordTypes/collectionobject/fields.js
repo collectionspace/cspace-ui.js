@@ -425,6 +425,29 @@ export default (configContext) => {
             },
           },
         },
+        mediaPriorityList: {
+          [config]: {
+            messages: defineMessages({
+              name: {
+                id: 'field.collectionobjects_common.mediaPriorityList.name',
+                defaultMessage: 'Media priority list',
+              },
+            }),
+            searchDisabled: false,
+          },
+          mediaPriority: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.collectionobjects_common.mediaPriority.name',
+                  defaultMessage: 'Media Priority',
+                },
+              }),
+              repeating: true,
+              searchDisabled: false,
+            },
+          },
+        },
         briefDescriptions: {
           [config]: {
             view: {
