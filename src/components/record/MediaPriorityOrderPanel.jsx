@@ -17,24 +17,24 @@ import {
 import { MEDIA_SNAPSHOT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 import { readListItems } from '../search/searchResultHelpers';
 import { ConnectedPanel as Panel } from '../../containers/layout/PanelContainer';
-import { getSearchDescriptor, priorityImagePath } from './MediaSnapshotPanel';
-import PriorityImageRow from './PriorityImageRow';
-import styles from '../../../styles/cspace-ui/PriorityImageOrderPanel.css';
+import { getSearchDescriptor, mediaPriorityPath } from './MediaSnapshotPanel';
+import MediaPriorityRow from './MediaPriorityRow';
+import styles from '../../../styles/cspace-ui/MediaPriorityOrderPanel.css';
 
 const { MiniButton } = inputBaseComponents;
 const { RepeatingInput } = inputComponents;
 
 const listType = 'common';
 
-const parentDataPath = priorityImagePath.slice(0, -1);
+const parentDataPath = mediaPriorityPath.slice(0, -1);
 
 const messages = defineMessages({
   title: {
-    id: 'priorityImageOrderPanel.title',
+    id: 'mediaPriorityOrderPanel.title',
     defaultMessage: 'Media Priority',
   },
   titleWithCount: {
-    id: 'priorityImageOrderPanel.titleWithCount',
+    id: 'mediaPriorityOrderPanel.titleWithCount',
     defaultMessage: '{title}: {count, number}',
   },
 });
@@ -56,7 +56,7 @@ const toRefNameArray = (value) => {
   return [value];
 };
 
-export default function PriorityImageOrderPanel(props) {
+export default function MediaPriorityOrderPanel(props) {
   const {
     color,
     config,
@@ -82,7 +82,7 @@ export default function PriorityImageOrderPanel(props) {
   );
 
   const storedValue = useSelector(
-    (state) => getRecordData(state, csid)?.getIn(priorityImagePath),
+    (state) => getRecordData(state, csid)?.getIn(mediaPriorityPath),
   );
 
   const searchResult = useSelector(
@@ -135,7 +135,7 @@ export default function PriorityImageOrderPanel(props) {
 
   useEffect(() => {
     if (mergedValue && !mergedValue.equals(Immutable.List(toRefNameArray(storedValue)))) {
-      onCommit(priorityImagePath, mergedValue);
+      onCommit(mediaPriorityPath, mergedValue);
     }
   }, [mergedValue]);
 
@@ -178,13 +178,13 @@ export default function PriorityImageOrderPanel(props) {
       <div className={styles.panel}>
         {mergedValue.size > 0 && (
           <RepeatingInput
-            name="priorityImage"
+            name="mediaPriority"
             parentPath={parentDataPath}
             value={mergedValue}
             onCommit={onCommit}
             onMoveInstance={onMoveInstance}
           >
-            <PriorityImageRow labelsByRefName={labelsByRefName} />
+            <MediaPriorityRow labelsByRefName={labelsByRefName} />
           </RepeatingInput>
         )}
       </div>
@@ -192,4 +192,4 @@ export default function PriorityImageOrderPanel(props) {
   );
 }
 
-PriorityImageOrderPanel.propTypes = propTypes;
+MediaPriorityOrderPanel.propTypes = propTypes;

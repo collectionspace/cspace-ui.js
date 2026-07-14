@@ -425,24 +425,26 @@ export default (configContext) => {
             },
           },
         },
-        priorityImageList: {
+        mediaPriorityList: {
           [config]: {
             messages: defineMessages({
               name: {
-                id: 'field.collectionobjects_common.priorityImageList.name',
-                defaultMessage: 'Priority image list',
+                id: 'field.collectionobjects_common.mediaPriorityList.name',
+                defaultMessage: 'Media priority list',
               },
             }),
+            searchDisabled: false,
           },
-          priorityImage: {
+          mediaPriority: {
             [config]: {
               messages: defineMessages({
                 name: {
-                  id: 'field.collectionobjects_common.priorityImage.name',
-                  defaultMessage: 'Priority image',
+                  id: 'field.collectionobjects_common.mediaPriority.name',
+                  defaultMessage: 'Media Priority',
                 },
               }),
               repeating: true,
+              searchDisabled: false,
             },
           },
         },

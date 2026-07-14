@@ -7,7 +7,7 @@ import { getUpdatedTimestamp } from '../../helpers/recordDataHelpers';
 import { MEDIA_SNAPSHOT_PANEL_SEARCH_NAME } from '../../constants/searchNames';
 import MediaViewerPanelContainer from '../../containers/media/MediaViewerPanelContainer';
 
-export const priorityImagePath = ['document', 'ns2:collectionobjects_common', 'priorityImageList', 'priorityImage'];
+export const mediaPriorityPath = ['document', 'ns2:collectionobjects_common', 'mediaPriorityList', 'mediaPriority'];
 
 const messages = defineMessages({
   title: {
@@ -127,7 +127,7 @@ export default function MediaSnapshotPanel(props) {
   }
 
   const priorityOrder = recordType === 'collectionobject'
-    ? recordData?.getIn(priorityImagePath)
+    ? recordData?.getIn(mediaPriorityPath)
     : undefined;
 
   return (

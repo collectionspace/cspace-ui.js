@@ -10,7 +10,7 @@ import RecordSidebarToggleButtonContainer from '../../containers/record/RecordSi
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSidebar.css';
-import PriorityImageOrderPanel from './PriorityImageOrderPanel';
+import MediaPriorityOrderPanel from './MediaPriorityOrderPanel';
 
 const propTypes = {
   config: PropTypes.shape({
@@ -125,7 +125,7 @@ export default function RecordSidebar(props) {
 
     if (recordType === 'collectionobject') {
       mediaPriorityPanel = (
-        <PriorityImageOrderPanel
+        <MediaPriorityOrderPanel
           color={panelColor}
           config={config}
           csid={csid}

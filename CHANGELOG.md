@@ -15,6 +15,7 @@
 
 - On the record editor for Objects
   - The Home Location repeating group of fields `homeLocationGroupList/homeLocationGroup` has been added
+  - The Media Priority repeating field `mediaPriorityList/mediaPriority` has been added
 
 ### Accessibility
 

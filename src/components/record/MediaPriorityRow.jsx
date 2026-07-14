@@ -6,10 +6,10 @@ const propTypes = {
   value: PropTypes.string,
 };
 
-export default function PriorityImageRow(props) {
+export default function MediaPriorityRow(props) {
   const { labelsByRefName, value } = props;
 
   return <div>{labelsByRefName?.get(value) || value || ''}</div>;
 }
 
-PriorityImageRow.propTypes = propTypes;
+MediaPriorityRow.propTypes = propTypes;
