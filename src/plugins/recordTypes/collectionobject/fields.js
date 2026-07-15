@@ -445,6 +445,9 @@ export default (configContext) => {
               }),
               repeating: true,
               searchDisabled: false,
+              searchView: {
+                type: TextInput,
+              },
             },
           },
         },
