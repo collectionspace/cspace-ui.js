@@ -48,7 +48,7 @@ const template = (configContext) => {
           </Col>
 
           <Col>
-            <Panel name="priceInformation">
+            <Panel name="priceInformation" collapsible collapsed>
               <InputTable name="groupPurchasePrice">
                 <Field name="groupPurchasePriceCurrency" />
                 <Field name="groupPurchasePriceValue" />

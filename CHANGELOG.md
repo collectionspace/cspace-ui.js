@@ -10,6 +10,7 @@
   - The order drives:
     - The order of images in the media snapshot gallery in cspace-ui (prioritized media first, un-prioritized media appended in the default sort order)
     - The search-result thumbnail and detail-view image gallery in the public browser
+- On the record editor for Acquisitions, the Price Information fields are now displayed in a collapsible panel, collapsed by default.
 - New Advanced Search form
   - Pinned queries feature is introduced. Users are able to pin advanced search query parameters with a name and description, re-run them later, and delete them, all from the Advanced Search page. Queries are stored locally, so they are available only from the same device + browser combination.
 
