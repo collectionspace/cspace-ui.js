@@ -31,6 +31,11 @@ const messages = defineMessages({
     id: 'recordBrowserNavBar.moreRelated',
     defaultMessage: '+ Related',
   },
+  relatedSelectorLabel: {
+    id: 'recordBrowserNavBar.relatedSelectorLabel',
+    description: 'The accessible label of the selector used to add a related record type tab.',
+    defaultMessage: 'Add a related record type',
+  },
   close: {
     id: 'recordBrowserNavBar.close',
     defaultMessage: 'close',
@@ -249,6 +254,7 @@ class RecordBrowserNavBar extends Component {
         relatedRecordTypeSelector = (
           <li className={itemStyles.selector}>
             <RecordTypeInput
+              aria-label={intl.formatMessage(messages.relatedSelectorLabel)}
               filtering={false}
               indentItems={false}
               placeholder={placeholder}

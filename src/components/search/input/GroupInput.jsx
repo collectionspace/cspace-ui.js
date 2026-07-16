@@ -13,6 +13,7 @@ import {
 } from '../../../helpers/configHelpers';
 
 const propTypes = {
+  'aria-label': PropTypes.string,
   config: PropTypes.shape({
     locale: PropTypes.string,
   }).isRequired,
@@ -30,6 +31,7 @@ const propTypes = {
 
 export default function GroupInput(props) {
   const {
+    'aria-label': ariaLabel,
     config,
     name,
     placeholder,
@@ -86,6 +88,7 @@ export default function GroupInput(props) {
 
   return (
     <OptionPickerInput
+      aria-label={ariaLabel}
       blankable={false}
       name={name}
       placeholder={placeholder}

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import ImageGallery from 'react-image-gallery';
+import { defineMessages, intlShape } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 import ImageContainer from '../../containers/media/ImageContainer';
 import { getContentPath } from '../../helpers/contentHelpers';
@@ -20,6 +21,19 @@ import styles from '../../../styles/cspace-ui/MediaViewer.css';
 import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery.css';
 
 const { MiniButton } = inputComponents;
+
+const messages = defineMessages({
+  previous: {
+    id: 'mediaViewer.previous',
+    description: 'Label of the button to show the previous image in the media viewer.',
+    defaultMessage: 'Previous image',
+  },
+  next: {
+    id: 'mediaViewer.next',
+    description: 'Label of the button to show the next image in the media viewer.',
+    defaultMessage: 'Next image',
+  },
+});
 
 const renderItem = (item) => (
   <div className="image-gallery-image">
@@ -69,12 +83,10 @@ const sortByPriority = (items, priorityOrder) => {
   return items.sortBy((item) => indexByRefName.get(item.get('refName'), Infinity));
 };
 
-const renderLeftNav = (onClick, disabled) => (
-  <MiniButton name="mediaViewerPrev" disabled={disabled} onClick={onClick}>&lt;</MiniButton>
-);
-
-const renderRightNav = (onClick, disabled) => (
-  <MiniButton name="mediaViewerNext" disabled={disabled} onClick={onClick}>&gt;</MiniButton>
+const makeRenderNav = (name, symbol, label) => (onClick, disabled) => (
+  <MiniButton name={name} disabled={disabled} onClick={onClick} aria-label={label}>
+    {symbol}
+  </MiniButton>
 );
 
 const propTypes = {
@@ -171,6 +183,16 @@ export default class MediaViewer extends Component {
       searchResult,
     } = this.props;
 
+    const { intl } = this.context;
+
+    const renderLeftNav = makeRenderNav(
+      'mediaViewerPrev', '<', intl.formatMessage(messages.previous),
+    );
+
+    const renderRightNav = makeRenderNav(
+      'mediaViewerNext', '>', intl.formatMessage(messages.next),
+    );
+
     const images = [];
 
     if (ownFields) {
@@ -242,3 +264,6 @@ export default class MediaViewer extends Component {
 
 MediaViewer.propTypes = propTypes;
 MediaViewer.defaultProps = defaultProps;
+MediaViewer.contextTypes = {
+  intl: intlShape,
+};

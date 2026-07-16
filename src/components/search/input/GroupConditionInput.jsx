@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import RemoveConditionButton from '../RemoveConditionButton';
@@ -34,6 +34,11 @@ const propTypes = {
 
 const messages = {
   groupInput: defineMessages({
+    ariaLabel: {
+      id: 'GroupConditionInput.groupInput.ariaLabel',
+      description: 'The accessible label of the selector for the group to search within.',
+      defaultMessage: 'Group to search within',
+    },
     pendingLabel: {
       id: 'GroupConditionInput.groupInput.pendingLabel',
       defaultMessage: 'In a single {groupInput} ...',
@@ -197,8 +202,11 @@ export default class GroupConditionInput extends Component {
         return null;
       }
 
+      const { intl } = this.context;
+
       return (
         <GroupInput
+          aria-label={intl.formatMessage(messages.groupInput.ariaLabel)}
           config={config}
           inline={inline}
           name="group"
@@ -320,3 +328,6 @@ export default class GroupConditionInput extends Component {
 }
 
 GroupConditionInput.propTypes = propTypes;
+GroupConditionInput.contextTypes = {
+  intl: intlShape,
+};

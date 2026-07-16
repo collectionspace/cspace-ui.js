@@ -36,6 +36,7 @@ const SearchFormContent = ({
     <Panel>
       <div className={recordTypeStyles.common}>
         <RecordTypeInput
+          id="searchFormRecordType"
           label={intl.formatMessage(messages.recordType)}
           recordTypes={recordTypes}
           rootType={recordTypeInputRootType}
@@ -54,6 +55,7 @@ const SearchFormContent = ({
         recordType={recordTypeValue}
       >
         <LineInput
+          id="searchFormKeyword"
           label={intl.formatMessage(messages.keyword)}
           value={keywordValue}
           onCommit={handleKeywordInputCommit}

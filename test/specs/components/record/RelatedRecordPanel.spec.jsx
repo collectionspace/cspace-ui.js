@@ -1,6 +1,7 @@
 /* global window */
 
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType, findAllWithType } from 'react-shallow-testutils';
@@ -13,6 +14,8 @@ import RelatedRecordPanel, { confirmUnrelateModalName } from '../../../../src/co
 import ConfirmRecordUnrelateModal from '../../../../src/components/record/ConfirmRecordUnrelateModal';
 import UnrelateButton from '../../../../src/components/record/UnrelateButton';
 import SelectBar from '../../../../src/components/search/SelectBar';
+
+const intlContext = new IntlProvider({ locale: 'en' }, {}).getChildContext();
 
 const { expect } = chai;
 
@@ -96,6 +99,7 @@ describe('RelatedRecordPanel', () => {
         initialSort={sort}
         serviceTag={serviceTag}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -136,6 +140,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType={relatedRecordType}
         recordRelationUpdatedTimestamp={recordRelationUpdatedTimestamp}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -160,6 +165,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -184,6 +190,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType={relatedRecordType}
         showCheckboxColumn={false}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -210,6 +217,7 @@ describe('RelatedRecordPanel', () => {
         recordType={recordType}
         relatedRecordType="group"
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -229,6 +237,7 @@ describe('RelatedRecordPanel', () => {
         recordType={recordType}
         relatedRecordType="group"
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -255,6 +264,7 @@ describe('RelatedRecordPanel', () => {
         recordType={recordType}
         relatedRecordType="group"
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -271,6 +281,7 @@ describe('RelatedRecordPanel', () => {
         recordType={recordType}
         relatedRecordType="group"
       />,
+      intlContext,
     );
 
     const newResult = shallowRenderer.getRenderOutput();
@@ -292,6 +303,7 @@ describe('RelatedRecordPanel', () => {
         recordType={recordType}
         relatedRecordType="group"
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -315,6 +327,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType="group"
         recordRelationUpdatedTimestamp="2017-03-27T17:56.03.000Z"
       />,
+      intlContext,
     );
 
     const newResult = shallowRenderer.getRenderOutput();
@@ -347,6 +360,7 @@ describe('RelatedRecordPanel', () => {
         selectedItems={selectedItems}
         showCheckboxColumn
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -378,6 +392,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -426,6 +441,7 @@ describe('RelatedRecordPanel', () => {
         showCheckboxColumn
         onItemSelectChange={handleItemSelectChange}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -471,6 +487,7 @@ describe('RelatedRecordPanel', () => {
         relatedRecordType={relatedRecordType}
         showCheckboxColumn
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -542,13 +559,14 @@ describe('RelatedRecordPanel', () => {
         showCheckboxColumn
         openModal={openModal}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
     const header = searchPanel.props.renderTableHeader({ searchResult });
 
     const selectBarRenderer = createRenderer();
-    const selectBar = selectBarRenderer.render(findWithType(header, SelectBar));
+    const selectBar = selectBarRenderer.render(findWithType(header, SelectBar), intlContext);
     const unrelateButton = findWithType(selectBar, UnrelateButton);
 
     unrelateButton.props.onClick();
@@ -631,6 +649,7 @@ describe('RelatedRecordPanel', () => {
         onUnrelated={handleUnrelated}
         closeModal={closeModal}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -712,6 +731,7 @@ describe('RelatedRecordPanel', () => {
         showCheckboxColumn
         unrelateRecords={unrelateRecords}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -826,6 +846,7 @@ describe('RelatedRecordPanel', () => {
         showCheckboxColumn
         unrelateRecords={unrelateRecords}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();
@@ -940,6 +961,7 @@ describe('RelatedRecordPanel', () => {
         showCheckboxColumn
         closeModal={closeModal}
       />,
+      intlContext,
     );
 
     const searchPanel = shallowRenderer.getRenderOutput();

@@ -226,8 +226,9 @@ export default class SearchForm extends Component {
 
     return (
       <div className={vocabStyles.common}>
-        <Label>{intl.formatMessage(messages.vocabulary)}</Label>
+        <Label htmlFor="searchFormVocab">{intl.formatMessage(messages.vocabulary)}</Label>
         <VocabularyInput
+          id="searchFormVocab"
           recordTypes={recordTypes}
           recordType={recordTypeValue}
           value={vocabularyValue}

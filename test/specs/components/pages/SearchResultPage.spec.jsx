@@ -1160,6 +1160,7 @@ describe('SearchResultPage', () => {
     const context = {
       config,
       store,
+      intl: new IntlProvider({ locale: 'en' }, {}).getChildContext().intl,
     };
 
     shallowRenderer.render(
@@ -1288,6 +1289,7 @@ describe('SearchResultPage', () => {
     const context = {
       config,
       store,
+      intl: new IntlProvider({ locale: 'en' }, {}).getChildContext().intl,
     };
 
     shallowRenderer.render(

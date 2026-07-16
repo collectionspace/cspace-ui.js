@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import { Provider as StoreProvider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 import createTestContainer from '../../../helpers/createTestContainer';
 import { render } from '../../../helpers/renderHelpers';
 import { ConnectedPanel as Panel } from '../../../../src/containers/layout/PanelContainer';
@@ -170,14 +170,16 @@ describe('MediaViewerPanel', () => {
     };
 
     render(
-      <StoreProvider store={store}>
-        <MediaViewerPanel
-          config={config}
-          name={searchName}
-          searchDescriptor={searchDescriptor}
-          search={search}
-        />
-      </StoreProvider>, this.container,
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <MediaViewerPanel
+            config={config}
+            name={searchName}
+            searchDescriptor={searchDescriptor}
+            search={search}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
     );
 
     searchedConfig.should.equal(config);
@@ -202,13 +204,15 @@ describe('MediaViewerPanel', () => {
     };
 
     render(
-      <StoreProvider store={store}>
-        <MediaViewerPanel
-          config={config}
-          name={searchName}
-          searchDescriptor={searchDescriptor}
-        />
-      </StoreProvider>, this.container,
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <MediaViewerPanel
+            config={config}
+            name={searchName}
+            searchDescriptor={searchDescriptor}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
     );
 
     const newSearchDescriptor = Immutable.fromJS({
@@ -221,14 +225,16 @@ describe('MediaViewerPanel', () => {
     });
 
     render(
-      <StoreProvider store={store}>
-        <MediaViewerPanel
-          config={config}
-          name={searchName}
-          searchDescriptor={newSearchDescriptor}
-          search={search}
-        />
-      </StoreProvider>, this.container,
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <MediaViewerPanel
+            config={config}
+            name={searchName}
+            searchDescriptor={newSearchDescriptor}
+            search={search}
+          />
+        </StoreProvider>
+      </IntlProvider>, this.container,
     );
 
     searchedConfig.should.equal(config);

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage, FormattedNumber } from 'react-intl';
+import {
+  defineMessages, intlShape, FormattedMessage, FormattedNumber,
+} from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 import PageSizeChooser from './PageSizeChooser';
 import styles from '../../../styles/cspace-ui/Pager.css';
@@ -12,9 +14,19 @@ const messages = defineMessages({
     id: 'pager.previous',
     defaultMessage: '<',
   },
+  previousAriaLabel: {
+    id: 'pager.previousAriaLabel',
+    description: 'Accessible label of the button to go to the previous page of search results.',
+    defaultMessage: 'Previous page',
+  },
   nextLabel: {
     id: 'pager.next',
     defaultMessage: '>',
+  },
+  nextAriaLabel: {
+    id: 'pager.nextAriaLabel',
+    description: 'Accessible label of the button to go to the next page of search results.',
+    defaultMessage: 'Next page',
   },
   gap: {
     id: 'pager.gap',
@@ -196,6 +208,8 @@ export default class Pager extends Component {
       onPageSizeChange,
     } = this.props;
 
+    const { intl } = this.context;
+
     return (
       <div className={styles.common}>
         <PageSizeChooser
@@ -206,6 +220,7 @@ export default class Pager extends Component {
         />
         <nav>
           <MiniButton
+            aria-label={intl.formatMessage(messages.previousAriaLabel)}
             disabled={currentPage === 0}
             onClick={this.handlePrevButtonClick}
           >
@@ -213,6 +228,7 @@ export default class Pager extends Component {
           </MiniButton>
           {this.renderPages()}
           <MiniButton
+            aria-label={intl.formatMessage(messages.nextAriaLabel)}
             disabled={currentPage === lastPage}
             onClick={this.handleNextButtonClick}
           >
@@ -226,3 +242,6 @@ export default class Pager extends Component {
 
 Pager.propTypes = propTypes;
 Pager.defaultProps = defaultProps;
+Pager.contextTypes = {
+  intl: intlShape,
+};

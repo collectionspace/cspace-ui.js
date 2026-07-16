@@ -28,6 +28,11 @@ const messages = defineMessages({
     description: 'Text of the tooltip shown when the save button is disabled due to field validation errors.',
     defaultMessage: 'Field validation errors must be corrected before this record can be saved.',
   },
+  errorBadge: {
+    id: 'saveButton.errorBadge',
+    description: 'Accessible label of the badge that reveals field validation errors.',
+    defaultMessage: 'Show validation errors',
+  },
 });
 
 const propTypes = {
@@ -81,7 +86,12 @@ function SaveButton(props) {
   const isValidationBlocked = hasBlockingError(validationErrors);
 
   const errorBadge = isValidationBlocked
-    ? <ErrorBadge onClick={onErrorBadgeClick} />
+    ? (
+      <ErrorBadge
+        aria-label={intl.formatMessage(messages.errorBadge)}
+        onClick={onErrorBadgeClick}
+      />
+    )
     : null;
 
   const title = isValidationBlocked

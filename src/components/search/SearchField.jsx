@@ -15,6 +15,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  'aria-label': PropTypes.string,
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Immutable.List)]),
@@ -141,6 +142,7 @@ export default class SearchField extends Component {
 
   render() {
     const {
+      'aria-label': ariaLabel,
       parentPath,
       name,
       value,
@@ -161,6 +163,7 @@ export default class SearchField extends Component {
 
     return forceTextInput ? (
       <TextInput
+        aria-label={ariaLabel}
         parentPath={parentPath}
         name={name}
         asText={readOnly}
@@ -172,6 +175,7 @@ export default class SearchField extends Component {
       />
     ) : (
       <Field
+        aria-label={ariaLabel}
         label={undefined}
         parentPath={parentPath}
         name={name}
