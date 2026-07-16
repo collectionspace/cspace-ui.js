@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import { Modal } from 'cspace-layout';
 import { components as inputComponents } from 'cspace-input';
+import tableRowStyles from 'cspace-layout/styles/cspace-layout/TableRow.css';
 import CancelButton from '../navigation/CancelButton';
 import searchTableStyles from '../../../styles/cspace-ui/SearchTable.css';
 import styles from '../../../styles/cspace-ui/PinnedQueriesModal.css';
@@ -268,11 +269,17 @@ export default class PinnedQueriesModal extends Component {
 
     const executable = this.isRecordTypeKnown(query);
 
+    const classes = [
+      index % 2 === 0 ? searchTableStyles.even : searchTableStyles.odd,
+      executable ? tableRowStyles.common : null,
+      executable ? styles.executable : null,
+    ].filter(Boolean).join(' ');
+
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
     return (
       <tr
-        className={index % 2 === 0 ? searchTableStyles.even : searchTableStyles.odd}
+        className={classes}
         key={query.get('id')}
         tabIndex={0}
         title={executable ? intl.formatMessage(messages.execute) : undefined}

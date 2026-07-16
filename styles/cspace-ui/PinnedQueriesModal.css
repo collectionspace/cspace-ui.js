@@ -10,10 +10,8 @@
 }
 
 .tableContainer > .queryTable th {
-    cursor: default;
     padding: 4px 10px;
     text-align: left;
-    text-decoration: none;
 }
 
 .tableContainer > .queryTable th:nth-child(1) {
@@ -38,12 +36,20 @@
     vertical-align: top;
 }
 
+.executable {
+    cursor: pointer;
+}
+
 .actions {
     align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
     justify-content: flex-end;
+}
+
+.actions button {
+    cursor: pointer;
 }
 
 .empty {
