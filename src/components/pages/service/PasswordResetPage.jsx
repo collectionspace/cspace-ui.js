@@ -52,7 +52,37 @@ const messages = defineMessages({
   errorInvalidPassword: {
     id: 'passwordResetPage.errorInvalidPassword',
     description: 'Message to display when the password is invalid on the password reset page.',
-    defaultMessage: 'The password must be between 8 and 24 characters.',
+    defaultMessage: 'The password is missing the following requirements:',
+  },
+  errorTooLong: {
+    id: 'passwordResetPage.errorTooLong',
+    description: 'Message to display when the password exceeds length requirements.',
+    defaultMessage: 'The password must be at most {maxLength} characters',
+  },
+  errorTooShort: {
+    id: 'passwordResetPage.errorTooShort',
+    description: 'Message to display when the password does not meet length requirements.',
+    defaultMessage: 'The password must be at least {minLength} characters',
+  },
+  errorMissingLower: {
+    id: 'passwordResetPage.errorMissingLower',
+    description: 'Message to display when the password is missing lowercase letters.',
+    defaultMessage: 'Missing at least one lowercase letter',
+  },
+  errorMissingUpper: {
+    id: 'passwordResetPage.errorMissingUpper',
+    description: 'Message to display when the password is missing uppercase letters.',
+    defaultMessage: 'Missing at least one uppercase letter',
+  },
+  errorMissingDigit: {
+    id: 'passwordResetPage.errorMissingDigit',
+    description: 'Message to display when the password is missing digits.',
+    defaultMessage: 'Missing at least one digit',
+  },
+  errorMissingSpecial: {
+    id: 'passwordResetPage.errorMissingSpecial',
+    description: 'Message to display when the password is missing special characters.',
+    defaultMessage: 'Missing at least one symbol',
   },
   success: {
     id: 'passwordResetPage.success',
@@ -88,6 +118,7 @@ const messages = defineMessages({
 
 const propTypes = {
   csrf: PropTypes.object,
+  passwordRequirements: PropTypes.object,
   intl: intlShape.isRequired,
   tenantId: PropTypes.string,
   tenantLoginUrl: PropTypes.string,
@@ -96,6 +127,7 @@ const propTypes = {
 
 const defaultProps = {
   csrf: null,
+  passwordRequirements: null,
   tenantId: null,
   // If we don't receive a tenant-specific login URL, default to the services login page.
   tenantLoginUrl: '/cspace-services/login',
@@ -108,9 +140,11 @@ function PasswordResetPage(props) {
     tenantId,
     tenantLoginUrl,
     token,
+    passwordRequirements,
   } = props;
 
   const [error, setError] = useState();
+  const [validationErrors, setValidationErrors] = useState();
   const [isPending, setPending] = useState();
   const [success, setSuccess] = useState();
 
@@ -128,14 +162,27 @@ function PasswordResetPage(props) {
     const password = formData.get('password');
     const confirmPassword = formData.get('confirmPassword');
 
+    // clear old validation messages
+    setValidationErrors(null);
     if (!password) {
       setError(<FormattedMessage {...messages.errorMissingPassword} />);
 
       return;
     }
 
-    if (!isValidPassword(password)) {
+    const {
+      valid,
+      errors,
+    } = isValidPassword(password, passwordRequirements);
+
+    if (!valid) {
+      const errorMessages = errors.map(({ errorCode, values }) => (
+        <li key={errorCode}>
+          <FormattedMessage {...messages[errorCode]} values={values} />
+        </li>
+      ));
       setError(<FormattedMessage {...messages.errorInvalidPassword} />);
+      setValidationErrors(errorMessages);
 
       return;
     }
@@ -225,8 +272,19 @@ function PasswordResetPage(props) {
       });
   };
 
+  const validationMessage = validationErrors
+    ? (
+      <ul className="validation">
+        {validationErrors}
+      </ul>
+    ) : undefined;
   const errorMessage = error
-    ? <p className="status error">{error}</p>
+    ? (
+      <div className="status error">
+        {error}
+        {validationMessage}
+      </div>
+    )
     : undefined;
 
   return (

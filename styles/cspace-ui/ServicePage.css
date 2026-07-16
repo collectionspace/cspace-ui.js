@@ -126,3 +126,8 @@ body {
   border-color: #e6b3b3;
   color: rgb(220, 0, 0);
 }
+
+.common :global(.validation) {
+  text-align: left;
+  list-style: none;
+}
