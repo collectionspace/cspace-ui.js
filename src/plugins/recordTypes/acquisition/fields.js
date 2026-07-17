@@ -77,6 +77,64 @@ export default (configContext) => {
             },
           },
         },
+        alternativeIdentifierGroupList: {
+          [config]: {
+            view: {
+              type: CompoundInput,
+            },
+          },
+          alternativeIdentifierGroup: {
+            [config]: {
+              messages: defineMessages({
+                name: {
+                  id: 'field.acquisitions_common.alternativeIdentifierGroup.name',
+                  defaultMessage: 'Alternative identifier',
+                },
+              }),
+              repeating: true,
+              view: {
+                type: CompoundInput,
+                props: {
+                  tabular: true,
+                },
+              },
+            },
+            alternativeIdentifier: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.alternativeIdentifier.fullName',
+                    defaultMessage: 'Alternative identifier',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.alternativeIdentifier.name',
+                    defaultMessage: 'Identifier',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+            alternativeIdentifierNote: {
+              [config]: {
+                messages: defineMessages({
+                  fullName: {
+                    id: 'field.acquisitions_common.alternativeIdentifierNote.fullName',
+                    defaultMessage: 'Alternative identifier note',
+                  },
+                  name: {
+                    id: 'field.acquisitions_common.alternativeIdentifierNote.name',
+                    defaultMessage: 'Note',
+                  },
+                }),
+                view: {
+                  type: TextInput,
+                },
+              },
+            },
+          },
+        },
         accessionDateGroup: {
           [config]: {
             dataType: DATA_TYPE_STRUCTURED_DATE,
