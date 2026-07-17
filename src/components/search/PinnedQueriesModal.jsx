@@ -86,7 +86,7 @@ const messages = defineMessages({
   userManualUrl: {
     id: 'pinnedQueriesModal.userManualUrl',
     description: 'The URL of the user manual page describing Pinned Queries.',
-    defaultMessage: 'https://collectionspace.atlassian.net/wiki/spaces/CO/overview',
+    defaultMessage: 'https://collectionspace.atlassian.net/wiki/spaces/CUD/pages/4613242886/Pinned+Queries',
   },
 });
 
