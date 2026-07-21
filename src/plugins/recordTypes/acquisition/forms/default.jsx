@@ -23,6 +23,14 @@ const template = (configContext) => {
         <Cols>
           <Col>
             <Field name="acquisitionReferenceNumber" />
+
+            <Field name="alternativeIdentifierGroupList">
+              <Field name="alternativeIdentifierGroup">
+                <Field name="alternativeIdentifier" />
+                <Field name="alternativeIdentifierNote" />
+              </Field>
+            </Field>
+
             <Field name="accessionDateGroup" />
 
             <InputTable name="acquisitionAuthorizer">

@@ -19,6 +19,8 @@
 - On the record editor for Objects
   - The Home Location repeating group of fields `homeLocationGroupList/homeLocationGroup` has been added
   - The Media Priority repeating field `mediaPriorityList/mediaPriority` has been added
+- On the record editor for Acquisitions
+  - The Alternative Identifier repeating group of fields `alternativeIdentifierGroupList/alternativeIdentifierGroup` has been added
 
 ### Accessibility
 
