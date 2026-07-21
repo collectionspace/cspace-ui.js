@@ -12,10 +12,12 @@ export const isValidPassword = (password, passwordRequirements) => {
     errors.push({ errorCode: 'errorTooLong', values: { maxLength } });
   }
 
+  const minLength = passwordRequirements?.minLength || 8;
+  if (password.length < minLength) {
+    errors.push({ errorCode: 'errorTooShort', values: { minLength } });
+  }
+
   if (passwordRequirements) {
-    if (passwordRequirements.minLength && password.length < passwordRequirements.minLength) {
-      errors.push({ errorCode: 'errorTooShort', values: { minLength: passwordRequirements.minLength } });
-    }
     if (passwordRequirements.requireLowerCase && !lower.test(password)) {
       errors.push({ errorCode: 'errorMissingLower' });
     }
