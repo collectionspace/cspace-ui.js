@@ -42,8 +42,6 @@ const template = (configContext) => {
               <Field name="acquisitionDateGroup" />
             </Field>
 
-            <Field name="acquisitionMethod" />
-
             <Field name="acquisitionSources">
               <Field name="acquisitionSource" />
             </Field>
@@ -51,37 +49,12 @@ const template = (configContext) => {
             <Field name="owners">
               <Field name="owner" />
             </Field>
-
-            <Field name="transferOfTitleNumber" />
           </Col>
 
           <Col>
-            <Panel name="priceInformation" collapsible collapsed>
-              <InputTable name="groupPurchasePrice">
-                <Field name="groupPurchasePriceCurrency" />
-                <Field name="groupPurchasePriceValue" />
-              </InputTable>
+            <Field name="transferOfTitleNumber" />
 
-              <InputTable name="objectOfferPrice">
-                <Field name="objectOfferPriceCurrency" />
-                <Field name="objectOfferPriceValue" />
-              </InputTable>
-
-              <InputTable name="objectPurchaseOfferPrice">
-                <Field name="objectPurchaseOfferPriceCurrency" />
-                <Field name="objectPurchaseOfferPriceValue" />
-              </InputTable>
-
-              <InputTable name="objectPurchasePrice">
-                <Field name="objectPurchasePriceCurrency" />
-                <Field name="objectPurchasePriceValue" />
-              </InputTable>
-
-              <InputTable name="originalObjectPurchasePrice">
-                <Field name="originalObjectPurchasePriceCurrency" />
-                <Field name="originalObjectPurchasePriceValue" />
-              </InputTable>
-            </Panel>
+            <Field name="acquisitionMethod" />
 
             <Field name="acquisitionDescription" />
 
@@ -125,6 +98,39 @@ const template = (configContext) => {
         </Field>
 
         <Field name="creditLine" />
+      </Panel>
+
+      <Panel name="priceInformation" collapsible collapsed>
+        <Cols>
+          <Col>
+            <InputTable name="groupPurchasePrice">
+              <Field name="groupPurchasePriceCurrency" />
+              <Field name="groupPurchasePriceValue" />
+            </InputTable>
+
+            <InputTable name="objectOfferPrice">
+              <Field name="objectOfferPriceCurrency" />
+              <Field name="objectOfferPriceValue" />
+            </InputTable>
+
+            <InputTable name="objectPurchaseOfferPrice">
+              <Field name="objectPurchaseOfferPriceCurrency" />
+              <Field name="objectPurchaseOfferPriceValue" />
+            </InputTable>
+          </Col>
+
+          <Col>
+            <InputTable name="objectPurchasePrice">
+              <Field name="objectPurchasePriceCurrency" />
+              <Field name="objectPurchasePriceValue" />
+            </InputTable>
+
+            <InputTable name="originalObjectPurchasePrice">
+              <Field name="originalObjectPurchasePriceCurrency" />
+              <Field name="originalObjectPurchasePriceValue" />
+            </InputTable>
+          </Col>
+        </Cols>
       </Panel>
 
       <Panel name="objectCollectionInformation" collapsible collapsed>
