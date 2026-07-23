@@ -13,6 +13,8 @@
 - On the record editor for Acquisitions, the Price Information fields are now displayed in a collapsible panel, collapsed by default.
 - New Advanced Search form
   - Pinned queries feature is introduced. Users are able to pin advanced search query parameters with a name and description, re-run them later, and delete them, all from the Advanced Search page. Queries are stored locally, so they are available only from the same device + browser combination.
+- On the password reset form, password requirements can now be passed from the services backend
+  - Initial validators exist for maximum length (with a default of 72 characters), minimum length (with a default of 8 characters), lowercase, uppercase, digit, and special character requirements
 
 ### New Fields
 
