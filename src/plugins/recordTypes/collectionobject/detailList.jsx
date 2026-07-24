@@ -95,7 +95,7 @@ export default (configContext) => {
         const objectName = [
           formatRefNameWithDefault(data.get('objectNameControlled')),
           formatRefNameWithDefault(data.get('objectName')),
-        ].filter((name) => !!name).join(', ');
+        ].filter((name) => !!name).join(' / ');
 
         const taxon = formatRefNameWithDefault(data.get('taxon'));
         const form = formatRefNameWithDefault(data.get('form'));
