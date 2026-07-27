@@ -19,6 +19,8 @@ import {
 
 import styles from '../../../styles/cspace-ui/SearchPage.css';
 import pageBodyStyles from '../../../styles/cspace-ui/PageBody.css';
+import PinQueryModalContainer from '../../containers/search/PinQueryModalContainer';
+import PinnedQueriesModalContainer from '../../containers/search/PinnedQueriesModalContainer';
 
 const { Button } = inputComponents;
 
@@ -72,6 +74,7 @@ const propTypes = {
   clearSearchPage: PropTypes.func,
   deleteOptionList: PropTypes.func,
   initiateSearch: PropTypes.func,
+  loadPinnedQuery: PropTypes.func,
   onAdvancedSearchConditionCommit: PropTypes.func,
   onAdvancedSearchConditionLimitByCommit: PropTypes.func,
   onAdvancedSearchConditionSearchTermsCommit: PropTypes.func,
@@ -99,8 +102,16 @@ class SearchPage extends Component {
     this.handleTitleBarDocked = this.handleTitleBarDocked.bind(this);
     this.handleToggleSearch = this.handleToggleSearch.bind(this);
 
+    this.handlePinButtonClick = this.handlePinButtonClick.bind(this);
+    this.handlePinQueryModalClose = this.handlePinQueryModalClose.bind(this);
+    this.handlePinnedQueriesButtonClick = this.handlePinnedQueriesButtonClick.bind(this);
+    this.handlePinnedQueriesModalClose = this.handlePinnedQueriesModalClose.bind(this);
+    this.handleLoadQuery = this.handleLoadQuery.bind(this);
+
     this.state = ({
       headerDockPosition: null,
+      isPinQueryModalOpen: false,
+      isPinnedQueriesModalOpen: false,
     });
   }
 
@@ -223,6 +234,55 @@ class SearchPage extends Component {
     });
   }
 
+  handlePinButtonClick() {
+    this.setState({
+      isPinQueryModalOpen: true,
+    });
+  }
+
+  handlePinQueryModalClose() {
+    this.setState({
+      isPinQueryModalOpen: false,
+    });
+  }
+
+  handlePinnedQueriesButtonClick() {
+    this.setState({
+      isPinnedQueriesModalOpen: true,
+    });
+  }
+
+  handlePinnedQueriesModalClose() {
+    this.setState({
+      isPinnedQueriesModalOpen: false,
+    });
+  }
+
+  handleLoadQuery(query) {
+    const {
+      history,
+      loadPinnedQuery,
+    } = this.props;
+
+    if (loadPinnedQuery) {
+      // Set the search page state before replacing the URL, so that the URL sync in
+      // componentDidUpdate sees them in agreement.
+      loadPinnedQuery(query);
+    }
+
+    const recordType = query.get('recordType');
+    const vocabulary = query.get('vocabulary');
+    const vocabularyPath = vocabulary ? `/${vocabulary}` : '';
+
+    history.replace({
+      pathname: `/search/${recordType}${vocabularyPath}`,
+    });
+
+    this.setState({
+      isPinnedQueriesModalOpen: false,
+    });
+  }
+
   getSearchDescriptor() {
     const {
       match,
@@ -311,6 +371,8 @@ class SearchPage extends Component {
 
     const {
       headerDockPosition,
+      isPinQueryModalOpen,
+      isPinnedQueriesModalOpen,
     } = this.state;
 
     const {
@@ -375,10 +437,24 @@ class SearchPage extends Component {
             onAdvancedSearchConditionLimitByCommit={onAdvancedSearchConditionLimitByCommit}
             onAdvancedSearchConditionSearchTermsCommit={onAdvancedSearchConditionSearchTermsCommit}
             onClearButtonClick={onClearButtonClick}
+            onPinButtonClick={this.handlePinButtonClick}
+            onPinnedQueriesButtonClick={this.handlePinnedQueriesButtonClick}
             onKeywordCommit={onKeywordCommit}
             onRecordTypeCommit={this.handleRecordTypeCommit}
             onVocabularyCommit={this.handleVocabularyCommit}
             onSearch={this.handleSearch}
+          />
+          <PinQueryModalContainer
+            isOpen={isPinQueryModalOpen}
+            onQueryPinned={this.handlePinQueryModalClose}
+            onCancelButtonClick={this.handlePinQueryModalClose}
+            onCloseButtonClick={this.handlePinQueryModalClose}
+          />
+          <PinnedQueriesModalContainer
+            config={config}
+            isOpen={isPinnedQueriesModalOpen}
+            onLoadQuery={this.handleLoadQuery}
+            onCloseButtonClick={this.handlePinnedQueriesModalClose}
           />
         </div>
       </div>

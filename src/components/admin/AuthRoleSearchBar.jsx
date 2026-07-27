@@ -68,6 +68,7 @@ export default class AuthRoleSearchBar extends Component {
     return (
       <div className={styles.common}>
         <LineInput
+          id="authRoleSearchBarFilter"
           label={intl.formatMessage(messages.filter)}
           onChange={this.handleInputChange}
           value={value}

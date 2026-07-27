@@ -1,6 +1,7 @@
 /* global window */
 
 import React from 'react';
+import { IntlProvider } from 'react-intl';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import Immutable from 'immutable';
@@ -14,6 +15,8 @@ const { expect } = chai;
 chai.should();
 
 const { MiniButton } = inputComponents;
+
+const intlContext = new IntlProvider({ locale: 'en' }, {}).getChildContext();
 
 const searchDescriptor = Immutable.fromJS({
   recordType: 'media',
@@ -71,7 +74,7 @@ describe('MediaViewer', () => {
   it('should render a div', () => {
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<MediaViewer config={config} />);
+    shallowRenderer.render(<MediaViewer config={config} />, intlContext);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -87,6 +90,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -114,6 +118,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={emptySearchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -130,6 +135,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -151,6 +157,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -172,6 +179,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -207,6 +215,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={emptySearchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -236,6 +245,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={singleSearchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -273,6 +283,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={singleSearchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -316,6 +327,7 @@ describe('MediaViewer', () => {
         searchDescriptor={searchDescriptor}
         searchResult={searchResult}
       />,
+      intlContext,
     );
 
     const result = shallowRenderer.getRenderOutput();

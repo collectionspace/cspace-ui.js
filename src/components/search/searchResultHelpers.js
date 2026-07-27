@@ -71,3 +71,27 @@ export function readListItems(config, listType, searchResult) {
     items,
   };
 }
+
+/**
+ * Matches a sortBy field path that indexes into a repeating field, e.g. a subfield of a repeating
+ * group (".../titleGroupList/0/title") or an element of a repeating scalar (".../owners/0").
+ */
+const complexFieldPattern = /\/\d+(\/|$)/;
+
+/**
+ * Determines if a column is sortable for a given search. A column is sortable if sortBy is truthy,
+ * and the search is not constrained by a related record, or if it is, the field to sort by is not
+ * complex. This is here to deal with DRYD-2136 (searches with related record constraints are
+ * done using CMIS, which can't see into complex fields). If that bug is ever fixed, then it will
+ * suffice just to check sortBy.
+ *
+ * @param {object} column           A column configuration, expected to have a sortBy property
+ * @param {object} searchDescriptor The search descriptor for the current search
+ * @returns {boolean} true if the column may be sorted for this search
+ */
+export function isSortable(column, searchDescriptor) {
+  const { sortBy } = column;
+
+  return !!(sortBy
+    && (!searchDescriptor.getIn(['searchQuery', 'rel']) || !complexFieldPattern.test(sortBy)));
+}

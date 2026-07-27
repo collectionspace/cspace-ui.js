@@ -329,6 +329,7 @@ function SearchResults(props) {
       onSortDirChange={handleSortDirChange}
       sort={normalizedQuery?.sort}
       recordType={searchDescriptor.get('recordType')}
+      searchDescriptor={searchDescriptor}
     />
   );
 

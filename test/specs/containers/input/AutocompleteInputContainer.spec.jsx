@@ -72,6 +72,7 @@ describe('AutocompleteInputContainer', () => {
     input.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
     input.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
     input.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
+    input.props.should.have.property('formatNarrowResultsMessage').that.is.a('function');
     input.props.should.have.property('formatSearchResultMessage').that.is.a('function');
     input.props.should.have.property('formatSourceName').that.is.a('function');
     input.props.should.have.property('addTerm').that.is.a('function');
@@ -131,6 +132,7 @@ describe('AutocompleteInputContainer', () => {
     input.props.should.have.property('formatCloneOptionLabel').that.is.a('function');
     input.props.should.have.property('formatCreateNewOptionLabel').that.is.a('function');
     input.props.should.have.property('formatMoreCharsRequiredMessage').that.is.a('function');
+    input.props.should.have.property('formatNarrowResultsMessage').that.is.a('function');
     input.props.should.have.property('formatSearchResultMessage').that.is.a('function');
     input.props.should.have.property('formatSourceName').that.is.a('function');
     input.props.should.have.property('addTerm').that.is.a('function');
@@ -366,7 +368,7 @@ describe('AutocompleteInputContainer', () => {
     store.getActions()[2].should.have.property('type', CLEAR_PARTIAL_TERM_SEARCH_RESULTS);
   });
 
-  it('should connect formatAddPrompt, formatCloneOptionLabel, formatCreateNewOptionLabel, formatMoreCharsRequiredMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', () => {
+  it('should connect formatAddPrompt, formatCloneOptionLabel, formatCreateNewOptionLabel, formatMoreCharsRequiredMessage, formatNarrowResultsMessage, formatSearchResultMessage, and formatSourceName to intl.formatMessage', () => {
     const matches = Immutable.Map({});
 
     let formatMessageCalledCount = 0;
@@ -445,12 +447,16 @@ describe('AutocompleteInputContainer', () => {
 
     formatMessageCalledCount.should.equal(4);
 
-    input.props.formatSearchResultMessage(1);
+    input.props.formatNarrowResultsMessage();
 
     formatMessageCalledCount.should.equal(5);
 
-    input.props.formatSourceName({ messages: {} });
+    input.props.formatSearchResultMessage(1);
 
     formatMessageCalledCount.should.equal(6);
+
+    input.props.formatSourceName({ messages: {} });
+
+    formatMessageCalledCount.should.equal(7);
   });
 });

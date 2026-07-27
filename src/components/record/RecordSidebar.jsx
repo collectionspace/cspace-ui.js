@@ -10,6 +10,7 @@ import RecordSidebarToggleButtonContainer from '../../containers/record/RecordSi
 import TermsUsedPanelContainer from '../../containers/record/TermsUsedPanelContainer';
 import UsedByPanelContainer from '../../containers/record/UsedByPanelContainer';
 import styles from '../../../styles/cspace-ui/RecordSidebar.css';
+import MediaPriorityOrderPanel from './MediaPriorityOrderPanel';
 
 const propTypes = {
   config: PropTypes.shape({
@@ -85,6 +86,7 @@ export default function RecordSidebar(props) {
   let usedBy = null;
   let reports = null;
   let batchJobs = null;
+  let mediaPriorityPanel = null;
 
   if (!isAuthority && !isUtility && !isAudit) {
     mediaSnapshot = (
@@ -117,6 +119,17 @@ export default function RecordSidebar(props) {
           recordType={recordType}
           sort={sort}
           titleMessage={titleMessage}
+        />
+      );
+    }
+
+    if (recordType === 'collectionobject') {
+      mediaPriorityPanel = (
+        <MediaPriorityOrderPanel
+          color={panelColor}
+          config={config}
+          csid={csid}
+          recordType={recordType}
         />
       );
     }
@@ -213,6 +226,7 @@ export default function RecordSidebar(props) {
       />
       {mediaSnapshot}
       {altMediaSnapshot}
+      {mediaPriorityPanel}
       <TermsUsedPanelContainer
         color={panelColor}
         csid={csid}

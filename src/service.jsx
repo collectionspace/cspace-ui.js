@@ -44,6 +44,7 @@ export default (uiConfig) => {
     tenantId,
     tenantLoginUrl,
     token,
+    passwordRequirements,
   } = config;
 
   const mountNode = document.querySelector(container);
@@ -120,6 +121,7 @@ export default (uiConfig) => {
                     tenantId={tenantId}
                     tenantLoginUrl={tenantLoginUrl}
                     token={token}
+                    passwordRequirements={passwordRequirements}
                   />
                 )}
               />

@@ -21,6 +21,7 @@ import {
   DateInput,
   StructuredDateInput,
 } from '../../helpers/configContextInputs';
+import buildInputId from '../../helpers/inputIdHelper';
 
 const {
   getPath,
@@ -166,7 +167,16 @@ export default function Field(props, context) {
   const basePropTypes = BaseComponent.propTypes;
 
   Object.keys(props).forEach((propName) => {
-    if (propName in basePropTypes) {
+    // Skip id: Field always computes its own id from the data path, so a propagated
+    // id (from a parent CustomCompoundInput's decorateInputs) must not override
+    // it — that would make the input id not match with label's htmlFor.
+    if (propName === 'id') {
+      return;
+    }
+
+    // Always forward aria-* props, since base components pass them through to rendered
+    // inputs without declaring them in propTypes.
+    if (propName.startsWith('aria-') || propName in basePropTypes) {
       // eslint-disable-next-line react/destructuring-assignment
       providedProps[propName] = props[propName];
     }
@@ -186,12 +196,17 @@ export default function Field(props, context) {
   const effectiveReadOnly = providedProps.readOnly || isFieldViewReadOnly(computeContext);
   const computedProps = {};
 
+  const inputId = buildInputId(recordType, formName, fullPath);
+  computedProps.id = inputId;
+
   if (fieldConfig.repeating && viewType !== 'search') {
     computedProps.repeating = fieldConfig.repeating;
   }
 
   if ('label' in basePropTypes) {
     computedProps.label = renderLabel(field, labelMessage, computeContext, {
+      htmlFor: inputId,
+      id: `${inputId}-label`,
       readOnly: effectiveReadOnly,
     });
   }
@@ -209,6 +224,12 @@ export default function Field(props, context) {
       const childName = childInput.props.name;
       const childLabelMessage = childInput.props.labelMessage;
       const childField = field[childName];
+      // For repeating containers (e.g. tabular repeating CompoundInput),
+      // point the label to the first input.
+      const childPath = fieldConfig.repeating
+        ? [...fullPath, '0', childName]
+        : [...fullPath, childName];
+      const childInputId = buildInputId(recordType, formName, childPath);
 
       const childComputeContext = {
         path: [...path, childName],
@@ -222,8 +243,21 @@ export default function Field(props, context) {
 
       return (childField && renderLabel(childField, childLabelMessage, childComputeContext, {
         key: childName,
+        htmlFor: childInputId,
+        id: `${childInputId}-label`,
         readOnly: effectiveReadOnly,
       }));
+    };
+  }
+
+  if ('renderAriaLabel' in basePropTypes) {
+    computedProps.renderAriaLabel = (childInput) => {
+      const childName = childInput.props.name;
+      const childField = field[childName];
+      const childMessages = get(childField, [configKey, 'messages']);
+      const message = childMessages && (childMessages.fullName || childMessages.name);
+
+      return (message && intl.formatMessage(message));
     };
   }
 

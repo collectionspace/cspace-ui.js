@@ -580,10 +580,10 @@ export default {
   "deprecateButton.label": "Deactivate",
 
   // The prefix for current location in the search detail view
-  "detailList.aside.collectionobject.currentLocation": "Current Storage Location:",
+  "detailList.aside.collectionobject.currentLocation": "Current Location:",
 
   // The text when the computedCurrentLocation is null or empty
-  "detailList.aside.collectionobject.locationNotFound": "Storage Location not assigned",
+  "detailList.aside.collectionobject.locationNotFound": "Current Location not assigned",
 
   // The prefix for responsible department in the search detail view
   "detailList.aside.collectionobject.responsibleDepartment": "Responsible Department:",

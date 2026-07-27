@@ -42,6 +42,11 @@ const messages = defineMessages({
     description: 'Message displayed in the autocomplete input dropdown when more characters must be typed in order to begin matching.',
     defaultMessage: 'Continue typing to find matching terms',
   },
+  narrowResults: {
+    id: 'autocompleteInputContainer.narrowResults',
+    description: 'Message displayed in the autocomplete input dropdown when there are more matching terms than can be shown.',
+    defaultMessage: 'Continue typing to narrow results',
+  },
   addPrompt: {
     id: 'autocompleteInputContainer.addPrompt',
     description: 'Message displayed in the autocomplete input dropdown to prompt a user to add a new term.',
@@ -118,6 +123,7 @@ const mapStateToProps = (state, ownProps) => {
     formatCloneOptionLabel: () => intl.formatMessage(messages.cloneOptionLabel),
     formatCreateNewOptionLabel: () => intl.formatMessage(messages.createNewOptionLabel),
     formatMoreCharsRequiredMessage: () => intl.formatMessage(messages.moreCharsRequired),
+    formatNarrowResultsMessage: () => intl.formatMessage(messages.narrowResults),
     formatSearchResultMessage: (count) => intl.formatMessage(messages.count, { count }),
     formatSourceName: (recordTypeConfig, vocabulary) => intl.formatMessage(
       vocabulary

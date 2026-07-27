@@ -8,7 +8,7 @@ export default (configContext) => {
     formatRefNameWithDefault,
   } = configContext.formatHelpers;
 
-  const formatObjectName = (objectNames) => objectNames.filter((name) => !!name).join(', ');
+  const formatObjectName = (objectNames) => objectNames.filter((name) => !!name).join(' / ');
 
   const formatTaxon = (taxon, form) => {
     if (taxon && form) {

@@ -1,0 +1,4 @@
+.panel [class*="MiniButtonContainer"]:has([data-name="add"]),
+.panel [class*="MiniButtonContainer"]:has([data-name="remove"]) {
+  display: none;
+}

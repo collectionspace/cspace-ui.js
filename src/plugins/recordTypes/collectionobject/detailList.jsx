@@ -95,7 +95,7 @@ export default (configContext) => {
         const objectName = [
           formatRefNameWithDefault(data.get('objectNameControlled')),
           formatRefNameWithDefault(data.get('objectName')),
-        ].filter((name) => !!name).join(', ');
+        ].filter((name) => !!name).join(' / ');
 
         const taxon = formatRefNameWithDefault(data.get('taxon'));
         const form = formatRefNameWithDefault(data.get('form'));
@@ -174,12 +174,17 @@ export default (configContext) => {
           computedLocation: {
             id: 'detailList.aside.collectionobject.currentLocation',
             description: 'The prefix for current location in the search detail view',
-            defaultMessage: 'Current Storage Location:',
+            defaultMessage: 'Current Location:',
           },
           locationNotFound: {
             id: 'detailList.aside.collectionobject.locationNotFound',
             description: 'The text when the computedCurrentLocation is null or empty',
-            defaultMessage: 'Storage Location not assigned',
+            defaultMessage: 'Current Location not assigned',
+          },
+          homeLocation: {
+            id: 'detailList.aside.collectionobject.homeLocation',
+            description: 'The prefix for home location in the search detail view',
+            defaultMessage: 'Home Location:',
           },
           responsibleDepartment: {
             id: 'detailList.aside.collectionobject.responsibleDepartment',
@@ -202,6 +207,25 @@ export default (configContext) => {
           </div>
         );
 
+        const homeLocations = data.get('homeLocations');
+        let homeLocationValues = homeLocations
+          ? homeLocations.get('homeLocation')
+          : undefined;
+        if (homeLocationValues && !Immutable.List.isList(homeLocationValues)) {
+          homeLocationValues = Immutable.List([homeLocationValues]);
+        }
+
+        const homeLocationItems = (homeLocationValues || Immutable.List())
+          .map((value) => formatRefNameWithDefault(value))
+          .filter((value) => !!value);
+
+        const homeLocation = homeLocationItems.size > 0 ? (
+          <div>
+            <span>{intl.formatMessage(messages.homeLocation)}</span>
+            <p>{homeLocationItems.join('; ')}</p>
+          </div>
+        ) : null;
+
         const responsibleDepartment = responsibleDepartmentData ? (
           <div>
             <span>{intl.formatMessage(messages.responsibleDepartment)}</span>
@@ -212,6 +236,7 @@ export default (configContext) => {
         return (
           <>
             {location}
+            {homeLocation}
             {responsibleDepartment}
           </>
         );

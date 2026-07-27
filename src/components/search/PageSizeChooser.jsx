@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import ComboBoxInputContainer from '../../containers/input/ComboBoxInputContainer';
 import styles from '../../../styles/cspace-ui/PageSizeChooser.css';
 
@@ -9,6 +9,11 @@ const messages = defineMessages({
     id: 'pageSizeChooser.pageSize',
     description: 'The current page size displayed above search results.',
     defaultMessage: '{pageSize} per page',
+  },
+  pageSizeLabel: {
+    id: 'pageSizeChooser.pageSizeLabel',
+    description: 'The accessible label of the page size chooser input.',
+    defaultMessage: 'Results per page',
   },
 });
 
@@ -69,8 +74,11 @@ export default class PageSizeChooser extends Component {
 
     const value = Number.isNaN(pageSize) ? '' : pageSize.toString();
 
+    const { intl } = this.context;
+
     const chooser = (
       <ComboBoxInputContainer
+        aria-label={intl.formatMessage(messages.pageSizeLabel)}
         embedded={embedded}
         source={pageSizeOptionListName}
         value={value}
@@ -93,3 +101,6 @@ export default class PageSizeChooser extends Component {
 
 PageSizeChooser.propTypes = propTypes;
 PageSizeChooser.defaultProps = defaultProps;
+PageSizeChooser.contextTypes = {
+  intl: intlShape,
+};

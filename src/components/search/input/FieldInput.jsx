@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import get from 'lodash/get';
 import { DATA_TYPE_STRUCTURED_DATE } from '../../../constants/dataTypes';
 import { formatExtensionFieldName } from '../../../helpers/formatHelpers';
@@ -13,6 +13,14 @@ import {
   configKey,
   getRecordFieldOptionListName,
 } from '../../../helpers/configHelpers';
+
+const inputMessages = defineMessages({
+  ariaLabel: {
+    id: 'fieldInput.ariaLabel',
+    description: 'The accessible label of the field selector in a search condition.',
+    defaultMessage: 'Field to search',
+  },
+});
 
 const propTypes = {
   config: PropTypes.shape({
@@ -111,6 +119,7 @@ export function BaseFieldInput(props) {
 
   return (
     <OptionPickerInput
+      aria-label={intl.formatMessage(inputMessages.ariaLabel)}
       blankable={false}
       embedded={embedded}
       name={name}

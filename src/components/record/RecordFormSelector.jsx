@@ -1,11 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { injectIntl, intlShape } from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { baseComponents as components } from 'cspace-input';
 import styles from '../../../styles/cspace-ui/RecordFormSelector.css';
 
 const { DropdownMenuInput } = components;
+
+const messages = defineMessages({
+  label: {
+    id: 'recordFormSelector.label',
+    description: 'The accessible label of the form template selector.',
+    defaultMessage: 'Form template',
+  },
+});
 
 const formOptions = (forms, intl) => Object.keys(forms)
   .filter((formName) => !forms[formName].disabled)
@@ -77,6 +85,7 @@ function RecordFormSelector(props) {
   return (
     <div className={styles.common}>
       <DropdownMenuInput
+        aria-label={intl.formatMessage(messages.label)}
         options={options}
         value={formName}
         onCommit={onCommit}

@@ -181,6 +181,14 @@ const operatorMessages = {
   }),
 };
 
+const inputMessages = defineMessages({
+  ariaLabel: {
+    id: 'operatorInput.ariaLabel',
+    description: 'The accessible label of the operator selector in a search condition.',
+    defaultMessage: 'Comparison operator',
+  },
+});
+
 const propTypes = {
   compact: PropTypes.bool,
   intl: intlShape,
@@ -216,6 +224,7 @@ function OperatorInput(props) {
 
   return (
     <OptionPickerInput
+      aria-label={intl.formatMessage(inputMessages.ariaLabel)}
       blankable={false}
       name={name}
       options={options}

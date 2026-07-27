@@ -1,7 +1,9 @@
+@value textDark from '../colors.css';
+
 .common {
-  background-color: #EEF4D7;
+  background-color: #F0F5FB;
 }
 
 .common > :global(.cspace-ui-TitleBar--common) {
-  color: #73AA4F;
+  color: textDark;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import SearchField from './SearchField';
 import styles from '../../../styles/cspace-ui/RangeSearchField.css';
@@ -10,9 +10,20 @@ const messages = defineMessages({
     id: 'RangeSearchField.fields',
     defaultMessage: '{startField} and {endField}',
   },
+  start: {
+    id: 'RangeSearchField.start',
+    description: 'The accessible label of the start field of a range.',
+    defaultMessage: '{fieldLabel} start',
+  },
+  end: {
+    id: 'RangeSearchField.end',
+    description: 'The accessible label of the end field of a range.',
+    defaultMessage: '{fieldLabel} end',
+  },
 });
 
 const propTypes = {
+  'aria-label': PropTypes.string,
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
   value: PropTypes.oneOfType([
@@ -68,6 +79,7 @@ export default class RangeSearchField extends Component {
 
   render() {
     const {
+      'aria-label': ariaLabel,
       inline,
       parentPath,
       name,
@@ -75,10 +87,13 @@ export default class RangeSearchField extends Component {
       readOnly,
     } = this.props;
 
+    const { intl } = this.context;
+
     const normalizedValue = Immutable.List.isList(value) ? value : Immutable.List.of(value);
 
     const startField = (
       <SearchField
+        aria-label={ariaLabel && intl.formatMessage(messages.start, { fieldLabel: ariaLabel })}
         parentPath={parentPath}
         name={name}
         value={normalizedValue.get(0)}
@@ -90,6 +105,7 @@ export default class RangeSearchField extends Component {
 
     const endField = (
       <SearchField
+        aria-label={ariaLabel && intl.formatMessage(messages.end, { fieldLabel: ariaLabel })}
         parentPath={parentPath}
         name={name}
         value={normalizedValue.get(1)}
@@ -115,3 +131,6 @@ export default class RangeSearchField extends Component {
 
 RangeSearchField.propTypes = propTypes;
 RangeSearchField.defaultProps = defaultProps;
+RangeSearchField.contextTypes = {
+  intl: intlShape,
+};

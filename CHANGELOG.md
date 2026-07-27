@@ -1,5 +1,41 @@
 # Change Log
 
+## v11.0.0
+
+### Non-Breaking Changes
+
+- Media Priority
+  - On the record editor for Objects a new Media Priority sidebar panel has been added 
+  - The panel lists all related Media Handling records and lets the user reorder them
+  - The order drives:
+    - The order of images in the media snapshot gallery in cspace-ui (prioritized media first, un-prioritized media appended in the default sort order)
+    - The search-result thumbnail and detail-view image gallery in the public browser
+- On the record editor for Acquisitions, the Price Information fields are now displayed in a collapsible panel, collapsed by default.
+- New Advanced Search form
+  - Pinned queries feature is introduced. Users are able to pin advanced search query parameters with a name and description, re-run them later, and delete them, all from the Advanced Search page. Queries are stored locally, so they are available only from the same device + browser combination.
+- On the password reset form, password requirements can now be passed from the services backend
+  - Initial validators exist for maximum length (with a default of 72 characters), minimum length (with a default of 8 characters), lowercase, uppercase, digit, and special character requirements
+- In autocomplete fields, the dropdown now shows "Continue typing to narrow results" instead of a match count when more terms match than the server returns.
+- On the Object Search Results, separate Object Names and Controlled Object Names using a forward slash
+
+### New Fields
+
+- On the record editor for Objects
+  - The Home Location repeating group of fields `homeLocationGroupList/homeLocationGroup` has been added
+  - The Media Priority repeating field `mediaPriorityList/mediaPriority` has been added
+- On the record editor for Acquisitions
+  - The Alternative Identifier repeating group of fields `alternativeIdentifierGroupList/alternativeIdentifierGroup` has been added
+
+### Accessibility
+
+- Resolved text contrast issue in Administration and Tools sections (Criteria 1.4.3).
+- Resolved orphaned/missing form labels issue (Criteria 3.3.2).
+- Resolved very low contrast buttons issue (Criteria 1.4.3).
+
+### Bug Fixes
+
+- When viewing related records, sorting on complex fields is now disabled. These searches use CMIS, which can only sort on simple fields, and would otherwise return an error.
+
 ## v10.2.1
 
 ### Bug Fixes

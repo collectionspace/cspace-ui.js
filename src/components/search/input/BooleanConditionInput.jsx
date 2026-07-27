@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { defineMessages, FormattedMessage } from 'react-intl';
+import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import Immutable from 'immutable';
 import { baseComponents as inputComponents } from 'cspace-input';
 import OptionPickerInput from '../../record/OptionPickerInput';
@@ -72,6 +72,11 @@ const messages = {
         and {must}
         or {may}
       } be satisfied:`,
+    },
+    ariaLabel: {
+      id: 'booleanConditionInput.opSelector.ariaLabel',
+      description: 'The accessible label of the any/all selector for a boolean search condition.',
+      defaultMessage: 'Match any or all conditions',
     },
   }),
   addBoolean: defineMessages({
@@ -268,10 +273,13 @@ export default class BooleanConditionInput extends Component {
       return null;
     }
 
+    const { intl } = this.context;
+
     const operator = condition.get('op');
 
     const opSelectorInput = (
       <OptionPickerInput
+        aria-label={intl.formatMessage(messages.opSelector.ariaLabel)}
         blankable={false}
         name="booleanSearchOp"
         options={[
@@ -439,3 +447,6 @@ export default class BooleanConditionInput extends Component {
 
 BooleanConditionInput.propTypes = propTypes;
 BooleanConditionInput.defaultProps = defaultProps;
+BooleanConditionInput.contextTypes = {
+  intl: intlShape,
+};

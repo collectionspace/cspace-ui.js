@@ -15,6 +15,7 @@ const messages = defineMessages({
 });
 
 const propTypes = {
+  'aria-label': PropTypes.string,
   parentPath: PropTypes.arrayOf(PropTypes.string),
   name: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Immutable.List)]),
@@ -43,8 +44,11 @@ export default class SearchField extends Component {
       forceTextInput, value, parentPath, name, onCommit,
     } = this.props;
 
-    // If forceTextInput changed, reset value to null
-    if (forceTextInput !== prevProps.forceTextInput && value !== null && onCommit) {
+    // If forceTextInput changed and the value itself didn't change, reset value to null.
+    // Skipping the reset when value also changed covers the case where a condition is loaded
+    // programmatically (operator + value arrive together and are already consistent).
+    if (forceTextInput !== prevProps.forceTextInput && value !== null
+      && value === prevProps.value && onCommit) {
       const path = parentPath ? [...parentPath, name] : [name];
       onCommit(path, null);
     }
@@ -138,6 +142,7 @@ export default class SearchField extends Component {
 
   render() {
     const {
+      'aria-label': ariaLabel,
       parentPath,
       name,
       value,
@@ -158,6 +163,7 @@ export default class SearchField extends Component {
 
     return forceTextInput ? (
       <TextInput
+        aria-label={ariaLabel}
         parentPath={parentPath}
         name={name}
         asText={readOnly}
@@ -169,6 +175,7 @@ export default class SearchField extends Component {
       />
     ) : (
       <Field
+        aria-label={ariaLabel}
         label={undefined}
         parentPath={parentPath}
         name={name}

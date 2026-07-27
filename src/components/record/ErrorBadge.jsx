@@ -9,7 +9,7 @@ export default function ErrorBadge(props) {
       className={styles.common}
       type="button"
     >
-      <img alt="!" src={errorIcon} />
+      <img alt="" src={errorIcon} />
     </button>
   );
 }

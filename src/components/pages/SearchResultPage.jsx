@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { defineMessages, intlShape } from 'react-intl';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import qs from 'qs';
@@ -38,6 +39,14 @@ import SortBy from '../search/SortBy';
 // const stopPropagation = (event) => {
 //   event.stopPropagation();
 // };
+
+const messages = defineMessages({
+  selectItem: {
+    id: 'searchResultPage.selectItem',
+    description: 'The accessible label of the checkbox to select a search result.',
+    defaultMessage: 'Select item {index}',
+  },
+});
 
 const propTypes = {
   isSidebarOpen: PropTypes.bool,
@@ -76,6 +85,7 @@ const contextTypes = {
   config: PropTypes.shape({
     recordTypes: PropTypes.object,
   }).isRequired,
+  intl: intlShape,
 };
 
 export default class SearchResultPage extends Component {
@@ -433,8 +443,11 @@ export default class SearchResultPage extends Component {
     const itemCsid = rowData.get('csid');
     const selected = selectedItems ? selectedItems.has(itemCsid) : false;
 
+    const { intl } = this.context;
+
     return (
       <CheckboxInput
+        aria-label={intl.formatMessage(messages.selectItem, { index: rowIndex + 1 })}
         embedded
         name={`${rowIndex}`}
         value={selected}
@@ -514,6 +527,7 @@ export default class SearchResultPage extends Component {
         onSortDirChange={sortDirChangeHandler}
         sort={query?.sort}
         recordType={searchDescriptor.get('recordType')}
+        searchDescriptor={searchDescriptor}
       />
     );
 

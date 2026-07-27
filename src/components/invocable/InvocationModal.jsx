@@ -244,6 +244,7 @@ export default class InvocationModal extends Component {
         <div className={formatPickerStyles.common}>
           <OptionPickerInput
             blankable={false}
+            id="invocationFormatPicker"
             label={<Label><FormattedMessage {...messages.format} /></Label>}
             source="reportMimeTypes"
             prefilter={mimeList ? prefilter : null}

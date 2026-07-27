@@ -1,12 +1,10 @@
 import { defineMessages } from 'react-intl';
 import Immutable from 'immutable';
 import { isExistingRecord, isNewRecord } from '../../../helpers/recordDataHelpers';
-import { isValidPassword } from '../../../helpers/passwordHelpers';
 import { isValidEmail } from '../../../helpers/validationHelpers';
 
 import {
   ERR_INVALID_EMAIL,
-  ERR_INVALID_PW,
   ERR_PW_NOT_CONFIRMED,
 } from '../../../constants/errorCodes';
 
@@ -170,11 +168,6 @@ export default (configContext) => {
         [config]: {
           cloneable: false,
           messages: defineMessages({
-            errorInvalidPassword: {
-              id: 'field.accounts_common.password.errorInvalidPassword',
-              description: 'Message to display when the password is invalid on the user account form.',
-              defaultMessage: 'Password must be between 8 and 24 characters.',
-            },
             name: {
               id: 'field.accounts_common.password.name',
               defaultMessage: 'Password',
@@ -184,16 +177,6 @@ export default (configContext) => {
             isNewRecord(recordData)
             && recordData.getIn(['ns2:accounts_common', 'requireSSO']) === false
           ),
-          validate: ({ data, fieldDescriptor }) => {
-            if (data && !isValidPassword(data)) {
-              return {
-                code: ERR_INVALID_PW,
-                message: fieldDescriptor[config].messages.errorInvalidPassword,
-              };
-            }
-
-            return undefined;
-          },
           view: {
             type: PasswordInput,
             props: {

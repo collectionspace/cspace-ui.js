@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import get from 'lodash/get';
 import ImageGallery from 'react-image-gallery';
+import { defineMessages, intlShape } from 'react-intl';
 import { baseComponents as inputComponents } from 'cspace-input';
 import ImageContainer from '../../containers/media/ImageContainer';
 import { getContentPath } from '../../helpers/contentHelpers';
@@ -20,6 +21,19 @@ import styles from '../../../styles/cspace-ui/MediaViewer.css';
 import '!style-loader!css-loader!react-image-gallery/styles/css/image-gallery.css';
 
 const { MiniButton } = inputComponents;
+
+const messages = defineMessages({
+  previous: {
+    id: 'mediaViewer.previous',
+    description: 'Label of the button to show the previous image in the media viewer.',
+    defaultMessage: 'Previous image',
+  },
+  next: {
+    id: 'mediaViewer.next',
+    description: 'Label of the button to show the next image in the media viewer.',
+    defaultMessage: 'Next image',
+  },
+});
 
 const renderItem = (item) => (
   <div className="image-gallery-image">
@@ -51,12 +65,28 @@ const renderThumbInner = (item) => (
   </div>
 );
 
-const renderLeftNav = (onClick, disabled) => (
-  <MiniButton name="mediaViewerPrev" disabled={disabled} onClick={onClick}>&lt;</MiniButton>
-);
+const sortByPriority = (items, priorityOrder) => {
+  if (!priorityOrder) {
+    return items;
+  }
 
-const renderRightNav = (onClick, disabled) => (
-  <MiniButton name="mediaViewerNext" disabled={disabled} onClick={onClick}>&gt;</MiniButton>
+  const priorityRefNames = Immutable.List.isList(priorityOrder)
+    ? priorityOrder
+    : Immutable.List.of(priorityOrder);
+
+  const indexByRefName = Immutable.Map(
+    priorityRefNames.map((refName, index) => [refName, index]),
+  );
+
+  // sortBy is stable, so items not in the priority order keep their relative
+  // positions at the end.
+  return items.sortBy((item) => indexByRefName.get(item.get('refName'), Infinity));
+};
+
+const makeRenderNav = (name, symbol, label) => (onClick, disabled) => (
+  <MiniButton name={name} disabled={disabled} onClick={onClick} aria-label={label}>
+    {symbol}
+  </MiniButton>
 );
 
 const propTypes = {
@@ -71,6 +101,9 @@ const propTypes = {
     ownAltText: PropTypes.string,
     ownIdentificationNumber: PropTypes.string,
   }),
+  priorityOrder: PropTypes.oneOfType(
+    [PropTypes.string, PropTypes.instanceOf(Immutable.List)],
+  ),
   searchResult: PropTypes.instanceOf(Immutable.Map),
   readRecord: PropTypes.func,
 };
@@ -146,8 +179,19 @@ export default class MediaViewer extends Component {
       isSearchPending,
       listType,
       ownFields,
+      priorityOrder,
       searchResult,
     } = this.props;
+
+    const { intl } = this.context;
+
+    const renderLeftNav = makeRenderNav(
+      'mediaViewerPrev', '<', intl.formatMessage(messages.previous),
+    );
+
+    const renderRightNav = makeRenderNav(
+      'mediaViewerNext', '>', intl.formatMessage(messages.next),
+    );
 
     const images = [];
 
@@ -175,7 +219,7 @@ export default class MediaViewer extends Component {
             items = Immutable.List.of(items);
           }
 
-          items.forEach((item) => {
+          sortByPriority(items, priorityOrder).forEach((item) => {
             const blobCsid = item.get('blobCsid');
             const altText = item.get('altText');
             const identificationNumber = item.get('identificationNumber');
@@ -220,3 +264,6 @@ export default class MediaViewer extends Component {
 
 MediaViewer.propTypes = propTypes;
 MediaViewer.defaultProps = defaultProps;
+MediaViewer.contextTypes = {
+  intl: intlShape,
+};

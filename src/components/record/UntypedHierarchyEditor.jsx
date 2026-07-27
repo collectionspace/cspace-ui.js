@@ -4,6 +4,7 @@ import { injectIntl, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import MiniViewPopupAutocompleteInputContainer from '../../containers/record/MiniViewPopupAutocompleteInputContainer';
+import buildInputId from '../../helpers/inputIdHelper';
 
 const {
   CompoundInput,
@@ -118,8 +119,11 @@ export class BaseUntypedHierarchyEditor extends Component {
     const source = [recordType, vocabulary].join('/');
     const parentRefName = value.getIn(['parent', 'refName']);
 
+    const parentId = buildInputId(recordType, undefined, ['hierarchy', 'parent']);
+
     return (
       <MiniViewPopupAutocompleteInputContainer
+        id={parentId}
         label={intl.formatMessage(messages.parent)}
         source={source}
         value={parentRefName}
@@ -152,8 +156,11 @@ export class BaseUntypedHierarchyEditor extends Component {
 
     const childRefNames = value.get('children').map((child) => child.get('refName'));
 
+    const childrenContainerId = buildInputId(recordType, undefined, ['hierarchy', 'children']);
+
     return (
       <CompoundInput
+        id={childrenContainerId}
         label={intl.formatMessage(messages.children)}
         value={{ childRefNames }}
         readOnly={readOnly}
