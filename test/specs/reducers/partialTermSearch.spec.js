@@ -126,6 +126,8 @@ describe('partialTermSearch reducer', () => {
     const searchData = {
       'ns2:abstract-common-list': {
         itemsInPage: '2',
+        pageSize: '40',
+        totalItems: '2',
         'list-item': items,
       },
     };
@@ -145,6 +147,8 @@ describe('partialTermSearch reducer', () => {
     });
 
     newState.getIn([partialTerm, recordType, vocabulary, 'items']).should.deep.equal(items);
+    newState.getIn([partialTerm, recordType, vocabulary, 'pageSize']).should.equal(40);
+    newState.getIn([partialTerm, recordType, vocabulary, 'totalItems']).should.equal(2);
 
     getMatches(newState).should.equal(newState);
   });

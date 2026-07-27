@@ -13,6 +13,8 @@ import {
 export default (state = Immutable.Map(), action) => {
   let count;
   let items;
+  let pageSize;
+  let totalItems;
 
   switch (action.type) {
     case ADD_TERM_STARTED:
@@ -49,6 +51,8 @@ export default (state = Immutable.Map(), action) => {
       }));
     case PARTIAL_TERM_SEARCH_FULFILLED:
       count = parseInt(action.payload.data['ns2:abstract-common-list'].itemsInPage, 10);
+      pageSize = parseInt(action.payload.data['ns2:abstract-common-list'].pageSize, 10);
+      totalItems = parseInt(action.payload.data['ns2:abstract-common-list'].totalItems, 10);
 
       if (Number.isNaN(count) || count === 0) {
         items = [];
@@ -66,6 +70,8 @@ export default (state = Immutable.Map(), action) => {
         action.meta.vocabulary,
       ], Immutable.Map({
         items,
+        pageSize: Number.isNaN(pageSize) ? undefined : pageSize,
+        totalItems: Number.isNaN(totalItems) ? undefined : totalItems,
       }));
     case PARTIAL_TERM_SEARCH_REJECTED:
       return state.setIn([
