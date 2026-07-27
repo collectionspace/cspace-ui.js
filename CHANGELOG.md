@@ -16,6 +16,7 @@
 - On the password reset form, password requirements can now be passed from the services backend
   - Initial validators exist for maximum length (with a default of 72 characters), minimum length (with a default of 8 characters), lowercase, uppercase, digit, and special character requirements
 - In autocomplete fields, the dropdown now shows "Continue typing to narrow results" instead of a match count when more terms match than the server returns.
+- On the Object Search Results, separate Object Names and Controlled Object Names using a forward slash
 
 ### New Fields
 
