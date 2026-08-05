@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { useSelector, useDispatch } from 'react-redux';
@@ -92,9 +92,7 @@ export default function MediaPriorityOrderPanel(props) {
   const recordTypeConfig = config.recordTypes[recordType];
 
   const onCommit = (path, value) => dispatch(setFieldValue(recordTypeConfig, csid, path, value));
-  const onMoveInstance = (path, newPosition) => dispatch(
-    moveFieldValue(recordTypeConfig, csid, path, newPosition),
-  );
+
   const save = () => dispatch(saveRecord(config, recordTypeConfig, undefined, csid))
     .catch(() => {});
 
@@ -137,11 +135,13 @@ export default function MediaPriorityOrderPanel(props) {
     return Immutable.List(orderedRefNames);
   }, [labelsByRefName, searchLoaded, storedValue]);
 
-  useEffect(() => {
+  const onMoveInstance = (path, newPosition) => {
     if (mergedValue && !mergedValue.equals(Immutable.List(toRefNameArray(storedValue)))) {
-      dispatch(setFieldValue(recordTypeConfig, csid, mediaPriorityPath, mergedValue, true));
+      dispatch(setFieldValue(recordTypeConfig, csid, mediaPriorityPath, mergedValue));
     }
-  }, [mergedValue]);
+
+    dispatch(moveFieldValue(recordTypeConfig, csid, path, newPosition));
+  };
 
   if (!mergedValue) return null;
 
