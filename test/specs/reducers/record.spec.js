@@ -816,6 +816,89 @@ describe('record reducer', () => {
     isModified(state, csid).should.equal(true);
   });
 
+  it('should update the baseline data when SET_FIELD_VALUE has updateBaseline set', () => {
+    const csid = '1234';
+
+    let data;
+    let state;
+
+    // Setting a value on an unmodified record leaves it unmodified
+
+    data = Immutable.fromJS({
+      foo: {
+        bar: 'a',
+      },
+    });
+
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: data,
+        },
+      },
+    }), {
+      type: SET_FIELD_VALUE,
+      payload: 'b',
+      meta: {
+        csid,
+        path: ['foo', 'bar'],
+        updateBaseline: true,
+      },
+    });
+
+    getData(state, csid).should.equal(Immutable.fromJS({
+      foo: {
+        bar: 'b',
+      },
+    }));
+
+    isModified(state, csid).should.equal(false);
+
+    // Setting a value on a modified record applies to both baseline and current data, and
+    // leaves it modified
+
+    data = Immutable.fromJS({
+      foo: {
+        bar: 'a',
+        baz: 'x',
+      },
+    });
+
+    state = reducer(Immutable.fromJS({
+      [csid]: {
+        data: {
+          baseline: data,
+          current: data.setIn(['foo', 'baz'], 'y'),
+        },
+      },
+    }), {
+      type: SET_FIELD_VALUE,
+      payload: 'b',
+      meta: {
+        csid,
+        path: ['foo', 'bar'],
+        updateBaseline: true,
+      },
+    });
+
+    getData(state, csid).should.equal(Immutable.fromJS({
+      foo: {
+        bar: 'b',
+        baz: 'y',
+      },
+    }));
+
+    state.getIn([csid, 'data', 'baseline']).should.equal(Immutable.fromJS({
+      foo: {
+        bar: 'b',
+        baz: 'x',
+      },
+    }));
+
+    isModified(state, csid).should.equal(true);
+  });
+
   it('should handle RECORD_READ_STARTED', () => {
     const csid = '1234';
 

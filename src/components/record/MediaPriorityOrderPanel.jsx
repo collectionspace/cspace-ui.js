@@ -139,7 +139,7 @@ export default function MediaPriorityOrderPanel(props) {
 
   useEffect(() => {
     if (mergedValue && !mergedValue.equals(Immutable.List(toRefNameArray(storedValue)))) {
-      onCommit(mediaPriorityPath, mergedValue);
+      dispatch(setFieldValue(recordTypeConfig, csid, mediaPriorityPath, mergedValue, true));
     }
   }, [mergedValue]);
 
