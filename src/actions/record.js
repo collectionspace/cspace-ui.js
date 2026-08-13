@@ -1020,13 +1020,16 @@ export const moveFieldValue = (recordTypeConfig, csid, path, newPosition) => (di
     .then(() => dispatch(validateRecordData(recordTypeConfig, csid)));
 };
 
-export const setFieldValue = (recordTypeConfig, csid, path, value) => (dispatch) => {
+export const setFieldValue = (
+  recordTypeConfig, csid, path, value, updateBaseline = false,
+) => (dispatch) => {
   dispatch({
     type: SET_FIELD_VALUE,
     payload: value,
     meta: {
       csid,
       path,
+      updateBaseline,
     },
   });
 

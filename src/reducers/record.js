@@ -307,6 +307,7 @@ const setFieldValue = (state, action) => {
   const {
     csid,
     path,
+    updateBaseline,
   } = action.meta;
 
   const data = getCurrentData(state, csid);
@@ -317,7 +318,25 @@ const setFieldValue = (state, action) => {
 
   const newValue = action.payload;
   const updatedData = deepSet(data, path, newValue);
-  const nextState = setCurrentData(state, csid, updatedData);
+
+  let nextState = setCurrentData(state, csid, updatedData);
+
+  if (updateBaseline) {
+    // Apply the change to the baseline data as well as the current data, so that it does not
+    // cause the record to be considered modified. When the record is unmodified, the baseline
+    // and current data must remain referentially equal, since modification checks use reference
+    // equality.
+
+    const baselineData = getBaselineData(state, csid);
+
+    if (baselineData) {
+      nextState = setBaselineData(
+        nextState,
+        csid,
+        (baselineData === data) ? updatedData : deepSet(baselineData, path, newValue),
+      );
+    }
+  }
 
   return nextState;
 };

@@ -3039,6 +3039,7 @@ describe('record action creator', () => {
             meta: {
               csid,
               path,
+              updateBaseline: false,
             },
           });
 
