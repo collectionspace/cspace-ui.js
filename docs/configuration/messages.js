@@ -136,6 +136,9 @@ export default {
   // Message displayed in the autocomplete input dropdown when more characters must be typed in order to begin matching.
   "autocompleteInputContainer.moreCharsRequired": "Continue typing to find matching terms",
 
+  // Message displayed in the autocomplete input dropdown when there are more matching terms than can be shown.
+  "autocompleteInputContainer.narrowResults": "Continue typing to narrow results",
+
   // Label of the back button.
   "backButton.label": "Back",
 
@@ -163,6 +166,9 @@ export default {
   "booleanConditionInput.and.label": "and",
 
   "booleanConditionInput.and.opSelectorLabel": "All",
+
+  // The accessible label of the any/all selector for a boolean search condition.
+  "booleanConditionInput.opSelector.ariaLabel": "Match any or all conditions",
 
   "booleanConditionInput.opSelector.label": "{opSelectorInput} of the following conditions {operator, select, and {must} or {may}} be satisfied:",
 
@@ -582,6 +588,9 @@ export default {
   // The prefix for current location in the search detail view
   "detailList.aside.collectionobject.currentLocation": "Current Location:",
 
+  // The prefix for home location in the search detail view
+  "detailList.aside.collectionobject.homeLocation": "Home Location:",
+
   // The text when the computedCurrentLocation is null or empty
   "detailList.aside.collectionobject.locationNotFound": "Current Location not assigned",
 
@@ -655,9 +664,6 @@ export default {
   // Message to display when the password confirmation does not match the password on a user account record.
   "field.accounts_common.errorNotConfirmed": "Password and confirm password must be identical.",
 
-  // Message to display when the password is invalid on the user account form.
-  "field.accounts_common.password.errorInvalidPassword": "Password must be between 8 and 24 characters.",
-
   "field.accounts_common.password.name": "Password",
 
   "field.accounts_common.passwordConfirmation.name": "Confirm password",
@@ -713,6 +719,16 @@ export default {
   "field.acquisitions_common.acquisitionReferenceNumber.name": "Reference number",
 
   "field.acquisitions_common.acquisitionSource.name": "Acquisition source",
+
+  "field.acquisitions_common.alternativeIdentifier.fullName": "Alternative identifier",
+
+  "field.acquisitions_common.alternativeIdentifier.name": "Identifier",
+
+  "field.acquisitions_common.alternativeIdentifierGroup.name": "Alternative identifier",
+
+  "field.acquisitions_common.alternativeIdentifierNote.fullName": "Alternative identifier note",
+
+  "field.acquisitions_common.alternativeIdentifierNote.name": "Note",
 
   "field.acquisitions_common.approvalDate.fullName": "Approval status date",
 
@@ -1610,6 +1626,16 @@ export default {
 
   "field.collectionobjects_common.formatType.name": "Type",
 
+  "field.collectionobjects_common.homeLocation.fullName": "Home location",
+
+  "field.collectionobjects_common.homeLocation.name": "Location",
+
+  "field.collectionobjects_common.homeLocationGroup.name": "Home location",
+
+  "field.collectionobjects_common.homeLocationNote.fullName": "Home location note",
+
+  "field.collectionobjects_common.homeLocationNote.name": "Note",
+
   "field.collectionobjects_common.inscriptionContent.fullName": "Textual inscription content",
 
   "field.collectionobjects_common.inscriptionContent.name": "Inscription content",
@@ -1747,6 +1773,10 @@ export default {
   "field.collectionobjects_common.materialSource.fullName": "Material source",
 
   "field.collectionobjects_common.materialSource.name": "Source",
+
+  "field.collectionobjects_common.mediaPriority.name": "Media Priority",
+
+  "field.collectionobjects_common.mediaPriorityList.name": "Media priority list",
 
   "field.collectionobjects_common.namedCollection.name": "Named collection",
 
@@ -5495,6 +5525,12 @@ export default {
   // Message displayed in advanced search when a field is not found
   "fieldConditionInput.notFound": "field not found",
 
+  // The accessible label of the value input in an advanced search condition.
+  "fieldConditionInput.searchValue": "Search value",
+
+  // The accessible label of the field selector in a search condition.
+  "fieldInput.ariaLabel": "Field to search",
+
   "fields.transports_common.courierGroup.name": "Courier",
 
   "footer.about": "Visit the CollectionSpace Website",
@@ -5632,6 +5668,9 @@ export default {
   "form.work.default.name": "Standard Template",
 
   "form.work.mini.name": "Mini Template",
+
+  // The accessible label of the selector for the group to search within.
+  "GroupConditionInput.groupInput.ariaLabel": "Group to search within",
 
   "GroupConditionInput.groupInput.compactLabel": "In {groupInput}:",
 
@@ -5959,7 +5998,17 @@ export default {
   // The title (advisory text) of the application logo image.
   "logo.title": "CollectionSpace",
 
+  "mediaPriorityOrderPanel.title": "Media Priority",
+
+  "mediaPriorityOrderPanel.titleWithCount": "{title}: {count, number}",
+
   "mediaSnapshotPanel.title": "Media",
+
+  // Label of the button to show the next image in the media viewer.
+  "mediaViewer.next": "Next image",
+
+  // Label of the button to show the previous image in the media viewer.
+  "mediaViewer.previous": "Previous image",
 
   "mediaViewerPanel.titleWithCount": "{title}: {totalItems, number}",
 
@@ -5989,6 +6038,9 @@ export default {
 
   // Label of the open button.
   "openButton.label": "Open",
+
+  // The accessible label of the operator selector in a search condition.
+  "operatorInput.ariaLabel": "Comparison operator",
 
   "operatorInput.compact.OP_COMPLETE": "is complete",
 
@@ -7589,10 +7641,19 @@ export default {
 
   "pager.next": ">",
 
+  // Accessible label of the button to go to the next page of search results.
+  "pager.nextAriaLabel": "Next page",
+
   "pager.previous": "<",
+
+  // Accessible label of the button to go to the previous page of search results.
+  "pager.previousAriaLabel": "Previous page",
 
   // The current page size displayed above search results.
   "pageSizeChooser.pageSize": "{pageSize} per page",
+
+  // The accessible label of the page size chooser input.
+  "pageSizeChooser.pageSizeLabel": "Results per page",
 
   "panel.acquisition.info": "Acquisition Information",
 
@@ -7799,10 +7860,22 @@ export default {
   "passwordResetPage.error": "An error occurred while attempting to reset the password: {detail}",
 
   // Message to display when the password is invalid on the password reset page.
-  "passwordResetPage.errorInvalidPassword": "The password must be between 8 and 24 characters.",
+  "passwordResetPage.errorInvalidPassword": "The password is missing the following requirements:",
+
+  // Message to display when the password is missing digits.
+  "passwordResetPage.errorMissingDigit": "Missing at least one digit",
+
+  // Message to display when the password is missing lowercase letters.
+  "passwordResetPage.errorMissingLower": "Missing at least one lowercase letter",
 
   // Message to display when no password is entered on the password reset page.
   "passwordResetPage.errorMissingPassword": "Please enter a new password.",
+
+  // Message to display when the password is missing special characters.
+  "passwordResetPage.errorMissingSpecial": "Missing at least one symbol",
+
+  // Message to display when the password is missing uppercase letters.
+  "passwordResetPage.errorMissingUpper": "Missing at least one uppercase letter",
 
   // Message to display when the password confirmation does not match the password on the password reset page.
   "passwordResetPage.errorNotConfirmed": "The password was not correctly confirmed. Please re-enter the new password in the confirm password field.",
@@ -7812,6 +7885,12 @@ export default {
 
   // Message to display when the password reset token is invalid on the password reset page.
   "passwordResetPage.errorTokenInvalid": "The password reset request could not be validated. Please {newRequestLink} to reset your password.",
+
+  // Message to display when the password exceeds length requirements.
+  "passwordResetPage.errorTooLong": "The password must be at most {maxLength} characters",
+
+  // Message to display when the password does not meet length requirements.
+  "passwordResetPage.errorTooShort": "The password must be at least {minLength} characters",
 
   // Text of the link to the login page displayed after a password has been reset.
   "passwordResetPage.loginLink": "Sign in",
@@ -7886,13 +7965,88 @@ export default {
 
   "permissionsInput.serviceType.utility": "Utility Resources",
 
+  // Label of the pinned queries button.
+  "pinnedQueriesButton.label": "Pinned Queries",
+
+  // Label of the button canceling deletion of a pinned query in the pinned queries modal.
+  "pinnedQueriesModal.cancel": "Cancel",
+
+  // Label of the close button in the pinned queries modal.
+  "pinnedQueriesModal.close": "Close",
+
+  // The accessible label of the (visually empty) actions column header in the pinned queries modal.
+  "pinnedQueriesModal.column.actions": "Actions",
+
+  // Label of the description column in the pinned queries modal.
+  "pinnedQueriesModal.column.description": "Description",
+
+  // Label of the name column in the pinned queries modal.
+  "pinnedQueriesModal.column.name": "Name",
+
+  // Label of the record type column in the pinned queries modal.
+  "pinnedQueriesModal.column.type": "Type",
+
+  // Label of the button confirming deletion of a pinned query in the pinned queries modal.
+  "pinnedQueriesModal.confirm": "Confirm",
+
+  // The prompt shown to confirm deletion of a pinned query in the pinned queries modal.
+  "pinnedQueriesModal.confirmDelete": "Delete?",
+
+  // Label of the delete button for a pinned query in the pinned queries modal.
+  "pinnedQueriesModal.delete": "Delete",
+
+  // The note shown in the pinned queries modal explaining that pinned queries are stored per device and browser.
+  "pinnedQueriesModal.deviceNote": "Currently, pinned queries are available from the same device and browser combination. Please see the {userManualLink} for additional information.",
+
+  // The message shown in the pinned queries modal when there are no pinned queries.
+  "pinnedQueriesModal.empty": "No pinned queries.",
+
+  // The tooltip shown when hovering a pinned query row that can be loaded.
+  "pinnedQueriesModal.execute": "Click to load",
+
+  // Title of the pinned queries modal.
+  "pinnedQueriesModal.title": "Pinned Queries",
+
+  // The text of the user manual link in the pinned queries modal.
+  "pinnedQueriesModal.userManual": "User Manual",
+
+  // The URL of the user manual page describing Pinned Queries.
+  "pinnedQueriesModal.userManualUrl": "https://collectionspace.atlassian.net/wiki/spaces/CUD/pages/4613242886/Pinned+Queries",
+
+  // Label of the cancel button in the pin query modal.
+  "pinQueryModal.cancel": "Cancel",
+
+  // Label of the description field in the pin query modal.
+  "pinQueryModal.description": "Description",
+
+  // Label of the name field in the pin query modal.
+  "pinQueryModal.name": "Name",
+
+  // Title of the pin query modal.
+  "pinQueryModal.title": "Pin Query",
+
+  // The accessible label of the keyword field in the quick search input.
+  "quickSearchForm.keywordInputLabel": "Search keywords",
+
   // The placeholder text to display in the quick search input.
   "quickSearchForm.placeholder": "Search",
+
+  // The accessible label of the record type dropdown in the quick search input.
+  "quickSearchForm.recordTypeInputLabel": "Record type to search",
 
   // The label of the search button in the quick search input.
   "quickSearchForm.search": "Search",
 
+  // The accessible label of the vocabulary dropdown in the quick search input.
+  "quickSearchForm.vocabularyInputLabel": "Vocabulary to search",
+
+  // The accessible label of the end field of a range.
+  "RangeSearchField.end": "{fieldLabel} end",
+
   "RangeSearchField.fields": "{startField} and {endField}",
+
+  // The accessible label of the start field of a range.
+  "RangeSearchField.start": "{fieldLabel} start",
 
   // The name of a collection of records of the type.
   "record.account.collectionName": "Users",
@@ -8248,6 +8402,12 @@ export default {
 
   "recordBrowserNavBar.related": "+ Related",
 
+  // The accessible label of the selector used to add a related record type tab.
+  "recordBrowserNavBar.relatedSelectorLabel": "Add a related record type",
+
+  // The accessible label of the form template selector.
+  "recordFormSelector.label": "Form template",
+
   "recordHistory.created": "{style, select, full {Created {date} {time} by {user}} dateTime {Created {date} {time}}}",
 
   "recordHistory.editing": "Editing",
@@ -8270,6 +8430,9 @@ export default {
 
   "relatedMediaPanel.title": "Related Media",
 
+  // The accessible label of the checkbox to select a related record.
+  "relatedRecordPanel.selectItem": "Select item {index}",
+
   "relatedRecordPanel.title": "Related {collectionName}",
 
   // Label of the open related record link.
@@ -8282,6 +8445,9 @@ export default {
   "relationEditor.noRelation": "There is no related record with CSID \"{csid}\" and type \"{recordType}\".",
 
   "relationEditor.notFound": "Not Found",
+
+  // Label of the button to remove a search condition.
+  "removeConditionButton.remove": "Remove search condition",
 
   // Notification message shown when a report fails.
   "report.error": "Error running report: {error}",
@@ -8300,6 +8466,9 @@ export default {
 
   // Label of the run button.
   "runButton.label": "Run…",
+
+  // Accessible label of the badge that reveals field validation errors.
+  "saveButton.errorBadge": "Show validation errors",
 
   // Label of the save button.
   "saveButton.label": "Save",
@@ -8363,6 +8532,9 @@ export default {
 
   "searchPanel.titleWithCountFiltered": "{title}: {totalItems, number} (filtered)",
 
+  // Label of the search pin button.
+  "searchPinButton.label": "Pin",
+
   // The aria-label for a checkbox input
   "searchResult.checkboxAriaLabel": "Select item {index}",
 
@@ -8381,6 +8553,9 @@ export default {
 
   // Label of the relate button on the search result page.
   "searchResultPage.relate": "Relate…",
+
+  // The accessible label of the checkbox to select a search result.
+  "searchResultPage.selectItem": "Select item {index}",
 
   "searchResultReportPanel.title": "Reports",
 
@@ -8416,9 +8591,6 @@ export default {
   // Label of the search result link in the search result traverser when the search is pending.
   "searchResultTraverser.resultPending": "Search result … of …",
 
-  // Label of the search save button.
-  "searchSaveButton.label": "Save",
-
   // Label for select table header
   "searchTable.selectHeaderAll": "Selected",
 
@@ -8444,9 +8616,15 @@ export default {
 
   "searchToSelectModal.label": "Select records",
 
+  // The accessible label of the checkbox to select a search result.
+  "searchToSelectModal.selectItem": "Select item {index}",
+
   "searchToSelectTitleBar.keyword": "containing \"{keyword}\"",
 
   "searchToSelectTitleBar.title": "Select {typeName} {query}",
+
+  // The accessible label of the checkbox to select all items on the page.
+  "selectBar.selectAll": "Select all items on this page",
 
   // Label showing the number of selected items.
   "selectBar.selected": "{selectedItemCount, plural, =0 {0 selected} other {# selected}}",
