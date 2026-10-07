@@ -48,10 +48,6 @@
     justify-content: flex-end;
 }
 
-.actions button {
-    cursor: pointer;
-}
-
 .empty {
     padding: 8px;
 }
