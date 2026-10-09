@@ -13,6 +13,7 @@
   font-weight: 400;
   color: white;
   text-decoration: none;
+  cursor: default;
 }
 
 .common:hover {
