@@ -8,11 +8,6 @@
   margin-bottom: 6px;
 }
 
-.common a + span {
-  display: block;
-  color: #73AA4F;
-}
-
 .common > p {
   background-repeat: no-repeat;
   background-size: 16px;
