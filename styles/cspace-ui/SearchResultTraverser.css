@@ -11,10 +11,6 @@
   text-align: right;
 }
 
-.common > div:last-child > span {
-  opacity: .5;
-}
-
 .common > div:last-child > a,
 .common > div:last-child > span {
   padding-left: 14px;
@@ -24,11 +20,11 @@
 }
 
 .common > div > a[rel="prev"],
-.common > div:last-child > span:first-child {
+.prevPending {
   background-image: url(../../images/prevLink.svg);
 }
 
 .common > div > a[rel="next"],
-.common > div:last-child > span:last-child {
+.nextPending {
   background-image: url(../../images/nextLink.svg);
 }

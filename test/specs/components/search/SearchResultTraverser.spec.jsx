@@ -374,13 +374,13 @@ describe('SearchResultTraverser', () => {
       </IntlProvider>, this.container,
     );
 
-    const nextLink = this.container.querySelector('nav > div:last-child > span:last-child');
+    const nextLink = this.container.querySelector('nav > div:last-child > span.cspace-ui-SearchResultTraverser--nextPending');
 
     nextLink.should.not.equal(null);
     nextLink.textContent.should.equal('Next');
   });
 
-  it('should render a placeholder next link when the current item is the last item of all pages', function test() {
+  it('should not render a next link when the current item is the last item of all pages', function test() {
     const csid = '3333';
 
     const onePageSearchState = Immutable.fromJS({
@@ -426,10 +426,13 @@ describe('SearchResultTraverser', () => {
       </IntlProvider>, this.container,
     );
 
-    const nextLink = this.container.querySelector('nav > div:last-child > span:last-child');
+    const navColumn = this.container.querySelector('nav > div:last-child');
 
-    nextLink.should.not.equal(null);
-    nextLink.textContent.should.equal('Next');
+    expect(this.container.querySelector('a[rel="next"]')).to.equal(null);
+    expect(navColumn.querySelector(':scope > span')).to.equal(null);
+    navColumn.textContent.should.not.contain('Next');
+    navColumn.textContent.should.not.contain('|');
+    this.container.querySelector('a[rel="prev"]').should.not.equal(null);
   });
 
   it('should handle a next page result set with a single (non-list) item', function test() {
@@ -519,13 +522,13 @@ describe('SearchResultTraverser', () => {
       </IntlProvider>, this.container,
     );
 
-    const prevLink = this.container.querySelector('nav > div:last-child > span:first-child');
+    const prevLink = this.container.querySelector('nav > div:last-child > span.cspace-ui-SearchResultTraverser--prevPending');
 
     prevLink.should.not.equal(null);
     prevLink.textContent.should.equal('Previous');
   });
 
-  it('should render a placeholder previous link when the current item is the first item of all pages', function test() {
+  it('should not render a previous link when the current item is the first item of all pages', function test() {
     const csid = '1111';
 
     const onePageSearchState = Immutable.fromJS({
@@ -570,10 +573,55 @@ describe('SearchResultTraverser', () => {
       </IntlProvider>, this.container,
     );
 
-    const prevLink = this.container.querySelector('nav > div:last-child > span:first-child');
+    const navColumn = this.container.querySelector('nav > div:last-child');
 
-    prevLink.should.not.equal(null);
-    prevLink.textContent.should.equal('Previous');
+    expect(this.container.querySelector('a[rel="prev"]')).to.equal(null);
+    expect(navColumn.querySelector(':scope > span')).to.equal(null);
+    navColumn.textContent.should.not.contain('Previous');
+    navColumn.textContent.should.not.contain('|');
+    this.container.querySelector('a[rel="next"]').should.not.equal(null);
+  });
+
+  it('should render neither a previous nor a next link when the search has a single result', function test() {
+    const csid = '1111';
+
+    const singleResultSearchState = Immutable.fromJS({
+      indexesByCsid: {
+        1111: 0,
+      },
+      result: {
+        'ns2:abstract-common-list': {
+          pageNum: 0,
+          pageSize: 20,
+          totalItems: 1,
+          'list-item': {
+            csid: '1111',
+            refName: 'urn:cspace:core.collectionspace.org:collectionobjects:id(1111)\'2017.1\'',
+          },
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <Router>
+          <SearchResultTraverser
+            config={config}
+            csid={csid}
+            searchDescriptor={searchDescriptor}
+            searchState={singleResultSearchState}
+          />
+        </Router>
+      </IntlProvider>, this.container,
+    );
+
+    this.container.querySelector('nav a').textContent.should.equal('Search result 1 of 1');
+
+    const navColumn = this.container.querySelector('nav > div:last-child');
+
+    expect(this.container.querySelector('a[rel="prev"]')).to.equal(null);
+    expect(this.container.querySelector('a[rel="next"]')).to.equal(null);
+    navColumn.textContent.should.equal('');
   });
 
   it('should handle a previous page result set with a single (non-list) item', function test() {

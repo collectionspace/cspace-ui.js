@@ -1,5 +1,11 @@
 # Change Log
 
+## v11.1.0
+
+### Accessibility
+
+- On record pages opened from a search result, the Previous and Next links in the title bar are no longer shown greyed out on the first and last result. They are now omitted instead, fixing a color contrast accessibility error (Criteria 1.4.3).
+
 ## v11.0.0
 
 ### Non-Breaking Changes
