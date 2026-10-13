@@ -78,4 +78,20 @@ describe('WorkflowStateIcon', () => {
 
     expect(this.container.firstElementChild).to.equal(null);
   });
+
+  it('should not render a title attribute on icon images', function test() {
+    render(
+      <IntlProvider locale="en">
+        <WorkflowStateIcon value="locked replicated" />
+      </IntlProvider>, this.container,
+    );
+
+    const imgs = this.container.querySelectorAll('img');
+
+    imgs.length.should.equal(2);
+
+    imgs.forEach((img) => {
+      expect(img.getAttribute('title')).to.equal(null);
+    });
+  });
 });

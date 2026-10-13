@@ -1,5 +1,11 @@
 # Change Log
 
+## v11.1.0
+
+### Accessibility
+
+- Removed redundant title attributes from search result table cells, column headers, and workflow state icons
+
 ## v11.0.0
 
 ### Non-Breaking Changes
