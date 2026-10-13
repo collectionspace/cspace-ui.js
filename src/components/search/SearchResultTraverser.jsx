@@ -199,12 +199,16 @@ export default class SearchResultTraverser extends Component {
     if (currentNum > 1) {
       // We don't have data for the previous page, but there is one. Show a placeholder link.
 
-      return <FormattedMessage {...messages.prev} />;
+      return (
+        <span className={styles.prevPending}>
+          <FormattedMessage {...messages.prev} />
+        </span>
+      );
     }
 
-    // We're on the first item of all pages. Show a placeholder link.
+    // We're on the first item of all pages. Don't render a link.
 
-    return <FormattedMessage {...messages.prev} />;
+    return null;
   }
 
   renderNextLink(items, index, currentNum, totalItems, locationState, listType) {
@@ -259,12 +263,16 @@ export default class SearchResultTraverser extends Component {
     if (currentNum < totalItems) {
       // We don't have data for the next page, but there is one. Show a placeholder link.
 
-      return <FormattedMessage {...messages.next} />;
+      return (
+        <span className={styles.nextPending}>
+          <FormattedMessage {...messages.next} />
+        </span>
+      );
     }
 
-    // We're on the last item of all pages. Show a placeholder link.
+    // We're on the last item of all pages. Don't render a link.
 
-    return <FormattedMessage {...messages.next} />;
+    return null;
   }
 
   render() {

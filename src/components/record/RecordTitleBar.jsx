@@ -5,7 +5,7 @@ import { defineMessages, intlShape, FormattedMessage } from 'react-intl';
 import get from 'lodash/get';
 import TitleBar from '../sections/TitleBar';
 import SearchResultTraverserContainer from '../../containers/search/SearchResultTraverserContainer';
-import { getWorkflowState } from '../../helpers/recordDataHelpers';
+import { getWorkflowState, isNewRecord } from '../../helpers/recordDataHelpers';
 import WorkflowStateIcon from './WorkflowStateIcon';
 
 const messages = defineMessages({
@@ -14,7 +14,21 @@ const messages = defineMessages({
     description: 'For authority items, the record type and vocabulary displayed in the right side of the title bar.',
     defaultMessage: '{recordType} - {vocabulary}',
   },
+  newRecord: {
+    id: 'recordTitleBar.newRecord',
+    description: 'The title displayed in the title bar of a new record that does not yet have a title.',
+    defaultMessage: 'Create New Record',
+  },
+  untitled: {
+    id: 'recordTitleBar.untitled',
+    description: 'The title displayed in the title bar of an existing record that does not have a title.',
+    defaultMessage: 'Untitled Record',
+  },
 });
+
+const isBlank = (title) => (
+  !title || (typeof title === 'string' && title.trim().length === 0)
+);
 
 const propTypes = {
   csid: PropTypes.string,
@@ -59,7 +73,13 @@ export default function RecordTitleBar(props, context) {
     return null;
   }
 
-  const title = recordTypeConfig.title(data, { config, intl });
+  let title = recordTypeConfig.title(data, { config, intl });
+
+  if (isBlank(title)) {
+    title = (
+      <FormattedMessage {...(isNewRecord(data) ? messages.newRecord : messages.untitled)} />
+    );
+  }
 
   let aside;
 
