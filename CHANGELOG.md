@@ -1,5 +1,11 @@
 # Change Log
 
+## v11.1.0
+
+### Accessibility
+
+- Resolved empty heading issue on the title bar of new, unsaved records (Criteria 1.3.1)
+
 ## v11.0.0
 
 ### Non-Breaking Changes
