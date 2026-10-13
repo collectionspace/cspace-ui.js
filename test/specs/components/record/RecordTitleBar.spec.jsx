@@ -62,6 +62,28 @@ const config = {
         },
       },
     },
+    emptytitle: {
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'Empty Title',
+          },
+        },
+      },
+      title: () => '',
+    },
+    undefinedtitle: {
+      messages: {
+        record: {
+          name: {
+            id: 'name',
+            defaultMessage: 'Undefined Title',
+          },
+        },
+      },
+      title: () => undefined,
+    },
   },
 };
 
@@ -135,6 +157,38 @@ describe('RecordTitleBar', () => {
 
     this.container.querySelector('h1').textContent.should.equal('Title');
     this.container.querySelector('h2').textContent.should.equal('Person - Local');
+  });
+
+  it('should render fallback title text for a new record when the title is undefined', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTitleBar data={data} recordType="undefinedtitle" />
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    this.container.querySelector('h1').textContent.should.equal('Create New Record');
+  });
+
+  it('should render fallback title text for an existing record when the title is empty', function test() {
+    const existingData = Immutable.fromJS({
+      document: {
+        'ns2:collectionspace_core': {
+          uri: '/collectionobjects/1234',
+        },
+      },
+    });
+
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTitleBar data={existingData} recordType="emptytitle" />
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    this.container.querySelector('h1').textContent.should.equal('Untitled Record');
   });
 
   it('should render nothing if a plugin is not found for the record type', function test() {
