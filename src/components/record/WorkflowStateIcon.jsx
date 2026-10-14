@@ -25,7 +25,7 @@ const titleMessages = defineMessages({
   deprecated: {
     id: 'workflowStateIcon.deprecated.title',
     description: 'Title shown when hovering the deprecated workflow state icon.',
-    defaultMessage: 'This term is deprecated',
+    defaultMessage: 'This record is deprecated',
   },
   locked: {
     id: 'workflowStateIcon.locked.title',
