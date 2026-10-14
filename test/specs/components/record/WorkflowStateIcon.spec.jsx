@@ -78,4 +78,26 @@ describe('WorkflowStateIcon', () => {
 
     expect(this.container.firstElementChild).to.equal(null);
   });
+
+  it('should render a title that differs from the alt text on icon images', function test() {
+    render(
+      <IntlProvider locale="en">
+        <WorkflowStateIcon value="locked replicated" />
+      </IntlProvider>, this.container,
+    );
+
+    const imgs = this.container.querySelectorAll('img');
+
+    imgs.length.should.equal(2);
+
+    imgs[0].alt.should.equal('Replicated');
+    imgs[0].title.should.equal('This record is replicated');
+
+    imgs[1].alt.should.equal('Locked');
+    imgs[1].title.should.equal('This record is locked');
+
+    imgs.forEach((img) => {
+      img.title.should.not.equal(img.alt);
+    });
+  });
 });

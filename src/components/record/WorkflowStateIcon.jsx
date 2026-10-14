@@ -21,6 +21,24 @@ const messages = defineMessages({
   },
 });
 
+const titleMessages = defineMessages({
+  deprecated: {
+    id: 'workflowStateIcon.deprecated.title',
+    description: 'Title shown when hovering the deprecated workflow state icon.',
+    defaultMessage: 'This record is deprecated',
+  },
+  locked: {
+    id: 'workflowStateIcon.locked.title',
+    description: 'Title shown when hovering the locked workflow state icon.',
+    defaultMessage: 'This record is locked',
+  },
+  replicated: {
+    id: 'workflowStateIcon.replicated.title',
+    description: 'Title shown when hovering the replicated workflow state icon.',
+    defaultMessage: 'This record is replicated',
+  },
+});
+
 const images = {
   replicated: replicatedIcon,
   deprecated: deprecatedIcon,
@@ -50,8 +68,11 @@ function WorkflowStateIcon(props) {
       const message = messages[state];
       const desc = message ? intl.formatMessage(message) : state;
 
+      const titleMessage = titleMessages[state];
+      const title = titleMessage ? intl.formatMessage(titleMessage) : undefined;
+
       icons.push(
-        <img key={state} alt={desc} src={src} title={desc} />,
+        <img key={state} alt={desc} src={src} title={title} />,
       );
     }
   });
