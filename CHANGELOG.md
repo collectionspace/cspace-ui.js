@@ -7,6 +7,13 @@
 - Removed redundant title attributes from search result table cells and column headers, and gave workflow state icons a title distinct from their alt text
 - On record pages opened from a search result, the Previous and Next links in the title bar are no longer shown greyed out on the first and last result. They are now omitted instead, fixing a color contrast accessibility error (Criteria 1.4.3)
 - Resolved empty heading issue on the title bar of new, unsaved records (Criteria 1.3.1)
+- On the Roles and Users administration pages
+  - the permission radio buttons are now drawn with a dark border instead of light grey, fixing a color contrast accessibility error (Criteria 1.4.3)
+  - the Permissions and Roles field labels are now rendered as fieldset legends associated with their radio buttons and checkboxes, fixing orphaned form label errors (Criteria 1.3.1, 3.3.2)
+  - the record list title (e.g. "Roles: 12") is now a level 2 heading, fixing a skipped heading level error (Criteria 1.3.1)
+- On the Roles administration page 
+  - the hidden text labels of the permission radio buttons are no longer rendered at a 1px font size, fixing very small text alerts (Criteria 1.4.4)
+  - the hidden text input that prevented enter from submitting the role form has been removed, fixing a missing form label error (Criteria 3.3.2); the record editor now prevents form submission itself
 
 ## v11.0.0
 

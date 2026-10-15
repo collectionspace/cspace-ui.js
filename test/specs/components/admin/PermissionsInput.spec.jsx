@@ -153,7 +153,7 @@ describe('PermissionsInput', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div without a11y violations', async function test() {
+  it('should render as a fieldset without a11y violations', async function test() {
     render(
       <IntlProvider locale="en">
         <ConfigProvider config={config}>
@@ -164,7 +164,7 @@ describe('PermissionsInput', () => {
       </IntlProvider>, this.container,
     );
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('FIELDSET');
 
     const results = await axe.run(this.container);
     if (results.violations.length > 0) {

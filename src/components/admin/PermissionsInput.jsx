@@ -17,6 +17,10 @@ const {
   pathPropType,
 } = inputHelpers.pathHelpers;
 
+const {
+  labelToLegend,
+} = inputHelpers;
+
 const permMessages = defineMessages({
   '': {
     id: 'permissionsInput.perm.none',
@@ -71,6 +75,7 @@ const propTypes = {
   parentPath: pathPropType,
   subpath: pathPropType,
   /* eslint-enable react/no-unused-prop-types */
+  label: PropTypes.node,
   readOnly: PropTypes.bool,
   resourceNames: PropTypes.instanceOf(Immutable.List),
   value: PropTypes.oneOfType([
@@ -443,6 +448,7 @@ export default class PermissionsInput extends Component {
 
   render() {
     const {
+      label,
       readOnly,
       resourceNames,
     } = this.props;
@@ -451,23 +457,17 @@ export default class PermissionsInput extends Component {
       return null;
     }
 
-    let {
-      value,
-    } = this.props;
-
-    if (value && !Immutable.List.isList(value)) {
-      value = Immutable.List.of(value);
-    }
-
     const className = readOnly ? styles.readOnly : styles.common;
 
     return (
-      <div className={className}>
+      <fieldset className={className}>
+        {labelToLegend(label)}
         {this.renderPermRows()}
-      </div>
+      </fieldset>
     );
   }
 }
 
 PermissionsInput.propTypes = propTypes;
 PermissionsInput.contextTypes = contextTypes;
+PermissionsInput.useLegend = true;

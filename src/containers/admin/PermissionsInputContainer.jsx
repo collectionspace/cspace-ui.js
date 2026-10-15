@@ -24,4 +24,6 @@ const ConnectedPermissionsInput = connect(
 
 ConnectedPermissionsInput.propTypes = PermissionsInput.propTypes;
 
+ConnectedPermissionsInput.useLegend = PermissionsInput.useLegend;
+
 export default ConnectedPermissionsInput;

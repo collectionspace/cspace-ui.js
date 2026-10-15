@@ -1,27 +1,35 @@
 @value inputHeight from '../dimensions.css';
 
 .common {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.common > ul {
+  clear: both;
   list-style: none;
   margin: 0;
   border: 1px solid rgb(220, 220, 220);
   padding: 0;
 }
 
-.common > li {
+.common > ul > li {
   display: flex;
   align-items: center;
   height: inputHeight;
 }
 
-.common > li:nth-child(odd) {
+.common > ul > li:nth-child(odd) {
   background-color: #F0F5FB;
 }
 
-.common > li > *:first-child {
+.common > ul > li > *:first-child {
   margin-left: 10px;
 }
 
-.common > li > *:last-child {
+.common > ul > li > *:last-child {
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -30,8 +38,6 @@
   composes: common;
 }
 
-.readOnly {
-  composes: common;
+.readOnly > ul {
   border-color: rgb(240, 240, 240);
 }
-
