@@ -7,6 +7,7 @@
 - Removed redundant title attributes from search result table cells and column headers, and gave workflow state icons a title distinct from their alt text
 - On record pages opened from a search result, the Previous and Next links in the title bar are no longer shown greyed out on the first and last result. They are now omitted instead, fixing a color contrast accessibility error (Criteria 1.4.3)
 - Resolved empty heading issue on the title bar of new, unsaved records (Criteria 1.3.1)
+- Improved contrast for SVG buttons in Media Viewer (Criteria 1.4.3)
 
 ## v11.0.0
 
