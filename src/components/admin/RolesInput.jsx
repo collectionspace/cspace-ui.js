@@ -13,12 +13,17 @@ const {
   pathPropType,
 } = inputHelpers.pathHelpers;
 
+const {
+  labelToLegend,
+} = inputHelpers;
+
 const propTypes = {
   /* eslint-disable react/no-unused-prop-types */
   name: PropTypes.string,
   parentPath: pathPropType,
   subpath: pathPropType,
   /* eslint-enable react/no-unused-prop-types */
+  label: PropTypes.node,
   readOnly: PropTypes.bool,
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(Immutable.List),
@@ -138,36 +143,28 @@ export default class RolesInput extends Component {
 
   render() {
     const {
+      label,
       readOnly,
       roles,
     } = this.props;
 
-    if (!roles || roles.size === 0) {
-      return null;
-    }
+    const legend = labelToLegend(label);
+    const rows = (roles && roles.size > 0) ? this.renderRoleRows() : [];
 
-    let {
-      value,
-    } = this.props;
-
-    if (value && !Immutable.List.isList(value)) {
-      value = Immutable.List.of(value);
-    }
-
-    const rows = this.renderRoleRows();
-
-    if (rows.length === 0) {
+    if (rows.length === 0 && !legend) {
       return null;
     }
 
     const className = readOnly ? styles.readOnly : styles.common;
 
     return (
-      <ul className={className}>
-        {rows}
-      </ul>
+      <fieldset className={className}>
+        {legend}
+        {rows.length > 0 && <ul>{rows}</ul>}
+      </fieldset>
     );
   }
 }
 
 RolesInput.propTypes = propTypes;
+RolesInput.useLegend = true;

@@ -640,7 +640,8 @@ export default class RecordEditor extends Component {
     const className = isSidebarOpen ? styles.normal : styles.full;
 
     return (
-      <form className={className} autoComplete="off">
+      // Prevent implicit submission.
+      <form className={className} autoComplete="off" onSubmit={(event) => event.preventDefault()}>
         <Dock
           dockTop={dockTop}
           isSidebarOpen={isSidebarOpen}

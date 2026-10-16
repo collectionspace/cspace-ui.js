@@ -281,6 +281,25 @@ describe('RecordEditor', () => {
     this.container.firstElementChild.nodeName.should.equal('FORM');
   });
 
+  it('should prevent the form from being submitted', function test() {
+    render(
+      <IntlProvider locale="en">
+        <StoreProvider store={store}>
+          <Router>
+            <RecordEditor config={config} recordType="collectionobject" />
+          </Router>
+        </StoreProvider>
+      </IntlProvider>, this.container,
+    );
+
+    const form = this.container.querySelector('form');
+    const event = new window.Event('submit', { bubbles: true, cancelable: true });
+
+    form.dispatchEvent(event);
+
+    event.defaultPrevented.should.equal(true);
+  });
+
   it('should render with correct class', function test() {
     render(
       <IntlProvider locale="en">

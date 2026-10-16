@@ -38,6 +38,7 @@ const propTypes = {
   config: PropTypes.shape({
     listTypes: PropTypes.object,
   }),
+  headingLevel: PropTypes.number,
   isFiltered: PropTypes.bool,
   linkItems: PropTypes.bool,
   name: PropTypes.string,
@@ -65,6 +66,7 @@ const propTypes = {
 const defaultProps = {
   collapsible: true,
   columnSetName: 'default',
+  headingLevel: 3,
   listType: 'common',
   pageSizeOptionListName: 'searchPanelPageSizes',
   showSearchButton: true,
@@ -283,6 +285,7 @@ export default class SearchPanel extends Component {
   renderHeader() {
     const {
       config,
+      headingLevel,
       isFiltered,
       searchResult,
       title,
@@ -314,8 +317,10 @@ export default class SearchPanel extends Component {
       headerContent = title;
     }
 
+    const Heading = `h${headingLevel}`;
+
     return (
-      <h3>{headerContent}</h3>
+      <Heading>{headerContent}</Heading>
     );
   }
 

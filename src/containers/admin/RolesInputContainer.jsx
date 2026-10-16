@@ -24,4 +24,6 @@ const ConnectedRolesInput = connect(
 
 ConnectedRolesInput.propTypes = RolesInput.propTypes;
 
+ConnectedRolesInput.useLegend = RolesInput.useLegend;
+
 export default ConnectedRolesInput;

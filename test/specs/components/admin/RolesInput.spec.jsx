@@ -24,14 +24,15 @@ describe('RolesInput', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a ul without a11y violations', async function test() {
+  it('should render as a fieldset without a11y violations', async function test() {
     render(
       <RolesInput
         roles={roles}
       />, this.container,
     );
 
-    this.container.firstElementChild.nodeName.should.equal('UL');
+    this.container.firstElementChild.nodeName.should.equal('FIELDSET');
+    this.container.querySelector('fieldset > ul').should.not.equal(null);
 
     const results = await axe.run(this.container);
     if (results.violations.length > 0) {
