@@ -27,6 +27,7 @@ export function ToggleButton(props) {
       className={classNames(className, 'material-icons')}
       name={name}
       title={title}
+      aria-label={title}
       {...remainingProps}
     >
       {icon}
