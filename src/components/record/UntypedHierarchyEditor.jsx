@@ -7,7 +7,7 @@ import MiniViewPopupAutocompleteInputContainer from '../../containers/record/Min
 import buildInputId from '../../helpers/inputIdHelper';
 
 const {
-  CompoundInput,
+  Label,
 } = inputComponents;
 
 const propTypes = {
@@ -156,28 +156,31 @@ export class BaseUntypedHierarchyEditor extends Component {
 
     const childRefNames = value.get('children').map((child) => child.get('refName'));
 
-    const childrenContainerId = buildInputId(recordType, undefined, ['hierarchy', 'children']);
+    const childrenId = buildInputId(recordType, undefined, ['hierarchy', 'children']);
+
+    const childrenLabel = (
+      <Label htmlFor={childrenId} id={`${childrenId}-label`} readOnly={readOnly}>
+        {intl.formatMessage(messages.children)}
+      </Label>
+    );
 
     return (
-      <CompoundInput
-        id={childrenContainerId}
-        label={intl.formatMessage(messages.children)}
-        value={{ childRefNames }}
+      <MiniViewPopupAutocompleteInputContainer
+        id={childrenId}
+        label={childrenLabel}
+        name="children"
+        repeating
+        reorderable={false}
+        source={source}
+        value={childRefNames}
         readOnly={readOnly}
-      >
-        <MiniViewPopupAutocompleteInputContainer
-          name="childRefNames"
-          repeating
-          reorderable={false}
-          source={source}
-          showQuickAddCloneOption
-          quickAddCloneOptionDisabled={isRecordModified}
-          matchFilter={this.filterMatch}
-          onCommit={this.handleChildCommit}
-          onAddInstance={this.handleAddChild}
-          onRemoveInstance={this.handleRemoveChild}
-        />
-      </CompoundInput>
+        showQuickAddCloneOption
+        quickAddCloneOptionDisabled={isRecordModified}
+        matchFilter={this.filterMatch}
+        onCommit={this.handleChildCommit}
+        onAddInstance={this.handleAddChild}
+        onRemoveInstance={this.handleRemoveChild}
+      />
     );
   }
 
