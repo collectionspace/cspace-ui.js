@@ -44,7 +44,7 @@ const defaultConfig = mergeConfig({
     },
   },
   disableAltTerms: true,
-  index: '/search',
+  index: '/home',
   locale: 'en-US',
   logo: logoUrl,
   mediaSnapshotSort: 'title',
