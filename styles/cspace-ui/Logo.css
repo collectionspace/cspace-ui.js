@@ -1,11 +1,16 @@
-@value textDark from '../colors.css';
-@value activeEdgeWidth from '../dimensions.css';
-
-.common > a {
-  display: inline-block;
+.common {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.common > a > img {
+.common img {
+  display: block;
   max-height: 66px;
   max-width: 100%;
+}
+
+.institution {
+  max-width: 240px;
+  object-fit: scale-down;
 }
