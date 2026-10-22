@@ -84,6 +84,7 @@ export default class DashboardPage extends Component {
 
         <SearchPanelContainer
           config={config}
+          headingLevel={2}
           name="dashboardRecentPanel"
           searchDescriptor={searchDescriptor}
           title={recentPanelTitle}

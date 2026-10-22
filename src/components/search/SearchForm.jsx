@@ -267,7 +267,7 @@ export default class SearchForm extends Component {
     } = this.props;
 
     const fullTextPanelHeader = (
-      <h3><FormattedMessage {...messages.fullTextSearch} /></h3>
+      <h2><FormattedMessage {...messages.fullTextSearch} /></h2>
     );
 
     // If showButtons is false, render the button bar anyway, but with height 0, so that the submit

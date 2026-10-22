@@ -82,7 +82,7 @@ const SearchFormContentNew = ({
         <ConnectedPanel
           collapsible
           name="searchTermsPanel"
-          header={<h3>{intl.formatMessage(messages.enterSearchTerms)}</h3>}
+          header={<h2>{intl.formatMessage(messages.enterSearchTerms)}</h2>}
         >
           <LineInput
             id="searchFormKeyword"
@@ -111,7 +111,7 @@ const SearchFormContentNew = ({
             <ConnectedPanel
               collapsible
               name="limitByPanel"
-              header={<h3>{intl.formatMessage(messages.limitBySpecificFields)}</h3>}
+              header={<h2>{intl.formatMessage(messages.limitBySpecificFields)}</h2>}
             >
               <AdvancedSearchBuilderContainer
                 condition={advancedSearchConditionLimitBy}

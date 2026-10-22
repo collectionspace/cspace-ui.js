@@ -253,6 +253,7 @@ export default class VocabularyPage extends Component {
             collapsed={false}
             collapsible={false}
             config={config}
+            headingLevel={2}
             history={history}
             isFiltered={!!filterValue}
             linkItems={false}

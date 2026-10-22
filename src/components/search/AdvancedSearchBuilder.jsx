@@ -206,7 +206,7 @@ export default class AdvancedSearchBuilder extends Component {
     }
 
     const panelHeader = (
-      <h3><FormattedMessage {...messages.title} /></h3>
+      <h2><FormattedMessage {...messages.title} /></h2>
     );
 
     return (
