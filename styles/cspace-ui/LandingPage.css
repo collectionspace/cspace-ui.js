@@ -1,0 +1,10 @@
+:global(.cspace-ui-RootPage--common) > div:has(> .common) {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 120px);
+}
+
+.common {
+  flex: 1 0 auto;
+  background-color: white;
+}
