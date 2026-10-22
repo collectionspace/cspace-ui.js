@@ -46,6 +46,6 @@ describe('LandingPage', () => {
     );
 
     this.container.querySelector('.cspace-ui-Subtitle--common').textContent.should
-      .equal('Your collection management solution for cultural heritage organizations, museums and more');
+      .equal('Your collection management solution for cultural heritage organizations, museums and more.');
   });
 });
