@@ -1,5 +1,11 @@
 # Change Log
 
+## v11.0.1
+
+### Bug Fixes
+
+- Fix checkboxes not responding to mouse clicks, e.g. "Require single sign-on" on the user form (cspace-input 2.3.1).
+
 ## v11.0.0
 
 ### Non-Breaking Changes
