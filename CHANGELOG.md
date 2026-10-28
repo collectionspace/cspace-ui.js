@@ -15,6 +15,7 @@
   - the hidden text labels of the permission radio buttons are no longer rendered at a 1px font size, fixing very small text alerts (Criteria 1.4.4)
   - the hidden text input that prevented enter from submitting the role form has been removed, fixing a missing form label error (Criteria 3.3.2); the record editor now prevents form submission itself
 - Improved contrast for SVG buttons in Media Viewer (Criteria 1.4.3)
+- Add missing aria-label to icon only buttons (Criteria 1.1.1)
 - On the Advanced Search, Recent Activity, and Tools pages, section titles are now level 2 headings, fixing skipped heading level errors (Criteria 1.3.1)
 
 ## v11.0.0

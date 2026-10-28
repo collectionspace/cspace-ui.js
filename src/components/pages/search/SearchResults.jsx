@@ -242,17 +242,17 @@ const messages = defineMessages({
   table: {
     id: 'search.result.view.table',
     description: 'The table button label',
-    defaultMessage: 'Switch to table view',
+    defaultMessage: 'List View',
   },
   detailList: {
     id: 'search.result.view.detailList',
     description: 'The detailList button label',
-    defaultMessage: 'Switch to detail list view',
+    defaultMessage: 'Full Detail View',
   },
   grid: {
     id: 'search.result.view.grid',
     description: 'The grid button label',
-    defaultMessage: 'Switch to grid view',
+    defaultMessage: 'Grid View',
   },
 });
 
