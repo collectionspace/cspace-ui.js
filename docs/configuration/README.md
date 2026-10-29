@@ -168,9 +168,15 @@ The locale to use for formatting numbers, dates, and currency. Also used to dete
 
 ### logo
 ```
-logo: string = defaultLogoUrl
+logo: string = undefined
 ```
-URL to the logo image for the application, displayed in the upper left corner of each screen. By default, the bundled CollectionSpace logo is used. Any URL allowed in the `src` attribute of the HTML [`img`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) tag may be specified, including relative URLS, `http` URLs, and [`data` URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs).
+URL to an institutional logo image, displayed to the right of the CollectionSpace logo in the upper left corner of each screen, and on the welcome page. The CollectionSpace logo is always displayed, and links to the page specified by [index](#index). Any URL allowed in the `src` attribute of the HTML [`img`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) tag may be specified, including relative URLS, `http` URLs, and [`data` URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs). When an institutional logo is configured, the `logo.institutionTitle` message should be customized to the name of the institution, so that the image has meaningful alternative text (see [messages](#messages)).
+
+### logoLink
+```
+logoLink: string = undefined
+```
+URL to link the institutional logo to, for example the home page of the institution. If not specified, the institutional logo is not linked. This has no effect unless [logo](#logo) is also specified.
 
 ### mediaSnapshotSort
 ```
