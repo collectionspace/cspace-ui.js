@@ -4,10 +4,16 @@ import { defineMessages, intlShape } from 'react-intl';
 import Immutable from 'immutable';
 import { components as inputComponents } from 'cspace-input';
 import { getSearchableRecordTypes } from '../../helpers/searchHelpers';
+import styles from '../../../styles/cspace-ui/QuickSearchForm.css';
 
 const { QuickSearchInput } = inputComponents;
 
 const messages = defineMessages({
+  legend: {
+    id: 'quickSearchForm.legend',
+    description: 'The visually hidden legend of the quick search fieldset, describing the group of quick search controls to screen reader users.',
+    defaultMessage: 'Quick search',
+  },
   placeholder: {
     id: 'quickSearchForm.placeholder',
     description: 'The placeholder text to display in the quick search input.',
@@ -63,6 +69,7 @@ export default function QuickSearchForm(props) {
 
   return (
     <fieldset>
+      <legend className={styles.legend}>{intl.formatMessage(messages.legend)}</legend>
       <QuickSearchInput
         {...remainingProps}
         formatRecordTypeLabel={formatRecordTypeLabel}
