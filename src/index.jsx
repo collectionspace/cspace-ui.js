@@ -8,7 +8,6 @@ import { addLocaleData, IntlProvider } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import warning from 'warning';
 import { Modal } from 'cspace-layout';
-import logoUrl from '../images/collectionspace.svg';
 import { configureCSpace, readSystemInfo } from './actions/cspace';
 import { addIDGenerators } from './actions/idGenerator';
 import { login, loginWindowClosed } from './actions/login';
@@ -44,9 +43,10 @@ const defaultConfig = mergeConfig({
     },
   },
   disableAltTerms: true,
-  index: '/search',
+  index: '/home',
   locale: 'en-US',
-  logo: logoUrl,
+  logo: undefined,
+  logoLink: undefined,
   mediaSnapshotSort: 'title',
   messages: undefined,
   prettyUrls: false,

@@ -17,7 +17,7 @@
   margin-bottom: 6px;
 }
 
-.common > :global(.cspace-ui-Logo--common) > a > img {
+.common > :global(.cspace-ui-Logo--common) img {
   max-height: 44px;
   object-fit: scale-down;
 }
