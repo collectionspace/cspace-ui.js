@@ -73,6 +73,7 @@ function SearchResultTableRow({
   return (
     <tr
       aria-label={rowAriaLabel}
+      aria-selected={selected}
       className={index % 2 === 0 ? styles.even : styles.odd}
     >
       <td>

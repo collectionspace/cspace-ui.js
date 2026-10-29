@@ -7,6 +7,7 @@ import {
   isSearchPending,
   getSearchResult,
   getSearchError,
+  getSearchSelectedItems,
   getUserPerms,
 } from '../../reducers';
 
@@ -43,6 +44,7 @@ const mapStateToProps = (state, ownProps) => {
     isSearchPending: isSearchPending(state, searchName, searchDescriptor),
     searchResult: getSearchResult(state, searchName, searchDescriptor),
     searchError: getSearchError(state, searchName, searchDescriptor),
+    selectedItems: getSearchSelectedItems(state, searchName),
   };
 };
 

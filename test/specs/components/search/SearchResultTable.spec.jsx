@@ -656,4 +656,119 @@ describe('SearchResultTable', () => {
 
     clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
   });
+
+  it('should label each row with the primary column value and its position, without describing it as selected', function test() {
+    const formattingIntl = {
+      formatMessage: (message, values) => message.defaultMessage.replace(
+        /\{(\w+)\}/g, (match, name) => values[name],
+      ),
+    };
+
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          intl={formattingIntl}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+        />
+      </Router>, this.container,
+    );
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    rows[0].getAttribute('aria-label').should.equal('4, row 1 of 5');
+    rows[1].getAttribute('aria-label').should.equal('3, row 2 of 5');
+    rows[4].getAttribute('aria-label').should.not.contain('selected');
+  });
+
+  it('should not set aria-selected on rows when the checkbox column is not shown', function test() {
+    const selectedItems = Immutable.Map({
+      '0abd85b5-46be-4a6c-aa14': Immutable.Map(),
+    });
+
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          intl={intl}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          selectedItems={selectedItems}
+        />
+      </Router>, this.container,
+    );
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    rows.length.should.equal(5);
+
+    rows.forEach((row) => {
+      expect(row.getAttribute('aria-selected')).to.equal(null);
+    });
+  });
+
+  it('should set aria-selected on each row according to selectedItems when the checkbox column is shown', async function test() {
+    const selectedItems = Immutable.Map({
+      '0abd85b5-46be-4a6c-aa14': Immutable.Map(),
+      '080b1ce2-598b-4340-b23a': Immutable.Map(),
+    });
+
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          intl={intl}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          selectedItems={selectedItems}
+          showCheckboxColumn
+          renderCheckbox={() => <input type="checkbox" aria-label="select" />}
+        />
+      </Router>, this.container,
+    );
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    rows[0].getAttribute('aria-selected').should.equal('false');
+    rows[1].getAttribute('aria-selected').should.equal('true');
+    rows[2].getAttribute('aria-selected').should.equal('false');
+    rows[3].getAttribute('aria-selected').should.equal('false');
+    rows[4].getAttribute('aria-selected').should.equal('true');
+
+    const results = await axe.run(this.container, { runOnly: ['aria-allowed-attr'] });
+
+    if (results.violations.length > 0) {
+      throwAxeViolationsError(results.violations);
+    }
+
+    results.violations.length.should.equal(0);
+  });
+
+  it('should set aria-selected to false on all rows when the checkbox column is shown and there are no selected items', function test() {
+    render(
+      <Router>
+        <SearchResultTable
+          config={config}
+          intl={intl}
+          searchName={searchName}
+          searchDescriptor={searchDescriptor}
+          searchResult={searchResult}
+          showCheckboxColumn
+          renderCheckbox={() => <input type="checkbox" aria-label="select" />}
+        />
+      </Router>, this.container,
+    );
+
+    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+
+    rows.length.should.equal(5);
+
+    rows.forEach((row) => {
+      row.getAttribute('aria-selected').should.equal('false');
+    });
+  });
 });
