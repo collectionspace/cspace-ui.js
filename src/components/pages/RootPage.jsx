@@ -14,6 +14,7 @@ import ContentViewerPageContainer from '../../containers/pages/ContentViewerPage
 import CreatePageContainer from '../../containers/pages/CreatePageContainer';
 import DashboardPage from './DashboardPage';
 import ExportViewerPageContainer from '../../containers/pages/ExportViewerPageContainer';
+import LandingPage from './LandingPage';
 import ToolPageContainer from '../../containers/pages/ToolPageContainer';
 import WelcomePage from './WelcomePage';
 import SearchResultRoute from './search/SearchResultRoute';
@@ -69,6 +70,7 @@ function RootPage(props) {
         <PublicRoute path="/authorize" component={AuthorizePageContainer} decorated={false} />
         <PublicRoute path="/authorized" component={AuthorizedPageContainer} decorated={false} />
 
+        <ProtectedRouteContainer path="/home" component={LandingPage} />
         <ProtectedRouteContainer path="/dashboard" component={DashboardPage} />
         <ProtectedRouteContainer path="/create" component={injectIntl(CreatePageContainer)} />
         <ProtectedRouteContainer path="/tool" component={ToolPageContainer} />
