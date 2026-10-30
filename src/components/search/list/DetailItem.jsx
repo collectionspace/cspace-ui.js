@@ -59,7 +59,8 @@ const DETAIL_DERIVATIVE = 'Small';
 
 const renderEditButton = (location, state, intl, objectNumber) => {
   const buttonLabel = intl.formatMessage(messages.editButton);
-  const buttonAriaText = intl.formatMessage(messages.editButtonScreenReader, { recordId: objectNumber });
+  const buttonAriaText = intl.formatMessage(messages.editButtonScreenReader,
+    { recordId: objectNumber });
   const button = (
     <Button name="edit" aria-label={`${buttonLabel} ${buttonAriaText}`}>
       <span>{buttonLabel}</span>
