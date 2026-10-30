@@ -66,7 +66,7 @@ const renderEditButton = (location, state, intl, objectNumber) => {
     </Button>
   );
   return location ? (
-    <Link to={{ pathname: location, state }}>
+    <Link to={{ pathname: location, state }} tabIndex="-1">
       {button}
     </Link>
   ) : button;
