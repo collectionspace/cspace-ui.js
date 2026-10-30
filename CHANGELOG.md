@@ -21,6 +21,7 @@
 - In the Hierarchy section of authority records, the Narrower field label is now rendered as the legend of the repeating field and each narrower input is associated with it, fixing missing form label errors (Criteria 3.3.2)
 - Add missing aria-label to icon only buttons (Criteria 1.1.1)
 - On the Advanced Search, Recent Activity, and Tools pages, section titles are now level 2 headings, fixing skipped heading level errors (Criteria 1.3.1)
+- In the Search Result full detail view, an aria-label has been added to the 'Edit Record' button for screen readers (Criteria 2.4.4)
 
 ## v11.0.0
 
