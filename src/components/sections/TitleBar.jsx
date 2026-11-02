@@ -11,6 +11,7 @@ const propTypes = {
   title: PropTypes.node,
   subtitle: PropTypes.node,
   aside: PropTypes.node,
+  busy: PropTypes.bool,
   icon: PropTypes.node,
   nav: PropTypes.node,
   serviceType: PropTypes.string,
@@ -177,7 +178,7 @@ export default class TitleBar extends Component {
     } = this.props;
 
     return (
-      <h1>{title}</h1>
+      <h1 tabIndex={-1}>{title}</h1>
     );
   }
 
@@ -218,6 +219,7 @@ export default class TitleBar extends Component {
     } = this.state;
 
     const {
+      busy,
       icon,
       serviceType,
     } = this.props;
@@ -227,6 +229,7 @@ export default class TitleBar extends Component {
 
     return (
       <header
+        aria-busy={busy ? 'true' : undefined}
         className={className}
         ref={this.setDomNode}
         style={inlineStyle}

@@ -49,7 +49,9 @@ export default function PublicPage(props, context) {
   return (
     <div className={styles.common}>
       {header}
-      {children}
+      <main tabIndex={-1}>
+        {children}
+      </main>
       {footer}
     </div>
   );

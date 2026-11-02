@@ -33,6 +33,7 @@ const isBlank = (title) => (
 const propTypes = {
   csid: PropTypes.string,
   data: PropTypes.instanceOf(Immutable.Map),
+  isReadPending: PropTypes.bool,
   recordType: PropTypes.string,
   vocabulary: PropTypes.string,
   searchName: PropTypes.string,
@@ -53,6 +54,7 @@ export default function RecordTitleBar(props, context) {
   const {
     csid,
     data,
+    isReadPending,
     recordType,
     vocabulary,
     searchName,
@@ -114,6 +116,7 @@ export default function RecordTitleBar(props, context) {
 
   return (
     <TitleBar
+      busy={isReadPending}
       serviceType={serviceType}
       title={title}
       aside={aside}
