@@ -1,5 +1,14 @@
 import Immutable from 'immutable';
 import get from 'lodash/get';
+import { defineMessages } from 'react-intl';
+
+export const messages = defineMessages({
+  rowLabel: {
+    id: 'searchResultTable.rowLabel',
+    description: 'The aria-label for a row in a search result table',
+    defaultMessage: '{primary}, row {index} of {total}',
+  },
+});
 
 // todo: where should this live?
 

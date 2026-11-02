@@ -9,7 +9,7 @@ import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 import { getListTypeFromResult } from '../../helpers/searchHelpers';
-import { isSortable } from './searchResultHelpers';
+import { isSortable, messages as searchResultMessages } from './searchResultHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 
@@ -18,14 +18,9 @@ const messages = defineMessages({
     id: 'searchResultTable.searchPending',
     defaultMessage: '⋯',
   },
-  rowLabel: {
-    id: 'searchResultTable.rowLabel',
-    description: 'The aria-label for a row',
-    defaultMessage: '{primary} selected row {index} of {total}',
-  },
 });
 
-const rowRenderer = (params, location, ariaLabel) => {
+const rowRenderer = (params, location, ariaLabel, ariaSelected) => {
   // This is a fork of react-virtualized's default row renderer:
   // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
 
@@ -44,6 +39,10 @@ const rowRenderer = (params, location, ariaLabel) => {
   } = params;
 
   const a11yProps = {};
+
+  if (typeof ariaSelected !== 'undefined') {
+    a11yProps['aria-selected'] = ariaSelected;
+  }
 
   if (
     onRowClick // ||
@@ -126,6 +125,7 @@ const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
+  selectedItems: PropTypes.instanceOf(Immutable.Map),
   showCheckboxColumn: PropTypes.bool,
   renderCheckbox: PropTypes.func,
   renderHeader: PropTypes.func,
@@ -297,7 +297,7 @@ export default class SearchResultTable extends Component {
 
     const primaryData = rowData.get(primaryCol);
     const label = primaryData
-      ? intl.formatMessage(messages.rowLabel,
+      ? intl.formatMessage(searchResultMessages.rowLabel,
         { primary: primaryData, index: index + 1, total: totalItems })
       : 'row';
 
@@ -308,6 +308,8 @@ export default class SearchResultTable extends Component {
     const {
       getItemLocation,
       linkItems,
+      selectedItems,
+      showCheckboxColumn,
     } = this.props;
 
     const {
@@ -324,7 +326,13 @@ export default class SearchResultTable extends Component {
 
     const ariaLabel = this.renderRowLabel(params, totalItems);
 
-    return rowRenderer(params, location, ariaLabel);
+    let ariaSelected;
+
+    if (showCheckboxColumn) {
+      ariaSelected = selectedItems ? selectedItems.has(rowData.get('csid')) : false;
+    }
+
+    return rowRenderer(params, location, ariaLabel, ariaSelected);
   }
 
   renderTable() {
