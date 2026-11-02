@@ -9,7 +9,7 @@ import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 import { getListTypeFromResult } from '../../helpers/searchHelpers';
-import { isSortable } from './searchResultHelpers';
+import { isSortable, messages as searchResultMessages } from './searchResultHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 
@@ -17,11 +17,6 @@ const messages = defineMessages({
   searchPending: {
     id: 'searchResultTable.searchPending',
     defaultMessage: '⋯',
-  },
-  rowLabel: {
-    id: 'searchResultTable.rowLabel',
-    description: 'The aria-label for a row',
-    defaultMessage: '{primary}, row {index} of {total}',
   },
 });
 
@@ -302,7 +297,7 @@ export default class SearchResultTable extends Component {
 
     const primaryData = rowData.get(primaryCol);
     const label = primaryData
-      ? intl.formatMessage(messages.rowLabel,
+      ? intl.formatMessage(searchResultMessages.rowLabel,
         { primary: primaryData, index: index + 1, total: totalItems })
       : 'row';
 

@@ -89,7 +89,7 @@ describe('SearchResultTableRow', () => {
 
     const row = this.container.querySelector('tr');
 
-    row.getAttribute('aria-label').should.equal('Row 1 of 5 - 2024.1');
+    row.getAttribute('aria-label').should.equal('2024.1, row 1 of 5');
   });
 
   it('should set aria-selected to false when the item is not selected', function test() {
