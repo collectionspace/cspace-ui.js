@@ -22,6 +22,7 @@
 - Add missing aria-label to icon only buttons (Criteria 1.1.1)
 - On the Advanced Search, Recent Activity, and Tools pages, section titles are now level 2 headings, fixing skipped heading level errors (Criteria 1.3.1)
 - Rows in search result and record list tables are no longer all described as "selected" to screen readers; in tables with a checkbox column, the selection state of each row is now exposed with aria-selected instead (Criteria 4.1.2)
+- Improve contrast in Notification headers (Criteria 1.4.3)
 
 ## v11.0.0
 
