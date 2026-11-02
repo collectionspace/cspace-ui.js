@@ -34,7 +34,7 @@ a:focus {
   outline: 1px dotted black;
 }
 
-h1:focus:not(:focus-visible),
+h1:focus,
 main:focus {
   outline: none;
 }
