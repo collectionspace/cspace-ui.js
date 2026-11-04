@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   flex: 0 0 auto;
   padding: 0;
@@ -18,4 +20,12 @@
 .loading {
   composes: common;
   visibility: hidden;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    flex: 0 1 auto;
+    min-width: 0;
+    line-height: 2;
+  }
 }

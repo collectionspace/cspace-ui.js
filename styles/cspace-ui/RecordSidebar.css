@@ -1,4 +1,4 @@
-@value tabHeight from '../dimensions.css';
+@value tabHeight, breakpointCompact from '../dimensions.css';
 
 .common {
   width: 30%;
@@ -52,4 +52,10 @@
 
 .authority :global(.cspace-layout-Panel--common) {
   background-color: rgba(209, 157, 194, .2);
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    width: 100%;
+  }
 }
