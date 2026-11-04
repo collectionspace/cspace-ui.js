@@ -1,9 +1,12 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   margin-top: 15px; 
 }
 
 .common ul {
   display: flex;
+  flex-wrap: wrap;
   list-style-type: none;
 
   margin: 0;
@@ -22,7 +25,13 @@
 }
 
 .common ul::after {
-  flex: 100%;
+  flex: 1 1 auto;
   border-bottom: 2px solid #4D4D4D;
   content: "";
+}
+
+@media (max-width: breakpointCompact) {
+  .common ul::after {
+    display: none;
+  }
 }
