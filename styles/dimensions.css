@@ -1,4 +1,4 @@
-@value inputHeight: 26px;
+@value inputHeight from 'cspace-layout/styles/dimensions.css';
 @value activeEdgeWidth: 2px;
 @value inputMargin: 10px;
 @value tabHeight: 31px;
