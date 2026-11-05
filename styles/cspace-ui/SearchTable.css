@@ -61,3 +61,7 @@
 .odd {
   background: #f0f5fb;
 }
+
+.detailCheckbox {
+  margin-left: 10px;
+}
