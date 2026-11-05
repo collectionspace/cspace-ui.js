@@ -1,4 +1,5 @@
 @value inputHeight from '../dimensions.css';
+@value textDark from '../colors.css';
 
 .common {
   width: 100%;
@@ -19,7 +20,7 @@
 .common > div > header {
   font-size: 12px;
   line-height: calc(inputHeight - 2px);
-  color: rgb(160, 160, 160);
+  color: textDark;
 }
 
 .common > div > div {
@@ -52,10 +53,6 @@
 
 .error {
   composes: common;
-}
-
-.error > div > header {
-  color: rgb(219, 161, 161);
 }
 
 .error > div > div > ul > li,
