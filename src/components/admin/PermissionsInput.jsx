@@ -67,7 +67,21 @@ const serviceTypeMessages = defineMessages({
   },
 });
 
+const columnMessages = defineMessages({
+  recordType: {
+    id: 'permissionsInput.column.recordType',
+    description: 'Visually hidden header of the record type column in the permissions table.',
+    defaultMessage: 'Record type',
+  },
+});
+
 const serviceTypes = ['object', 'procedure', 'authority', 'utility', 'security'];
+
+const renderColumnHeader = (actionGroup) => (
+  <th scope="col">
+    <FormattedMessage {...permMessages[actionGroup]} />
+  </th>
+);
 
 const propTypes = {
   /* eslint-disable react/no-unused-prop-types */
@@ -324,7 +338,7 @@ export default class PermissionsInput extends Component {
     );
   }
 
-  renderRadioButton(perms, recordType, resourceName, value) {
+  renderRadioButton(perms, recordType, resourceName, value, rowId) {
     const {
       readOnly,
     } = this.props;
@@ -354,8 +368,10 @@ export default class PermissionsInput extends Component {
       <label className={className}>
         <FormattedMessage {...permMessages[value]} />
         <input
+          aria-describedby={rowId}
           checked={checked}
           data-name={recordType}
+          name={`permissions-${recordType}`}
           type="radio"
           value={value}
           disabled={readOnly}
@@ -414,23 +430,25 @@ export default class PermissionsInput extends Component {
             ? intl.formatMessage(nameMessage)
             : `[ ${name} ]`;
 
+          const rowId = `permissions-row-${name}`;
+
           rows.push(
-            <div key={name}>
-              <div>{formattedName}</div>
-              <div>
-                {this.renderRadioButton(perms, name, resourceName, '')}
-                {this.renderRadioButton(perms, name, resourceName, 'RL')}
-                {this.renderRadioButton(perms, name, resourceName, 'CRUL')}
-                {this.renderRadioButton(perms, name, resourceName, 'CRUDL')}
-              </div>
-            </div>,
+            <tr key={name}>
+              <th scope="row" id={rowId}>{formattedName}</th>
+              <td>{this.renderRadioButton(perms, name, resourceName, '', rowId)}</td>
+              <td>{this.renderRadioButton(perms, name, resourceName, 'RL', rowId)}</td>
+              <td>{this.renderRadioButton(perms, name, resourceName, 'CRUL', rowId)}</td>
+              <td>{this.renderRadioButton(perms, name, resourceName, 'CRUDL', rowId)}</td>
+            </tr>,
           );
         });
+
+      const headingId = `permissions-${serviceType}-heading`;
 
       sections.push(
         <section key={serviceType}>
           <header>
-            <h3><FormattedMessage {...serviceTypeMessages[serviceType]} /></h3>
+            <h3 id={headingId}><FormattedMessage {...serviceTypeMessages[serviceType]} /></h3>
             <ul>
               <li>{this.renderHeaderButton(serviceType, '')}</li>
               <li>{this.renderHeaderButton(serviceType, 'RL')}</li>
@@ -438,7 +456,26 @@ export default class PermissionsInput extends Component {
               <li>{this.renderHeaderButton(serviceType, 'CRUDL')}</li>
             </ul>
           </header>
-          {rows}
+          <table aria-labelledby={headingId}>
+            {/* The column header row exists for assistive technology only. */}
+            {/* The visible column labels are the "set all" buttons in the section above.  */}
+            {/* The row is collapsed to zero height, and the */}
+            {/* header text inside it is visually hidden. */}
+            <thead>
+              <tr>
+                <th scope="col">
+                  <FormattedMessage {...columnMessages.recordType} />
+                </th>
+                {renderColumnHeader('')}
+                {renderColumnHeader('RL')}
+                {renderColumnHeader('CRUL')}
+                {renderColumnHeader('CRUDL')}
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
         </section>,
       );
     });
