@@ -34,6 +34,11 @@ a:focus {
   outline: 1px dotted black;
 }
 
+h1:focus,
+main:focus {
+  outline: none;
+}
+
 a:disabled {
   color: rgba(77, 77, 77, .4);
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Switch } from 'react-router';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import classNames from 'classnames';
 import ProtectedRouteContainer from '../../containers/routes/ProtectedRouteContainer';
 import PublicRoute from '../routes/PublicRoute';
+import RouteFocusManager from '../routes/RouteFocusManager';
 import AdminPageContainer from '../../containers/pages/AdminPageContainer';
 import AuthorizePageContainer from '../../containers/pages/AuthorizePageContainer';
 import AuthorizedPageContainer from '../../containers/pages/AuthorizedPageContainer';
@@ -45,11 +46,12 @@ function RootPage(props) {
     intl,
   } = props;
 
+  const rootRef = useRef(null);
   const classes = classNames(styles.common, className);
   const title = intl.formatMessage(messages.title);
 
   return (
-    <div className={classes}>
+    <div className={classes} ref={rootRef}>
       <Helmet
         defaultTitle={title}
         titleTemplate={`%s | ${title}`}
@@ -120,6 +122,7 @@ function RootPage(props) {
         />
       </Switch>
 
+      <RouteFocusManager rootRef={rootRef} />
       <NotificationBarContainer />
     </div>
   );

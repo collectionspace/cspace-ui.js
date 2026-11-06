@@ -74,7 +74,7 @@ describe('ProtectedPage', () => {
       </IntlProvider>, this.container,
     );
 
-    this.container.querySelector('div > div#content').textContent.should
+    this.container.querySelector('main > div#content').textContent.should
       .equal('This is some content');
   });
 
@@ -95,7 +95,7 @@ describe('ProtectedPage', () => {
       </IntlProvider>, this.container,
     );
 
-    expect(this.container.querySelector('div > div#content')).to.equal(null);
+    expect(this.container.querySelector('main > div#content')).to.equal(null);
   });
 
   it('should render a header containing a user menu', function test() {

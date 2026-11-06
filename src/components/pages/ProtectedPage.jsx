@@ -90,7 +90,9 @@ export default class ProtectedPage extends Component {
     return (
       <div>
         {header}
-        {userPrefsLoaded ? children : null}
+        <main tabIndex={-1}>
+          {userPrefsLoaded ? children : null}
+        </main>
         {footer}
 
         <LoginModalContainer

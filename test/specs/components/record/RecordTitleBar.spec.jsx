@@ -191,6 +191,18 @@ describe('RecordTitleBar', () => {
     this.container.querySelector('h1').textContent.should.equal('Untitled Record');
   });
 
+  it('should mark the title bar busy while the record is being read', function test() {
+    render(
+      <IntlProvider locale="en">
+        <ConfigProvider config={config}>
+          <RecordTitleBar data={data} recordType="collectionobject" isReadPending />
+        </ConfigProvider>
+      </IntlProvider>, this.container,
+    );
+
+    this.container.querySelector('header').getAttribute('aria-busy').should.equal('true');
+  });
+
   it('should render nothing if a plugin is not found for the record type', function test() {
     render(
       <IntlProvider locale="en">
