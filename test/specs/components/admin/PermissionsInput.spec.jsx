@@ -221,7 +221,7 @@ describe('PermissionsInput', () => {
     );
 
     const authoritySection = this.container.querySelectorAll('section')[2];
-    const inputs = authoritySection.querySelectorAll('div > label:first-child > input');
+    const inputs = authoritySection.querySelectorAll('tbody > tr > td:first-of-type > label > input');
 
     inputs[0].dataset.name.should.equal('person');
     inputs[1].dataset.name.should.equal('location');
@@ -239,7 +239,7 @@ describe('PermissionsInput', () => {
     );
 
     const procedureSection = this.container.querySelectorAll('section')[1];
-    const inputs = procedureSection.querySelectorAll('div > label:first-child > input');
+    const inputs = procedureSection.querySelectorAll('tbody > tr > td:first-of-type > label > input');
 
     inputs[0].dataset.name.should.equal('group');
     inputs[1].dataset.name.should.equal('loanin');
