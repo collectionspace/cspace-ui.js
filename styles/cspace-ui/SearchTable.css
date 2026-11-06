@@ -54,6 +54,10 @@
   text-decoration: none;
 }
 
+.results > table td > .detailCheckbox {
+  margin-left: 10px
+}
+
 .even {
   background: white;
 }

@@ -1,8 +1,8 @@
-@value inputHeight: 23px;
+@value inputHeight from 'cspace-layout/styles/dimensions.css';
 @value activeEdgeWidth: 2px;
 @value inputMargin: 10px;
 @value tabHeight: 31px;
 @value searchConditionPaddingTop: 10px;
-@value searchBooleanOpWidth: 50px;
+@value searchBooleanOpWidth: 55px;
 @value searchColumnMarginRight: 4px;
 @value breakpointCompact: 640px;
