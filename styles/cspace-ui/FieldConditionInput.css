@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   font-size: 14px;
 }
@@ -19,12 +21,14 @@
 .normal > *:nth-child(1) {
   flex: 0 1 auto;
   width: 240px;
+  min-width: 0;
   margin-right: 4px;
 }
 
 .normal > *:nth-child(2) {
   flex: 0 1 auto;
   width: 140px;
+  min-width: 0;
   margin-right: 4px;
 }
 
@@ -32,6 +36,11 @@
   flex: 1 1 auto;
   padding-top: 0;
   width: 440px;
+  min-width: 0;
+}
+
+.normal > button {
+  flex: 0 0 auto;
 }
 
 .normal > div > :global(.cspace-input-TextInput--common),
@@ -60,4 +69,21 @@
   border: none;
   padding: 0;
   font-style: italic;
+}
+
+@media (max-width: breakpointCompact) {
+  .normal {
+    flex-direction: column;
+  }
+
+  .normal > *:nth-child(1),
+  .normal > *:nth-child(2),
+  .normal > *:nth-child(3) {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .normal > button {
+    align-self: flex-end;
+  }
 }

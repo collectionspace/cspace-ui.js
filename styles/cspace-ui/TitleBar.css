@@ -1,4 +1,4 @@
-@value inputHeight from '../dimensions.css';
+@value inputHeight, breakpointCompact from '../dimensions.css';
 
 .common {
   background: inherit;
@@ -32,12 +32,25 @@
 
 .common > div > div > h1 {
   flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding-right: 10px;
 }
 
 .common > div > div > aside > h2 {
   flex: 1 1 auto;
   text-align: right;
+}
+
+@media (max-width: breakpointCompact) {
+  .common > div > div:first-of-type {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+
+  .common > div > div > aside {
+    max-width: 100%;
+  }
 }
 
 .searchresult {

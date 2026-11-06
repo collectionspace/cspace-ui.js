@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   padding: 10px 20px 20px 10px;
   flex: 1 1 auto;
@@ -59,4 +61,11 @@
   composes: common;
   background-color: #F3EDF6;
   color: #734592;
+}
+
+@media (max-width: breakpointCompact) {
+  .common + .common {
+    margin-left: 0;
+    margin-top: 6px;
+  }
 }

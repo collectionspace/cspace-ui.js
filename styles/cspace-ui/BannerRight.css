@@ -1,4 +1,18 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
-  width: 30%;
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding-left: 20px;
   text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+    padding-left: 0;
+  }
 }

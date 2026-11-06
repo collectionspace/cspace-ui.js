@@ -1,4 +1,4 @@
-@value inputHeight from '../dimensions.css';
+@value inputHeight, breakpointCompact from '../dimensions.css';
 
 .common {
   min-width: 420px;
@@ -110,4 +110,22 @@
 
 .readOnly > section > header {
   border-color: rgb(240, 240, 240);
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    min-width: 0;
+  }
+
+  .common > section > div {
+    height: auto;
+    min-height: inputHeight;
+  }
+
+  .common > section > header > h3,
+  .common > section > div > div:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
 }

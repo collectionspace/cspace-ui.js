@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   display: flex;
   align-items: center;
@@ -5,4 +7,11 @@
 
 .common > :global(.cspace-ui-ButtonBar--common) > *:last-child {
   margin-right: 14px;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
 }

@@ -1,7 +1,15 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   width: 70%;
   z-index: 1;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    width: 100%;
+  }
 }
