@@ -51,10 +51,7 @@ function SearchResultTable({ searchDescriptor, intl }) {
     return null;
   }
 
-  const {
-    sortBy,
-    sortDir,
-  } = getSort(config, searchDescriptor);
+  const { sortBy, sortDir } = getSort(config, searchDescriptor);
 
   // read headers
   const columnConfig = getColumnConfig(config, searchDescriptor, 'default');

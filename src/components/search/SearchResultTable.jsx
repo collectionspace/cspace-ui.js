@@ -9,7 +9,7 @@ import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 import { getListTypeFromResult } from '../../helpers/searchHelpers';
-import { isSortable, messages as searchResultMessages } from './searchResultHelpers';
+import { isSortable, getSort, messages as searchResultMessages } from './searchResultHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 
@@ -353,14 +353,7 @@ export default class SearchResultTable extends Component {
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;
 
-      let sortColumnName = null;
-      let sortDir = null;
-
-      const sortSpec = searchQuery.get('sort');
-
-      if (sortSpec) {
-        [sortColumnName, sortDir] = sortSpec.split(' ');
-      }
+      const { sortBy, sortDir } = getSort(config, searchDescriptor);
 
       const list = searchResult.get(listNodeName);
       const pageSize = parseInt(list.get('pageSize'), 10);
@@ -458,7 +451,7 @@ export default class SearchResultTable extends Component {
             onRowClick={this.handleRowClick}
             renderCheckbox={renderCheckbox}
             sort={this.sort}
-            sortBy={sortColumnName}
+            sortBy={sortBy}
             sortDirection={sortDir === 'desc' ? Table.SortDirection.DESC : Table.SortDirection.ASC}
             noRowsRenderer={this.renderNoItems}
             rowRenderer={renderRowWithTotal}
