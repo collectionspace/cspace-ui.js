@@ -1,4 +1,12 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   display: flex;
   align-items: center;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    flex-wrap: wrap;
+  }
 }

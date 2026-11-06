@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   display: flex;
 }
@@ -8,4 +10,10 @@
 
 .full {
   composes: common;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    flex-direction: column;
+  }
 }

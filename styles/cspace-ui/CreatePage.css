@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   background-color: white;
 }
@@ -12,4 +14,11 @@
   margin: 0;
   font-size: 14px;
   font-weight: 400;
+}
+
+@media (max-width: breakpointCompact) {
+  .common > div {
+    width: 100%;
+    flex-direction: column;
+  }
 }

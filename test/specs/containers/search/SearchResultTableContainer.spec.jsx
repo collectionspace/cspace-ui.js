@@ -19,6 +19,10 @@ describe('SearchResultTableContainer', () => {
   const searchDescriptor = Immutable.Map();
   const searchResult = {};
 
+  const selectedItems = Immutable.Map({
+    1234: Immutable.Map({ csid: '1234' }),
+  });
+
   const searchError = {
     code: 'ERROR_CODE',
   };
@@ -34,6 +38,7 @@ describe('SearchResultTableContainer', () => {
               error: searchError,
             },
           },
+          selected: selectedItems,
         },
       }),
       user: Immutable.Map(),
@@ -56,6 +61,7 @@ describe('SearchResultTableContainer', () => {
     table.props.isSearchPending.should.equal(true);
     table.props.searchResult.should.equal(Immutable.fromJS(searchResult));
     table.props.searchError.should.equal(Immutable.fromJS(searchError));
+    table.props.selectedItems.should.equal(selectedItems);
 
     table.props.formatCellData.should.be.a('function');
     table.props.formatColumnLabel.should.be.a('function');

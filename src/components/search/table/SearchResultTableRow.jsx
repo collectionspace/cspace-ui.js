@@ -1,5 +1,5 @@
 import React from 'react';
-import { defineMessages, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { useConfig } from '../../config/ConfigProvider';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import styles from '../../../../styles/cspace-ui/SearchTable.css';
 import SearchResultCheckbox from '../SearchResultCheckbox';
+import { messages } from '../searchResultHelpers';
 
 const propTypes = {
   item: PropTypes.instanceOf(Immutable.Map),
@@ -21,18 +22,10 @@ const propTypes = {
   }),
 };
 
-const messages = defineMessages({
-  rowAriaLabel: {
-    id: 'searchResultTableRow.rowAriaLabel',
-    description: 'The aria-label for a row',
-    defaultMessage: 'Row {index} of {total} - {primary}',
-  },
-});
-
 function createRowLabel(column, item, index, total, intl) {
   const data = item.get(column.dataKey);
   return data
-    ? intl.formatMessage(messages.rowAriaLabel,
+    ? intl.formatMessage(messages.rowLabel,
       { primary: data, index: index + 1, total })
     : 'row';
 }
@@ -73,6 +66,7 @@ function SearchResultTableRow({
   return (
     <tr
       aria-label={rowAriaLabel}
+      aria-selected={selected}
       className={index % 2 === 0 ? styles.even : styles.odd}
     >
       <td>
