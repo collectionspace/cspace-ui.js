@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, isSortable, readListItems } from '../searchResultHelpers';
+import { getColumnConfig, getSort, isSortable, readListItems } from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';
@@ -26,34 +26,12 @@ const messages = defineMessages({
   },
 });
 
-function getSortDir(searchDescriptor) {
-  const searchQuery = searchDescriptor.get('searchQuery');
-
-  const sortSpec = searchQuery.get('sort');
-
-  let sortDir;
-  let sortColumnName;
-  if (sortSpec) {
-    [sortColumnName, sortDir] = sortSpec.split(' ');
-    if (!sortDir) {
-      sortDir = 'asc';
-    }
-  }
-
-  return { sortColumnName, sortDir };
-}
-
 /**
  * Displays search results as a table. This uses the search descriptor to get the
  * record type in order to read the configuration for what headers and fields need
  * to be displayed.
  *
  * Once complete this should replace the older SearchResultTable component
- *
- * todo: parity with other search result table
- *   - aria-labels + general wcag compliance
- *   - figure out hrefs
- *   - ???
  */
 function SearchResultTable({ searchDescriptor, intl }) {
   const config = useConfig();
@@ -73,11 +51,10 @@ function SearchResultTable({ searchDescriptor, intl }) {
     return null;
   }
 
-  // Might move this into the SearchResultTableHeader
   const {
-    sortColumnName,
+    sortBy,
     sortDir,
-  } = getSortDir(searchDescriptor);
+  } = getSort(config, searchDescriptor);
 
   // read headers
   const columnConfig = getColumnConfig(config, searchDescriptor, 'default');
@@ -134,7 +111,7 @@ function SearchResultTable({ searchDescriptor, intl }) {
           <tr>
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th className={styles.checkbox} aria-label={selectLabel} />
-            {columns.map((column) => (sortColumnName === column.dataKey
+            {columns.map((column) => (sortBy === column.dataKey
               ? (
                 <SearchResultTableHeader
                   key={column.dataKey}
