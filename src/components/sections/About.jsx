@@ -28,7 +28,7 @@ const messages = defineMessages({
 export default function About() {
   return (
     <div className={styles.common}>
-      <h1><FormattedMessage {...messages.title} /></h1>
+      <h1 tabIndex={-1}><FormattedMessage {...messages.title} /></h1>
       <h2><FormattedMessage {...messages.subtitle} /></h2>
       <FormattedHTMLMessage {...messages.contentHTML} tagName="div" />
     </div>

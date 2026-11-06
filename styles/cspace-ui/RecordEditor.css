@@ -1,3 +1,5 @@
+@value inputHeight, breakpointCompact from '../dimensions.css';
+
 .common {
   flex: 1;
   margin: 0;
@@ -24,4 +26,33 @@
 
 .full {
   composes: common;
+}
+
+@media (max-width: breakpointCompact) {
+  .common :global(.cspace-layout-Row--normal) {
+    flex-direction: column;
+  }
+
+  .common :global(.cspace-layout-Row--normal) > * + * {
+    margin-left: 0;
+  }
+
+  .common :global(.cspace-input-InputTableHeader--common) > div,
+  .common :global(.cspace-input-InputTableRow--common) > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .common :global(.cspace-input-RepeatingInput--common),
+  .common :global(.cspace-input-InputTable--common) {
+    min-width: 0;
+  }
+
+  .common :global(.cspace-input-RepeatingInput--common) > div {
+    table-layout: fixed;
+  }
+
+  .common :global(.cspace-input-RepeatingInput--common) > div > header > div:empty {
+    width: calc(inputHeight - 2px);
+  }
 }

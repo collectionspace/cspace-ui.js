@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   display: flex;
   align-items: center;
@@ -13,4 +15,10 @@
 .institution {
   max-width: 240px;
   object-fit: scale-down;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    flex-wrap: wrap;
+  }
 }

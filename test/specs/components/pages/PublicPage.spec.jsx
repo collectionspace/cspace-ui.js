@@ -55,7 +55,7 @@ describe('PublicPage', () => {
       </IntlProvider>, this.container,
     );
 
-    this.container.querySelector('div > div#content').textContent.should
+    this.container.querySelector('main > div#content').textContent.should
       .equal('This is some content');
   });
 });

@@ -1,4 +1,4 @@
-@value searchConditionPaddingTop from '../dimensions.css';
+@value searchConditionPaddingTop, breakpointCompact from '../dimensions.css';
 
 .common > header {
   display: flex;
@@ -32,4 +32,15 @@
 
 .inline > div {
   display: inline-block;
+}
+
+@media (max-width: breakpointCompact) {
+  .common > header > div {
+    min-width: 0;
+  }
+
+  .common > header :global(.cspace-input-DropdownMenuInput--common) {
+    width: 100%;
+    max-width: 240px;
+  }
 }

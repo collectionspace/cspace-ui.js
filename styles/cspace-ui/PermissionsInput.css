@@ -1,4 +1,4 @@
-@value inputHeight from '../dimensions.css';
+@value inputHeight, breakpointCompact from '../dimensions.css';
 
 .common {
   min-width: 420px;
@@ -50,24 +50,54 @@
   justify-content: center;
 }
 
-.common > section > div {
-  display: flex;
-  align-items: center;
+.common > section > table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/*
+ * The column header row exists for assistive technology only. The visible column labels are the
+ * "set all" buttons in the section above. The row is collapsed to zero height, and the
+ * header text inside it is visually hidden.
+ */
+
+.common > section > table > thead > tr > th {
+  height: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.common > section > table > thead > tr > th > span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.common > section > table > tbody > tr {
   height: inputHeight;
 }
 
-.common > section > div:nth-child(odd) {
+.common > section > table > tbody > tr:nth-child(even) {
   background-color: #F0F5FB;
 }
 
-.common > section > div > div:first-child {
-  flex: 1 0 auto;
-  padding-left: 4px;
+.common > section > table > tbody > tr > th {
+  padding: 0 0 0 4px;
+  text-align: left;
+  font-weight: normal;
 }
 
-.common > section > div > div:last-child {
-  display: flex;
-  flex: 0 0 auto;
+.common > section > table > tbody > tr > td {
+  width: 50px;
+  padding: 0;
 }
 
 .readOnly {
@@ -80,4 +110,22 @@
 
 .readOnly > section > header {
   border-color: rgb(240, 240, 240);
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    min-width: 0;
+  }
+
+  .common > section > div {
+    height: auto;
+    min-height: inputHeight;
+  }
+
+  .common > section > header > h3,
+  .common > section > div > div:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
 }

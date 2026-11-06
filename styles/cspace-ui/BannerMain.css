@@ -1,11 +1,16 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   display: flex;
   align-items: center;
-  width: 70%;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 70%;
 }
 
 .common > :global(.cspace-ui-Logo--common) {
-  flex: 0 1 auto;
+  flex: 0 10 auto;
+  min-width: 140px;
 
   margin-right: 22px;
   /*
@@ -23,7 +28,8 @@
 }
 
 .common > fieldset {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
   margin: 0;
   border: none;
   padding: 0;
@@ -31,4 +37,16 @@
 
 .common > div {
   flex: 0 0 auto;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: none;
+  }
+
+  .common > fieldset {
+    flex: 1 1 100%;
+  }
 }

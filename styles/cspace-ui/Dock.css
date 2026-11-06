@@ -1,3 +1,5 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   flex: 1;
   margin: 0;
@@ -31,4 +33,10 @@
 
 .normal.docked > div {
   width: calc(calc(100% - 7px) * .7);
+}
+
+@media (max-width: breakpointCompact) {
+  .normal.docked > div {
+    width: 100%;
+  }
 }

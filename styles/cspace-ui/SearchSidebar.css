@@ -1,3 +1,11 @@
+@value breakpointCompact from '../dimensions.css';
+
 .common {
   width: 30%;
+}
+
+@media (max-width: breakpointCompact) {
+  .common {
+    width: 100%;
+  }
 }
