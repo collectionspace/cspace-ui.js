@@ -28,6 +28,7 @@
 - Improve contrast in Notification headers (Criteria 1.4.3)
 - In the Search Result full detail view, an aria-label has been added to the 'Edit Record' button for screen readers (Criteria 2.4.4)
 - Update minimum inputHeight so all input targets are at least 24x24 px (Criteria 2.5.8)
+- Add sort icon and aria-sort to Search Result tables
 
 ## v11.0.0
 
