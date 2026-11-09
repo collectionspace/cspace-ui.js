@@ -25,7 +25,7 @@
 - When navigating between pages, focus now moves to the page heading once it has loaded, so screen readers announce the new page, and page content is now wrapped in a main landmark (Criteria 2.4.3, 4.1.3)
 - Rows in search result and record list tables are no longer all described as "selected" to screen readers; in tables with a checkbox column, the selection state of each row is now exposed with aria-selected instead (Criteria 4.1.2)
 - Pages now reflow instead of overflowing or overlapping at narrow viewport widths and high zoom levels (Criteria 1.4.10)
-- Record, search result and administration pages now stack the sidebar below the main content at viewport widths up to 1024px, and search result grid cards and full detail items reflow, so content no longer overlaps or is cut off at 200% and 400% zoom (Criteria 1.4.4, 1.4.10)
+- Record, search result, dashboard and administration pages now stack the sidebar or list below the main content at viewport widths up to 1024px, search result grid cards and full detail items reflow, and the tables in the record sidebar and on the dashboard and administration pages keep their column headers readable, so content no longer overlaps or is cut off at 200% and 400% zoom (Criteria 1.4.4, 1.4.10)
 - Improve contrast in Notification headers (Criteria 1.4.3)
 - In the Search Result full detail view, an aria-label has been added to the 'Edit Record' button for screen readers (Criteria 2.4.4)
 - Update minimum inputHeight so all input targets are at least 24x24 px (Criteria 2.5.8)
