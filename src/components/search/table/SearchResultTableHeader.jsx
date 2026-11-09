@@ -63,14 +63,14 @@ export default function SearchResultTableHeader({ column, sortable, sort }) {
         <path d="M 7 14 l5-5 5 5 z" />
       </svg>
     );
-    ariaSort = "ascending"
+    ariaSort = 'ascending';
   } else if (sort === 'desc') {
     arrow = (
       <svg width={16} height={16} viewBox="0 0 24 24">
         <path d="M 7 14 l5 5 5-5 z" />
       </svg>
     );
-    ariaSort = "descending"
+    ariaSort = 'descending';
   }
 
   return (

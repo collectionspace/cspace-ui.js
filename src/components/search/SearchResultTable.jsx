@@ -348,7 +348,6 @@ export default class SearchResultTable extends Component {
 
     if (searchResult) {
       const listType = getListTypeFromResult(config, searchResult);
-      const searchQuery = searchDescriptor.get('searchQuery');
 
       const listTypeConfig = config.listTypes[listType];
       const { listNodeName, itemNodeName } = listTypeConfig;

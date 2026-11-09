@@ -34,7 +34,6 @@ function SortBy({
   onSortDirChange,
   recordType,
   searchDescriptor,
-  sort,
 }) {
   const config = useConfig();
   const sortConfig = get(config, ['recordTypes', recordType, 'sort'])
@@ -105,7 +104,6 @@ SortBy.propTypes = {
   onSortDirChange: PropTypes.func,
   recordType: PropTypes.string,
   searchDescriptor: PropTypes.object,
-  sort: PropTypes.string,
 };
 
 export default injectIntl(SortBy);

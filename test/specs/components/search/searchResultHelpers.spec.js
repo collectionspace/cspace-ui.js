@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import {getSort} from '../../../../src/components/search/searchResultHelpers.js';
+import { getSort } from '../../../../src/components/search/searchResultHelpers';
 
 const { expect } = chai;
 
@@ -21,7 +21,7 @@ describe('searchResultHelpers', () => {
         },
       },
     },
-  }
+  };
 
   it('should return the sort from a search descriptor', () => {
     const searchDescriptor = Immutable.fromJS({
@@ -31,7 +31,7 @@ describe('searchResultHelpers', () => {
       },
     });
 
-    const {sortBy, sortDir} = getSort(config, searchDescriptor);
+    const { sortBy, sortDir } = getSort(config, searchDescriptor);
     expect(sortBy).to.equal('objectNumber');
     expect(sortDir).to.equal('desc');
   });
@@ -44,7 +44,7 @@ describe('searchResultHelpers', () => {
       },
     });
 
-    const {sortBy, sortDir} = getSort(config, searchDescriptor);
+    const { sortBy, sortDir } = getSort(config, searchDescriptor);
     expect(sortBy).to.equal('objectNumber');
     expect(sortDir).to.equal('asc');
   });
@@ -55,7 +55,7 @@ describe('searchResultHelpers', () => {
       searchQuery: {},
     });
 
-    const {sortBy, sortDir} = getSort(config, searchDescriptor);
+    const { sortBy, sortDir } = getSort(config, searchDescriptor);
     expect(sortBy).to.equal('updatedAt');
     expect(sortDir).to.equal('desc');
   });
@@ -66,7 +66,7 @@ describe('searchResultHelpers', () => {
       searchQuery: {},
     });
 
-    const {sortBy, sortDir} = getSort(config, searchDescriptor);
+    const { sortBy, sortDir } = getSort(config, searchDescriptor);
     expect(sortBy).to.equal('termDisplayName');
     expect(sortDir).to.equal('asc');
   });
@@ -77,8 +77,8 @@ describe('searchResultHelpers', () => {
       searchQuery: {},
     });
 
-    const {sortBy, sortDir} = getSort(config, searchDescriptor);
+    const { sortBy, sortDir } = getSort(config, searchDescriptor);
     expect(sortBy).to.equal('updatedAt');
     expect(sortDir).to.equal('desc');
-  })
+  });
 });

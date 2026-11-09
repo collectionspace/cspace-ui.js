@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import get from 'lodash/get';
 import Immutable from 'immutable';
 import SearchResultTableHeader from './SearchResultTableHeader';
-import { getColumnConfig, getSort, isSortable, readListItems } from '../searchResultHelpers';
+import {
+  getColumnConfig, getSort, isSortable, readListItems,
+} from '../searchResultHelpers';
 import { getSearchResult, getSearchSelectedItems } from '../../../reducers';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 import { useConfig } from '../../config/ConfigProvider';

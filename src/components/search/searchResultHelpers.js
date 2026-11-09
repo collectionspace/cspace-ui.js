@@ -26,11 +26,8 @@ export function getSort(config, searchDescriptor) {
   const sort = searchQuery.get('sort');
 
   // one caveat - if sortDir is undefined after we parse, it's ascending
-  let [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDirection];
-  if (!sortDir) {
-    sortDir = 'asc';
-  }
-  return { sortBy, sortDir };
+  const [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDirection];
+  return { sortBy, sortDir: sortDir ?? 'asc' };
 }
 
 /**
