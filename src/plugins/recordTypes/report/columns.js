@@ -13,5 +13,7 @@ export default () => ({
       sortBy: 'reports_common:name',
       width: 400,
     },
+    defaultSortBy: 'name',
+    defaultSortDirection: 'asc',
   },
 });

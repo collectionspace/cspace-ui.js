@@ -13,5 +13,7 @@ export default () => ({
       sortBy: 'batch_common:name',
       width: 400,
     },
+    defaultSortBy: 'name',
+    defaultSortDirection: 'asc',
   },
 });
