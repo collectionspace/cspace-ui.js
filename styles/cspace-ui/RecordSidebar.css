@@ -1,4 +1,4 @@
-@value tabHeight, breakpointCompact from '../dimensions.css';
+@value tabHeight, breakpointMedium from '../dimensions.css';
 
 .common {
   width: 30%;
@@ -54,7 +54,7 @@
   background-color: rgba(209, 157, 194, .2);
 }
 
-@media (max-width: breakpointCompact) {
+@media (max-width: breakpointMedium) {
   .common {
     width: 100%;
   }
