@@ -26,6 +26,7 @@ const getSearchDescriptor = (config, recordType) => {
       size: config.defaultSearchPanelSize || 5,
       doctype: objectName,
       mode: 'list',
+      sort: 'name',
     },
   });
 };

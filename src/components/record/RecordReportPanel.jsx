@@ -61,6 +61,7 @@ const getSearchDescriptor = (config, recordType) => {
     searchQuery: {
       p: 0,
       size: config.defaultSearchPanelSize || 5,
+      sort: 'name',
       ...searchParams,
     },
   });
