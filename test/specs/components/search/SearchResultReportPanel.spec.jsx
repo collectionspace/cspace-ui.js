@@ -115,6 +115,7 @@ describe('SearchResultReportPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -170,6 +171,7 @@ describe('SearchResultReportPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -195,6 +197,7 @@ describe('SearchResultReportPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
   });
@@ -374,6 +377,7 @@ describe('SearchResultReportPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
