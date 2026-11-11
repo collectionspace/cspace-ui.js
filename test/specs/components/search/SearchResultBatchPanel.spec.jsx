@@ -112,6 +112,7 @@ describe('SearchResultBatchPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -167,6 +168,7 @@ describe('SearchResultBatchPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -192,6 +194,7 @@ describe('SearchResultBatchPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
   });
@@ -539,6 +542,7 @@ describe('SearchResultBatchPanel', () => {
         mode: 'list',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 

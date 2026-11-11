@@ -10,7 +10,25 @@ export const messages = defineMessages({
   },
 });
 
-// todo: where should this live?
+export function getSort(config, searchDescriptor) {
+  const recordType = searchDescriptor.get('recordType');
+
+  // get default sorting for the record
+  const sortConfig = get(config, ['recordTypes', recordType, 'sort'])
+    ?? get(config, ['recordTypes', recordType, 'columns', 'default']);
+
+  const {
+    defaultSortBy = 'updatedAt',
+    defaultSortDirection = 'desc',
+  } = sortConfig || {};
+
+  const searchQuery = searchDescriptor.get('searchQuery');
+  const sort = searchQuery.get('sort');
+
+  // one caveat - if sortDir is undefined after we parse, it's ascending
+  const [sortBy, sortDir] = sort?.split(' ') ?? [defaultSortBy, defaultSortDirection];
+  return { sortBy, sortDir: sortDir ?? 'asc' };
+}
 
 /**
  * Get the column configuration from the main config. This uses the search descriptor in order

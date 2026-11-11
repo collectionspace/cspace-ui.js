@@ -134,6 +134,7 @@ describe('RecordBatchPanel', () => {
         },
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -243,6 +244,7 @@ describe('RecordBatchPanel', () => {
         },
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -268,6 +270,7 @@ describe('RecordBatchPanel', () => {
         mode: 'single',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
   });
@@ -641,6 +644,7 @@ describe('RecordBatchPanel', () => {
         },
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 

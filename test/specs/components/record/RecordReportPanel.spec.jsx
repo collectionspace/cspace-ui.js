@@ -133,6 +133,7 @@ describe('RecordReportPanel', () => {
         },
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -242,6 +243,7 @@ describe('RecordReportPanel', () => {
         },
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
@@ -267,6 +269,7 @@ describe('RecordReportPanel', () => {
         mode: 'single',
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
   });
@@ -473,6 +476,7 @@ describe('RecordReportPanel', () => {
         },
         p: 0,
         size: 5,
+        sort: 'name',
       },
     }));
 
