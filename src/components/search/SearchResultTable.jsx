@@ -107,6 +107,7 @@ const rowRenderer = (params, location, ariaLabel, ariaSelected) => {
 };
 
 const propTypes = {
+  columnMinWidth: PropTypes.number,
   columnSetName: PropTypes.string,
   config: PropTypes.shape({
     listTypes: PropTypes.object,
@@ -337,6 +338,7 @@ export default class SearchResultTable extends Component {
 
   renderTable() {
     const {
+      columnMinWidth,
       config,
       formatCellData,
       formatColumnLabel,
@@ -405,6 +407,8 @@ export default class SearchResultTable extends Component {
             disableSort: !isSortable(column, searchDescriptor),
             flexGrow: column.flexGrow,
             flexShrink: column.flexShrink,
+            minWidth: column.minWidth
+              ?? (column.flexShrink === 0 ? undefined : columnMinWidth),
             label: formatColumnLabel(column),
             dataKey: column.dataKey || name,
             width: column.width,

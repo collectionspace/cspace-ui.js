@@ -1,4 +1,4 @@
-@value inputHeight, breakpointCompact from '../dimensions.css';
+@value inputHeight, breakpointCompact, breakpointMedium from '../dimensions.css';
 
 .common {
   background: inherit;
@@ -55,6 +55,12 @@
 
 .searchresult {
   margin-bottom: 31px;
+}
+
+@media (max-width: breakpointMedium) {
+  .searchresult {
+    margin-bottom: 0;
+  }
 }
 
 .audit > div > div > aside > h2,

@@ -69,7 +69,7 @@
   composes: common;
   background-color: inherit;
   overflow: visible;
-  width: 90px;
+  width: 100px;
 }
 
 .normal:hover,

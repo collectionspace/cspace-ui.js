@@ -34,6 +34,7 @@ const propTypes = {
   collapsed: PropTypes.bool,
   collapsible: PropTypes.bool,
   color: PropTypes.string,
+  columnMinWidth: PropTypes.number,
   columnSetName: PropTypes.string,
   config: PropTypes.shape({
     listTypes: PropTypes.object,
@@ -65,6 +66,7 @@ const propTypes = {
 
 const defaultProps = {
   collapsible: true,
+  columnMinWidth: 60,
   columnSetName: 'default',
   headingLevel: 3,
   listType: 'common',
@@ -367,6 +369,7 @@ export default class SearchPanel extends Component {
       collapsed,
       collapsible,
       color,
+      columnMinWidth,
       columnSetName,
       config,
       linkItems,
@@ -441,6 +444,7 @@ export default class SearchPanel extends Component {
           recordType={recordType}
         >
           <SearchResultTableContainer
+            columnMinWidth={columnMinWidth}
             columnSetName={columnSetName}
             config={config}
             linkItems={linkItems}
