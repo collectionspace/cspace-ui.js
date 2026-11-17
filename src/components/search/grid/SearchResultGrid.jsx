@@ -79,8 +79,6 @@ export function SearchResultCard({
     <SearchResultImage
       derivative="Medium"
       item={item}
-      location={location}
-      state={state}
     />
   );
 
