@@ -6,6 +6,12 @@
 .primaryButton {
   color: #4D4D4D;
   text-decoration: underline;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: top;
 }
 
 .primaryButton {
@@ -15,8 +21,4 @@
   margin: 0;
   font: inherit;
   cursor: pointer;
-}
-
-.primaryButton:focus {
-  outline: 1px dotted black;
 }
