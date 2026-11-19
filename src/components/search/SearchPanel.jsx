@@ -50,6 +50,7 @@ const propTypes = {
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchIsPending: PropTypes.bool,
   searchResult: PropTypes.instanceOf(Immutable.Map),
+  selectedItemCsid: PropTypes.string,
   listType: PropTypes.string,
   title: PropTypes.node,
   showAddButton: PropTypes.bool,
@@ -378,6 +379,7 @@ export default class SearchPanel extends Component {
       recordType,
       recordData,
       searchDescriptor,
+      selectedItemCsid,
       showAddButton,
       showCheckboxColumn,
       renderCheckbox,
@@ -452,6 +454,7 @@ export default class SearchPanel extends Component {
             recordType={recordType}
             searchName={name}
             searchDescriptor={searchDescriptor}
+            selectedItemCsid={selectedItemCsid}
             showCheckboxColumn={showCheckboxColumn}
             renderCheckbox={renderCheckbox}
             renderHeader={renderTableHeader}

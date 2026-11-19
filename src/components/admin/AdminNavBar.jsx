@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useRouteMatch } from 'react-router-dom';
 import styles from '../../../styles/cspace-ui/AdminNavBar.css';
 import itemStyles from '../../../styles/cspace-ui/AdminNavItem.css';
 
@@ -16,12 +16,15 @@ const messages = defineMessages({
   },
 });
 
-const renderLinkItem = (basename, tab) => (
-  <li key={tab}>
+const renderLinkItem = (basename, tab, isSelected) => (
+  <li key={tab} role="presentation">
     <NavLink
       to={`${basename}/${tab}`}
       className={itemStyles.common}
       activeClassName={itemStyles.active}
+      aria-current={null}
+      aria-selected={isSelected}
+      role="tab"
     >
       <FormattedMessage {...messages[tab]} />
     </NavLink>
@@ -39,11 +42,14 @@ export default function AdminNavBar(props) {
     tabs,
   } = props;
 
-  const items = tabs.map((tab) => renderLinkItem(basename, tab));
+  const match = useRouteMatch(`${basename}/:tab`);
+  const selectedTab = match && match.params.tab;
+
+  const items = tabs.map((tab) => renderLinkItem(basename, tab, tab === selectedTab));
 
   return (
     <nav className={styles.common}>
-      <ul>
+      <ul role="tablist">
         {items}
       </ul>
     </nav>

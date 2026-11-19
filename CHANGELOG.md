@@ -31,6 +31,7 @@
 - Update minimum inputHeight so all input targets are at least 24x24 px (Criteria 2.5.8)
 - Add sort icon and aria-sort to Search Result tables
 - In Search Result tables, rows are no longer links or clickable. The primary column value is now a link or a button, so screen readers announce the action (Criteria 4.1.2)
+- On the Tools and Administration pages, the tabs now have tab roles with aria-selected, and the record list item that is open in the editor is marked with aria-current, so screen readers announce that a tab or item selection took effect without focus moving (Criteria 4.1.2)
 
 ## v11.0.0
 

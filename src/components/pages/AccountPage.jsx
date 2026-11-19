@@ -300,6 +300,7 @@ export default class AccountPage extends Component {
             name={SEARCH_RESULT_ACCOUNT_PAGE}
             pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
+            selectedItemCsid={normalizedCsid}
             title={title}
             recordType={recordType}
             showSearchButton={false}

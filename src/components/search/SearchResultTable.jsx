@@ -77,6 +77,7 @@ const propTypes = {
   searchDescriptor: PropTypes.instanceOf(Immutable.Map),
   searchError: PropTypes.instanceOf(Immutable.Map),
   searchResult: PropTypes.instanceOf(Immutable.Map),
+  selectedItemCsid: PropTypes.string,
   selectedItems: PropTypes.instanceOf(Immutable.Map),
   showCheckboxColumn: PropTypes.bool,
   renderCheckbox: PropTypes.func,
@@ -247,6 +248,7 @@ export default class SearchResultTable extends Component {
     const {
       getItemLocation,
       linkItems,
+      selectedItemCsid,
       onItemClick,
     } = this.props;
 
@@ -261,8 +263,12 @@ export default class SearchResultTable extends Component {
         );
       }
     } else if (onItemClick) {
+      const itemCsid = rowData.get('csid') || rowData.get('@csid');
+      const isSelected = !!selectedItemCsid && itemCsid === selectedItemCsid;
+
       return (
         <button
+          aria-current={isSelected ? 'true' : undefined}
           className={styles.primaryButton}
           type="button"
           onClick={() => this.handleRowClick(rowIndex)}

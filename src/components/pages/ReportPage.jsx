@@ -296,6 +296,7 @@ export default class ReportPage extends Component {
           linkItems={false}
           name="reportPage"
           searchDescriptor={searchDescriptor}
+          selectedItemCsid={normalizedCsid}
           title={title}
           recordType={recordType}
           showSearchButton={false}

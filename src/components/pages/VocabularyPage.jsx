@@ -260,6 +260,7 @@ export default class VocabularyPage extends Component {
             name="vocabularyPage"
             pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
+            selectedItemCsid={normalizedCsid}
             title={title}
             recordType={recordType}
             showSearchButton={false}

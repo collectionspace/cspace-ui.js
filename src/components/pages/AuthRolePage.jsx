@@ -287,6 +287,7 @@ export default class AuthRolePage extends Component {
             name={SEARCH_RESULT_AUTH_ROLE_PAGE}
             pageSizeOptionListName="searchResultPagePageSizes"
             searchDescriptor={searchDescriptor}
+            selectedItemCsid={normalizedCsid}
             title={title}
             recordType={recordType}
             renderTableHeader={this.renderSearchBar}

@@ -338,6 +338,7 @@ export default class BatchPage extends Component {
           linkItems={false}
           name="batchPage"
           searchDescriptor={searchDescriptor}
+          selectedItemCsid={normalizedCsid}
           title={title}
           recordType={recordType}
           showSearchButton={false}
