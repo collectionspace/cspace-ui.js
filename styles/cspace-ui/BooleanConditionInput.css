@@ -73,7 +73,6 @@
   width: searchBooleanOpWidth;
   margin-right: searchColumnMarginRight;
   text-align: center;
-  color: rgb(200, 200, 200);
 }
 
 /* .normal > footer::before {
