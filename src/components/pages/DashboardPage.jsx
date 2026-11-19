@@ -83,6 +83,7 @@ export default class DashboardPage extends Component {
         <TitleBar title={title} updateDocumentTitle />
 
         <SearchPanelContainer
+          columnMinWidth={49}
           config={config}
           headingLevel={2}
           name="dashboardRecentPanel"

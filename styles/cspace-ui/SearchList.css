@@ -1,3 +1,5 @@
+@value breakpointCompact, breakpointMedium from '../dimensions.css';
+
 .detail {
   display: flex;
   flex-direction: column;
@@ -62,7 +64,7 @@
 
 .info > aside {
   background-color: aliceblue;
-  height: 200px;
+  min-height: 200px;
   margin-bottom: 1em;
   padding: 5px;
   display: flex;
@@ -77,4 +79,40 @@
 .info > aside > div > p {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+@media (max-width: breakpointMedium) {
+  .innerDetail {
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+
+  .imageContainer {
+    flex: 0 0 200px;
+    max-width: 100%;
+    margin-right: 0;
+  }
+
+  .description {
+    flex: 3 1 280px;
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .info {
+    flex: 1 1 160px;
+    min-width: 0;
+  }
+
+  .info > aside {
+    min-height: 0;
+    gap: 0.5em;
+  }
+}
+
+@media (max-width: breakpointCompact) {
+  .innerDetail {
+    padding: 15px;
+  }
 }

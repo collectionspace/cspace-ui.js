@@ -1,10 +1,10 @@
-@value breakpointCompact from '../dimensions.css';
+@value breakpointMedium from '../dimensions.css';
 
 .common {
   width: 30%;
 }
 
-@media (max-width: breakpointCompact) {
+@media (max-width: breakpointMedium) {
   .common {
     width: 100%;
   }

@@ -1,4 +1,4 @@
-@value breakpointCompact from '../dimensions.css';
+@value breakpointMedium from '../dimensions.css';
 
 .common {
   background: rgb(250, 250, 250);
@@ -14,7 +14,7 @@
   padding-right: 0;
 }
 
-@media (max-width: breakpointCompact) {
+@media (max-width: breakpointMedium) {
   .common > :global(.cspace-ui-PageBody--common) > :global(.cspace-ui-SearchResultTable--common) {
     width: 100%;
     padding-right: 0;

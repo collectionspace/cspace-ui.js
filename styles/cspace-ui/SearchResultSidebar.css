@@ -1,4 +1,4 @@
-@value breakpointCompact from '../dimensions.css';
+@value tabHeight, breakpointMedium from '../dimensions.css';
 
 .common {
   width: 30%;
@@ -8,8 +8,13 @@
   flex: none;
 }
 
-@media (max-width: breakpointCompact) {
+@media (max-width: breakpointMedium) {
   .common {
     width: 100%;
+  }
+
+  .common,
+  .closed {
+    padding-top: tabHeight;
   }
 }

@@ -9,7 +9,12 @@ import dimensions from '../../../styles/dimensions.css';
 import styles from '../../../styles/cspace-ui/SearchResultTable.css';
 import emptyResultStyles from '../../../styles/cspace-ui/SearchResultEmpty.css';
 import { getListTypeFromResult } from '../../helpers/searchHelpers';
-import { isSortable, getSort, messages as searchResultMessages } from './searchResultHelpers';
+import {
+  getPrimaryColumnName,
+  isSortable,
+  getSort,
+  messages as searchResultMessages,
+} from './searchResultHelpers';
 
 const rowHeight = parseInt(dimensions.inputHeight, 10);
 
@@ -20,83 +25,29 @@ const messages = defineMessages({
   },
 });
 
-const rowRenderer = (params, location, ariaLabel, ariaSelected) => {
+const rowRenderer = (params, ariaLabel, ariaSelected) => {
   // This is a fork of react-virtualized's default row renderer:
   // https://github.com/bvaughn/react-virtualized/blob/master/source/Table/defaultRowRenderer.js
 
   const {
     className,
     columns,
-    index,
     key,
-    onRowClick,
-    // onRowDoubleClick,
-    // onRowMouseOut,
-    // onRowMouseOver,
-    // onRowRightClick,
-    rowData,
     style,
   } = params;
 
-  const a11yProps = {};
+  const a11yProps = {
+    'aria-label': ariaLabel,
+  };
 
   if (typeof ariaSelected !== 'undefined') {
     a11yProps['aria-selected'] = ariaSelected;
-  }
-
-  if (
-    onRowClick // ||
-    // onRowDoubleClick ||
-    // onRowMouseOut ||
-    // onRowMouseOver ||
-    // onRowRightClick
-  ) {
-    a11yProps['aria-label'] = ariaLabel;
-    a11yProps.tabIndex = 0;
-
-    if (onRowClick) {
-      a11yProps.onClick = (event) => onRowClick({ event, index, rowData });
-    }
-
-    // if (onRowDoubleClick) {
-    //   a11yProps.onDoubleClick = event =>
-    //     onRowDoubleClick({ event, index, rowData });
-    // }
-
-    // if (onRowMouseOut) {
-    //   a11yProps.onMouseOut = event => onRowMouseOut({ event, index, rowData });
-    // }
-
-    // if (onRowMouseOver) {
-    //   a11yProps.onMouseOver = event => onRowMouseOver({ event, index, rowData });
-    // }
-
-    // if (onRowRightClick) {
-    //   a11yProps.onContextMenu = event =>
-    //     onRowRightClick({ event, index, rowData });
-    // }
-  }
-
-  if (location) {
-    return (
-      <Link
-        {...a11yProps}
-        className={className}
-        key={key}
-        role="row"
-        style={style}
-        to={location}
-      >
-        {columns}
-      </Link>
-    );
   }
 
   return (
     <div
       {...a11yProps}
       className={className}
-      data-index={index}
       key={key}
       role="row"
       style={style}
@@ -107,6 +58,7 @@ const rowRenderer = (params, location, ariaLabel, ariaSelected) => {
 };
 
 const propTypes = {
+  columnMinWidth: PropTypes.number,
   columnSetName: PropTypes.string,
   config: PropTypes.shape({
     listTypes: PropTypes.object,
@@ -153,22 +105,12 @@ export default class SearchResultTable extends Component {
 
     this.getColumnConfig = this.getColumnConfig.bind(this);
     this.getItemLocation = this.getItemLocation.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleRowClick = this.handleRowClick.bind(this);
     this.renderNoItems = this.renderNoItems.bind(this);
+    this.renderPrimaryCell = this.renderPrimaryCell.bind(this);
     this.renderRow = this.renderRow.bind(this);
     this.renderRowLabel = this.renderRowLabel.bind(this);
     this.sort = this.sort.bind(this);
-  }
-
-  handleKeyDown(event) {
-    if (event.key === 'Enter') {
-      const index = get(event, ['target', 'dataset', 'index']);
-
-      if (typeof index !== 'undefined') {
-        this.handleRowClick(event.target.dataset.index);
-      }
-    }
   }
 
   handleRowClick(index) {
@@ -290,12 +232,9 @@ export default class SearchResultTable extends Component {
       rowData,
     } = params;
 
-    const columnConfig = this.getColumnConfig();
-    const primaryCol = Object.keys(columnConfig)
-      .filter((col) => col !== 'workflowState')
-      .at(0);
-
+    const primaryCol = getPrimaryColumnName(this.getColumnConfig());
     const primaryData = rowData.get(primaryCol);
+
     const label = primaryData
       ? intl.formatMessage(searchResultMessages.rowLabel,
         { primary: primaryData, index: index + 1, total: totalItems })
@@ -304,10 +243,40 @@ export default class SearchResultTable extends Component {
     return label;
   }
 
-  renderRow(params, totalItems) {
+  renderPrimaryCell({ cellData, rowData, rowIndex }) {
     const {
       getItemLocation,
       linkItems,
+      onItemClick,
+    } = this.props;
+
+    // Render the primary cell value as a link to the item, or as a button that acts on the item.
+    if (linkItems) {
+      const locationGetter = getItemLocation || this.getItemLocation;
+      const location = locationGetter(rowData);
+
+      if (location) {
+        return (
+          <Link className={styles.primaryLink} to={location}>{cellData}</Link>
+        );
+      }
+    } else if (onItemClick) {
+      return (
+        <button
+          className={styles.primaryButton}
+          type="button"
+          onClick={() => this.handleRowClick(rowIndex)}
+        >
+          {cellData}
+        </button>
+      );
+    }
+
+    return <>{cellData}</>;
+  }
+
+  renderRow(params, totalItems) {
+    const {
       selectedItems,
       showCheckboxColumn,
     } = this.props;
@@ -315,14 +284,6 @@ export default class SearchResultTable extends Component {
     const {
       rowData,
     } = params;
-
-    let location;
-
-    if (linkItems) {
-      const locationGetter = getItemLocation || this.getItemLocation;
-
-      location = locationGetter(rowData);
-    }
 
     const ariaLabel = this.renderRowLabel(params, totalItems);
 
@@ -332,11 +293,12 @@ export default class SearchResultTable extends Component {
       ariaSelected = selectedItems ? selectedItems.has(rowData.get('csid')) : false;
     }
 
-    return rowRenderer(params, location, ariaLabel, ariaSelected);
+    return rowRenderer(params, ariaLabel, ariaSelected);
   }
 
   renderTable() {
     const {
+      columnMinWidth,
       config,
       formatCellData,
       formatColumnLabel,
@@ -371,6 +333,7 @@ export default class SearchResultTable extends Component {
       }
 
       const columnConfig = this.getColumnConfig();
+      const primaryColumnName = getPrimaryColumnName(columnConfig);
 
       const columns = Object.keys(columnConfig)
         .filter((name) => !columnConfig[name].disabled)
@@ -383,7 +346,7 @@ export default class SearchResultTable extends Component {
         .map((name) => {
           const column = columnConfig[name];
 
-          return {
+          const columnProps = {
             cellDataGetter: ({ dataKey, rowData }) => {
               let data = null;
 
@@ -405,10 +368,18 @@ export default class SearchResultTable extends Component {
             disableSort: !isSortable(column, searchDescriptor),
             flexGrow: column.flexGrow,
             flexShrink: column.flexShrink,
+            minWidth: column.minWidth
+              ?? (column.flexShrink === 0 ? undefined : columnMinWidth),
             label: formatColumnLabel(column),
             dataKey: column.dataKey || name,
             width: column.width,
           };
+
+          if (name === primaryColumnName) {
+            columnProps.cellRenderer = this.renderPrimaryCell;
+          }
+
+          return columnProps;
         });
 
       let heightBasis;
@@ -447,7 +418,6 @@ export default class SearchResultTable extends Component {
             rowCount={items.size}
             rowGetter={({ index }) => items.get(index)}
             showCheckboxColumn={showCheckboxColumn}
-            onRowClick={this.handleRowClick}
             renderCheckbox={renderCheckbox}
             sort={this.sort}
             sortBy={sortBy}
@@ -473,12 +443,7 @@ export default class SearchResultTable extends Component {
     } = this.props;
 
     return (
-      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div
-        className={styles.common}
-        role="presentation"
-        onKeyDown={this.handleKeyDown}
-      >
+      <div className={styles.common}>
         {renderHeader({ isSearchPending, searchError, searchResult })}
         {renderSelectBar()}
         {this.renderTable()}

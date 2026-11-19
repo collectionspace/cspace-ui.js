@@ -1,10 +1,14 @@
-:global(.cspace-ui-RootPage--common) > div:has(> .common) {
+/* Push the footer to the bottom of the viewport. */
+:global(.cspace-ui-RootPage--common) > div:has(> main > .common) {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 120px);
 }
 
-.common {
+:global(.cspace-ui-RootPage--common) > div:has(> main > .common) > main {
   flex: 1 0 auto;
+}
+
+.common {
   background-color: white;
 }

@@ -1,3 +1,5 @@
+@value breakpointMedium from '../dimensions.css';
+
 .common {
   background-color: white;
 }
@@ -5,4 +7,10 @@
 .common > div {
   width: 70%;
   margin-bottom: 10px;
+}
+
+@media (max-width: breakpointMedium) {
+  .common > div {
+    width: 100%;
+  }
 }
