@@ -14,6 +14,12 @@
   vertical-align: top;
 }
 
+.primaryLink:focus,
+.primaryButton:focus {
+  outline: 1px dotted black;
+  outline-offset: -1px;
+}
+
 .primaryButton {
   background: none;
   border: 0;
