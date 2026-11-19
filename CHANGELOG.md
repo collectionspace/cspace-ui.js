@@ -18,7 +18,6 @@
   - the hidden text labels of the permission radio buttons are no longer rendered at a 1px font size, fixing very small text alerts (Criteria 1.4.4)
   - the hidden text input that prevented enter from submitting the role form has been removed, fixing a missing form label error (Criteria 3.3.2); the record editor now prevents form submission itself
   - the permissions grid is now a data table with a row header for each record type and a column header for each permission level, and each row's radio buttons form a single group, so screen readers announce which record type and level a radio button controls (Criteria 1.3.1)
-- Improved contrast for SVG buttons in Media Viewer (Criteria 1.4.3)
 - In the Hierarchy section of authority records, the Narrower field label is now rendered as the legend of the repeating field and each narrower input is associated with it, fixing missing form label errors (Criteria 3.3.2)
 - Add missing aria-label to icon only buttons (Criteria 1.1.1)
 - On the Advanced Search, Recent Activity, and Tools pages, section titles are now level 2 headings, fixing skipped heading level errors (Criteria 1.3.1)
@@ -26,11 +25,11 @@
 - Rows in search result and record list tables are no longer all described as "selected" to screen readers; in tables with a checkbox column, the selection state of each row is now exposed with aria-selected instead (Criteria 4.1.2)
 - Pages now reflow instead of overflowing or overlapping at narrow viewport widths and high zoom levels (Criteria 1.4.10)
 - Record, search result, dashboard and administration pages now stack the sidebar or list below the main content at viewport widths up to 1024px, search result grid cards and full detail items reflow, and the tables in the record sidebar and on the dashboard and administration pages keep their column headers readable, so content no longer overlaps or is cut off at 200% and 400% zoom (Criteria 1.4.4, 1.4.10)
-- Improve contrast in Notification headers (Criteria 1.4.3)
 - In the Search Result full detail view, an aria-label has been added to the 'Edit Record' button for screen readers (Criteria 2.4.4)
 - Update minimum inputHeight so all input targets are at least 24x24 px (Criteria 2.5.8)
 - Add sort icon and aria-sort to Search Result tables
 - In Search Result tables, rows are no longer links or clickable. The primary column value is now a link or a button, so screen readers announce the action (Criteria 4.1.2)
+- Improved contrast for SVG buttons in Media Viewer, headers in the Notification display, and text in the Advanced Search form (Criteria 1.4.3)
 
 ## v11.0.0
 
