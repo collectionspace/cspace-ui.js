@@ -64,6 +64,21 @@ export function getColumnConfig(config, searchDescriptor, columnSetName) {
 }
 
 /**
+ * Get the name of the primary column in a column configuration: the column marked linkable, or
+ * else the first enabled column by display order, ignoring the workflow state icon column.
+ *
+ * @param {object} columnConfig A column set configuration, as returned by getColumnConfig
+ * @returns {string|undefined} The name of the primary column
+ */
+export function getPrimaryColumnName(columnConfig) {
+  const names = Object.keys(columnConfig)
+    .filter((name) => !columnConfig[name].disabled && name !== 'workflowState')
+    .sort((nameA, nameB) => columnConfig[nameA].order - columnConfig[nameB].order);
+
+  return names.find((name) => columnConfig[name].linkable) || names[0];
+}
+
+/**
  * Extract the search result list items from a given search result.
  *
  * @param {*} config       The cspace config

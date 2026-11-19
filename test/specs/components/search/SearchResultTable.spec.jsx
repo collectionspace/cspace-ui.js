@@ -254,7 +254,7 @@ describe('SearchResultTable', () => {
     this.container.querySelectorAll('.cspace-layout-TableRow--common').length.should.equal(5);
   });
 
-  it('should render a link for each result', function test() {
+  it('should render a link for each result', async function test() {
     render(
       <Router>
         <SearchResultTable
@@ -266,7 +266,22 @@ describe('SearchResultTable', () => {
       </Router>, this.container,
     );
 
-    this.container.querySelectorAll('a').length.should.equal(5);
+    // The links are in a cell, not on the row
+    const links = this.container.querySelectorAll('.ReactVirtualized__Table__rowColumn a');
+
+    links.length.should.equal(5);
+    this.container.querySelectorAll('button').length.should.equal(0);
+
+    this.container.querySelectorAll('.cspace-layout-TableRow--common').forEach((row) => {
+      row.nodeName.should.equal('DIV');
+      row.hasAttribute('tabindex').should.equal(false);
+    });
+
+    const results = await axe.run(this.container, {
+      runOnly: ['aria-required-children', 'aria-required-parent', 'nested-interactive'],
+    });
+
+    results.violations.length.should.equal(0);
   });
 
   it('should not render links when linkItems is false', function test() {
@@ -598,11 +613,13 @@ describe('SearchResultTable', () => {
     headers[2].textContent.should.equal('*updatedAt');
   });
 
-  it('should call onItemClick when a row is clicked', function test() {
+  it('should render a button in the primary cell of each row when linkItems is false and onItemClick is set, and call onItemClick when it is clicked', async function test() {
     let clickedItem = null;
+    let clickedIndex = null;
 
-    const handleItemClick = (itemArg) => {
+    const handleItemClick = (itemArg, indexArg) => {
       clickedItem = itemArg;
+      clickedIndex = indexArg;
 
       return true;
     };
@@ -615,27 +632,30 @@ describe('SearchResultTable', () => {
           searchName={searchName}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
+          linkItems={false}
           onItemClick={handleItemClick}
         />
       </Router>, this.container,
     );
 
-    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
+    const buttons = this.container.querySelectorAll('.ReactVirtualized__Table__rowColumn button');
 
-    Simulate.click(rows[3]);
+    buttons.length.should.equal(5);
+    this.container.querySelectorAll('a').length.should.equal(0);
+
+    Simulate.click(buttons[3]);
 
     clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
+    clickedIndex.should.equal(3);
+
+    const results = await axe.run(this.container, {
+      runOnly: ['aria-required-children', 'aria-required-parent', 'nested-interactive'],
+    });
+
+    results.violations.length.should.equal(0);
   });
 
-  it('should call onItemClick when linkItems is false and enter is depressed on a row', function test() {
-    let clickedItem = null;
-
-    const handleItemClick = (itemArg) => {
-      clickedItem = itemArg;
-
-      return true;
-    };
-
+  it('should not render a link or button when linkItems is false and onItemClick is not set', function test() {
     render(
       <Router>
         <SearchResultTable
@@ -644,17 +664,12 @@ describe('SearchResultTable', () => {
           searchName={searchName}
           searchDescriptor={searchDescriptor}
           searchResult={searchResult}
-          onItemClick={handleItemClick}
           linkItems={false}
         />
       </Router>, this.container,
     );
 
-    const rows = this.container.querySelectorAll('.cspace-layout-TableRow--common');
-
-    Simulate.keyDown(rows[3], { key: 'Enter' });
-
-    clickedItem.should.equal(searchResult.getIn(['ns2:abstract-common-list', 'list-item', '3']));
+    this.container.querySelectorAll('a, button').length.should.equal(0);
   });
 
   it('should label each row with the primary column value and its position, without describing it as selected', function test() {
