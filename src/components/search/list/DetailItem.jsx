@@ -2,16 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { defineMessages, injectIntl, intlShape } from 'react-intl';
-import { components as inputComponents } from 'cspace-input';
+import { injectIntl, intlShape } from 'react-intl';
 import { useConfig } from '../../config/ConfigProvider';
 import { SEARCH_RESULT_PAGE_SEARCH_NAME } from '../../../constants/searchNames';
 
 import styles from '../../../../styles/cspace-ui/SearchList.css';
 import SearchResultCheckbox from '../SearchResultCheckbox';
 import SearchResultImage from '../SearchResultImage';
-
-const { Button } = inputComponents;
 
 const propTypes = {
   intl: intlShape,
@@ -42,36 +39,7 @@ const propTypes = {
   selectedItems: PropTypes.instanceOf(Immutable.Map),
 };
 
-const messages = defineMessages({
-  editButton: {
-    id: 'searchDetailList.editLabel',
-    description: 'Label for the edit record button',
-    defaultMessage: 'Edit Record',
-  },
-  editButtonScreenReader: {
-    id: 'searchDetailList.editScreenReader',
-    description: 'Text for screen readers to distinguish the record being edited. Used in conjunction with searchDetailList.editLabel for the aria-label.',
-    defaultMessage: 'for {recordId}',
-  },
-});
-
 const DETAIL_DERIVATIVE = 'Small';
-
-const renderEditButton = (location, state, intl, objectNumber) => {
-  const buttonLabel = intl.formatMessage(messages.editButton);
-  const buttonAriaText = intl.formatMessage(messages.editButtonScreenReader,
-    { recordId: objectNumber });
-  const button = (
-    <Button name="edit" aria-label={`${buttonLabel} ${buttonAriaText}`}>
-      <span>{buttonLabel}</span>
-    </Button>
-  );
-  return location ? (
-    <Link to={{ pathname: location, state }} tabIndex="-1">
-      {button}
-    </Link>
-  ) : button;
-};
 
 function DetailItem({
   intl, item, index, detailConfig, searchDescriptor, listType, selectedItems,
@@ -100,7 +68,6 @@ function DetailItem({
   } = detailConfig;
 
   const csid = item.get('csid');
-  const objectNumber = item.get('objectNumber');
   const selected = selectedItems ? selectedItems.has(csid) : false;
 
   const listTypeConfig = config.listTypes[listType];
@@ -138,12 +105,9 @@ function DetailItem({
     <SearchResultImage
       derivative={DETAIL_DERIVATIVE}
       item={item}
-      location={location}
-      state={state}
     />
   );
 
-  const editButton = renderEditButton(location, state, intl, objectNumber);
   return (
     <div className={styles.innerDetail}>
       <div className={styles.imageContainer}>
@@ -158,7 +122,6 @@ function DetailItem({
       {renderDescriptionBlock()}
       <div className={styles.info}>
         {renderInfo()}
-        {editButton}
       </div>
     </div>
   );

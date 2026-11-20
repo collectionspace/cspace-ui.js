@@ -8,7 +8,7 @@ const messages = defineMessages({
   alt: {
     id: 'searchResultImage.altText',
     description: 'Default alt text for thumbnails in search results',
-    defaultMessage: 'Edit record {csid}',
+    defaultMessage: 'Thumbnail for {csid}',
   },
 });
 
