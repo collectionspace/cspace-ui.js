@@ -48,6 +48,10 @@
   padding-right: 0px;
 }
 
+.results > table td {
+  overflow-wrap: anywhere;
+}
+
 .results > table > tbody > tr > a {
   width: 100%;
   display: inline-block;
