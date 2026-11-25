@@ -24,7 +24,8 @@ function SearchResultCheckbox({
   const dispatch = useDispatch();
 
   // todo: use an id field (e.g. objectNumber) instead of the index
-  const ariaLabel = intl.formatMessage(messages.checkboxLabelSelect, { index });
+  // The index is zero-based, but the label should count from one, as read by a person.
+  const ariaLabel = intl.formatMessage(messages.checkboxLabelSelect, { index: index + 1 });
 
   return (
     <CheckboxInput
